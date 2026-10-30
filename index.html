@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Promii · Studio Brian Zuleta — Architecture, BIM & AI Services</title>
+<title>Brian Zuleta · Arquitecto BIM & Sistemas de IA — Portafolio | Promii</title>
+<meta name="description" content="Portafolio profesional de Brian Zuleta, arquitecto matriculado (CPNAA) y especialista BIM: planos NYC DOB LOD 300–350, Scan-to-BIM, administración de construcción, sistemas de IA y automatización. Servicios de Promii / Studio Brian Zuleta.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +31,8 @@ nav .row{display:flex;align-items:center;justify-content:space-between;height:62
 .toggle button{background:transparent;color:var(--muted);border:none;padding:6px 11px;cursor:pointer;transition:.15s}
 .toggle button.on{background:var(--gold);color:var(--ctaText)}
 .iconbtn{width:36px;height:34px;border-radius:9px;border:1px solid var(--line2);background:var(--glass);color:var(--text);cursor:pointer;font-size:15px;line-height:1}
-@media(max-width:760px){.navlinks .hidem{display:none}}
+@media(max-width:760px){.navlinks .hidem,.brand .hidem{display:none}}
+.brand{white-space:nowrap}
 .hero{padding:84px 0 60px;position:relative}
 #fx{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .hero .wrap{position:relative;z-index:1}
@@ -103,6 +105,56 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--dim);font-siz
 .social a{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.03em;padding:7px 12px;border-radius:999px;background:var(--glass);border:1px solid var(--line2);color:var(--muted);transition:.15s;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .social a:hover{color:var(--neon);border-color:var(--neon);transform:translateY(-1px)}
 .social svg{width:14px;height:14px;fill:currentColor}
+.about{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:start}
+@media(max-width:820px){.about{grid-template-columns:1fr}}
+.about p{color:var(--muted);margin-bottom:12px;max-width:64ch}
+.about .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{border-radius:16px;padding:18px}
+.stat .n{font-family:var(--display);font-size:32px;font-weight:700;line-height:1;background:linear-gradient(108deg,var(--gold),var(--neon) 78%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+.tl{position:relative;display:flex;flex-direction:column;gap:14px;padding-left:22px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1.5px;background:linear-gradient(var(--gold),var(--neon),transparent)}
+.job{border-radius:16px;padding:18px 20px;position:relative}
+.job::before{content:"";position:absolute;left:-21px;top:24px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--neon)}
+.job.cur::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px var(--gold)}
+.job .top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.job h3{font-size:17px}.job .co{color:var(--neon);font-size:13.5px;font-weight:600;margin-top:2px}
+.job .when{font-family:var(--display);font-size:12px;color:var(--dim);white-space:nowrap}
+.job ul{margin:10px 0 0 16px;color:var(--muted);font-size:13.5px;display:flex;flex-direction:column;gap:4px}
+.job .area{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:2px;background:var(--glass2);color:var(--muted)}
+.early{border-radius:16px;padding:16px 20px;font-size:13px;color:var(--muted)}
+.early b{color:var(--text);font-weight:600}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filters button{font-family:var(--display);font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:var(--glass);color:var(--muted);cursor:pointer;transition:.15s}
+.filters button.on{background:var(--gold);border-color:var(--gold);color:var(--ctaText)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:920px){.pgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.pgrid{grid-template-columns:1fr}}
+.proj{border-radius:16px;overflow:hidden;display:flex;flex-direction:column;animation:fadeUp .5s ease both}
+.proj .vis{aspect-ratio:16/10;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.proj .vis img{width:100%;height:100%;object-fit:cover;display:block}
+.proj .vis svg{width:100%;height:100%;display:block}
+.proj .vis .yr{position:absolute;top:10px;left:10px;font-family:var(--display);font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;background:rgba(8,8,12,.72);color:#f4f4f8}
+.proj .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.proj h3{font-size:16px}.proj .meta{font-size:12px;color:var(--neon);font-weight:600}
+.proj p{font-size:13px;color:var(--muted);flex:1}
+.proj .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.chip{font-size:10.5px;padding:3px 8px;border-radius:6px;background:var(--glass2);color:var(--muted);border:1px solid var(--line)}
+.proj .role{font-size:11.5px;color:var(--dim);border-top:1px dashed var(--line2);padding-top:8px;margin-top:6px}
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:920px){.skills{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.skills{grid-template-columns:1fr}}
+.sk{border-radius:16px;padding:18px 20px}
+.sk h3{font-size:15px;margin-bottom:10px}
+.sk ul{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+.sk li::before{content:"▪";color:var(--gold);margin-right:7px}
+.bar{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin-bottom:8px}
+.bar .nm{width:118px;flex-shrink:0}.bar .tr{flex:1;height:6px;border-radius:9px;background:var(--glass2);overflow:hidden}
+.bar .fl{height:100%;border-radius:9px;background:linear-gradient(90deg,var(--gold),var(--neon))}
+.bar .yv{width:46px;text-align:right;font-family:var(--display);font-size:12px;color:var(--dim)}
+.edu{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.edu{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -120,30 +172,75 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--dim);font-siz
 </defs></svg>
 
 <nav><div class="wrap row">
-  <div class="brand"><span class="dot"></span> Promii<span class="dim" style="font-weight:400">/ Studio BZ</span></div>
+  <a href="#top" class="brand"><span class="dot"></span> Brian Zuleta<span class="dim hidem" style="font-weight:400">/ Promii</span></a>
   <div class="navlinks">
+    <a href="#sobre" class="hidem" data-i="nav_about">Sobre mí</a>
+    <a href="#experiencia" class="hidem" data-i="nav_exp">Experiencia</a>
+    <a href="#proyectos" class="hidem" data-i="nav_proj">Proyectos</a>
     <a href="#servicios" class="hidem" data-i="nav_services">Servicios</a>
-    <a href="#cotizar" class="hidem" data-i="nav_quote">Cotizador</a>
-    <a href="#intake" class="hidem" data-i="nav_brief">Solicitar propuesta</a>
+    <a href="#intake" class="hidem" data-i="nav_brief">Contacto</a>
     <div class="toggle"><button id="langES" class="on" onclick="setLang('es')">ES</button><button id="langEN" onclick="setLang('en')">EN</button></div>
     <button class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="Modo claro / oscuro">🌙</button>
   </div>
 </div></nav>
 
-<header class="hero">
+<header class="hero" id="top">
   <canvas id="fx"></canvas>
   <div class="wrap">
     <span class="kicker">● <span data-i="kicker">Arquitectura · BIM · Visualización IA · Automatización</span></span>
     <h1 data-i="h1"></h1>
     <p class="lead" data-i="lead"></p>
     <div class="cta-row">
-      <a href="#servicios" class="btn btn-primary" data-i="cta1"></a>
-      <a href="#intake" class="btn btn-ghost" data-i="cta2"></a>
+      <a href="#proyectos" class="btn btn-primary" data-i="cta1"></a>
+      <a href="#servicios" class="btn btn-ghost" data-i="cta2"></a>
     </div>
     <div class="trust"><span data-i="trust1"></span><span data-i="trust2"></span><span data-i="trust3"></span></div>
   </div>
 </header>
 
+<section id="sobre"><div class="wrap">
+  <div class="eyebrow" data-i="ab_eye"></div>
+  <div class="h2" data-i="ab_h"></div>
+  <div class="about">
+    <div class="reveal">
+      <p data-i="ab_p1"></p>
+      <p data-i="ab_p2"></p>
+      <p data-i="ab_p3"></p>
+      <div class="badges"><span class="pill">CPNAA · 2022</span><span class="pill">Universidad de La Salle</span><span class="pill">EN C1 · ES</span><span class="pill">Bogotá · GMT-5</span></div>
+      <div class="cta-row" style="margin-top:20px">
+        <a href="https://www.linkedin.com/in/bczuleta" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn ↗</a>
+        <a href="https://www.behance.net/brianzuleta" target="_blank" rel="noopener" class="btn btn-ghost">Behance ↗</a>
+      </div>
+    </div>
+    <div class="stats" id="statBox"></div>
+  </div>
+</div></section>
+<section id="experiencia"><div class="wrap">
+  <div class="eyebrow" data-i="ex_eye"></div>
+  <div class="h2" data-i="ex_h"></div>
+  <p class="sub" data-i="ex_sub"></p>
+  <div class="tl" id="tlBox"></div>
+  <div class="early glass" style="margin-top:14px" id="earlyBox"></div>
+</div></section>
+<section id="proyectos"><div class="wrap">
+  <div class="eyebrow" data-i="pr_eye"></div>
+  <div class="h2" data-i="pr_h"></div>
+  <p class="sub" data-i="pr_sub"></p>
+  <div class="filters" id="filterBox"></div>
+  <div class="pgrid" id="projGrid"></div>
+  <p class="note" data-i="pr_note"></p>
+</div></section>
+<section id="habilidades"><div class="wrap">
+  <div class="eyebrow" data-i="sk_eye"></div>
+  <div class="h2" data-i="sk_h"></div>
+  <p class="sub" data-i="sk_sub"></p>
+  <div class="skills" id="skillBox"></div>
+</div></section>
+<section id="formacion"><div class="wrap">
+  <div class="eyebrow" data-i="ed_eye"></div>
+  <div class="h2" data-i="ed_h"></div>
+  <div class="edu" id="eduBox"></div>
+</div></section>
 <section id="why"><div class="wrap">
   <div class="eyebrow" data-i="why_eye"></div>
   <div class="h2" data-i="why_h"></div>
@@ -199,8 +296,11 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--dim);font-siz
     <div class="agents"><span><svg class="ic-sm"><use href="#ic-bolt"/></svg>Lumen — métricas</span><span><svg class="ic-sm"><use href="#ic-flow"/></svg>Trinity — workflows</span><span><svg class="ic-sm"><use href="#ic-film"/></svg>ArchiKatz — IA creativa</span></div>
     <div style="margin-top:12px"><span class="dim" style="font-size:11px" data-i="social_label"></span>
     <div class="social">
-      <a href="https://www.linkedin.com/company/promii" target="_blank" rel="noopener"><svg><use href="#s-linkedin"/></svg>LinkedIn</a>
-      <a href="https://www.instagram.com/promii.co" target="_blank" rel="noopener"><svg><use href="#s-instagram"/></svg>Instagram</a>
+      <a href="https://www.linkedin.com/in/bczuleta" target="_blank" rel="noopener"><svg><use href="#s-linkedin"/></svg>LinkedIn · Brian</a>
+      <a href="https://www.behance.net/brianzuleta" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M8.2 11.2c.9-.4 1.4-1.2 1.4-2.3C9.6 6.7 8 6 6 6H1v12h5.3c2 0 3.9-1 3.9-3.3 0-1.4-.7-2.5-2-2.9zM3.3 8h2.3c.9 0 1.7.2 1.7 1.2s-.6 1.3-1.5 1.3H3.3zm2.6 8H3.3v-3.3h2.7c1.1 0 1.8.5 1.8 1.7S7 16 5.9 16zM20.8 7h-5.6V5.6h5.6zm2.2 7.3c0-2.9-1.7-5.3-4.8-5.3-3 0-5 2.2-5 5.1 0 3 1.9 5.1 5 5.1 2.3 0 3.8-1 4.5-3.2h-2.3c-.3.8-1.3 1.3-2.1 1.3-1.6 0-2.4-.9-2.4-2.4H23zm-6.9-1.2c.1-1.2.9-2 2.1-2 1.3 0 1.9.8 2 2z"/></svg>Behance</a>
+      <a href="https://www.instagram.com/studiobrianzuleta" target="_blank" rel="noopener"><svg><use href="#s-instagram"/></svg>Instagram · Studio BZ</a>
+      <a href="https://www.linkedin.com/company/promii" target="_blank" rel="noopener"><svg><use href="#s-linkedin"/></svg>LinkedIn · Promii</a>
+      <a href="https://www.instagram.com/promii.co" target="_blank" rel="noopener"><svg><use href="#s-instagram"/></svg>Instagram · Promii</a>
       <a href="https://www.youtube.com/@promii" target="_blank" rel="noopener"><svg><use href="#s-youtube"/></svg>YouTube</a>
       <a href="https://www.tiktok.com/@promii" target="_blank" rel="noopener"><svg><use href="#s-tiktok"/></svg>TikTok</a>
       <a href="https://github.com/Promii" target="_blank" rel="noopener"><svg><use href="#s-github"/></svg>GitHub</a>
@@ -216,11 +316,22 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--dim);font-siz
 <script src="https://tally.so/widgets/embed.js" onload="if(window.Tally)Tally.loadEmbeds()"></script>
 <script>
 const T={
- es:{nav_services:"Servicios",nav_quote:"Cotizador",nav_brief:"Solicitar propuesta",kicker:"Arquitectura · BIM · Visualización IA · Automatización",
-   h1:'Convertimos tu proyecto en <span class="g">documentación, render o sistema</span> — sin riesgo.',
-   lead:"Calidad de firma internacional, más rápido y más barato que un estudio. Pagas solo cuando apruebas el primer entregable.",
-   cta1:"Armar mi cotización →",cta2:"Solicitar propuesta",
-   trust1:"✓ 9+ años en documentación US (NYC DOB)",trust2:"✓ Bilingüe EN C1 / ES nativo",trust3:"✓ Remoto · EST-compatible",
+ es:{nav_about:"Sobre mí",nav_exp:"Experiencia",nav_proj:"Proyectos",nav_services:"Servicios",nav_quote:"Cotizador",nav_brief:"Contacto",kicker:"Brian Zuleta · Arquitecto · BIM · Sistemas de IA",
+   h1:'Arquitectura, BIM y sistemas de IA que <span class="g">llevan proyectos de la idea a la obra</span>.',
+   lead:"Soy Brian Zuleta, arquitecto matriculado y especialista BIM con 9+ años de experiencia. Produzco planos constructivos para Nueva York, administro proyectos de construcción y construyo sistemas de IA y automatización que hacen que los equipos rindan más.",
+   cta1:"Ver proyectos →",cta2:"Servicios y cotizador",
+   trust1:"✓ ~15 proyectos NYC DOB · LOD 300–350",trust2:"✓ Arquitecto CPNAA · EN C1 / ES nativo",trust3:"✓ Remoto · horario de EE.UU.",
+   ab_eye:"Sobre mí",ab_h:"Arquitecto con mentalidad de sistemas",
+   ab_p1:"Me formé como arquitecto en la Universidad de La Salle (Bogotá) y tengo matrícula profesional CPNAA desde 2022. Llevo 11+ años usando Revit y 9+ años en arquitectura y BIM, trabajando de forma remota con equipos de EE.UU. e internacionales.",
+   ab_p2:"Mi trabajo combina tres frentes: (1) producción arquitectónica, con planos constructivos NYC DOB en LOD 300–350, Scan-to-BIM y BIM agéntico (Claude conectado a sesiones activas de Revit); (2) administración de desarrollo y construcción, con control documental, contratos y pronóstico de caja; y (3) CRM, automatización de marketing y sistemas de IA.",
+   ab_p3:"Todo lo que construyo queda documentado para que el equipo lo pueda operar sin depender de mí. Desde Studio Brian Zuleta y Promii llevo esa misma forma de trabajar a clientes en Colombia, LatAm y EE.UU.",
+   ex_eye:"Trayectoria",ex_h:"Experiencia profesional",ex_sub:"Arquitectura y BIM, administración de construcción, sistemas de IA y operaciones para equipos de EE.UU., Europa y Colombia.",
+   early_t:"<b>Antes (2015–2024):</b> soporte técnico y operaciones en inglés para empresas de EE.UU.: Google G Suite y Cloud (Sutherland), SaaS B2B de verificación de identidad (Jumio), merchandising web para Fabletics / YITTY (TechStyle), además de Concentrix, Sitel, GoldenRace y Scotia GBS. Ahí aprendí a trabajar con clientes de EE.UU., diagnosticar problemas técnicos y documentar procesos.",
+   pr_eye:"Portafolio",pr_h:"Proyectos destacados",pr_sub:"Planos constructivos para Nueva York, arquitectura propia en Colombia y diseño urbano.",
+   pr_note:"* En los proyectos de The J Associates mi aporte fue modelado y dibujo en Revit; la autoría del diseño corresponde a los arquitectos de registro. Portafolio completo en behance.net/brianzuleta.",
+   f_all:"Todos",f_nyc:"Planos NYC",f_arch:"Arquitectura",f_urban:"Urbano",f_ai:"IA y sistemas",
+   sk_eye:"Herramientas",sk_h:"Habilidades y software",sk_sub:"Años de uso por herramienta y competencias por área.",
+   ed_eye:"Formación",ed_h:"Educación, certificaciones e idiomas",
    why_eye:"Por qué Studio BZ",why_h:"Tres razones para empezar hoy",svc_eye:"Catálogo",svc_h:"Líneas de servicio",
    svc_sub_us:"Mercado US — 12 servicios productizados en USD, con especialidad NYC DOB.",
    svc_sub_latam:"Colombia & LatAm — 12 servicios en COP, con radicación ante curaduría y posicionamiento local.",
@@ -231,11 +342,22 @@ const T={
    q_note:"* Estimado base (desde). No reemplaza la propuesta formal tras las preguntas de cualificación.",
    in_eye:"Intake",in_h:"Solicitar propuesta",in_sub:"Formaliza tu solicitud con el detalle del proyecto. Generamos la propuesta en 24–48 horas.",
    f_note:"Al enviar aceptas ser contactado por Studio Brian Zuleta / Promii.",foot_zero:"Oferta cero-riesgo · pagas al aprobar",social_label:"Redes (en construcción):"},
- en:{nav_services:"Services",nav_quote:"Estimator",nav_brief:"Request proposal",kicker:"Architecture · BIM · AI Visualization · Automation",
-   h1:'We turn your project into <span class="g">documents, renders or systems</span> — at zero risk.',
-   lead:"Signature-firm quality, faster and cheaper than a studio. You pay only once you approve the first deliverable.",
-   cta1:"Build my quote →",cta2:"Request proposal",
-   trust1:"✓ 9+ yrs US documentation (NYC DOB)",trust2:"✓ Bilingual EN C1 / ES native",trust3:"✓ Remote · EST-compatible",
+ en:{nav_about:"About",nav_exp:"Experience",nav_proj:"Projects",nav_services:"Services",nav_quote:"Estimator",nav_brief:"Contact",kicker:"Brian Zuleta · Architect · BIM · AI Systems",
+   h1:'Architecture, BIM and AI systems that <span class="g">take projects from idea to construction</span>.',
+   lead:"I'm Brian Zuleta, a licensed architect and BIM specialist with 9+ years of experience. I produce construction documents for New York, administer construction projects, and build AI and automation systems that help teams do more.",
+   cta1:"View projects →",cta2:"Services & estimator",
+   trust1:"✓ ~15 NYC DOB projects · LOD 300–350",trust2:"✓ Licensed architect · EN C1 / ES native",trust3:"✓ Remote · US business hours",
+   ab_eye:"About",ab_h:"An architect with a systems mindset",
+   ab_p1:"I trained as an architect at Universidad de La Salle (Bogotá) and have been licensed by CPNAA since 2022. I have 11+ years of Revit and 9+ years in architecture and BIM, working remotely with US and international teams.",
+   ab_p2:"My work combines three fronts: (1) architectural production, with NYC DOB construction documents at LOD 300–350, Scan-to-BIM and agentic BIM (Claude connected to live Revit sessions); (2) development and construction administration, with document control, contracts and cash forecasting; and (3) CRM, marketing automation and AI systems.",
+   ab_p3:"Everything I build is documented so the team can run it without me. Through Studio Brian Zuleta and Promii I bring the same way of working to clients in Colombia, LatAm and the US.",
+   ex_eye:"Career",ex_h:"Professional experience",ex_sub:"Architecture and BIM, construction administration, AI systems and operations for teams in the US, Europe and Colombia.",
+   early_t:"<b>Earlier (2015–2024):</b> English-language technical support and operations for US companies: Google G Suite and Cloud (Sutherland), B2B identity-verification SaaS (Jumio), web merchandising for Fabletics / YITTY (TechStyle), plus Concentrix, Sitel, GoldenRace and Scotia GBS. That's where I learned to work with US clients, diagnose technical issues and document processes.",
+   pr_eye:"Portfolio",pr_h:"Selected projects",pr_sub:"Construction documents for New York, my own architecture in Colombia, and urban design.",
+   pr_note:"* On The J Associates projects my contribution was Revit modeling and drafting; design authorship rests with the architects of record. Full portfolio at behance.net/brianzuleta.",
+   f_all:"All",f_nyc:"NYC documents",f_arch:"Architecture",f_urban:"Urban",f_ai:"AI & systems",
+   sk_eye:"Tools",sk_h:"Skills and software",sk_sub:"Years of use per tool and competencies by area.",
+   ed_eye:"Education",ed_h:"Education, certifications and languages",
    why_eye:"Why Studio BZ",why_h:"Three reasons to start today",svc_eye:"Catalog",svc_h:"Service lines",
    svc_sub_us:"US market — 12 productized services in USD, with an NYC DOB specialty.",
    svc_sub_latam:"Colombia & LatAm — 12 services in COP, with curaduría permit filing and local positioning.",
@@ -278,6 +400,120 @@ const SVC_LATAM=[
 const WHY={es:[["bolt","Más barato","Operación LATAM + tarifas internacionales: 30–50% bajo un estudio tradicional, sin sacrificar calidad."],["rocket","Más rápido","Entregas en días, no semanas. Remoto y alineado a tu zona horaria (EST)."],["shield","Cero riesgo","Pagas solo cuando apruebas el primer entregable. Sin retainers para empezar."]],
  en:[["bolt","Cheaper","LATAM ops + international rates: 30–50% below a traditional studio, no quality trade-off."],["rocket","Faster","Delivery in days, not weeks. Remote and aligned to your time zone (EST)."],["shield","Zero risk","You pay only once you approve the first deliverable. No retainers to start."]]};
 
+const STATS={es:[["9+","años en arquitectura y BIM"],["~15","proyectos NYC DOB documentados"],["10+","proyectos propios en Revit"],["4+","años en CRM, automatización e IA"]],
+ en:[["9+","years in architecture and BIM"],["~15","NYC DOB projects documented"],["10+","own projects in Revit"],["4+","years in CRM, automation and AI"]]};
+const JOBS=[
+ {cur:1,when:{es:"Ago 2026 – presente",en:"Aug 2026 – present"},co:"Sunshine Management / KBM Realty · Chicago · Remoto",area:{es:"Construcción",en:"Construction"},
+  es:{t:"Administrador de Desarrollo y Construcción",b:["Construí el sistema de control documental en SharePoint (numeración, nomenclatura, versiones) y un estándar de contratos de oficios con codificación CSI y SOP del ciclo de vida.","Pronósticos de egresos de caja y hojas de desembolsos a partir de los contratos, conciliados con compras y finanzas.","Control de cumplimiento de proveedores (contratos, COIs, W-9) antes de liberar pagos; comunicación con la ciudad, aliados comunitarios y trades.","Gobernanza de Asana e integración asistida por IA de Asana, SharePoint, Teams, Fathom y Claude, documentada en guías y SOPs."]},
+  en:{t:"Development & Construction Administrator",b:["Built the SharePoint document-control system (numbering, naming, versioning) and a CSI-coded trade-contract standard with a lifecycle SOP.","Cash-outflow forecasts and draw sheets built from contract data, reconciled with procurement and finance.","Vendor compliance tracking (contracts, COIs, W-9) before payment release; communication with the city, community partners and trades.","Asana governance and an AI-assisted integration of Asana, SharePoint, Teams, Fathom and Claude, documented in guides and SOPs."]}},
+ {when:{es:"2026",en:"2026"},co:"MSI Americas · Remoto",area:{es:"AEC · Cuentas",en:"AEC · Accounts"},
+  es:{t:"Key Account Manager, vertical AEC",b:["Definí el catálogo de servicios BIM y construcción (40+ servicios en 5 pilares), estructura de SOW, ICP y go-to-market por territorio.","Diseñé un modelo de estudio A/E remoto (pods de PM/coordinador BIM, delineantes y MEP) con QA/QC y estándares para FL, NY, CO y Colombia.","Piloto de prospección A/E en Florida (1,882 firmas) empaquetado como motor de enriquecimiento reutilizable con scripts en Python; CRM en Odoo y reporte ejecutivo semanal."]},
+  en:{t:"Key Account Manager, AEC vertical",b:["Defined the BIM and construction service catalog (40+ services in 5 pillars), SOW structure, ICP and go-to-market by territory.","Designed a remote A/E studio model (PM/BIM coordinator, drafter and MEP pods) with QA/QC and standards for FL, NY, CO and Colombia.","Ran a Florida A/E prospecting pilot (1,882 firms), packaged as a reusable enrichment engine with Python scripts; Odoo CRM and weekly executive reporting."]}},
+ {when:{es:"Nov 2025 – May 2026",en:"Nov 2025 – May 2026"},co:"The J Associates (vía Cresta Staffing) · Nueva York · Remoto",area:{es:"Arquitectura · BIM",en:"Architecture · BIM"},
+  es:{t:"Dibujante Arquitectónico / Modelador BIM",b:["Asignado a ~15 proyectos: modelado y dibujo en Revit de juegos de planos NYC DOB para edificios multifamiliares (LOD 300–350, zonificación mixta R7A/R9A).","Plantas, diagramas de área bruta y zonificación, series A/Z/G e incorporación de varios ciclos de redlines con PMs y arquitectos en EE.UU.","Diagramas energéticos NYCECC 2020, tablas de 200+ tipos de vanos, valores U, barrera de aire con documentación TR8 y parámetros calculados.","Builder's Pavement Plans para NYC DOT en proyectos de 7 y 14 pisos (2,750 y 4,132 SF de andén nuevo)."]},
+  en:{t:"Architectural Drafter / BIM Modeler",b:["Assigned to ~15 projects: Revit modeling and drafting for NYC DOB construction document sets on multifamily buildings (LOD 300–350, mixed R7A/R9A zoning).","Floor plans, gross floor area and zoning diagrams, A/Z/G series, and multiple redline cycles with US-based PMs and architects.","NYCECC 2020 energy wall diagrams, 200+ fenestration types, U-values, air barrier plans with TR8 documentation, and calculated parameters.","Builder's Pavement Plans for NYC DOT on 7- and 14-story projects (2,750 and 4,132 SF of new sidewalk)."]}},
+ {when:{es:"Oct – Nov 2025",en:"Oct – Nov 2025"},co:"Voyansi · Remoto",area:{es:"BIM",en:"BIM"},
+  es:{t:"Especialista BIM, Scan-to-BIM",b:["Convertí nubes de puntos (.RCP/.RCS) en modelos Revit LOD 200–400 para remodelación y retrofit as-built, con análisis de desviaciones en entornos BIM federados."]},
+  en:{t:"BIM Specialist, Scan-to-BIM",b:["Converted point clouds (.RCP/.RCS) into Revit models at LOD 200–400 for renovation and as-built retrofit, with deviation analysis in federated BIM environments."]}},
+ {cur:1,when:{es:"2019 – presente",en:"2019 – present"},co:"Studio Brian Zuleta · Bogotá · Remoto",area:{es:"Arquitectura · IA",en:"Architecture · AI"},
+  es:{t:"Fundador · Arquitecto · Especialista BIM",b:["Práctica de arquitectura nativa de IA: 10+ proyectos residenciales, comerciales y urbanos modelados y documentados en Revit, con renders propios.","BIM agéntico: Claude conectado a sesiones activas de Revit vía MCP y C# (Roslyn) para QA/QC con IA, documentos automatizados y análisis de interferencias.","Visualización cinematográfica con IA (Higgsfield, D5 Render, Lumion, Veo)."]},
+  en:{t:"Founder · Architect · BIM Specialist",b:["AI-native architecture practice: 10+ residential, commercial and urban projects modeled and documented in Revit, with in-house renders.","Agentic BIM: Claude connected to live Revit sessions via MCP and C# (Roslyn) for AI QA/QC, automated documents and clash analysis.","Cinematic AI visualization (Higgsfield, D5 Render, Lumion, Veo)."]}},
+ {cur:1,when:{es:"2023 – presente",en:"2023 – present"},co:"Promii · ArchiKatz · Remoto",area:{es:"IA · Sistemas",en:"AI · Systems"},
+  es:{t:"Fundador, ecosistema de IA y automatización",b:["Sistema operativo de IA multiagente (Claude + Notion + n8n): 15+ Claude Skills, 8 flujos n8n y 12+ bases de datos en Notion, productizado en 5 verticales de servicio.","ArchiKatz: marca editorial con IA, 10+ colecciones con continuidad de personajes y distribución multiplataforma."]},
+  en:{t:"Founder, AI and automation ecosystem",b:["Multi-agent AI operating system (Claude + Notion + n8n): 15+ Claude Skills, 8 n8n workflows and 12+ Notion databases, productized into 5 service verticals.","ArchiKatz: AI editorial brand, 10+ collections with character continuity and multi-platform distribution."]}},
+ {when:{es:"Sep 2024 – Feb 2026",en:"Sep 2024 – Feb 2026"},co:"BeeAides – Digital Marketing & Operations Agency · Remoto · EE.UU. y Europa",area:{es:"CRM · Marketing",en:"CRM · Marketing"},
+  es:{t:"Digital Growth Strategist / Líder de Automatización de Marketing",b:["CRMs de GoHighLevel desde cero por cliente (subcuentas, SMTP, pipelines, workflows de email, SMS y Slack) para 6+ cuentas simultáneas.","Embudos de webinar y outreach B2B en LinkedIn (Sales Navigator, Expandi, segmentación Tier 1–6): 1,200+ registros para un solo cliente.","Copy bilingüe, Meta Ads y reportes diarios de KPIs; Claude y ChatGPT con Notion y Airtable redujeron la investigación de días a horas."]},
+  en:{t:"Digital Growth Strategist / Marketing Automation Lead",b:["Built GoHighLevel CRMs from scratch per client (sub-accounts, SMTP, pipelines, email, SMS and Slack workflows) for 6+ concurrent accounts.","Webinar funnels and LinkedIn B2B outreach (Sales Navigator, Expandi, Tier 1–6 segmentation): 1,200+ registrations for a single client.","Bilingual copy, Meta Ads and daily KPI reports; Claude and ChatGPT with Notion and Airtable cut research from days to hours."]}},
+ {when:{es:"Feb – Sep 2025",en:"Feb – Sep 2025"},co:"EBC – Elevate Brand Consulting · Remoto · EE.UU. y Canadá",area:{es:"CRM",en:"CRM"},
+  es:{t:"Arquitecto Principal – CRM y Automatización",b:["Arquitecto de GoHighLevel para la plataforma EBC LeadFlow: CRM de cero a producción, despliegue de marketing en 4 etapas y migración de Calendly a GHL; 4+ marcas lanzadas."]},
+  en:{t:"Lead Architect – CRM & Automation",b:["GoHighLevel architect for the EBC LeadFlow platform: CRM from zero to production, 4-stage marketing rollout and Calendly-to-GHL migration; 4+ brands launched."]}},
+ {when:{es:"2023 – 2025",en:"2023 – 2025"},co:"Compass Real Estate (Miami) · BAAC Remodeling (Colorado) · Remoto",area:{es:"Operaciones",en:"Operations"},
+  es:{t:"Operaciones e infraestructura digital",b:["Compass: coordinación ejecutiva de operaciones, seguimiento de transacciones en CRM, Meta Ads para listados y nutrición de leads.","BAAC Remodeling: administración de CRM, dominios, email y herramientas colaborativas para una firma de remodelación."]},
+  en:{t:"Operations and digital infrastructure",b:["Compass: executive operations coordination, CRM transaction tracking, Meta Ads for listings and lead nurturing.","BAAC Remodeling: administered CRM, domains, email and collaboration tools for a remodeling firm."]}},
+ {when:{es:"Ene – Ago 2021",en:"Jan – Aug 2021"},co:"Euroambientes · Bogotá",area:{es:"Arquitectura",en:"Architecture"},
+  es:{t:"Asistente de Arquitectura",b:["Planos técnicos y detalles constructivos en Revit; visitas de obra y levantamientos para proyectos de remodelación y restauración."]},
+  en:{t:"Architectural Assistant",b:["Technical drawings and construction details in Revit; site visits and surveys for renovation and restoration projects."]}}
+];
+const PROJ=[
+ {cat:"nyc",yr:"2026",img:null,tools:["Revit","Bluebeam","BIM 360"],
+  es:{n:"87 Havemeyer Street",m:"Multifamiliar · Brooklyn, NY · ~28,000 SF",d:"Edificio nuevo de 7 pisos + sótano. Juego completo NYC DOB: series A, Z y G, diagramas energéticos NYCECC 2020 y plan de barrera de aire con protocolo TR8.",r:"Modelado y dibujo en Revit · The J Associates"},
+  en:{n:"87 Havemeyer Street",m:"Multifamily · Brooklyn, NY · ~28,000 SF",d:"New 7-story + cellar building. Full NYC DOB set: A, Z and G series, NYCECC 2020 energy wall diagrams and an air barrier plan with TR8 protocol.",r:"Revit modeling and drafting · The J Associates"}},
+ {cat:"nyc",yr:"2026",img:null,tools:["Revit","Parámetros calculados"],
+  es:{n:"247 East 117th Street",m:"Multifamiliar + comercial · Harlem, NY · ~25,000 SF",d:"8 pisos + sótano con zonificación dual R7A / R9A-C2-5. Diagramas de área bruta por piso, 206+ tipos de vanos, análisis de puentes térmicos lineales y varios ciclos de revisión.",r:"Modelado y dibujo en Revit · The J Associates"},
+  en:{n:"247 East 117th Street",m:"Multifamily + commercial · Harlem, NY · ~25,000 SF",d:"8 stories + cellar with dual R7A / R9A-C2-5 zoning. Per-floor gross floor area diagrams, 206+ fenestration types, linear thermal bridge analysis and multiple revision cycles.",r:"Revit modeling and drafting · The J Associates"}},
+ {cat:"nyc",yr:"2026",img:null,tools:["Revit","AutoCAD","ADA 2010"],
+  es:{n:"NYC DOT Builder's Pavement Plans",m:"Andenes y rampas ADA · Brooklyn, NY",d:"680 Lorimer St (~2,750 SF de andén nuevo) y 2745 Atlantic Ave, edificio de 14 pisos (~4,132 SF, 260 LF de sardinel, 9 árboles nuevos). Estándares NYC DOT H-1010, H-1011, H-1045 y H-1046.",r:"Modelado y dibujo en Revit · The J Associates"},
+  en:{n:"NYC DOT Builder's Pavement Plans",m:"Sidewalks and ADA ramps · Brooklyn, NY",d:"680 Lorimer St (~2,750 SF of new sidewalk) and 2745 Atlantic Ave, a 14-story building (~4,132 SF, 260 LF of curb, 9 new street trees). NYC DOT standards H-1010, H-1011, H-1045 and H-1046.",r:"Revit modeling and drafting · The J Associates"}},
+ {cat:"arch",yr:"2026",img:null,tools:["Revit","D5 Render"],
+  es:{n:"Casa Anapoima",m:"Vivienda unifamiliar · Anapoima, Cundinamarca · ~260 m²",d:"Residencia en ladera que convierte una pendiente del 20% en el rasgo principal: tres niveles escalonados, terraza social con piscina de panel de vidrio estructural y concreto a la vista. Una segunda versión explora acero, pilotes y muros de adobe.",r:"Diseño y documentación BIM · Studio Brian Zuleta"},
+  en:{n:"Anapoima House",m:"Single-family · Anapoima, Cundinamarca · ~260 m²",d:"Hillside residence that turns a 20% slope into its main feature: three stepped levels, a social terrace with a structural glass-panel pool and exposed concrete. A second iteration explores steel, piles and adobe walls.",r:"Design and BIM documentation · Studio Brian Zuleta"}},
+ {cat:"arch",yr:"2024",img:null,tools:["Revit","Render IA"],
+  es:{n:"Echoes of Sugar Hill",m:"Uso mixto residencial / cultural · Harlem, NY · ~15,000 SF",d:"Proyecto propio inspirado en el Renacimiento de Harlem: diseño arquitectónico y documentación BIM completa de concepto a planos, alineada a requisitos NYC DOB, con visualización fotorrealista asistida por IA.",r:"Diseño propio · Studio Brian Zuleta"},
+  en:{n:"Echoes of Sugar Hill",m:"Mixed-use residential / cultural · Harlem, NY · ~15,000 SF",d:"Own project rooted in the Harlem Renaissance: architectural design and full BIM documentation from concept to drawings, aligned with NYC DOB requirements, with AI-assisted photorealistic visualization.",r:"Own design · Studio Brian Zuleta"}},
+ {cat:"arch",yr:"2023",img:null,tools:["Revit","Estructura en acero"],
+  es:{n:"Maryland Steel Mall",m:"Comercial · Cota, Colombia · ~2,500 m²",d:"Modelo BIM estructural de un centro comercial en acero y concreto. Geometría arquitectónica y estructural coordinada en un entorno federado, con familias estructurales precisas y planos listos para obra.",r:"Modelado BIM estructural · Studio Brian Zuleta"},
+  en:{n:"Maryland Steel Mall",m:"Commercial · Cota, Colombia · ~2,500 m²",d:"Structural BIM model of a steel and concrete commercial building. Architectural and structural geometry coordinated in a federated environment, with precise structural families and construction-ready sheets.",r:"Structural BIM modeling · Studio Brian Zuleta"}},
+ {cat:"arch",yr:null,img:null,tools:["Revit","MEP preliminar"],
+  es:{n:"Casa Cota",m:"Casa campestre · Cota, Cundinamarca · ~200 m²",d:"Vivienda unifamiliar desarrollada a partir del programa del cliente y presentada como casa modelo para un proyecto de agrupación. Incluye planteamiento estructural y prediseño de redes eléctricas y sanitarias.",r:"Diseño y documentación · Studio Brian Zuleta"},
+  en:{n:"Cota House",m:"Country house · Cota, Cundinamarca · ~200 m²",d:"Single-family house developed from the client's program and presented as a model home for a housing group. Includes the structural approach and preliminary electrical and plumbing design.",r:"Design and documentation · Studio Brian Zuleta"}},
+ {cat:"arch",yr:"2022",img:null,tools:["Revit","Bioclimática"],
+  es:{n:"Pacific Pearls",m:"Complejo cultural · Tumaco, Nariño · ~6,000 m²",d:"Concurso Alacero 2020, desarrollado luego como proyecto de grado (2022). Cultivos acuapónicos con tratamiento de aguas lluvia, granjas verticales, paneles fotovoltaicos y turbinas eólicas.",r:"Proyecto académico · B. Zuleta, A. Reyes, A. Franco, J. Ríos"},
+  en:{n:"Pacific Pearls",m:"Cultural complex · Tumaco, Nariño · ~6,000 m²",d:"Alacero 2020 competition entry, later developed as my graduation project (2022). Aquaponic crops with rainwater treatment, vertical farms, photovoltaic panels and wind turbines.",r:"Academic project · B. Zuleta, A. Reyes, A. Franco, J. Ríos"}},
+ {cat:"urban",yr:null,img:null,tools:["Revit","Masterplan"],
+  es:{n:"Malecón de Tumaco",m:"Diseño urbano · Tumaco, Nariño · ~4 ha",d:"Revitalización del frente marítimo como unidad de actuación urbana (Parque Pescadores): eje ambiental con reforestación, miradores elevados, estanques naturales e infraestructura de evacuación vertical.",r:"Proyecto académico"},
+  en:{n:"Tumaco Seafront",m:"Urban design · Tumaco, Nariño · ~4 ha",d:"Seafront revitalization as an urban action unit (Parque Pescadores): environmental axis with reforestation, elevated viewpoints, natural ponds and vertical evacuation infrastructure.",r:"Academic project"}},
+ {cat:"urban",yr:null,img:null,tools:["Revit","Espacio público"],
+  es:{n:"El Prado, Barranquilla",m:"Revitalización de barrio patrimonial · Barranquilla",d:"“Caminar bajo el sol” en la Carrera 54: rediseño del perfil vial norte–sur como paseo peatonal con sombra continua que conecta museos, parques y equipamientos existentes.",r:"Proyecto académico · B. Zuleta, J. Ríos, M. Izaisa"},
+  en:{n:"El Prado, Barranquilla",m:"Heritage neighborhood revitalization · Barranquilla",d:"“Walk under the sun” on Carrera 54: a north–south street redesigned as a shaded pedestrian promenade connecting existing museums, parks and facilities.",r:"Academic project · B. Zuleta, J. Ríos, M. Izaisa"}},
+ {cat:"ai",yr:null,img:null,tools:["Claude","MCP","C# / Revit API"],
+  es:{n:"BIM agéntico: Claude ↔ Revit",m:"Sistema de IA · Studio Brian Zuleta",d:"Claude conectado a sesiones activas de Revit vía MCP y C# (Roslyn): QA/QC de modelos con IA, generación de documentos, análisis de interferencias y scripts Python/Dynamo bajo demanda.",r:"Desarrollo propio"},
+  en:{n:"Agentic BIM: Claude ↔ Revit",m:"AI system · Studio Brian Zuleta",d:"Claude connected to live Revit sessions via MCP and C# (Roslyn): AI model QA/QC, document generation, clash analysis and on-demand Python/Dynamo scripts.",r:"In-house development"}},
+ {cat:"ai",yr:null,img:null,tools:["Claude","Notion","n8n"],
+  es:{n:"Promii OS",m:"Sistema operativo multiagente · Promii",d:"Ecosistema de agentes (Lumen para métricas, Trinity para workflows, ArchiKatz para IA creativa) sobre Claude, Notion y n8n: 15+ skills, 8 flujos y 12+ bases de datos que operan el negocio.",r:"Desarrollo propio"},
+  en:{n:"Promii OS",m:"Multi-agent operating system · Promii",d:"Agent ecosystem (Lumen for metrics, Trinity for workflows, ArchiKatz for creative AI) on Claude, Notion and n8n: 15+ skills, 8 workflows and 12+ databases that run the business.",r:"In-house development"}}
+];
+const TOOLS=[["Revit",11],["Twinmotion",6],["AutoCAD",5],["SketchUp",5],["Bluebeam · ACC",2],["D5 · Lumion",2],["Dynamo",1]];
+const SKILLS={es:[["BIM y coordinación",["Revit LOD 100–400, familias paramétricas, worksets y fases","Scan-to-BIM (nubes .RCP / .RCS)","Navisworks y detección de choques","Dynamo, parámetros compartidos y calculados"]],
+  ["Códigos y normas",["NYC Building Code · Zoning Resolution","NYCECC 2020 · TR8 · barrera de aire","NYC DOT BPP (H-1010 / H-1011)","ADA 2010 · NSR-10 · IBC (familiarizado)"]],
+  ["IA y automatización",["Claude ↔ Revit (MCP) · C# / Revit API","Claude Skills y sistemas multiagente","Python · n8n · Make · Zapier","Higgsfield · Veo · Kling · Midjourney"]],
+  ["Admin. de construcción y PM",["Contratos, SOV / SOW y órdenes de cambio","Control documental en SharePoint","RFIs, submittals, permisos y COIs","Asana (Ambassador) · RACI · flujo de caja"]],
+  ["CRM y marketing",["GoHighLevel (A2P, SMTP, workflows)","Odoo · ActiveCampaign · Mailchimp","Sales Navigator · Apollo · Smartlead","Meta Ads · embudos de webinar · copy"]]],
+ en:[["BIM and coordination",["Revit LOD 100–400, parametric families, worksets and phases","Scan-to-BIM (.RCP / .RCS point clouds)","Navisworks and clash detection","Dynamo, shared and calculated parameters"]],
+  ["Codes and standards",["NYC Building Code · Zoning Resolution","NYCECC 2020 · TR8 · air barrier","NYC DOT BPP (H-1010 / H-1011)","ADA 2010 · NSR-10 · IBC (familiar)"]],
+  ["AI and automation",["Claude ↔ Revit (MCP) · C# / Revit API","Claude Skills and multi-agent systems","Python · n8n · Make · Zapier","Higgsfield · Veo · Kling · Midjourney"]],
+  ["Construction admin and PM",["Contracts, SOV / SOW and change orders","SharePoint document control","RFIs, submittals, permits and COIs","Asana (Ambassador) · RACI · cash flow"]],
+  ["CRM and marketing",["GoHighLevel (A2P, SMTP, workflows)","Odoo · ActiveCampaign · Mailchimp","Sales Navigator · Apollo · Smartlead","Meta Ads · webinar funnels · copy"]]]};
+const EDU={es:[["Educación",["Arquitecto, Universidad de La Salle, Bogotá (2015–2022)","Matrícula profesional CPNAA, Colombia (desde 2022)"]],
+  ["Certificaciones",["Fundamentos para BIM Manager (2025)","Revit Avanzado: Masas (2025)","Sustainable Generative Design with Revit (Autodesk)","Asana Ambassador","Facebook Blueprint y Google Activate","Xactimate, estimación de costos","Voluntario, Comisión Técnica CAMACOL (reconstrucción post-sismo, 2026)"]],
+  ["Idiomas",["Español: nativo","Inglés: C1 avanzado (EF SET 70/100)","Portugués: básico"]]],
+ en:[["Education",["Architect, Universidad de La Salle, Bogotá (2015–2022)","Professional license CPNAA, Colombia (since 2022)"]],
+  ["Certifications",["BIM Manager Fundamentals (2025)","Revit Advanced: Masses (2025)","Sustainable Generative Design with Revit (Autodesk)","Asana Ambassador","Facebook Blueprint and Google Activate","Xactimate cost estimating","Volunteer, CAMACOL Technical Commission (post-earthquake rebuild, 2026)"]],
+  ["Languages",["Spanish: native","English: C1 advanced (EF SET 70/100)","Portuguese: basic"]]]};
+const CATS=["all","nyc","arch","urban","ai"];
+let pf="all";
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function projArt(p,i){var c=['var(--gold)','var(--neon)','var(--blue)'][i%3],k=p.cat,g='';
+  for(var x=0;x<=320;x+=20)g+='<line x1="'+x+'" y1="0" x2="'+x+'" y2="200" />';
+  for(var y=0;y<=200;y+=20)g+='<line x1="0" y1="'+y+'" x2="320" y2="'+y+'" />';
+  var f={nyc:'<rect x="110" y="34" width="100" height="146"/><path d="M110 58h100M110 82h100M110 106h100M110 130h100M110 154h100M135 34v146M160 34v146M185 34v146"/><path d="M60 180h200"/>',
+   arch:'<path d="M50 160 L120 110 L210 110 L270 70"/><rect x="120" y="80" width="90" height="30"/><rect x="150" y="50" width="70" height="30"/><path d="M40 170 Q160 120 290 60"/>',
+   urban:'<circle cx="160" cy="100" r="58"/><circle cx="160" cy="100" r="28"/><path d="M20 100h280M160 10v180M60 40l200 120"/>',
+   ai:'<circle cx="80" cy="60" r="12"/><circle cx="240" cy="60" r="12"/><circle cx="160" cy="150" r="12"/><circle cx="160" cy="70" r="8"/><path d="M92 60h56M172 70h56M86 71l66 70M234 71l-66 70M160 78v60"/>'}[k];
+  return '<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="200" fill="var(--glass2)"/><g stroke="var(--line)" stroke-width="1">'+g+'</g><g fill="none" stroke="'+c+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" style="filter:drop-shadow(0 0 6px '+c+')">'+f+'</g></svg>';}
+function renderAbout(){document.getElementById('statBox').innerHTML=STATS[lang].map(function(s){return '<div class="stat glass reveal"><div class="n">'+s[0]+'</div><div class="l">'+s[1]+'</div></div>';}).join('');}
+function renderJobs(){document.getElementById('tlBox').innerHTML=JOBS.map(function(j){var o=j[lang];return '<div class="job glass reveal'+(j.cur?' cur':'')+'"><div class="top"><div><h3>'+esc(o.t)+'<span class="area">'+esc(j.area[lang])+'</span></h3><div class="co">'+esc(coName(j.co))+'</div></div><div class="when">'+j.when[lang]+'</div></div><ul>'+o.b.map(function(b){return '<li>'+esc(b)+'</li>';}).join('')+'</ul></div>';}).join('');
+  document.getElementById('earlyBox').innerHTML=T[lang].early_t;}
+const CO_EN=[["vía","via"],["Nueva York","New York"],["EE.UU. y Europa","US & Europe"],["EE.UU. y Canadá","US & Canada"],["Remoto","Remote"]];
+function coName(c){if(lang==='es')return c;CO_EN.forEach(function(r){c=c.split(r[0]).join(r[1]);});return c;}
+function setPF(c){pf=c;renderProjects();}
+function renderProjects(){var d=T[lang];document.getElementById('filterBox').innerHTML=CATS.map(function(c){return '<button class="'+(pf===c?'on':'')+'" onclick="setPF(\''+c+'\')">'+d['f_'+c]+'</button>';}).join('');
+  document.getElementById('projGrid').innerHTML=PROJ.map(function(p,i){if(pf!=='all'&&p.cat!==pf)return '';var o=p[lang];
+   var vis=p.img?'<img src="'+p.img+'" alt="'+esc(o.n)+'" loading="lazy">':projArt(p,i);
+   return '<article class="proj glass"><div class="vis">'+vis+(p.yr?'<span class="yr">'+p.yr+'</span>':'')+'</div><div class="body"><h3>'+esc(o.n)+'</h3><div class="meta">'+esc(o.m)+'</div><p>'+esc(o.d)+'</p><div class="chips">'+p.tools.map(function(t){return '<span class="chip">'+esc(t)+'</span>';}).join('')+'</div><div class="role">'+esc(o.r)+'</div></div></article>';}).join('');}
+function renderSkills(){var bars='<div class="sk glass reveal"><h3>'+(lang==='es'?'Años por herramienta':'Years per tool')+'</h3>'+TOOLS.map(function(t){return '<div class="bar"><span class="nm">'+t[0]+'</span><span class="tr"><span class="fl" style="display:block;width:'+Math.round(t[1]/11*100)+'%"></span></span><span class="yv">'+t[1]+'+ '+(lang==='es'?'a':'y')+'</span></div>';}).join('')+'</div>';
+  document.getElementById('skillBox').innerHTML=bars+SKILLS[lang].map(function(g){return '<div class="sk glass reveal"><h3>'+g[0]+'</h3><ul>'+g[1].map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';}).join('');}
+function renderEdu(){document.getElementById('eduBox').innerHTML=EDU[lang].map(function(g){return '<div class="sk glass reveal"><h3>'+g[0]+'</h3><ul>'+g[1].map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></div>';}).join('');}
+
 let lang="es",market="us",cart=[],_io;
 function activeSVC(){return market==='us'?SVC_US:SVC_LATAM;}
 function fromPrice(s){return s.base>0?s.base:(s.per>0?s.per:0);}
@@ -309,7 +545,7 @@ function attachTilt(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)r
   card.onmousemove=function(e){var r=card.getBoundingClientRect();var px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;card.style.setProperty('--mx',(px*100)+'%');card.style.setProperty('--my',(py*100)+'%');card.style.transform='perspective(760px) rotateX('+((.5-py)*5).toFixed(2)+'deg) rotateY('+((px-.5)*5).toFixed(2)+'deg) translateY(-3px)';};
   card.onmouseleave=function(){card.style.transform='';};});}
 function setupReveal(){if(!_io)_io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});document.querySelectorAll('.reveal:not(.in)').forEach(function(el){_io.observe(el);});}
-function render(){applyI18n();renderWhy();renderServices();renderCart();setupReveal();}
+function render(){applyI18n();renderAbout();renderJobs();renderProjects();renderSkills();renderEdu();renderWhy();renderServices();renderCart();setupReveal();}
 render();
 (function(){var c=document.getElementById('fx');if(!c||matchMedia('(prefers-reduced-motion:reduce)').matches)return;var x=c.getContext('2d'),w,h,pts,mx=-999,my=-999;
  function size(){w=c.width=c.offsetWidth;h=c.height=c.offsetHeight||440;var n=Math.min(64,Math.max(26,Math.floor(w/18)));pts=Array.from({length:n},function(){return{x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35};});}
