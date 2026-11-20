@@ -141,6 +141,27 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
 .save{display:flex;gap:8px;justify-content:flex-end;margin:18px 0 0 auto;position:sticky;bottom:12px;width:max-content;max-width:100%;padding:6px;border-radius:999px;background:var(--solid);box-shadow:var(--shadow);z-index:2}
 .pv{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;max-width:100%;background:#08080c;margin-inline:auto;transition:max-width .5s var(--m-ease)}
 .pv.mob{aspect-ratio:390/780;max-width:330px;border-radius:34px;border-width:6px;border-color:#1a1a22}
+.tact{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tact input{flex:1;min-width:140px;border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:9px 14px;color:var(--text)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.th{margin:16px 0 8px;font:500 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.thm{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 10px;align-items:center;padding:8px;border-radius:16px;border:1.5px solid var(--line);position:relative;transition:border-color .2s}
+.thm:hover{border-color:var(--dim)}.thm:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.thm.on{border-color:var(--text)}
+.thm .sw3{grid-row:span 2;width:44px;height:44px;border-radius:12px;position:relative;overflow:hidden}
+.thm .sw3.g{background:radial-gradient(70% 70% at 25% 25%,var(--a),transparent 70%),radial-gradient(60% 60% at 85% 85%,#2f6bff,transparent 70%),#0b0b12}
+.thm .sw3.g::after{content:"";position:absolute;inset:12px 8px;border-radius:999px;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.45)}
+.thm .sw3.i{background:radial-gradient(60% 70% at 80% 20%,#111,transparent 70%),#efebe2}
+.thm .sw3.i::after{content:"";position:absolute;left:8px;right:12px;bottom:12px;height:4px;border-radius:2px;background:var(--a)}
+.thm b{font:600 13px var(--display);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.thm small{color:var(--muted);font-size:11.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.thm.mine{padding-right:70px}
+.thm .del{all:unset;cursor:pointer;position:absolute;top:6px;right:8px;font-size:11px;color:var(--dim);padding:2px 6px;border-radius:999px}
+.thm .del:hover,.thm .del.sure{color:#fff;background:var(--red)}
+.thm .badge{position:absolute;top:6px;right:8px;font-size:10px;font-weight:600;color:var(--ok)}
+.emptyt{grid-column:1/-1;color:var(--dim);font-size:12.5px;padding:6px 2px}
+@media (max-width:520px){.themes{grid-template-columns:1fr}}
 .pvh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
 .verify{margin-top:14px;padding:14px 16px;border-radius:16px;background:var(--surface2)}
 .verify h3{margin:0 0 8px;font:600 13px var(--display)}
@@ -212,9 +233,14 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
     <div id="vDesign" hidden>
       <div class="dz">
         <section class="glass card dctl">
-          <h2>Estilo gráfico</h2><p class="sub">Los dos usan el mismo movimiento, proporciones y botones.</p>
+          <h2>Temas</h2><p class="sub">Toca un tema para cargarlo, revísalo en la vista previa y aplícalo. También puedes crear combinaciones al azar y guardarlas.</p>
+          <div class="tact"><button class="btn" type="button" id="rnd">🎲 Aleatorio</button><label class="sr-only" for="tName">Nombre del tema</label><input id="tName" type="text" maxlength="60" placeholder="Nombre del tema"><button class="btn" type="button" id="tSave">Guardar como tema</button></div>
+          <p class="sub" id="tMsg" role="status" style="margin:6px 0 0"></p>
+          <h3 class="th">Mis temas</h3><div class="themes" id="myThemes"></div>
+          <h3 class="th">Sugeridos</h3><div class="themes" id="sugThemes"></div>
+          <h2 style="margin-top:22px">Estilo gráfico</h2><p class="sub">Los dos usan el mismo movimiento, proporciones y botones.</p>
           <div class="styles" id="styleSel"></div>
-          <h2 style="margin-top:20px">Color de contraste</h2><p class="sub">Se usa en el estilo Tinta china: trazo del titular, punto de marca, gotas.</p>
+          <h2 style="margin-top:20px">Color de contraste</h2><p class="sub">El acento de la página en ambos estilos: punto de marca, degradados, trazo del titular, gotas de tinta.</p>
           <div class="acc"><input type="color" id="accent" aria-label="Color de contraste"><code id="accHex"></code><div class="sw" id="accSw"></div></div>
           <h2 style="margin-top:20px">Animaciones</h2><p class="sub">Apaga o enciende cada una. Las marcadas con un estilo solo existen en ese estilo.</p>
           <div class="tg" id="toggles"></div>
@@ -392,7 +418,7 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
   let pvW = 1280;
   function fitPreview() { const f = $('pvFrame'), h = pvW === 1280 ? 800 : 780; f.style.width = pvW + 'px'; f.style.height = h + 'px'; f.style.transform = `scale(${$('pv').clientWidth / pvW})`; }
   $('dev').addEventListener('click', e => { const b = e.target.closest('[data-w]'); if (!b) return; pvW = +b.dataset.w; $('dev').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); $('pv').classList.toggle('mob', pvW < 1000); setTimeout(fitPreview, 520); fitPreview(); });
-  function dirty() { $('cfgMsg').textContent = savedCfg && sameCfg(PC.norm(savedCfg), PC.norm(cfg)) ? 'La página muestra estos ajustes.' : 'Tienes cambios sin aplicar. Revísalos en la vista previa y toca «Aplicar a la página».'; }
+  function dirty() { if (typeof renderThemes === 'function' && $('sugThemes').children.length) renderThemes(); $('cfgMsg').textContent = savedCfg && sameCfg(PC.norm(savedCfg), PC.norm(cfg)) ? 'La página muestra estos ajustes.' : 'Tienes cambios sin aplicar. Revísalos en la vista previa y toca «Aplicar a la página».'; }
   $('styleSel').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (!b) return; cfg.style = b.dataset.s; designUI(); dirty(); });
   $('accent').addEventListener('input', e => { cfg.accent = e.target.value; $('accHex').textContent = cfg.accent.toUpperCase(); document.querySelectorAll('.sw2').forEach(x => x.style.setProperty('--acc', cfg.accent)); preview(); dirty(); });
   $('accSw').addEventListener('click', e => { const b = e.target.closest('[data-h]'); if (!b) return; cfg.accent = b.dataset.h; designUI(); dirty(); });
@@ -454,9 +480,65 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
     $('cfgMsg').textContent = allOk ? 'Aplicado y verificado. Los visitantes lo ven desde su próxima carga de la página.' : 'Se aplicó, pero algo no coincide. Revisa la lista.';
     if (row) $('cfgWhen').textContent = 'Última aplicación: ' + new Date(row.updated_at).toLocaleString('es-CO');
   });
+
+  // ---------- Temas: sugeridos, aleatorio y guardados ----------
+  const SUG = [
+    { name: 'Cristal nocturno', desc: 'Liquid Glass completo: el look principal de Promii.', data: { style: 'glass', accent: '#ff3b30', off: [] } },
+    { name: 'Presentación a cliente', desc: 'Vidrio sobrio y sin distracciones para reuniones.', data: { style: 'glass', accent: '#2f6bff', off: ['fx', 'marquee', 'toast', 'life', 'projtilt'] } },
+    { name: 'Galería silenciosa', desc: 'Movimiento mínimo: el contenido manda.', data: { style: 'glass', accent: '#a6a6bc', off: ['fx', 'orbs', 'marquee', 'shine', 'life', 'dims', 'whyicons', 'route', 'tl', 'projtilt', 'toast', 'lg'] } },
+    { name: 'Amatista de lanzamiento', desc: 'Vidrio con acento violeta para anunciar novedades.', data: { style: 'glass', accent: '#7a3e9d', off: ['toast'] } },
+    { name: 'Sumi bermellón', desc: 'Tinta china clásica con sello rojo.', data: { style: 'ink', accent: '#e0261b', off: [] } },
+    { name: 'Plano azul Prusia', desc: 'Tinta como plano técnico; ideal para mostrar BIM.', data: { style: 'ink', accent: '#1d4e89', off: ['splash'] } },
+    { name: 'Jade zen', desc: 'Tinta en calma, con pocas animaciones.', data: { style: 'ink', accent: '#2f7d5b', off: ['cursor', 'splash', 'marquee', 'toast', 'life'] } },
+    { name: 'Oro de obra', desc: 'Tinta con acento dorado, pensado para ArchiKatz.', data: { style: 'ink', accent: '#b8860b', off: [] } }
+  ];
+  const ACCENTS = [['#ff3b30', 'coral'], ['#e0261b', 'bermellón'], ['#2f6bff', 'cobalto'], ['#1d4e89', 'azul Prusia'], ['#2f7d5b', 'jade'], ['#0f9d8a', 'turquesa'], ['#b8860b', 'oro'], ['#d9622b', 'terracota'], ['#7a3e9d', 'amatista'], ['#c2185b', 'magenta'], ['#5b6cff', 'índigo'], ['#a6a6bc', 'plata']];
+  const KEEP = ['reveal', 'projdraw', 'fab', 'squircle', 'morph'];
+  let myThemes = [];
+  const sameish = (a, b) => sameCfg(PC.norm(a), PC.norm(b));
+  function thmCard(t, mine) {
+    const d = PC.norm(t.data), on = sameish(d, cfg);
+    return `<button class="thm${on ? ' on' : ''}${mine ? ' mine' : ''}" type="button" data-tid="${mine ? 'm:' + esc(t.id) : 's:' + esc(t.name)}" title="${esc(t.name)}"><span class="sw3 ${d.style === 'ink' ? 'i' : 'g'}" style="--a:${d.accent}"></span><b>${esc(t.name)}</b><small>${esc(t.desc || (PC.STYLES[d.style] + ' · ' + d.accent.toUpperCase() + (d.off.length ? ` · ${d.off.length} apagadas` : '')))}</small>${mine ? `<span class="del" role="button" tabindex="0" data-del="${esc(t.id)}">Eliminar</span>` : (on ? '<span class="badge">● Cargado</span>' : '')}</button>`;
+  }
+  function renderThemes() {
+    $('sugThemes').innerHTML = SUG.map(t => thmCard(t, false)).join('');
+    $('myThemes').innerHTML = myThemes.length ? myThemes.map(t => thmCard(t, true)).join('') : '<p class="emptyt">Aún no tienes temas guardados. Crea uno con 🎲 Aleatorio o con tus ajustes y toca «Guardar como tema».</p>';
+  }
+  async function loadThemes() {
+    if (sb && !demo) { const { data, error } = await sb.from('design_presets').select('id,name,data,created_at').order('created_at'); if (!error) myThemes = data || []; else $('tMsg').textContent = 'No se pudieron cargar tus temas: ' + error.message; }
+    else { try { myThemes = JSON.parse(localStorage.getItem('pm_presets') || '[]'); } catch (e) { myThemes = []; } }
+    renderThemes();
+  }
+  function loadCfg(d, label) { cfg = PC.norm(JSON.parse(JSON.stringify(d))); designUI(); renderThemes(); dirty(); $('tMsg').textContent = label ? `Cargado: ${label}. Revísalo en la vista previa y toca «Aplicar a la página».` : ''; }
+  $('sugThemes').addEventListener('click', e => { const b = e.target.closest('[data-tid]'); if (!b) return; const t = SUG.find(x => 's:' + x.name === b.dataset.tid); if (t) { loadCfg(t.data, t.name); $('tName').value = ''; } });
+  $('myThemes').addEventListener('click', async e => {
+    const del = e.target.closest('[data-del]');
+    if (del) { e.stopPropagation();
+      if (!del.classList.contains('sure')) { del.classList.add('sure'); del.textContent = '¿Seguro?'; setTimeout(() => { if (del.isConnected) { del.classList.remove('sure'); del.textContent = 'Eliminar'; } }, 3000); return; }
+      const id = del.dataset.del;
+      if (sb && !demo) { const { error } = await sb.from('design_presets').delete().eq('id', id); if (error) { $('tMsg').textContent = 'No se pudo eliminar: ' + error.message; return; } }
+      myThemes = myThemes.filter(t => String(t.id) !== id); if (!sb || demo) try { localStorage.setItem('pm_presets', JSON.stringify(myThemes)); } catch (x) {}
+      renderThemes(); $('tMsg').textContent = 'Tema eliminado.'; return; }
+    const b = e.target.closest('[data-tid]'); if (!b) return; const t = myThemes.find(x => 'm:' + x.id === b.dataset.tid); if (t) { loadCfg(t.data, t.name); $('tName').value = t.name; }
+  });
+  $('rnd').addEventListener('click', () => {
+    const style = Math.random() < .5 ? 'glass' : 'ink', [accent, cname] = ACCENTS[Math.floor(Math.random() * ACCENTS.length)];
+    const pool = PC.REGISTRY.filter(r => !KEEP.includes(r.key) && (!r.styles || r.styles.includes(style))).map(r => r.key);
+    const calm = Math.random() < .35, off = pool.filter(() => Math.random() < (calm ? .55 : .18));
+    loadCfg({ style, accent, off });
+    const nm = `${style === 'ink' ? 'Tinta' : 'Vidrio'} ${cname}${calm ? ' en calma' : ''}`;
+    $('tName').value = nm; $('tMsg').textContent = `🎲 ${nm}: ${PC.STYLES[style]}, acento ${cname}, ${off.length ? off.length + ' animaciones apagadas' : 'todas las animaciones encendidas'}. Si te gusta, guárdalo o aplícalo.`;
+  });
+  $('tSave').addEventListener('click', async () => {
+    const name = $('tName').value.trim(); if (!name) { $('tMsg').textContent = 'Escribe un nombre para el tema.'; $('tName').focus(); return; }
+    const data = PC.norm(cfg);
+    if (sb && !demo) { const { data: row, error } = await sb.from('design_presets').insert({ name, data }).select('id,name,data,created_at').single(); if (error) { $('tMsg').textContent = 'No se pudo guardar: ' + error.message; return; } myThemes.push(row); }
+    else { myThemes.push({ id: 'l' + Date.now(), name, data }); try { localStorage.setItem('pm_presets', JSON.stringify(myThemes)); } catch (e) {} }
+    renderThemes(); $('tMsg').textContent = `Guardado «${name}» en Mis temas.`;
+  });
   async function loadDesign() {
     if (sb && !demo) { const { data } = await sb.from('site_config').select('data,updated_at').eq('id', 1).single(); if (data) { cfg = PC.norm(data.data); $('cfgWhen').textContent = 'Última aplicación: ' + new Date(data.updated_at).toLocaleString('es-CO'); } }
-    savedCfg = JSON.parse(JSON.stringify(cfg)); designUI(); dirty();
+    savedCfg = JSON.parse(JSON.stringify(cfg)); designUI(); dirty(); loadThemes();
   }
   $('views').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (!b) return; $('views').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
     const d = b.dataset.v === 'design'; $('vStats').hidden = d; $('vDesign').hidden = !d; $('range').hidden = d; $('refresh').hidden = d; if (d) loadDesign(); });
