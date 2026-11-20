@@ -7,7 +7,8 @@ Un solo sistema de **movimiento, proporciones y botones** con dos **materias** i
 | Estilo | Atributo | Materia | Fondo |
 | --- | --- | --- | --- |
 | **Liquid Glass** (principal) | `data-style="glass"` | Vidrio translúcido, borde de luz, color azul/rojo | Constelación de partículas + orbes |
-| **Tinta china** | `data-style="ink"` | Papel (washi), bordes a pincel (`#ink-rough`), tinta negra + **un color de contraste** | Nubes de tinta en WebGL |
+| **Tinta china** | `data-style="ink"` | Papel (washi), bordes de tinta, tinta negra + **un color de contraste** | Nubes de tinta en WebGL (3 octavas, 30 fps) |
+| **Obsidiana** | `data-style="gem"` | Obsidiana #0B0B0F + oro #E8B23A + neón cian #22E0C8 (SOP-001 Sistema de Color Promii); el acento es la gema | Geometría sagrada estática + destello cónico lento + orbes oro/cian |
 
 Ambos funcionan en claro y oscuro (`data-theme`). En tinta oscura el papel es carbón y la tinta es hueso.
 
@@ -60,3 +61,25 @@ En el panel → Diseño y movimiento → **Temas**:
 - **🎲 Aleatorio:** estilo al azar, acento de una paleta curada de 12 colores y algunas animaciones decorativas apagadas (nunca apaga revelado, dibujo de proyectos, contacto, esquinas ni transición a detalle).
 - **Mis temas:** se guardan en Supabase (tabla `design_presets`, solo admin).
 - Cargar un tema no cambia la página: hay que tocar **Aplicar a la página**, que guarda y verifica.
+
+## Física y forma (panel → Diseño y movimiento → Física y forma)
+
+| Parámetro | Rango | Por defecto | Qué controla |
+| --- | --- | --- | --- |
+| Radio de esquinas | 8–40 px | 20 | `--card-r` en tarjetas y paneles |
+| Suavizado continuo | 1–2.6 | 1.7 | `corner-shape: superellipse(--sq)` |
+| Desenfoque del vidrio | 0–40 px | 24 | `--glass-blur` (máx. 12 px en celular) |
+| Brillo especular | 0–1 | .5 | `--spec`: borde de luz y reflejo |
+| Refracción | 0–120 | 46 | Lente SVG de la barra (Chrome/Edge) |
+| Bisel | 4–40 px | 16 | Ancho del borde que refracta |
+| Rigidez / Amortiguación | 80–900 / .3–1.2 | 300 / .72 | Genera `--m-spring` (linear()) y alimenta los muelles en JS |
+| Gelatina | 0–1 | .5 | Aplastado al presionar y rebote al soltar (propiedad `scale`) |
+
+## Rendimiento (noviembre 2026)
+
+- Sin filtros SVG en vivo en Tinta china (eran la causa principal de lentitud); la gota de tinta es un degradado.
+- WebGL de tinta: 3 octavas, 28–36 % de resolución, máximo 30 fps, se detiene fuera del estilo.
+- Partículas del hero: color en caché, pausa fuera de pantalla y cuando están ocultas, menos puntos en celular.
+- Animaciones de interacción (estela, inclinación 3D, barra de pestañas) se detienen en reposo.
+- Vidrio a máx. 12 px de desenfoque en celular. (Se descartó `content-visibility` porque desajusta los saltos a cada sección.)
+- Formulario Tally se carga solo al acercarse a esa sección.
