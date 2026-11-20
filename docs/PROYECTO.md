@@ -56,6 +56,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 14. **Bitácora (blog):** `promii.co/bitacora` con lista de entradas y lector Markdown propio (sin librerías externas). Primera entrada: "Cómo construí un portafolio que se administra solo" (concepto, tres estilos, la gota y su óptica, rendimiento medido, panel, proceso con Claude Code) con 6 capturas reales. Enlaces desde el menú, la sección Casos y el caso "Un portafolio que se administra solo". Suscripción a MailerLite al final de cada entrada. Cómo escribir nuevas entradas: ver README.
 
+15. **Catálogo editorial y 4 entradas nuevas (20-nov-2026, noche):** revisión de fuentes en Notion (Trinity HQ, ArchiKatz Editorial, Promii Academy, Estudio BIM Agéntico) y Drive. Matriz de 33 entradas en 7 pilares (`docs/bitacora-matriz.csv`, `docs/BITACORA-CATALOGO.md`; copia en Drive carpeta **Bitácora** como hoja de cálculo). Publicadas: "Claude trabajando dentro de Revit", "La Trinidad: el sistema operativo con el que trabajo", "De enciclopedia a sello editorial" y "Cómo convierto lo que aprendo en estrategias reutilizables", con portadas propias y en el sitemap.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
@@ -90,6 +92,7 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 - [ ] Comunidad: enlace de invitación a Discord tras la lista de espera.
 - [ ] Tienda ArchiKatz en Shopify: enlazar cuando abra.
 - [x] Número 1 de la Bitácora publicado en la web.
+- [ ] Siguientes entradas de la matriz (prioridad Alta: BT-006, BT-010, BT-013, BT-017, BT-030). BT-006 necesita capturas reales de Revit.
 - [ ] Enviar el número 1 por MailerLite y crear la automatización de bienvenida.
 - [ ] Llevar los créditos de `docs/CREDITOS.md` a la hoja de vida y a LinkedIn.
 

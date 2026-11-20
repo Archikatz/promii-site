@@ -17,7 +17,7 @@ lab/                       Motion Lab: 13 demos reutilizables + inventario de an
 lab/demos/*.html           Cada demo es un archivo independiente
 lab/inventario.html        Inventario de las animaciones y revisión de consistencia
 bitacora/                  Blog (Bitácora): index.html + posts.json + posts/*.md + img/
-docs/                      Documentación: PROYECTO, SISTEMA-DE-DISENO, OPERACION, CREDITOS (respaldo de la conversación)
+docs/                      Documentación: PROYECTO, SISTEMA-DE-DISENO, OPERACION, CREDITOS, BITACORA-CATALOGO + bitacora-matriz.csv
 assets/og.jpg              Imagen para compartir en redes (1200×630)
 robots.txt, sitemap.xml    SEO
 vercel.json                Reglas para Vercel (admin.promii.co)
@@ -56,3 +56,5 @@ Los cambios se trabajan en una rama y se publican al fusionar en `main` (GitHub 
 2. Pon las imágenes en `bitacora/img/` (JPG de ~1200 px de ancho).
 3. Agrega la entrada al inicio de `bitacora/posts.json` con `slug` (igual al nombre del archivo), `title`, `summary`, `date` (AAAA-MM-DD), `tags`, `cover` y `minutes`.
 4. Publica. La entrada queda en `promii.co/bitacora/?p=mi-entrada`. Añádela también a `sitemap.xml`.
+
+El plan editorial (33 ideas con fuente, prioridad, CTA y recursos) está en `docs/BITACORA-CATALOGO.md` y `docs/bitacora-matriz.csv`.

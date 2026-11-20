@@ -4,8 +4,67 @@
     "title": "Cómo construí un portafolio que se administra solo",
     "summary": "El concepto de promii.co: tres estilos con la misma física, una gota de agua que funciona como lupa, rendimiento medido a 60 cuadros por segundo y un panel para cambiar la página sin tocar código.",
     "date": "2026-11-20",
-    "tags": ["Diseño web", "Liquid Glass", "Física", "Claude Code"],
+    "tags": [
+      "Diseño web",
+      "Liquid Glass",
+      "Física",
+      "Claude Code"
+    ],
     "cover": "img/glass.jpg",
     "minutes": 7
+  },
+  {
+    "slug": "claude-dentro-de-revit",
+    "title": "Claude trabajando dentro de Revit",
+    "summary": "Un estudio en progreso: conectar la IA con Revit mediante MCP para revisar modelos, preparar planos, detectar choques y escribir rutinas de Dynamo.",
+    "date": "2026-11-20",
+    "tags": [
+      "BIM",
+      "IA",
+      "Revit",
+      "En progreso"
+    ],
+    "cover": "img/agentic-bim.jpg",
+    "minutes": 3
+  },
+  {
+    "slug": "la-trinidad-sistema-operativo",
+    "title": "La Trinidad: el sistema operativo con el que trabajo",
+    "summary": "Notion como memoria, n8n como sistema nervioso y Claude como criterio. El patrón de bandeja de entrada, salida y registro que uso en todas mis automatizaciones.",
+    "date": "2026-11-20",
+    "tags": [
+      "Sistemas",
+      "Automatización",
+      "Notion",
+      "n8n"
+    ],
+    "cover": "img/trinidad.jpg",
+    "minutes": 3
+  },
+  {
+    "slug": "archikatz-editorial",
+    "title": "De enciclopedia a sello editorial",
+    "summary": "Cómo estoy convirtiendo el universo ArchiKatz en un sello con cinco colecciones y un plan en tres fases: decidir, publicar un libro y después crecer.",
+    "date": "2026-11-20",
+    "tags": [
+      "ArchiKatz",
+      "Editorial",
+      "Proceso creativo"
+    ],
+    "cover": "img/editorial.jpg",
+    "minutes": 3
+  },
+  {
+    "slug": "academy-estrategias-reutilizables",
+    "title": "Cómo convierto lo que aprendo en estrategias reutilizables",
+    "summary": "Promii Academy: playbooks de marketing y ventas B2B con código, pasos y forma de medirlos, organizados en cinco capas.",
+    "date": "2026-11-20",
+    "tags": [
+      "Academy",
+      "Ventas B2B",
+      "Marketing"
+    ],
+    "cover": "img/academy.jpg",
+    "minutes": 2
   }
 ]
