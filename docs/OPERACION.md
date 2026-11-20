@@ -26,6 +26,8 @@ No hay contraseñas ni claves secretas en este repositorio. La clave de Supabase
 - `promii.co/admin/` (funciona en GitHub Pages) y `admin.promii.co` (cuando esté en Vercel).
 - Pestañas: **Analítica** y **Diseño y movimiento**.
 - `#demo` al final de la URL abre el modo de ejemplo sin login.
+- **Diseño y movimiento:** cambia estilo, color y animaciones → revisa la vista previa (Computador / Celular) → **Aplicar a la página**. El panel guarda, vuelve a leer la base de datos y abre la página real para verificar estilo, color, animaciones apagadas y cuatro comprobaciones en pantalla. "Aplicado y verificado" significa que los visitantes lo ven desde su próxima carga.
+- Las vistas previas dentro del panel no cuentan como visitas en la analítica.
 
 ## admin.promii.co (Vercel)
 

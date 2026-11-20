@@ -138,8 +138,16 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
 .swi[aria-checked="true"]{background:#30d158}
 .swi[aria-checked="true"] i{left:21px}
 .swi:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.save{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;position:sticky;bottom:12px}
-.pv{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;max-width:100%;background:#08080c}
+.save{display:flex;gap:8px;justify-content:flex-end;margin:18px 0 0 auto;position:sticky;bottom:12px;width:max-content;max-width:100%;padding:6px;border-radius:999px;background:var(--solid);box-shadow:var(--shadow);z-index:2}
+.pv{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;max-width:100%;background:#08080c;margin-inline:auto;transition:max-width .5s var(--m-ease)}
+.pv.mob{aspect-ratio:390/780;max-width:330px;border-radius:34px;border-width:6px;border-color:#1a1a22}
+.pvh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.verify{margin-top:14px;padding:14px 16px;border-radius:16px;background:var(--surface2)}
+.verify h3{margin:0 0 8px;font:600 13px var(--display)}
+.verify ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px}
+.verify li{display:flex;gap:8px;align-items:flex-start}
+.verify li i{font-style:normal;width:18px;flex:none;text-align:center}
+.verify li.ok i{color:var(--ok)}.verify li.bad i{color:var(--red)}.verify li.wait i{color:var(--dim)}
 .pv iframe{position:absolute;left:0;top:0;width:1280px;height:800px;border:0;transform-origin:0 0}
 .dprev{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -210,11 +218,14 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
           <div class="acc"><input type="color" id="accent" aria-label="Color de contraste"><code id="accHex"></code><div class="sw" id="accSw"></div></div>
           <h2 style="margin-top:20px">Animaciones</h2><p class="sub">Apaga o enciende cada una. Las marcadas con un estilo solo existen en ese estilo.</p>
           <div class="tg" id="toggles"></div>
-          <div class="save"><button class="btn" type="button" id="cfgReset">Restablecer</button><button class="btn pri" type="button" id="cfgSave">Guardar y publicar</button></div>
+          <div class="save"><button class="btn" type="button" id="cfgReset">Deshacer cambios</button><button class="btn pri" type="button" id="cfgSave">Aplicar a la página</button></div>
           <p class="sub" id="cfgMsg" role="status" style="margin:10px 0 0"></p>
+          <div class="verify" id="verify" hidden><h3>Verificación en la página real</h3><ul id="vList"></ul></div>
+          <p class="sub" id="cfgWhen" style="margin:8px 0 0"></p>
         </section>
-        <section class="glass card dprev"><h2>Vista previa</h2><p class="sub">La página real con estos ajustes, antes de guardar.</p>
-          <div class="pv" id="pv"><iframe id="pvFrame" title="Vista previa de promii.co" data-src="../index.html"></iframe></div></section>
+        <section class="glass card dprev"><div class="pvh"><div><h2>Vista previa</h2><p class="sub">La página real con estos ajustes, antes de aplicar.</p></div>
+          <div class="seg" role="group" aria-label="Dispositivo" id="dev"><button type="button" data-w="1280" aria-pressed="true">Computador</button><button type="button" data-w="390" aria-pressed="false">Celular</button></div></div>
+          <div class="pv" id="pv"><iframe id="pvFrame" title="Vista previa de promii.co" data-src="../index.html"></iframe></div><iframe id="vfFrame" title="Verificación" tabindex="-1" aria-hidden="true" style="position:absolute;width:1280px;height:800px;left:-99999px;top:0;border:0"></iframe></section>
       </div>
     </div>
     <footer>Sin cookies ni datos personales: cada visitante es un identificador aleatorio. Respeta “No rastrear”.</footer>
@@ -375,31 +386,81 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
     pvT = setTimeout(() => {
       const f = $('pvFrame'), base = f.dataset.src, q = `?style=${cfg.style}&accent=${encodeURIComponent(cfg.accent)}&off=${cfg.off.join(',')}`;
       f.src = base + q;
-      const s = $('pv').clientWidth / 1280; f.style.transform = `scale(${s})`;
+      fitPreview();
     }, 250);
   }
-  function dirty() { $('cfgMsg').textContent = savedCfg && JSON.stringify(savedCfg) === JSON.stringify(cfg) ? '' : 'Cambios sin guardar.'; }
+  let pvW = 1280;
+  function fitPreview() { const f = $('pvFrame'), h = pvW === 1280 ? 800 : 780; f.style.width = pvW + 'px'; f.style.height = h + 'px'; f.style.transform = `scale(${$('pv').clientWidth / pvW})`; }
+  $('dev').addEventListener('click', e => { const b = e.target.closest('[data-w]'); if (!b) return; pvW = +b.dataset.w; $('dev').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); $('pv').classList.toggle('mob', pvW < 1000); setTimeout(fitPreview, 520); fitPreview(); });
+  function dirty() { $('cfgMsg').textContent = savedCfg && sameCfg(PC.norm(savedCfg), PC.norm(cfg)) ? 'La página muestra estos ajustes.' : 'Tienes cambios sin aplicar. Revísalos en la vista previa y toca «Aplicar a la página».'; }
   $('styleSel').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (!b) return; cfg.style = b.dataset.s; designUI(); dirty(); });
   $('accent').addEventListener('input', e => { cfg.accent = e.target.value; $('accHex').textContent = cfg.accent.toUpperCase(); document.querySelectorAll('.sw2').forEach(x => x.style.setProperty('--acc', cfg.accent)); preview(); dirty(); });
   $('accSw').addEventListener('click', e => { const b = e.target.closest('[data-h]'); if (!b) return; cfg.accent = b.dataset.h; designUI(); dirty(); });
   $('toggles').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (!b) return; const k = b.dataset.k, on = b.getAttribute('aria-checked') === 'true';
     b.setAttribute('aria-checked', !on); cfg.off = on ? [...cfg.off, k] : cfg.off.filter(x => x !== k); preview(); dirty(); });
   $('cfgReset').addEventListener('click', () => { cfg = PC.norm(savedCfg || PC.DEFAULT); designUI(); dirty(); });
+  const sameCfg = (a, b) => a.style === b.style && a.accent.toLowerCase() === b.accent.toLowerCase() && [...a.off].sort().join() === [...b.off].sort().join();
+  function vItem(state, text) { return `<li class="${state}"><i>${state === 'ok' ? '✓' : state === 'bad' ? '✕' : '…'}</i><span>${text}</span></li>`; }
+  // Abre la página real sin ajustes de prueba y comprueba que muestra exactamente lo guardado.
+  function verifyLive(want) {
+    return new Promise(resolve => {
+      try { localStorage.removeItem('pm_cfg'); } catch (e) {}
+      const f = $('vfFrame'); let done = false, tries = 0;
+      const check = () => {
+        if (done) return; tries++;
+        let w, d; try { w = f.contentWindow; d = f.contentDocument; } catch (e) { return finish(null, 'No se pudo leer la página.'); }
+        const got = w && w.PROMII_CFG, h = d && d.documentElement;
+        if (got && h && sameCfg(PC.norm(got), want) && h.getAttribute('data-style') === want.style) {
+          const offAttr = (h.getAttribute('data-off') || '').split(' ').filter(Boolean);
+          const accent = getComputedStyle(h).getPropertyValue('--accent').trim().toLowerCase();
+          const probes = [];
+          const fab = d.getElementById('fab'); if (fab) probes.push(['Contacto flotante', want.off.includes('fab') === (w.getComputedStyle(fab).display === 'none')]);
+          const fx = d.getElementById('fx'); if (fx) probes.push([want.style === 'ink' ? 'Partículas ocultas en Tinta china' : 'Constelación de partículas', (w.getComputedStyle(fx).display === 'none') === (want.style === 'ink' || want.off.includes('fx'))]);
+          const ib = d.getElementById('ink-bg'); if (ib) probes.push(['Nubes de tinta', (w.getComputedStyle(ib).display !== 'none') === (want.style === 'ink' && !want.off.includes('inkbg'))]);
+          const prog = d.getElementById('prog'); if (prog) probes.push(['Barra de progreso', (w.getComputedStyle(prog).display === 'none') === want.off.includes('prog')]);
+          return finish({ offAttr, accent, probes });
+        }
+        if (tries > 40) return finish(null, 'La página no cargó la configuración nueva a tiempo. Revisa tu conexión y vuelve a aplicar.');
+        setTimeout(check, 250);
+      };
+      const finish = (r, err) => { if (done) return; done = true; resolve(r ? r : { error: err }); };
+      f.onload = () => setTimeout(check, 400);
+      f.src = '../index.html?verify=' + Date.now();
+    });
+  }
   $('cfgSave').addEventListener('click', async () => {
-    if (demo || !sb) { $('cfgMsg').textContent = 'Modo de ejemplo: los cambios no se guardan. Entra con tu usuario para publicarlos.'; return; }
-    $('cfgSave').disabled = true; $('cfgMsg').textContent = 'Guardando…';
-    const { error } = await sb.from('site_config').update({ data: cfg }).eq('id', 1);
+    if (demo || !sb) { $('cfgMsg').textContent = 'Modo de ejemplo: los cambios no se aplican. Entra con tu usuario para aplicarlos a la página.'; return; }
+    const want = PC.norm(cfg);
+    $('cfgSave').disabled = true; $('cfgMsg').textContent = 'Aplicando…';
+    $('verify').hidden = false; $('vList').innerHTML = vItem('wait', 'Guardando en la base de datos') + vItem('wait', 'Abriendo la página real para comprobar');
+    const { error } = await sb.from('site_config').update({ data: want }).eq('id', 1);
+    if (error) { $('cfgSave').disabled = false; $('cfgMsg').textContent = 'No se pudo aplicar: ' + error.message; $('vList').innerHTML = vItem('bad', 'No se guardó: ' + esc(error.message)); return; }
+    const { data: row } = await sb.from('site_config').select('data,updated_at').eq('id', 1).single();
+    const stored = row && sameCfg(PC.norm(row.data), want);
+    const items = [vItem(stored ? 'ok' : 'bad', stored ? 'Guardado en la base de datos' : 'La base de datos no tiene lo que enviaste')];
+    $('vList').innerHTML = items.join('') + vItem('wait', 'Abriendo la página real para comprobar');
+    const r = await verifyLive(want);
     $('cfgSave').disabled = false;
-    if (error) { $('cfgMsg').textContent = 'No se pudo guardar: ' + error.message; return; }
-    savedCfg = JSON.parse(JSON.stringify(cfg)); $('cfgMsg').textContent = 'Publicado. Los visitantes verán el cambio en su próxima visita.';
+    if (r.error) { items.push(vItem('bad', esc(r.error))); }
+    else {
+      items.push(vItem('ok', 'Estilo en la página: ' + PC.STYLES[want.style]));
+      items.push(vItem(r.accent === want.accent.toLowerCase() ? 'ok' : 'bad', 'Color de contraste: ' + want.accent.toUpperCase()));
+      items.push(vItem([...r.offAttr].sort().join() === [...want.off].sort().join() ? 'ok' : 'bad', want.off.length ? `${want.off.length} animación(es) apagada(s): ` + want.off.map(k => (PC.REGISTRY.find(x => x.key === k) || {}).name || k).join(', ') : 'Todas las animaciones encendidas'));
+      r.probes.forEach(([n, ok]) => items.push(vItem(ok ? 'ok' : 'bad', 'Comprobado en pantalla: ' + n)));
+    }
+    $('vList').innerHTML = items.join('');
+    const allOk = !items.some(x => x.includes('class="bad"'));
+    if (allOk) { savedCfg = JSON.parse(JSON.stringify(want)); try { localStorage.setItem('pm_cfg', JSON.stringify(want)); } catch (e) {} }
+    $('cfgMsg').textContent = allOk ? 'Aplicado y verificado. Los visitantes lo ven desde su próxima carga de la página.' : 'Se aplicó, pero algo no coincide. Revisa la lista.';
+    if (row) $('cfgWhen').textContent = 'Última aplicación: ' + new Date(row.updated_at).toLocaleString('es-CO');
   });
   async function loadDesign() {
-    if (sb && !demo) { const { data } = await sb.from('site_config').select('data').eq('id', 1).single(); if (data) cfg = PC.norm(data.data); }
+    if (sb && !demo) { const { data } = await sb.from('site_config').select('data,updated_at').eq('id', 1).single(); if (data) { cfg = PC.norm(data.data); $('cfgWhen').textContent = 'Última aplicación: ' + new Date(data.updated_at).toLocaleString('es-CO'); } }
     savedCfg = JSON.parse(JSON.stringify(cfg)); designUI(); dirty();
   }
   $('views').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (!b) return; $('views').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
     const d = b.dataset.v === 'design'; $('vStats').hidden = d; $('vDesign').hidden = !d; $('range').hidden = d; $('refresh').hidden = d; if (d) loadDesign(); });
-  addEventListener('resize', () => { if (!$('vDesign').hidden) { const f = $('pvFrame'); f.style.transform = `scale(${$('pv').clientWidth / 1280})`; } });
+  addEventListener('resize', () => { if (!$('vDesign').hidden) fitPreview(); });
   addEventListener('resize', () => { if (!$('app').hidden) { heat.redraw && heat.redraw(); load(); } });
 
   (async () => {
