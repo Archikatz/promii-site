@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brian Zuleta · Arquitecto BIM & Sistemas de IA — Portafolio | Promii</title>
 <meta name="description" content="Portafolio profesional de Brian Zuleta, arquitecto matriculado (CPNAA) y especialista BIM: planos NYC DOB LOD 300–350, Scan-to-BIM, administración de construcción, sistemas de IA y automatización. Servicios de Promii / Studio Brian Zuleta.">
+<script src="assets/promii-config.js"></script>
 <link rel="canonical" href="https://promii.co/">
 <link rel="alternate" hreflang="es" href="https://promii.co/">
 <link rel="alternate" hreflang="en" href="https://promii.co/?lang=en">
@@ -1044,6 +1045,137 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  addEventListener('load',function(){if(!window.promiiVisitCount)return;window.promiiVisitCount().then(function(r){if(!r||!r.visitors)return;var vn=document.getElementById('visitsN');vn.dataset.n=r.visitors;document.getElementById('visits').hidden=false;v4();}).catch(function(){});});
 
  v4();if(typeof setupReveal==='function')setupReveal();if(typeof applyI18n==='function')applyI18n();
+})();
+</script>
+<!-- ===== Sistema de estilos: interruptores de movimiento + estilo Tinta china ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="ink-rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="ink-bleed" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="4" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation=".6"/></filter>
+  <filter id="ink-goo"><feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"/></filter>
+</svg>
+<style id="style-system">
+/* --- interruptores (data-off en <html>) --- */
+html[data-off~="fx"] #fx,html[data-off~="orbs"] .orbs,html[data-off~="inkbg"] #ink-bg,html[data-off~="prog"] #prog,
+html[data-off~="life"] .proj .life,html[data-off~="dims"] .mp-dim,html[data-off~="route"] .mp-route,
+html[data-off~="tl"] .tl .mp-prog,html[data-off~="tl"] .tl .mp-head,html[data-off~="toast"] .toast,html[data-off~="cursor"] #ink-cursor{display:none!important}
+html[data-off~="shine"] .hero h1 .g{animation:none!important}
+html[data-off~="marquee"] .marquee .track{animation:none!important}
+html[data-off~="reveal"] .reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+html[data-off~="bars"] .fl{transition:none!important}
+html[data-off~="projdraw"] .ln *{stroke-dashoffset:0!important;transition:none!important}
+html[data-off~="projzoom"] .proj:hover .vis svg,html[data-off~="projzoom"] .proj:hover .vis img{transform:none!important}
+html[data-off~="tilt"] .svc{transform:none!important}
+html[data-off~="whyicons"] .band .b .ic{stroke-dashoffset:0!important;animation:none!important;transition:none!important}
+#ink-bg,#ink-cursor{display:none}
+
+/* --- Tinta china: tokens (mismo sistema, otra materia) --- */
+html[data-style="ink"]{--paper:#efebe2;--ink:#111110;
+  --bg:#efebe2;--text:#111110;--muted:#4b4840;--dim:#878276;--line:rgba(17,17,16,.13);--line2:rgba(17,17,16,.26);
+  --glass:rgba(255,253,247,.62);--glass2:rgba(255,253,247,.82);--glass-brd:transparent;--hi:transparent;--shadow:0 1px 0 rgba(17,17,16,.06),0 18px 40px -28px rgba(17,17,16,.35);
+  --gold:var(--ink);--neon:#3a3833;--blue:var(--accent);--red:var(--accent);--ctaText:var(--paper);--formCard:#fffdf7;color-scheme:light}
+html[data-style="ink"][data-theme="dark"]{--paper:#100f0e;--ink:#ece7dc;
+  --bg:#100f0e;--text:#ece7dc;--muted:#aaa496;--dim:#77715f;--line:rgba(236,231,220,.12);--line2:rgba(236,231,220,.24);
+  --glass:rgba(24,22,20,.72);--glass2:rgba(34,31,28,.85);--shadow:0 18px 40px -26px rgba(0,0,0,.8);--neon:#c9c3b6;--formCard:#f6f2e9;color-scheme:dark}
+html[data-style="ink"] body{background:var(--bg)}
+html[data-style="ink"] ::selection{background:var(--accent);color:var(--paper)}
+html[data-style="ink"] #fx,html[data-style="ink"] .orbs{display:none!important}
+html[data-style="ink"] #ink-bg{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+/* superficies: papel con borde a pincel en vez de vidrio */
+html[data-style="ink"] .glass{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html[data-style="ink"] .glass:not(.job)::before,html[data-style="ink"] .job>.edge{background:var(--text)!important;padding:1.3px;opacity:.78;filter:url(#ink-rough)}
+html[data-style="ink"] nav{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:color-mix(in srgb,var(--bg) 88%,transparent)!important;border-bottom:1px solid var(--line)}
+/* titular: tinta sólida con trazo de pincel en el color de contraste */
+html[data-style="ink"] .hero h1 .g{background-image:linear-gradient(var(--accent),var(--accent))!important;background-position:0 92%!important;background-repeat:no-repeat!important;background-size:0% .11em;-webkit-background-clip:border-box!important;background-clip:border-box!important;-webkit-text-fill-color:var(--text)!important;color:var(--text);animation:inkStroke 1.6s var(--m-draw) .7s forwards!important}
+html[data-off~="shine"][data-style="ink"] .hero h1 .g{animation:none!important;background-size:100% .11em!important}
+@keyframes inkStroke{to{background-size:100% .11em}}
+html[data-style="ink"] .brand .dot,html[data-style="ink"] .job.cur::before{background:var(--accent)!important;box-shadow:none!important;filter:url(#ink-rough)}
+html[data-style="ink"] .kicker,html[data-style="ink"] .pill,html[data-style="ink"] .chip{background:transparent!important;backdrop-filter:none!important;border-color:var(--line2)!important}
+/* botones: misma forma y muelle, materia de tinta */
+html[data-style="ink"] .btn-primary{background:var(--text)!important;color:var(--paper)!important;box-shadow:none!important;position:relative}
+html[data-style="ink"] .btn-primary:hover{background:var(--accent)!important}
+html[data-style="ink"] .btn-ghost{background:transparent!important;backdrop-filter:none!important;border-color:var(--text)!important;color:var(--text)!important}
+/* dibujos y líneas: trazo de tinta, sin resplandor */
+html[data-style="ink"] .ln,html[data-style="ink"] .mp-route .d,html[data-style="ink"] .mp-dim{filter:url(#ink-rough)!important}
+html[data-style="ink"] .proj .life *{filter:none!important}
+html[data-style="ink"] .ic{filter:url(#ink-rough)!important}
+html[data-style="ink"] .tl::before{background:var(--line2)!important}
+html[data-style="ink"] .tl .mp-prog{background:var(--text)!important;box-shadow:none!important;filter:url(#ink-rough)}
+html[data-style="ink"] .tl .mp-head{background:var(--accent)!important;box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)!important}
+html[data-style="ink"] #prog{background:var(--text)!important}
+html[data-style="ink"] .fl{background:var(--text)!important}
+html[data-style="ink"] .stat .n{background:none!important;-webkit-text-fill-color:var(--text)!important}
+/* revelado: la tinta se esparce desde el desenfoque (mismo tiempo y curva) */
+html[data-style="ink"] .reveal:not(.in){filter:blur(10px) contrast(1.4)}
+/* cursor y gota */
+html[data-style="ink"] #ink-cursor{display:block;position:fixed;inset:0;pointer-events:none;z-index:80;filter:url(#ink-goo)}
+#ink-cursor i{position:absolute;left:0;top:0;border-radius:50%;background:var(--text);will-change:transform}
+.ink-drop{position:fixed;z-index:81;pointer-events:none;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;background:var(--accent);filter:url(#ink-bleed);transform:scale(.1);opacity:.9;animation:inkDrop .9s var(--m-ease) forwards}
+@keyframes inkDrop{60%{opacity:.55}to{transform:scale(1.2);opacity:0}}
+@media (hover:none){#ink-cursor{display:none!important}}
+@media (prefers-reduced-motion:reduce){#ink-cursor,.ink-drop{display:none!important}html[data-style="ink"] .hero h1 .g{animation:none!important;background-size:100% .11em!important}}
+</style>
+<canvas id="ink-bg" aria-hidden="true"></canvas>
+<div id="ink-cursor" aria-hidden="true"></div>
+<script id="ink-js">
+(function(){
+ var RMi=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ function cfg(){return window.PROMII_CFG||{style:'glass',off:[]};}
+ function on(k){return (cfg().off||[]).indexOf(k)<0;}
+ function isInk(){return cfg().style==='ink';}
+ function hex(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16)/255,parseInt(h.slice(2,4),16)/255,parseInt(h.slice(4,6),16)/255];}
+
+ /* --- fondo: nubes de tinta en WebGL (se pausa fuera de vista y en otros estilos) --- */
+ var cv=document.getElementById('ink-bg'),gl=cv&&cv.getContext('webgl',{premultipliedAlpha:false,antialias:false}),U={},t0=performance.now(),mx=.7,my=.3;
+ if(gl){
+  var vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  var fs='precision mediump float;uniform vec2 r;uniform float t;uniform vec2 m;uniform vec3 paper;uniform vec3 ink;uniform vec3 acc;uniform float dark;'+
+   'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}'+
+   'float n(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),u.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);}'+
+   'float fbm(vec2 p){float v=0.,a=.5;mat2 R=mat2(.8,.6,-.6,.8);for(int i=0;i<5;i++){v+=a*n(p);p=R*p*2.03;a*=.5;}return v;}'+
+   'void main(){vec2 uv=gl_FragCoord.xy/r;vec2 p=(gl_FragCoord.xy-.5*r)/r.y;float T=t*.025;'+
+   'vec2 q=vec2(fbm(p*1.3+T),fbm(p*1.3+vec2(4.1,2.7)-T));p+=(m-.5)*.12;'+
+   'vec2 w=vec2(fbm(p*1.7+2.2*q+vec2(1.7,9.2)+T),fbm(p*1.7+2.2*q+vec2(8.3,2.8)-T*.7));float f=fbm(p*1.1+2.6*w);'+
+   'float edge=smoothstep(.15,.95,abs(uv.x-.5)*2.)*.8+smoothstep(.55,1.,uv.y)*.55;'+
+   'float cloud=smoothstep(.5,.82,f)*(.22+.78*edge);float fil=smoothstep(.62,.66,f+w.x*.12)*(1.-smoothstep(.66,.75,f+w.x*.12))*.5*edge;'+
+   'float a=clamp(cloud*.78+fil,0.,.9);vec3 col=mix(paper,ink,a);'+
+   'float wisp=smoothstep(.70,.86,w.y*f*1.9)*edge;col=mix(col,acc,wisp*.55);'+
+   'float grain=(h(gl_FragCoord.xy*.7)-.5)*mix(.045,.03,dark);gl_FragColor=vec4(col+grain,1.);}';
+  function sh(ty,s){var o=gl.createShader(ty);gl.shaderSource(o,s);gl.compileShader(o);return o;}
+  var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+  var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  var lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+  ['r','t','m','paper','ink','acc','dark'].forEach(function(k){U[k]=gl.getUniformLocation(pr,k);});
+  function size(){var s=.5;cv.width=Math.round(innerWidth*s);cv.height=Math.round(innerHeight*s);gl.viewport(0,0,cv.width,cv.height);}
+  size();addEventListener('resize',size);
+  addEventListener('pointermove',function(e){mx=e.clientX/innerWidth;my=1-e.clientY/innerHeight;},{passive:true});
+  var smx=mx,smy=my;
+  (function loop(now){
+   if(isInk()&&on('inkbg')&&!document.hidden){
+    var cs=getComputedStyle(document.documentElement),dark=document.documentElement.getAttribute('data-theme')==='dark';
+    smx+=(mx-smx)*.03;smy+=(my-smy)*.03;
+    gl.uniform2f(U.r,cv.width,cv.height);gl.uniform1f(U.t,RMi?40:(now-t0)/1000+40);gl.uniform2f(U.m,smx,smy);
+    gl.uniform3fv(U.paper,hex(cs.getPropertyValue('--paper').trim()||'#efebe2'));gl.uniform3fv(U.ink,hex(cs.getPropertyValue('--ink').trim()||'#111110'));
+    gl.uniform3fv(U.acc,hex((cfg().accent)||'#e0261b'));gl.uniform1f(U.dark,dark?1:0);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+   }
+   requestAnimationFrame(loop);
+  })(t0);
+ }
+
+ /* --- estela de tinta del cursor --- */
+ var cur=document.getElementById('ink-cursor'),dots=[],N=7,px=-100,py=-100;
+ for(var i=0;i<N;i++){var d=document.createElement('i'),s=Math.max(4,16-i*2);d.style.width=d.style.height=s+'px';d.style.marginLeft=d.style.marginTop=(-s/2)+'px';cur.appendChild(d);dots.push({el:d,x:-100,y:-100,vx:0,vy:0});}
+ addEventListener('pointermove',function(e){px=e.clientX;py=e.clientY;},{passive:true});
+ var lt=performance.now();
+ (function loop(now){var dt=Math.min((now-lt)/1000,1/30);lt=now;
+  if(isInk()&&on('cursor')&&!RMi){dots.forEach(function(o,k){var tx=k?dots[k-1].x:px,ty=k?dots[k-1].y:py,K=k?520:900,Cc=k?30:46;o.vx+=(K*(tx-o.x)-Cc*o.vx)*dt;o.vy+=(K*(ty-o.y)-Cc*o.vy)*dt;o.x+=o.vx*dt;o.y+=o.vy*dt;o.el.style.transform='translate('+o.x+'px,'+o.y+'px)';});}
+  requestAnimationFrame(loop);})(lt);
+
+ /* --- gota de tinta al hacer clic --- */
+ addEventListener('pointerdown',function(e){if(!isInk()||!on('splash')||RMi||e.button>0)return;var d=document.createElement('span');d.className='ink-drop';d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';document.body.appendChild(d);setTimeout(function(){d.remove();},950);},{passive:true});
+
+ /* --- inclinación 3D apagable: si está apagada, no reaccionar --- */
+ addEventListener('promii:config',function(){if(typeof render==='function'&&window._pmStyle!==cfg().style){window._pmStyle=cfg().style;}});
 })();
 </script>
 <script>try{var _l=new URLSearchParams(location.search).get("lang");if((_l==="en"||_l==="es")&&typeof setLang==="function")setLang(_l);}catch(e){}</script>
