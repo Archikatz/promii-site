@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Torre de niveles · Promii Games</title>
+<meta name="description" content="Apila losas en el momento justo. Lo que sobresale se cae. Un juego web de arquitectura de Promii.">
+<link rel="canonical" href="https://promii.co/games/torre.html">
+<meta property="og:title" content="Torre de niveles · Promii Games"><meta property="og:image" content="https://promii.co/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="games.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="stage glass" id="stage">
+    <canvas id="cv"></canvas>
+    <div class="hud"><span>Nivel <b id="lv">0</b></span><span>Récord <b id="best">0</b></span></div>
+    <div class="over" id="over"><div><h2 id="ot">Torre de niveles</h2><p id="op">Toca la pantalla (o la barra espaciadora) para soltar cada losa. Lo que sobresale se cae. Un encaje perfecto mantiene el ancho.</p><button class="btn" id="go">Empezar</button></div></div>
+  </div>
+  <p class="help">Toca en cualquier parte del tablero · Barra espaciadora en el computador</p>
+</main>
+<script>
+(function(){
+ var cv=document.getElementById('cv'),x=cv.getContext('2d'),st=document.getElementById('stage'),over=document.getElementById('over'),lv=document.getElementById('lv'),bestEl=document.getElementById('best');
+ var W,H,D=Math.min(devicePixelRatio||1,2),SH=26,base,stack,mov,fall,cam,camT,state='menu',score=0,best=0,flash=0,t0=0;
+ try{best=+localStorage.getItem('pg-best-torre')||0;}catch(e){}bestEl.textContent=best;
+ function size(){var r=st.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*D;cv.height=H*D;x.setTransform(D,0,0,D,0,0);}
+ addEventListener('resize',function(){size();draw();});size();
+ function reset(){var w=W*.56;base={x:(W-w)/2,w:w};stack=[{x:base.x,w:w,c:0}];fall=[];cam=0;camT=0;score=0;lv.textContent=0;spawn();}
+ function spawn(){var top=stack[stack.length-1],sp=110+Math.min(score,40)*7;var L=Math.random()<.5;mov={x:L?0:W-top.w,w:top.w,dir:L?1:-1,sp:sp};}
+ function drop(){if(state!=='play')return;var top=stack[stack.length-1],l=Math.max(mov.x,top.x),r=Math.min(mov.x+mov.w,top.x+top.w),ov=r-l;
+  if(ov<=0){fall.push({x:mov.x,y:yOf(stack.length),w:mov.w,vy:0,vx:mov.dir*40,a:0,va:mov.dir*1.5});mov=null;end();return;}
+  if(Math.abs(mov.x-top.x)<4){l=top.x;ov=top.w;flash=1;if(navigator.vibrate)navigator.vibrate(12);}
+  else{var cx=mov.x<top.x?mov.x:r,cw=mov.w-ov;fall.push({x:cx,y:yOf(stack.length),w:cw,vy:0,vx:(mov.x<top.x?-1:1)*60,a:0,va:(mov.x<top.x?-1:1)*2});}
+  stack.push({x:l,w:ov,c:stack.length});score++;lv.textContent=score;camT=Math.max(0,(stack.length-6)*SH);spawn();}
+ function yOf(i){return H-60-i*SH;}
+ function end(){state='over';if(score>best){best=score;try{localStorage.setItem('pg-best-torre',best);}catch(e){}bestEl.textContent=best;}
+  try{window.promiiEvent&&promiiEvent('game',{label:'torre',value:score});}catch(e){}
+  setTimeout(function(){document.getElementById('ot').textContent=score+(score===1?' nivel':' niveles');document.getElementById('op').textContent=score>=best&&score>0?'¡Nuevo récord! La torre aguantó '+score+' losas.':'Récord: '+best+'. Cada encaje perfecto mantiene el ancho de la losa.';document.getElementById('go').textContent='Otra vez';over.classList.remove('hide');},700);}
+ function start(){reset();state='play';over.classList.add('hide');}
+ document.getElementById('go').addEventListener('click',function(e){e.stopPropagation();start();});
+ st.addEventListener('pointerdown',function(e){if(e.target.closest('.over'))return;drop();});
+ addEventListener('keydown',function(e){if(e.code==='Space'){e.preventDefault();if(state==='play')drop();else start();}});
+ function grid(){x.strokeStyle='rgba(255,255,255,.05)';x.lineWidth=1;x.beginPath();for(var i=0;i<W;i+=28){x.moveTo(i+.5,0);x.lineTo(i+.5,H);}for(var j=(H+cam)%28;j<H;j+=28){x.moveTo(0,j+.5);x.lineTo(W,j+.5);}x.stroke();}
+ function slab(s,y,col,dash){x.save();x.setLineDash(dash||[]);x.strokeStyle=col;x.lineWidth=1.6;x.fillStyle='rgba(255,255,255,.035)';x.fillRect(s.x,y,s.w,SH-4);x.strokeRect(s.x+.5,y+.5,s.w-1,SH-5);x.restore();}
+ function draw(){x.clearRect(0,0,W,H);grid();if(!stack){return;}
+  x.save();x.translate(0,cam);
+  x.strokeStyle='#f4f4f8';x.lineWidth=2.4;x.beginPath();x.moveTo(base.x-60,yOf(0)+SH-3);x.lineTo(base.x+base.w+60,yOf(0)+SH-3);x.stroke();
+  stack.forEach(function(s,i){slab(s,yOf(i),i===stack.length-1&&flash>0?'rgba(34,224,200,'+(.5+flash*.5)+')':'rgba(244,244,248,.85)');
+   if(i%5===0){x.fillStyle='rgba(166,166,188,.7)';x.font='600 10px Inter,sans-serif';x.fillText('N+'+i,8,yOf(i)+SH/2+1);}});
+  if(mov)slab(mov,yOf(stack.length),'#22e0c8');
+  fall.forEach(function(f){x.save();x.translate(f.x+f.w/2,f.y+SH/2);x.rotate(f.a);x.strokeStyle='rgba(255,59,48,.85)';x.setLineDash([4,4]);x.lineWidth=1.6;x.strokeRect(-f.w/2,-SH/2+2,f.w,SH-4);x.restore();});
+  x.restore();}
+ function loop(t){var dt=Math.min((t-(t0||t))/1000,1/30);t0=t;
+  if(state==='play'&&mov){mov.x+=mov.dir*mov.sp*dt;var lim=W*.12;if(mov.x>W-mov.w+lim&&mov.dir>0||mov.x<-lim&&mov.dir<0)mov.dir*=-1;}
+  fall.forEach(function(f){f.vy+=1400*dt;f.y+=f.vy*dt;f.x+=f.vx*dt;f.a+=f.va*dt;});fall=fall.filter(function(f){return f.y-cam<H+80;});
+  cam+=(camT-cam)*Math.min(1,dt*6);flash=Math.max(0,flash-dt*2.5);draw();requestAnimationFrame(loop);}
+ reset();state='menu';requestAnimationFrame(loop);
+})();
+</script>
+<script src="/assets/site-shell.js" data-mode="full"></script>
+<script src="/analytics/config.js"></script>
+<script src="/analytics/track.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Detección de choques · Promii Games</title>
+<meta name="description" content="Encuentra los puntos donde la tubería atraviesa una viga antes de que se acabe el tiempo. Un juego web de coordinación BIM de Promii.">
+<link rel="canonical" href="https://promii.co/games/choques.html">
+<meta property="og:title" content="Detección de choques · Promii Games"><meta property="og:image" content="https://promii.co/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="games.css">
+<style>.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--muted)}.legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:6px;vertical-align:3px}</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="stage glass" id="stage">
+    <canvas id="cv"></canvas>
+    <div class="hud"><span>Choques <b id="sc">0</b></span><span>Nivel <b id="lv">1</b></span><span>Tiempo <b id="tm">30</b></span></div>
+    <div class="over" id="over"><div><h2 id="ot">Detección de choques</h2><p id="op">Toca cada punto donde una tubería <b style="color:#ff5a4f">roja</b> atraviesa una viga <b style="color:#b9bccb">gris</b>. Los ductos azules pasan por debajo: no cuentan. Un toque equivocado resta 3 segundos.</p><button class="btn" id="go">Empezar</button></div></div>
+  </div>
+  <div class="legend"><span><i style="background:#b9bccb"></i>Viga</span><span><i style="background:#ff3b30"></i>Tubería</span><span><i style="background:#2f6bff"></i>Ducto (no cuenta)</span></div>
+</main>
+<script>
+(function(){
+ var cv=document.getElementById('cv'),x=cv.getContext('2d'),st=document.getElementById('stage'),over=document.getElementById('over');
+ var sc=document.getElementById('sc'),lvEl=document.getElementById('lv'),tm=document.getElementById('tm');
+ var W,H,D=Math.min(devicePixelRatio||1,2),beams,pipes,ducts,clash,marks,state='menu',score=0,level=1,time=30,t0=0,best=0;
+ try{best=+localStorage.getItem('pg-best-choques')||0;}catch(e){}
+ function size(){var r=st.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*D;cv.height=H*D;x.setTransform(D,0,0,D,0,0);}
+ addEventListener('resize',function(){size();if(beams)build(level);});size();
+ function R(a,b){return a+Math.random()*(b-a);}
+ function poly(vertical){var pts=[],n=2+Math.floor(Math.random()*2),b0=vertical?R(W*.12,W*.88):R(H*.25,H*.85),amp=vertical?W*.14:H*.06;for(var i=0;i<=n;i++){var t=i/n,o=Math.max(vertical?W*.06:H*.18,Math.min(vertical?W*.94:H*.92,b0+R(-amp,amp)));pts.push(vertical?[o,t*(H-70)+56]:[t*W,o]);}
+  // tramos ortogonales con un quiebre a 45°
+  var out=[pts[0]];for(var j=1;j<pts.length;j++){var p=out[out.length-1],q=pts[j];if(vertical){out.push([p[0],(p[1]+q[1])/2-12]);out.push([q[0],(p[1]+q[1])/2+12]);}else{out.push([(p[0]+q[0])/2-12,p[1]]);out.push([(p[0]+q[0])/2+12,q[1]]);}out.push(q);}return out;}
+ function segs(pl){var s=[];for(var i=1;i<pl.length;i++)s.push([pl[i-1],pl[i]]);return s;}
+ function inter(a,b){var p=a[0],r=[a[1][0]-p[0],a[1][1]-p[1]],q=b[0],s=[b[1][0]-q[0],b[1][1]-q[1]],d=r[0]*s[1]-r[1]*s[0];if(Math.abs(d)<1e-6)return null;
+  var t=((q[0]-p[0])*s[1]-(q[1]-p[1])*s[0])/d,u=((q[0]-p[0])*r[1]-(q[1]-p[1])*r[0])/d;return t>=0&&t<=1&&u>=0&&u<=1?[p[0]+t*r[0],p[1]+t*r[1]]:null;}
+ function build(lv){for(var tries=0;tries<40;tries++){beams=[];var nb=2+Math.min(lv,4);for(var i=0;i<nb;i++){var y=56+(H-90)*(i+.5)/nb+R(-12,12);beams.push([[0,y],[W,y]]);}
+   if(lv>2)beams.push([[R(W*.2,W*.8),56],[R(W*.2,W*.8),H-20]]);
+   pipes=[];for(var k=0;k<1+Math.min(Math.ceil(lv/2),3);k++)pipes.push(poly(true));
+   ducts=[];for(var m=0;m<1+Math.min(lv,3);m++)ducts.push(poly(false));
+   clash=[];pipes.forEach(function(pl){segs(pl).forEach(function(sg){beams.forEach(function(b){var p=inter(sg,b);if(p&&!clash.some(function(c){return Math.hypot(c.x-p[0],c.y-p[1])<26;}))clash.push({x:p[0],y:p[1],f:0});});});});
+   if(clash.length>=3&&clash.length<=4+lv*2)break;}
+  marks=[];}
+ function start(){score=0;level=1;time=30;sc.textContent=0;lvEl.textContent=1;build(1);state='play';over.classList.add('hide');}
+ document.getElementById('go').addEventListener('click',function(e){e.stopPropagation();start();});
+ st.addEventListener('pointerdown',function(e){if(state!=='play'||e.target.closest('.over'))return;var r=st.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top,hit=null,dm=1e9;
+  clash.forEach(function(c){var d=Math.hypot(c.x-px,c.y-py);if(!c.f&&d<dm){dm=d;hit=c;}});
+  if(hit&&dm<26){hit.f=1;score++;sc.textContent=score;if(navigator.vibrate)navigator.vibrate(10);
+   if(clash.every(function(c){return c.f;})){level++;lvEl.textContent=level;time=Math.min(time+12,45);setTimeout(function(){if(state==='play')build(level);},500);}}
+  else{marks.push({x:px,y:py,t:1});time=Math.max(0,time-3);}});
+ function end(){state='over';if(score>best){best=score;try{localStorage.setItem('pg-best-choques',best);}catch(e){}}
+  try{window.promiiEvent&&promiiEvent('game',{label:'choques',value:score});}catch(e){}
+  document.getElementById('ot').textContent=score+(score===1?' choque':' choques');document.getElementById('op').textContent='Llegaste al nivel '+level+'. Récord: '+best+'. En un modelo real, cada choque encontrado a tiempo es un cambio de obra que no se paga.';document.getElementById('go').textContent='Otra vez';over.classList.remove('hide');}
+ function line(pl,col,w,dash){x.save();x.strokeStyle=col;x.lineWidth=w;x.setLineDash(dash||[]);x.lineJoin='round';x.beginPath();pl.forEach(function(p,i){i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]);});x.stroke();x.restore();}
+ function draw(){x.clearRect(0,0,W,H);x.fillStyle='#0b0b12';x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(255,255,255,.045)';x.lineWidth=1;x.beginPath();for(var i=0;i<W;i+=24){x.moveTo(i+.5,0);x.lineTo(i+.5,H);}for(var j=0;j<H;j+=24){x.moveTo(0,j+.5);x.lineTo(W,j+.5);}x.stroke();
+  if(!beams)return;
+  beams.forEach(function(b){line(b,'rgba(185,188,203,.9)',9);line(b,'#0b0b12',5);});
+  ducts.forEach(function(d){line(d,'rgba(47,107,255,.75)',7);});
+  pipes.forEach(function(p){line(p,'#ff3b30',3.2);});
+  clash.forEach(function(c){if(c.f){x.strokeStyle='#22e0c8';x.lineWidth=2.4;x.beginPath();x.arc(c.x,c.y,13,0,7);x.stroke();x.fillStyle='rgba(34,224,200,.18)';x.fill();}});
+  marks.forEach(function(m){x.strokeStyle='rgba(255,90,79,'+m.t+')';x.lineWidth=2;x.beginPath();x.moveTo(m.x-7,m.y-7);x.lineTo(m.x+7,m.y+7);x.moveTo(m.x+7,m.y-7);x.lineTo(m.x-7,m.y+7);x.stroke();});
+  if(state==='over')clash.forEach(function(c){if(!c.f){x.strokeStyle='rgba(255,255,255,.7)';x.setLineDash([3,3]);x.lineWidth=1.6;x.beginPath();x.arc(c.x,c.y,13,0,7);x.stroke();x.setLineDash([]);}});}
+ function loop(t){var dt=Math.min((t-(t0||t))/1000,.1);t0=t;
+  if(state==='play'){time-=dt;if(time<=0){time=0;end();}tm.textContent=Math.ceil(time);}
+  marks.forEach(function(m){m.t-=dt*1.5;});marks=(marks||[]).filter(function(m){return m.t>0;});draw();requestAnimationFrame(loop);}
+ build(1);marks=[];requestAnimationFrame(loop);
+})();
+</script>
+<script src="/assets/site-shell.js" data-mode="full"></script>
+<script src="/analytics/config.js"></script>
+<script src="/analytics/track.js" defer></script>
+</body>
+</html>

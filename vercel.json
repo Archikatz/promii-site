@@ -132,7 +132,7 @@
           "value": "games.promii.co"
         }
       ],
-      "destination": "https://promii.co/#ecosistema",
+      "destination": "https://promii.co/games/",
       "permanent": false
     },
     {
@@ -143,7 +143,29 @@
           "value": "games.promii.co"
         }
       ],
-      "destination": "https://promii.co/#ecosistema",
+      "destination": "https://promii.co/games/:path+",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "home.promii.co"
+        }
+      ],
+      "destination": "https://promii.co/home/",
+      "permanent": false
+    },
+    {
+      "source": "/:path+",
+      "has": [
+        {
+          "type": "host",
+          "value": "home.promii.co"
+        }
+      ],
+      "destination": "https://promii.co/home/",
       "permanent": false
     }
   ]

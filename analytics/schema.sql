@@ -7,7 +7,7 @@ create table if not exists public.events (
   ts        timestamptz not null default now(),
   vid       text not null check (char_length(vid) <= 40),   -- visitante (aleatorio, persistente)
   sid       text not null check (char_length(sid) <= 40),   -- sesión (aleatoria, por pestaña)
-  type      text not null check (type in ('pageview','heartbeat','click','scroll','section','leave','form')),
+  type      text not null check (type in ('pageview','heartbeat','click','scroll','section','leave','form','game')),
   path      text check (char_length(path) <= 200),
   ref       text check (char_length(ref) <= 200),
   lang      text check (char_length(lang) <= 12),

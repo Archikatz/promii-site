@@ -190,7 +190,6 @@ dialog::backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
     </ul>
   </section>
 </main>
-<footer class="wrap">Promii Motion Lab · cada demo está en <code>lab/demos/</code> del repositorio <code>promii-site</code>.</footer>
 
 <div class="bar" id="bar" role="region" aria-label="Tu selección"><span><b id="count">0</b> seleccionadas</span><button class="btn primary" id="copy" type="button">Copiar mi selección</button></div>
 
@@ -237,7 +236,10 @@ dialog::backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
       use: 'Contacto, cotizador, cifras de experiencia', tech: ['CSS', 'Muelles'], kb: '3 KB' },
     { id: '13', f: '13-bim-explode', t: 'Niveles BIM en 3D', cat: 'Profundidad', sup: 'all',
       what: 'Edificio isométrico en CSS 3D. Se gira arrastrando y los niveles se separan para mostrar cada planta con su cota.',
-      use: 'Servicios BIM, explicación de LOD', tech: ['CSS 3D', 'Muelles JS'], kb: '4 KB' }
+      use: 'Servicios BIM, explicación de LOD', tech: ['CSS 3D', 'Muelles JS'], kb: '4 KB' },
+    { id: '14', f: '14-gravedad', t: 'Gravedad entre gotas', cat: 'Física', sup: 'all',
+      what: 'Gotas de vidrio líquido con gravedad central y entre ellas, antigravedad de corto alcance, giro (fuerza centrífuga), choques con rebote e inercia al lanzarlas. Incluye el problema de los tres cuerpos en su órbita en ocho.',
+      use: 'Página de bienvenida (home.promii.co) como menú de caminos', tech: ['Física N cuerpos', 'Muelles', 'Canvas'], kb: '9 KB' }
   ];
   const MORE = [
     ['GSAP 3', 'Secuencias largas y precisas, morph entre formas SVG, texto dividido. Desde 2025 es gratis con todos sus plugins.', '25–70 KB', 'Sí'],
@@ -336,5 +338,6 @@ dialog::backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
   dlg.addEventListener('close', () => { body.innerHTML = ''; });
 })();
 </script>
+<script src="/assets/site-shell.js" data-mode="full"></script>
 </body>
 </html>

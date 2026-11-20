@@ -71,6 +71,9 @@
   addEventListener('visibilitychange', function () { if (document.hidden) { dumpSections(); ev('leave', { value: maxS }); flush(); } });
   addEventListener('pagehide', function () { dumpSections(); flush(); });
 
+  // eventos propios (juegos): promiiEvent('game', {label:'torre', value: 12})
+  window.promiiEvent = function (type, extra) { ev(type, extra || {}); if (type === 'game') flush(); };
+
   // contador público: <span data-visit-count></span>
   window.promiiVisitCount = function () {
     return fetch(C.url + '/rest/v1/rpc/visit_count', { method: 'POST', headers: { apikey: C.key, Authorization: 'Bearer ' + C.key, 'Content-Type': 'application/json' }, body: '{}' }).then(function (r) { return r.json(); });
