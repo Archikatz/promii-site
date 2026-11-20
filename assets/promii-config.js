@@ -46,7 +46,8 @@
     springK:    [80, 900, 10, 300, 'Rigidez de los muelles', '', 'Movimiento'],
     springZ:    [.3, 1.2, .02, .72, 'Amortiguación', '', 'Movimiento'],
     jelly:      [0, 1, .05, .5, 'Gelatina de los botones', '', 'Movimiento'],
-    drop:       [70, 260, 5, 150, 'Tamaño de la gota', 'px', 'Vidrio']
+    drop:       [70, 260, 5, 150, 'Tamaño de la gota', 'px', 'Vidrio'],
+    zoom:       [1, 2.2, .05, 1.45, 'Aumento de la lupa', '×', 'Vidrio']
   };
   var PDEF = {}; Object.keys(PARAMS).forEach(function (k) { PDEF[k] = PARAMS[k][3]; });
   var DEFAULT = { style: 'glass', accent: '#ff3b30', off: [], p: PDEF };

@@ -179,10 +179,10 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
 .bench .bword span{font:600 10px var(--body);letter-spacing:.3em;text-transform:uppercase;color:#a6a6bc;margin-top:10px}
 .bench .bdrop{position:absolute;left:0;top:0;will-change:transform}
 .bench .bdrop i{position:absolute;inset:0;border-radius:50%;animation:dropB 7s ease-in-out infinite;
-  backdrop-filter:blur(var(--lb,1px)) saturate(1.7) brightness(1.08);-webkit-backdrop-filter:blur(var(--lb,1px)) saturate(1.7) brightness(1.08);
+  backdrop-filter:saturate(1.25) brightness(1.06);-webkit-backdrop-filter:saturate(1.25) brightness(1.06);
   background:radial-gradient(60% 50% at 32% 26%,rgba(255,255,255,calc(var(--ls,.5)*.55)),transparent 60%);
   box-shadow:inset 0 0 0 .6px rgba(255,255,255,.55),inset 2px 1px 3px rgba(255,80,120,.25),inset -2px -1px 3px rgba(60,170,255,.28),inset 0 -10px 18px -10px rgba(255,255,255,.35),0 18px 40px -16px rgba(0,0,0,.5)}
-.bench.real .bdrop i{backdrop-filter:url(#lab-lg) blur(var(--lb,1px)) saturate(1.5) brightness(1.06)}
+.bench.real .bdrop i{backdrop-filter:url(#lab-lg) saturate(1.12) brightness(1.04)}
 @keyframes dropB{0%,100%{border-radius:50%}33%{border-radius:47% 53% 52% 48%/52% 47% 53% 48%}66%{border-radius:53% 47% 48% 52%/48% 54% 46% 52%}}
 .bench .bhint{position:absolute;left:12px;bottom:10px;font:500 11px var(--body);color:rgba(255,255,255,.6);letter-spacing:.04em}
 .phys{display:grid;gap:12px}
@@ -458,17 +458,17 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
   $('bhint').textContent = realLG ? 'Arrastra la gota · refracción real' : 'Arrastra la gota · este navegador muestra la versión sin refracción (como en iPhone)';
   let bKey = '', bs = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 }, bDrag = null, bRun = false, bLast = 0, bT0 = performance.now(), bTouched = 0;
   function benchMap() {
-    const p = cfg.p, S = Math.round(Math.min(p.drop || 150, 200)), b = Math.min(p.bezel, S / 2 - 2), r = p.refraction;
+    const p = cfg.p, S = Math.round(Math.min(p.drop || 150, 200)), b = Math.min(p.bezel, S / 2 - 2), r = p.refraction, z = p.zoom || 1.45, SC = S * 1.1;
     bdrop.style.width = bdrop.style.height = S + 'px'; bdrop.firstElementChild.style.setProperty('--lb', (p.blur / 24).toFixed(2) + 'px'); bdrop.firstElementChild.style.setProperty('--ls', p.shine);
     bench.style.setProperty('--acc2', cfg.accent);
-    const k = S + '|' + b + '|' + r; if (!realLG || k === bKey) return; bKey = k;
+    const k = S + '|' + b + '|' + r + '|' + z; if (!realLG || k === bKey) return; bKey = k;
     const c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d'), im = x.createImageData(S, S), D = im.data, h = S / 2;
-    for (let y = 0; y < S; y++) for (let X = 0; X < S; X++) { const dx = X + .5 - h, dy = y + .5 - h, dist = Math.hypot(dx, dy), sd = dist - h; let vx = 0, vy = 0;
-      if (sd < 0) { const t = Math.min(-sd / b, 1), m = Math.pow(1 - t, 2.2); if (dist > 0) { vx = dx / dist * m; vy = dy / dist * m; } }
-      const i = (y * S + X) * 4; D[i] = 128 + vx * 127; D[i + 1] = 128 + vy * 127; D[i + 2] = 128; D[i + 3] = 255; }
+    for (let y = 0; y < S; y++) for (let X = 0; X < S; X++) { const dx = X + .5 - h, dy = y + .5 - h, dist = Math.hypot(dx, dy); let ox = 0, oy = 0;
+      if (dist < h) { ox = -dx * (1 - 1 / z); oy = -dy * (1 - 1 / z); const t = Math.min((h - dist) / b, 1), m = Math.pow(1 - t, 2.2) * r * .5; if (dist > 0) { ox -= dx / dist * m; oy -= dy / dist * m; } }
+      const i = (y * S + X) * 4; D[i] = Math.max(0, Math.min(255, 128 + ox / SC * 255)); D[i + 1] = Math.max(0, Math.min(255, 128 + oy / SC * 255)); D[i + 2] = 128; D[i + 3] = 255; }
     x.putImageData(im, 0, 0);
     [$('lab-lg'), $('labMap')].forEach(n => { n.setAttribute('x', 0); n.setAttribute('y', 0); n.setAttribute('width', S); n.setAttribute('height', S); });
-    $('labMap').setAttribute('href', c.toDataURL()); const sc = -r * 1.5; $('labR').setAttribute('scale', sc); $('labG').setAttribute('scale', sc * .93); $('labB').setAttribute('scale', sc * .86);
+    $('labMap').setAttribute('href', c.toDataURL()); $('labR').setAttribute('scale', SC); $('labG').setAttribute('scale', SC * .975); $('labB').setAttribute('scale', SC * .95);
     const i2 = bdrop.firstElementChild; i2.style.backdropFilter = 'none'; void i2.offsetWidth; i2.style.backdropFilter = '';
   }
   function bWake() { if (!bRun && !$('vDesign').hidden) { bRun = true; bLast = performance.now(); requestAnimationFrame(bLoop); } }
@@ -486,7 +486,7 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
   bench.addEventListener('pointerup', () => { bDrag = null; bTouched = performance.now(); });
 
   // ---------- Física y forma ----------
-  const PHINT = { drop: 'También la gota que viaja por la página', radius: 'Tarjetas y paneles', smooth: '1 = curva circular · 2+ = esquina continua tipo Apple', blur: 'Cuánto se difumina lo que hay detrás del vidrio', shine: 'Borde de luz y reflejo superior', refraction: 'Cuánto dobla la barra lo que pasa por debajo', bezel: 'Ancho del borde que refracta', springK: 'Más alto = más rápido y nervioso', springZ: 'Más bajo = más rebote; 1 = sin rebote', jelly: '0 = botones rígidos · 1 = muy gelatinosos' };
+  const PHINT = { zoom: 'Cuánto amplía la gota lo que tiene debajo', drop: 'También la gota que viaja por la página', radius: 'Tarjetas y paneles', smooth: '1 = curva circular · 2+ = esquina continua tipo Apple', blur: 'Cuánto se difumina lo que hay detrás del vidrio', shine: 'Borde de luz y reflejo superior', refraction: 'Cuánto dobla la barra lo que pasa por debajo', bezel: 'Ancho del borde que refracta', springK: 'Más alto = más rápido y nervioso', springZ: 'Más bajo = más rebote; 1 = sin rebote', jelly: '0 = botones rígidos · 1 = muy gelatinosos' };
   function physUI() {
     const groups = {}; Object.entries(PC.PARAMS).forEach(([k, d]) => (groups[d[6]] = groups[d[6]] || []).push([k, d]));
     $('phys').innerHTML = Object.keys(groups).map(g => `<h3>${g}</h3>` + groups[g].map(([k, d]) => `<label class="ph" for="p_${k}"><span>${d[4]}</span><output id="o_${k}">${fmtP(k, cfg.p[k])}</output><input type="range" id="p_${k}" data-p="${k}" min="${d[0]}" max="${d[1]}" step="${d[2]}" value="${cfg.p[k]}"><small>${PHINT[k] || ''}</small></label>`).join('')).join('') + '<div class="physr"><button class="btn" type="button" id="pReset">Física por defecto</button></div>';
