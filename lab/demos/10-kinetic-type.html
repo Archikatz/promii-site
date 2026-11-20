@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tipografía cinética · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@100..900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Tipografía cinética: entrada letra por letra con desenfoque y muelle, palabra rotativa,
+   onda de peso variable que sigue al cursor, brillo metálico y texto que se "decodifica". */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--blue:#2f6bff;--red:#ff3b30;color-scheme:dark;
+  --spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;padding:30px max(16px,env(safe-area-inset-right)) 30px max(16px,env(safe-area-inset-left));display:grid;gap:40px}
+.lab{font:500 11px Inter;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;display:flex;justify-content:space-between;gap:10px}
+.lab button{all:unset;cursor:pointer;color:var(--muted);letter-spacing:.1em}
+.lab button:focus-visible{outline:2px solid var(--blue)}
+.h1{font:700 clamp(38px,8vw,92px)/.95 "Space Grotesk";letter-spacing:-.045em;margin:0}
+.h1 .ch{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(.4em) scale(.9)}
+.h1.in .ch{opacity:1;filter:blur(0);transform:none;transition:opacity .5s ease,filter .6s ease,transform 1s var(--spring);transition-delay:calc(var(--i) * 28ms)}
+.rot{font:600 clamp(28px,5vw,54px)/1.1 "Space Grotesk";letter-spacing:-.03em;display:flex;flex-wrap:wrap;gap:.3em;align-items:baseline}
+.slot{position:relative;display:inline-grid;height:1.15em;overflow:hidden;vertical-align:bottom}
+.slot span{grid-area:1/1;transition:transform .9s var(--spring),opacity .5s,filter .5s;background:linear-gradient(90deg,var(--blue),#8fb0ff);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+.slot span.up{transform:translateY(-100%);opacity:0;filter:blur(6px)}
+.slot span.down{transform:translateY(100%);opacity:0;filter:blur(6px)}
+.wave{font:400 clamp(40px,9vw,110px)/1 Inter;letter-spacing:-.04em;cursor:default;-webkit-user-select:none;user-select:none;white-space:nowrap;overflow:hidden}
+.wave span{display:inline-block;font-variation-settings:"wght" var(--w,200);transition:font-variation-settings .15s}
+.shine{font:700 clamp(36px,7vw,80px)/1 "Space Grotesk";letter-spacing:-.04em;background:linear-gradient(110deg,#6e6e86 20%,#fff 40%,#c9c9d3 50%,#6e6e86 70%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 3.6s ease-in-out infinite}
+@keyframes sh{from{background-position:120% 0}to{background-position:-30% 0}}
+.scr{font:500 clamp(22px,4vw,40px)/1.2 "JetBrains Mono",ui-monospace,monospace;color:var(--text);letter-spacing:.02em}
+.scr i{font-style:normal;color:var(--red)}
+@media (prefers-reduced-motion:reduce){.h1 .ch{opacity:1;filter:none;transform:none}.shine{animation:none}}
+</style>
+</head>
+<body>
+<section><div class="lab"><span>Entrada letra por letra</span><button id="replay" type="button">Repetir ↺</button></div><h1 class="h1" id="h1">Arquitectura que se construye.</h1></section>
+<section><div class="lab"><span>Palabra rotativa</span></div><div class="rot">Diseño <span class="slot" id="slot"></span> para Nueva York</div></section>
+<section><div class="lab"><span>Peso variable · pasa el cursor</span></div><div class="wave" id="wave">BRIAN ZULETA</div></section>
+<section><div class="lab"><span>Brillo metálico</span></div><div class="shine">Promii Studio</div></section>
+<section><div class="lab"><span>Decodificar</span></div><div class="scr" id="scr"></div></section>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 1. letras
+  const h1 = document.getElementById('h1');
+  let n = 0;
+  h1.innerHTML = h1.textContent.split(' ').map(w => `<span style="white-space:nowrap">${[...w].map(c => `<span class="ch" style="--i:${n++}">${c}</span>`).join('')}</span>`).join(' ');
+  const play = () => { h1.classList.remove('in'); void h1.offsetWidth; requestAnimationFrame(() => h1.classList.add('in')); };
+  document.getElementById('replay').addEventListener('click', play); play();
+  if (!reduce) setInterval(play, 6000);
+
+  // 2. palabra rotativa
+  const words = ['planos DOB', 'modelos BIM', 'agentes de IA', 'automatización'], slot = document.getElementById('slot');
+  slot.innerHTML = words.map((w, i) => `<span class="${i ? 'down' : ''}">${w}</span>`).join('');
+  const spans = [...slot.children]; let k = 0;
+  // ancho del slot = palabra más larga, para que no salte el layout
+  if (!reduce) setInterval(() => {
+    const a = spans[k]; k = (k + 1) % spans.length; const b = spans[k];
+    a.className = 'up'; b.className = '';
+    setTimeout(() => { a.style.transition = 'none'; a.className = 'down'; void a.offsetWidth; a.style.transition = ''; }, 900);
+  }, 2000);
+
+  // 3. onda de peso
+  const wave = document.getElementById('wave');
+  wave.innerHTML = [...wave.textContent].map(c => `<span>${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+  const letters = [...wave.children]; let mx = null;
+  wave.addEventListener('pointermove', e => mx = e.clientX); wave.addEventListener('pointerleave', () => mx = null);
+  let t0 = performance.now();
+  (function loop(now) {
+    const x = mx ?? (reduce ? -1e4 : wave.getBoundingClientRect().left + (Math.sin((now - t0) / 900) * .5 + .5) * wave.clientWidth);
+    letters.forEach(l => { const r = l.getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - x); l.style.setProperty('--w', Math.round(150 + 750 * Math.exp(-(d * d) / 9000))); });
+    requestAnimationFrame(loop);
+  })(t0);
+
+  // 4. decodificar
+  const scr = document.getElementById('scr'), targets = ['LOD 350 · NYC DOB', 'REVIT ↔ CLAUDE', 'SCAN-TO-BIM'], glyphs = '█▓▒░<>/\\|=+*#ABCDEF0123456789';
+  let ti = 0;
+  function decode(str) {
+    let f = 0; const total = str.length * 3;
+    const id = setInterval(() => {
+      scr.innerHTML = [...str].map((c, i) => i < f / 3 ? c : (c === ' ' ? ' ' : `<i>${glyphs[Math.random() * glyphs.length | 0]}</i>`)).join('');
+      if (++f > total) clearInterval(id);
+    }, 28);
+  }
+  decode(targets[0]);
+  if (!reduce) setInterval(() => decode(targets[ti = (ti + 1) % targets.length]), 3200);
+})();
+</script>
+</body>
+</html>

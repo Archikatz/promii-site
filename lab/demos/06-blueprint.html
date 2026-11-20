@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plano que se dibuja · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Alzado de un edificio de 6 pisos en NYC que se dibuja solo: trazos SVG con stroke-dashoffset,
+   cotas, niveles y etiquetas que aparecen en secuencia. Vector puro: se reutiliza en cualquier tamaño. */
+:root{--bg:#070a12;--ink:#7fa6ff;--ink2:#2f6bff;--hi:#f4f4f8;--muted:#8a93ad;--red:#ff3b30;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--hi);font:13px/1.4 Inter,system-ui,sans-serif;display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px max(16px,env(safe-area-inset-right)) 6px max(16px,env(safe-area-inset-left));flex-wrap:wrap}
+header b{font:700 18px "Space Grotesk"}
+header span{color:var(--muted);font-size:12px}
+button{font:600 12px Inter;border:0;border-radius:999px;padding:8px 14px;background:rgba(127,166,255,.14);color:var(--hi);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(127,166,255,.35)}
+button:focus-visible{outline:2px solid var(--ink2);outline-offset:2px}
+.sheet{position:relative;min-height:0;background-image:linear-gradient(rgba(127,166,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(127,166,255,.06) 1px,transparent 1px),linear-gradient(rgba(127,166,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(127,166,255,.025) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px}
+svg{position:absolute;inset:0;width:100%;height:100%}
+.ln{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.ln.heavy{stroke:var(--hi);stroke-width:2.2}
+.ln.dim{stroke:var(--muted);stroke-width:.8}
+.ln.red{stroke:var(--red)}
+.draw .ln{animation:draw var(--d,1s) cubic-bezier(.65,0,.35,1) forwards;animation-delay:var(--t,0s)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.tx{font:500 10px "JetBrains Mono",ui-monospace,monospace;fill:var(--muted);opacity:0;letter-spacing:.04em}
+.tx.big{font:700 13px "Space Grotesk";fill:var(--hi)}
+.tx.blue{fill:var(--ink)}
+.draw .tx{animation:fade .6s ease forwards;animation-delay:var(--t,0s)}
+@keyframes fade{to{opacity:1}}
+.glass{fill:rgba(127,166,255,.0)}
+.draw .glass{animation:gl 1.2s ease forwards;animation-delay:var(--t,0s)}
+@keyframes gl{to{fill:rgba(127,166,255,.10)}}
+@media (prefers-reduced-motion:reduce){.ln{stroke-dashoffset:0}.tx{opacity:1}.draw .ln,.draw .tx,.draw .glass{animation:none}.glass{fill:rgba(127,166,255,.1)}}
+</style>
+</head>
+<body>
+<header><div><b>Alzado frontal · A-201</b><br><span>Residencial 6 pisos · Queens, NY · Escala 1/8" = 1'-0"</span></div><button id="re" type="button">Dibujar de nuevo</button></header>
+<div class="sheet"><svg id="s" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" aria-label="Alzado de edificio dibujándose"></svg></div>
+<script>
+(() => {
+  const s = document.getElementById('s'), NS = 'http://www.w3.org/2000/svg';
+  let t = 0;
+  function el(tag, attrs, parent = s) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+  function line(d, cls = '', delay, dur = .9) { const p = el('path', { d, class: 'ln ' + cls, pathLength: 1 }); p.style.setProperty('--t', delay + 's'); p.style.setProperty('--d', dur + 's'); return p; }
+  function text(x, y, str, cls = '', delay, anchor = 'start') { const e = el('text', { x, y, class: 'tx ' + cls, 'text-anchor': anchor }); e.textContent = str; e.style.setProperty('--t', delay + 's'); return e; }
+
+  function build() {
+    s.innerHTML = '';
+    const X0 = 300, X1 = 700, G = 560, FH = 72, N = 6, top = G - FH * N;
+    // terreno
+    line(`M 120 ${G} H 880`, 'heavy', 0, 1.1);
+    for (let i = 0; i < 40; i++) line(`M ${130 + i * 19} ${G + 2} l -10 12`, 'dim', .6 + i * .01, .3);
+    // volumen
+    line(`M ${X0} ${G} V ${top} H ${X1} V ${G}`, 'heavy', .5, 1.4);
+    // parapeto y cornisa
+    line(`M ${X0 - 8} ${top} H ${X1 + 8} M ${X0 - 8} ${top - 14} H ${X1 + 8} M ${X0 - 8} ${top} V ${top - 14} M ${X1 + 8} ${top} V ${top - 14}`, '', 1.6, .8);
+    // losas y ventanas
+    const levels = [];
+    for (let f = 0; f < N; f++) {
+      const y = G - FH * f; levels.push(y);
+      if (f) line(`M ${X0} ${y} H ${X1}`, 'dim', 1.8 + f * .12, .6);
+      const bays = 5, bw = (X1 - X0) / bays;
+      for (let b = 0; b < bays; b++) {
+        const wx = X0 + b * bw + 14, wy = y - FH + 16, ww = bw - 28, wh = FH - 30;
+        if (f === 0 && b === 2) { // entrada
+          const r = el('rect', { x: wx - 4, y: y - FH + 10, width: ww + 8, height: FH - 10, class: 'glass' }); r.style.setProperty('--t', (3.4) + 's');
+          line(`M ${wx - 4} ${y} V ${y - FH + 10} H ${wx + ww + 4} V ${y} M ${wx + ww / 2} ${y} V ${y - FH + 10}`, '', 2.4, .7);
+          line(`M ${wx - 20} ${y - FH + 6} H ${wx + ww + 20}`, 'red', 2.9, .5);
+          continue;
+        }
+        const d0 = 2.2 + f * .16 + b * .05;
+        const r = el('rect', { x: wx, y: wy, width: ww, height: wh, class: 'glass' }); r.style.setProperty('--t', (d0 + .7) + 's');
+        line(`M ${wx} ${wy} h ${ww} v ${wh} h ${-ww} Z M ${wx + ww / 2} ${wy} v ${wh} M ${wx - 3} ${wy + wh + 3} h ${ww + 6}`, '', d0, .55);
+      }
+    }
+    levels.push(top);
+    // marcadores de nivel (derecha)
+    const names = ['NIVEL 1', 'NIVEL 2', 'NIVEL 3', 'NIVEL 4', 'NIVEL 5', 'NIVEL 6', 'TECHO'];
+    levels.forEach((y, i) => {
+      const d = 3.6 + i * .12, ft = i * 10;
+      line(`M ${X1 + 12} ${y} H ${X1 + 120}`, 'dim', d, .5);
+      line(`M ${X1 + 120} ${y} l 7 -7 l 7 7 l -7 7 Z`, '', d + .2, .4);
+      text(X1 + 138, y - 2, names[i], 'blue', d + .3);
+      text(X1 + 138, y + 11, `${ft}'-0"`, '', d + .35);
+    });
+    // cotas (izquierda)
+    const dx = X0 - 60; const dd = 4.4;
+    line(`M ${dx} ${G} V ${top}`, 'dim', dd, .8);
+    levels.forEach((y, i) => { line(`M ${dx - 6} ${y + 6} l 12 -12`, '', dd + .1 + i * .05, .2); if (i < N) text(dx - 10, y - FH / 2 + 4, `10'-0"`, '', dd + .4 + i * .05, 'end'); });
+    line(`M ${dx - 50} ${G} V ${top}`, 'dim', dd + .3, .8);
+    text(dx - 56, (G + top) / 2, `60'-0"`, 'blue', dd + .8, 'end');
+    // cota horizontal
+    line(`M ${X0} ${G + 40} H ${X1}`, 'dim', 4.8, .7);
+    [X0, X1].forEach(x => line(`M ${x - 6} ${G + 46} l 12 -12`, '', 5, .2));
+    text((X0 + X1) / 2, G + 34, `50'-0"`, 'blue', 5.2, 'middle');
+    // etiqueta de sección y título
+    line(`M 150 120 a 22 22 0 1 0 0.1 0 M 128 120 H 172`, '', 5.2, .8);
+    text(150, 115, 'A', 'big', 5.6, 'middle'); text(150, 136, '201', '', 5.6, 'middle');
+    text(186, 116, 'ALZADO FRONTAL', 'big', 5.7); text(186, 132, 'LOD 300 · NYC DOB · ZR 23-662', '', 5.8);
+    // norte
+    line(`M 860 110 l 0 -40 M 860 70 l -8 14 h 16 Z`, 'red', 5.6, .6);
+    text(860, 128, 'N', 'big', 5.9, 'middle');
+  }
+  function run() { s.classList.remove('draw'); build(); void s.getBoundingClientRect(); s.classList.add('draw'); }
+  document.getElementById('re').addEventListener('click', run);
+  run();
+})();
+</script>
+</body>
+</html>

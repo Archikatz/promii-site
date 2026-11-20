@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Metaballs líquidos · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Efecto "gooey": blur + umbral de alfa en SVG fusiona formas como gotas.
+   1) Botón de contacto que se divide en burbujas. 2) Cursor con estela líquida. */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--blue:#2f6bff;--red:#ff3b30;color-scheme:dark;
+  --spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;overflow:hidden;cursor:none}
+.trail{position:fixed;inset:0;filter:url(#goo);pointer-events:none}
+.dot{position:absolute;left:0;top:0;border-radius:50%;background:var(--blue);will-change:transform}
+.hint{position:fixed;top:max(18px,env(safe-area-inset-top));left:0;right:0;text-align:center;color:var(--muted);font-size:13px;padding:0 16px}
+.hint b{display:block;font:700 26px/1.15 "Space Grotesk";color:var(--text);letter-spacing:-.01em;margin-bottom:4px}
+.menu{position:fixed;left:50%;top:58%;width:0;height:0}
+.blobs{position:absolute;left:-150px;top:-150px;width:300px;height:300px;filter:url(#goo)}
+.blob{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:#f4f4f8;transition:transform .7s var(--spring)}
+.blob.main{width:84px;height:84px;margin:-42px 0 0 -42px}
+.items{position:absolute;left:-150px;top:-150px;width:300px;height:300px;pointer-events:none}
+.it{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;display:grid;place-items:center;color:#0b0b10;pointer-events:auto;cursor:pointer;border-radius:50%;opacity:0;transition:transform .7s var(--spring),opacity .3s}
+.it svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.open .it{opacity:1}
+.it span{position:absolute;top:70px;font:500 11px Inter;color:var(--muted);white-space:nowrap}
+.btn{all:unset;position:absolute;left:-42px;top:-42px;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:#0b0b10;z-index:2}
+.btn svg{width:28px;height:28px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;fill:none;transition:transform .6s var(--spring)}
+.open .btn svg{transform:rotate(135deg)}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+@media (hover:none){body{cursor:auto}.trail{display:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10" result="g"/><feComposite in="SourceGraphic" in2="g" operator="atop"/></filter>
+</svg>
+<div class="hint"><b>Contacto líquido</b>Toca el botón. Mueve el mouse: la estela se funde como mercurio.</div>
+<div class="trail" id="trail"></div>
+<div class="menu" id="menu">
+  <div class="blobs"><div class="blob main"></div><div class="blob" data-i="0"></div><div class="blob" data-i="1"></div><div class="blob" data-i="2"></div><div class="blob" data-i="3"></div></div>
+  <div class="items">
+    <a class="it" data-i="0" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg><span>WhatsApp</span></a>
+    <a class="it" data-i="1" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 11v5M8 8v.01M12 16v-5M12 13a2 2 0 0 1 4 0v3"/></svg><span>LinkedIn</span></a>
+    <a class="it" data-i="2" aria-label="Correo"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg><span>Correo</span></a>
+    <a class="it" data-i="3" aria-label="Agendar"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><span>Agendar</span></a>
+  </div>
+  <button class="btn" id="btn" aria-expanded="false" aria-label="Abrir contacto"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+</div>
+<script>
+(() => {
+  const menu = document.getElementById('menu'), btn = document.getElementById('btn');
+  const angles = [-150, -110, -70, -30], dist = 110;
+  function set(open) {
+    menu.classList.toggle('open', open); btn.setAttribute('aria-expanded', open);
+    menu.querySelectorAll('[data-i]').forEach(el => {
+      const i = +el.dataset.i, a = angles[i] * Math.PI / 180;
+      el.style.transitionDelay = (open ? i * 45 : (3 - i) * 30) + 'ms';
+      el.style.transform = open ? `translate(${Math.cos(a) * dist}px,${Math.sin(a) * dist}px)` : 'translate(0,0) scale(.6)';
+    });
+  }
+  let isOpen = false; btn.addEventListener('click', () => set(isOpen = !isOpen)); set(false);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) { setTimeout(() => set(isOpen = true), 700); }
+
+  // estela de cursor: cada gota sigue a la anterior con un muelle
+  const trail = document.getElementById('trail'), N = 9, dots = [];
+  for (let i = 0; i < N; i++) { const d = document.createElement('div'); d.className = 'dot'; const s = 46 - i * 4; d.style.width = d.style.height = s + 'px'; d.style.marginLeft = d.style.marginTop = -s / 2 + 'px'; if (i > 5) d.style.background = '#ff3b30'; trail.appendChild(d); dots.push({ el: d, x: innerWidth / 2, y: innerHeight / 3, vx: 0, vy: 0 }); }
+  let mx = innerWidth / 2, my = innerHeight / 3, moved = false;
+  addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; moved = true; });
+  let last = performance.now(), t0 = last;
+  (function loop(now) {
+    const dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+    if (!moved && !reduce) { const t = (now - t0) / 1000; mx = innerWidth / 2 + Math.cos(t * 1.3) * innerWidth * .3; my = innerHeight * .3 + Math.sin(t * 2.1) * 60; }
+    dots.forEach((d, i) => {
+      const tx = i ? dots[i - 1].x : mx, ty = i ? dots[i - 1].y : my, k = i ? 520 : 900, c = i ? 30 : 48;
+      d.vx += (k * (tx - d.x) - c * d.vx) * dt; d.vy += (k * (ty - d.y) - c * d.vy) * dt; d.x += d.vx * dt; d.y += d.vy * dt;
+      d.el.style.transform = `translate(${d.x}px,${d.y}px)`;
+    });
+    requestAnimationFrame(loop);
+  })(last);
+})();
+</script>
+</body>
+</html>

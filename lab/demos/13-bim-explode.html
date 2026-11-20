@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Niveles BIM en 3D · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Edificio isométrico en CSS 3D puro (sin WebGL): cada nivel es una losa con su planta dibujada.
+   Arrastra para girar; "Explotar niveles" separa los pisos con muelles escalonados. */
+:root{--bg:#07080e;--text:#f4f4f8;--muted:#a6a6bc;--blue:#2f6bff;--ink:#8fb0ff;--red:#ff3b30;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:radial-gradient(70% 60% at 50% 45%,#121a36,var(--bg));color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto}
+header{padding:16px max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
+header b{font:700 20px "Space Grotesk"}
+header p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.view{position:relative;perspective:1600px;touch-action:none;cursor:grab;min-height:0}
+.view:active{cursor:grabbing}
+.bld{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
+.lvl{position:absolute;left:-130px;top:-90px;width:260px;height:180px;transform-style:preserve-3d}
+.slab{position:absolute;inset:0;border-radius:6px;background:rgba(20,30,70,.72);box-shadow:inset 0 0 0 1.5px rgba(143,176,255,.75)}
+.slab svg{position:absolute;inset:0;width:100%;height:100%}
+.edge{position:absolute;background:rgba(47,107,255,.55)}
+.e1{left:0;right:0;bottom:0;height:10px;transform-origin:bottom;transform:rotateX(-90deg)}
+.e2{top:0;bottom:0;right:0;width:10px;transform-origin:right;transform:rotateY(90deg);background:rgba(47,107,255,.35)}
+.e3{left:0;right:0;top:0;height:10px;transform-origin:top;transform:rotateX(90deg);background:rgba(47,107,255,.4)}
+.e4{top:0;bottom:0;left:0;width:10px;transform-origin:left;transform:rotateY(-90deg);background:rgba(47,107,255,.3)}
+.tag{position:absolute;right:-14px;top:50%;transform:translateX(100%) rotateZ(var(--uz,0deg)) rotateX(var(--ux,0deg));font:500 11px "JetBrains Mono",monospace;color:var(--ink);white-space:nowrap;opacity:var(--to,0);transition:opacity .4s}
+.lvl.roof .slab{background:rgba(255,59,48,.18);box-shadow:inset 0 0 0 1.5px rgba(255,59,48,.8)}
+.ctl{display:flex;gap:8px;justify-content:center;padding:0 16px max(16px,env(safe-area-inset-bottom));flex-wrap:wrap}
+.ctl button{font:600 13px Inter;border:0;border-radius:999px;padding:10px 16px;background:rgba(255,255,255,.1);color:var(--text);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.ctl button[aria-pressed="true"]{background:#f4f4f8;color:#0b0b10}
+.ctl button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+</style>
+</head>
+<body>
+<header><b>Modelo por niveles</b><p>Arrastra para girar. Explota los niveles para ver cada planta.</p></header>
+<div class="view" id="view"><div class="bld" id="bld"></div></div>
+<div class="ctl"><button id="ex" type="button" aria-pressed="false">Explotar niveles</button><button id="spin" type="button" aria-pressed="true">Girar solo</button></div>
+<script>
+(() => {
+  const bld = document.getElementById('bld'), N = 6, H = 34;
+  const plan = i => i === N ? '<path d="M30 30h200v120H30z" stroke="#ff8a80" fill="none" stroke-width="1.5"/><rect x="150" y="50" width="50" height="34" fill="none" stroke="#ff8a80"/>' :
+    `<g fill="none" stroke="#8fb0ff" stroke-width="1.4"><path d="M18 18h224v144H18z"/><path d="M18 78h90M150 78h92M108 18v144M150 18v60M150 112h92M194 112v50"/>
+     <path d="M108 104h42v58" stroke-dasharray="3 3"/><rect x="116" y="30" width="26" height="40" stroke="#fff"/>${i ? '' : '<path d="M120 162v-14h20v14" stroke="#ff8a80"/>'}</g>`;
+  const levels = [];
+  for (let i = 0; i <= N; i++) {
+    const l = document.createElement('div'); l.className = 'lvl' + (i === N ? ' roof' : '');
+    l.innerHTML = `<div class="slab"><svg viewBox="0 0 260 180">${plan(i)}</svg></div><div class="edge e1"></div><div class="edge e2"></div><div class="edge e3"></div><div class="edge e4"></div><span class="tag">${i === N ? 'TECHO' : 'NIVEL ' + (i + 1)} · ${i * 10}'-0"</span>`;
+    bld.appendChild(l); levels.push({ el: l, z: i * H, v: 0, t: i * H });
+  }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rot = { x: 58, z: -38, vx: 0, vz: 0, tx: 58, tz: -38 };
+  let exploded = false, spin = !reduce;
+  const ex = document.getElementById('ex'), sp = document.getElementById('spin');
+  function setEx(v) { exploded = v; ex.setAttribute('aria-pressed', v); ex.textContent = v ? 'Juntar niveles' : 'Explotar niveles';
+    levels.forEach((l, i) => setTimeout(() => l.t = i * (v ? 56 : H), (v ? i : N - i) * 70));
+    document.body.style.setProperty('--to', v ? 1 : 0); }
+  ex.addEventListener('click', () => setEx(!exploded));
+  sp.addEventListener('click', () => { spin = !spin; sp.setAttribute('aria-pressed', spin); });
+  const view = document.getElementById('view'); let drag = null;
+  view.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, z: rot.tz, rx: rot.tx }; view.setPointerCapture(e.pointerId); spin = false; sp.setAttribute('aria-pressed', false); });
+  view.addEventListener('pointermove', e => { if (!drag) return; rot.tz = drag.z - (e.clientX - drag.x) * .4; rot.tx = Math.max(20, Math.min(80, drag.rx - (e.clientY - drag.y) * .3)); });
+  view.addEventListener('pointerup', () => drag = null);
+  if (!reduce) setTimeout(() => setEx(true), 900);
+  let last = performance.now();
+  function loop(now) {
+    const dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+    if (spin) rot.tz -= dt * 12;
+    rot.vx += (120 * (rot.tx - rot.x) - 18 * rot.vx) * dt; rot.x += rot.vx * dt;
+    rot.vz += (120 * (rot.tz - rot.z) - 18 * rot.vz) * dt; rot.z += rot.vz * dt;
+    const s = Math.min(innerWidth / 640, (innerHeight - 140) / 640, 1.1);
+    bld.style.transform = `scale(${s}) rotateX(${rot.x}deg) rotateZ(${rot.z}deg) translateZ(${exploded ? -168 : -102}px)`;
+    levels.forEach(l => { l.v += (170 * (l.t - l.z) - 15 * l.v) * dt; l.z += l.v * dt; l.el.style.transform = `translateZ(${l.z}px)`;
+      // la etiqueta mira a cámara
+      l.el.querySelector('.tag').style.cssText = `--uz:${-rot.z}deg;--ux:${-rot.x}deg`; });
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

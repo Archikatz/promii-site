@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Animaciones con scroll · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Animaciones ligadas al scroll con CSS puro (animation-timeline). Corren fuera del hilo principal:
+   barra de progreso, palabras que se encienden, tarjeta que crece estilo página de producto Apple,
+   galería horizontal fijada. Respaldo con IntersectionObserver donde no hay soporte. */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--dim:#3a3a4a;--blue:#2f6bff;--red:#ff3b30;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif}
+.pad{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.prog{position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--red));transform-origin:0 50%;transform:scaleX(0);z-index:9}
+.intro{min-height:70vh;display:grid;place-content:center;text-align:center}
+.intro h1{font:700 clamp(36px,8vw,84px)/.95 "Space Grotesk";letter-spacing:-.04em;margin:0}
+.intro p{color:var(--muted);margin:14px 0 0}
+.intro .arrow{margin-top:28px;font-size:22px;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+.words{max-width:900px;margin:0 auto;padding-block:16vh;font:700 clamp(28px,5vw,56px)/1.12 "Space Grotesk";letter-spacing:-.025em}
+.words span{color:var(--dim)}
+.hero{height:220vh;position:relative}
+.hero .stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.hero .img{width:min(1100px,92vw);aspect-ratio:16/9;max-width:100%;border-radius:48px;corner-shape:superellipse(1.8);overflow:hidden;position:relative;
+  background:radial-gradient(120% 120% at 20% 10%,#2f6bff 0,#0b1440 45%,#060812 100%);box-shadow:0 40px 120px -40px rgba(47,107,255,.6)}
+.hero .img::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:40px 40px;mask:linear-gradient(transparent,#000)}
+.hero .cap{position:absolute;left:6%;bottom:8%;z-index:1}
+.hero .cap b{display:block;font:700 clamp(26px,5vw,58px)/1 "Space Grotesk";letter-spacing:-.03em}
+.hero .cap small{color:rgba(255,255,255,.75)}
+.hscroll{height:300vh;position:relative}
+.hscroll .stick{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
+.track{display:flex;gap:22px;padding-left:max(16px,6vw);will-change:transform}
+.tile{flex:0 0 min(420px,78vw);height:min(520px,62vh);border-radius:40px;corner-shape:superellipse(1.8);padding:26px;display:flex;flex-direction:column;justify-content:flex-end;font:700 26px/1.1 "Space Grotesk"}
+.tile small{display:block;font:500 13px Inter;color:rgba(255,255,255,.7);margin-top:6px}
+.tile:nth-child(1){background:linear-gradient(160deg,#2f6bff,#0a1a5c)}
+.tile:nth-child(2){background:linear-gradient(160deg,#2a2a36,#101016)}
+.tile:nth-child(3){background:linear-gradient(160deg,#ff3b30,#4d0a05)}
+.tile:nth-child(4){background:linear-gradient(160deg,#e8e8f0,#8a8aa0);color:#0b0b10}
+.tile:nth-child(4) small{color:rgba(0,0,0,.6)}
+.tile:nth-child(5){background:linear-gradient(160deg,#1c2a55,#0a0d18)}
+.reveal{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;max-width:1000px;margin:0 auto;padding-block:14vh 30vh}
+.stat{padding:24px;border-radius:30px;corner-shape:superellipse(1.7);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.stat b{display:block;font:700 48px/1 "Space Grotesk";letter-spacing:-.03em}
+.stat span{color:var(--muted);font-size:14px}
+.end{text-align:center;color:var(--muted);padding-bottom:20vh}
+
+@supports (animation-timeline: scroll()) {
+  .prog{animation:grow linear both;animation-timeline:scroll(root)}
+  @keyframes grow{to{transform:scaleX(1)}}
+  .words span{animation:lit linear both;animation-timeline:view();animation-range:entry 60% cover 45%}
+  @keyframes lit{to{color:var(--text)}}
+  .hero{view-timeline:--hero block}
+  .hero .img{animation:expand linear both;animation-timeline:--hero;animation-range:contain 0% contain 60%}
+  @keyframes expand{from{transform:scale(.62);border-radius:80px;filter:brightness(.6)}to{transform:scale(1);border-radius:24px;filter:brightness(1)}}
+  .hero .cap{animation:capin linear both;animation-timeline:--hero;animation-range:contain 30% contain 70%}
+  @keyframes capin{from{opacity:0;transform:translateY(40px)}}
+  .hscroll{view-timeline:--h block}
+  .track{animation:slide linear both;animation-timeline:--h;animation-range:contain 0% contain 100%}
+  @keyframes slide{to{transform:translateX(calc(-100% + 100vw - 6vw))}}
+  .stat{animation:pop linear both;animation-timeline:view();animation-range:entry 0% entry 90%}
+  @keyframes pop{from{opacity:.15;transform:translateY(60px) scale(.94)}}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.words span{color:var(--text)}}
+</style>
+</head>
+<body>
+<div class="prog" aria-hidden="true"></div>
+<section class="intro pad"><div><h1>Haz scroll</h1><p>Todo en esta página se mueve con CSS, sin librerías.</p><div class="arrow" aria-hidden="true">↓</div></div></section>
+<section class="words pad" id="words">Diseño y documento edificios en Nueva York, modelo en BIM con precisión de obra y construyo agentes de IA que eliminan el trabajo repetitivo del equipo.</section>
+<section class="hero"><div class="stick pad"><div class="img"><div class="cap"><b>Del modelo a la obra.</b><small>LOD 350 · coordinación MEP · NYC DOB</small></div></div></div></section>
+<section class="hscroll"><div class="stick"><div class="track">
+  <div class="tile">Residencial · Queens<small>6 pisos · 42 unidades</small></div>
+  <div class="tile">Scan-to-BIM<small>Nube de puntos → Revit</small></div>
+  <div class="tile">Agente RFI<small>Claude + Revit API</small></div>
+  <div class="tile">Planos DOB<small>Permisos y zonificación</small></div>
+  <div class="tile">Dynamo<small>Automatización de hojas</small></div>
+</div></div></section>
+<section class="reveal pad">
+  <div class="stat"><b>9+</b><span>años en arquitectura y BIM</span></div>
+  <div class="stat"><b>~15</b><span>proyectos con NYC DOB</span></div>
+  <div class="stat"><b>350</b><span>LOD máximo entregado</span></div>
+</section>
+<p class="end pad">Fin de la demo.</p>
+<script>
+// envuelve cada palabra para encenderla al pasar
+const w = document.getElementById('words');
+w.innerHTML = w.textContent.trim().split(/\s+/).map(x => `<span>${x}</span>`).join(' ');
+// respaldo sin animation-timeline: encender por visibilidad
+if (!CSS.supports('animation-timeline', 'scroll()')) {
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.style.color = 'var(--text)'; }), { rootMargin: '0px 0px -40% 0px' });
+  w.querySelectorAll('span').forEach(s => { s.style.transition = 'color .4s'; io.observe(s); });
+}
+</script>
+</body>
+</html>

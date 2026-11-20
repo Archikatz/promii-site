@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transiciones morph · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* View Transitions API: la miniatura de un proyecto se transforma en su vista de detalle
+   (elemento compartido). El navegador interpola posición, tamaño y forma. Sin librerías. */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--blue:#2f6bff;--red:#ff3b30;--panel:#12121a;color-scheme:dark;
+  --spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;padding:26px max(16px,env(safe-area-inset-right)) 26px max(16px,env(safe-area-inset-left))}
+h1{font:700 22px "Space Grotesk";margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.tile{all:unset;cursor:pointer;display:block;border-radius:32px;corner-shape:superellipse(1.8);overflow:hidden;background:var(--panel);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.tile:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.tile .img{height:150px}
+.tile .t{padding:14px 16px 16px}
+.tile b{display:block;font:600 16px "Space Grotesk"}
+.tile small{color:var(--muted)}
+.detail{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:700px){.detail{grid-template-columns:1fr}}
+.detail .img{height:min(420px,56vw);border-radius:40px;corner-shape:superellipse(1.8)}
+.detail h2{font:700 clamp(28px,5vw,46px)/1 "Space Grotesk";letter-spacing:-.03em;margin:0 0 10px}
+.detail p{color:var(--muted);margin:0 0 16px;max-width:52ch}
+.detail dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0 0 20px}
+.detail dt{color:var(--muted)}
+.detail dd{margin:0;font-weight:500}
+.back{font:600 13px Inter;border:0;border-radius:999px;padding:10px 16px;background:#f4f4f8;color:#0b0b10;cursor:pointer}
+.back:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.i0{background:linear-gradient(150deg,#2f6bff,#0a1745)}
+.i1{background:linear-gradient(150deg,#ff3b30,#3d0703)}
+.i2{background:repeating-linear-gradient(135deg,#1d1d28 0 12px,#262634 12px 24px)}
+.i3{background:linear-gradient(150deg,#e8e8f0,#7d7d92)}
+.i4{background:radial-gradient(circle at 30% 30%,#5f86ff,#0a0f25 70%)}
+.i5{background:linear-gradient(150deg,#2a2a37,#0d0d13)}
+::view-transition-group(*){animation-duration:.75s;animation-timing-function:var(--spring)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
+.fb{display:none;color:#ffd60a;font-size:12px;margin-bottom:12px}
+</style>
+</head>
+<body>
+<h1>Del índice al detalle sin cortes</h1>
+<p class="sub">Toca un proyecto. La imagen y el título vuelan a su nueva posición.</p>
+<p class="fb" id="fb">Este navegador no soporta View Transitions: el cambio será instantáneo.</p>
+<div id="app"></div>
+<script>
+(() => {
+  const P = [
+    { t: 'Residencial Queens', s: 'Planos NYC DOB', y: '2024', lod: '300', sw: 'Revit, AutoCAD', d: 'Juego completo de planos para permiso: plantas, alzados, cortes, cumplimiento de NYCECC 2020 y zonificación.' },
+    { t: 'Agente para RFIs', s: 'Sistema de IA', y: '2025', lod: '—', sw: 'Claude, Revit API', d: 'Un agente que lee RFIs, busca en el modelo y propone respuestas con referencias a hojas y detalles.' },
+    { t: 'Scan-to-BIM Brooklyn', s: 'Nube de puntos', y: '2023', lod: '350', sw: 'Revit, ReCap', d: 'Levantamiento de un edificio existente a modelo BIM con tolerancia de obra.' },
+    { t: 'Coordinación MEP', s: 'Navisworks', y: '2023', lod: '350', sw: 'Navisworks, ACC', d: 'Detección de interferencias y sesiones de coordinación semanales con los subcontratistas.' },
+    { t: 'Automatización Dynamo', s: 'Productividad', y: '2024', lod: '—', sw: 'Dynamo, Python', d: 'Rutinas que generan hojas, numeran vistas y revisan parámetros en minutos.' },
+    { t: 'Fachada Manhattan', s: 'Diseño', y: '2022', lod: '300', sw: 'Revit, Enscape', d: 'Estudio de fachada y renders para aprobación del cliente.' }
+  ];
+  const app = document.getElementById('app');
+  const can = !!document.startViewTransition;
+  if (!can) document.getElementById('fb').style.display = 'block';
+  const vt = fn => can ? document.startViewTransition(fn) : fn();
+  function grid(from) {
+    app.innerHTML = `<div class="grid">${P.map((p, i) => `<button class="tile" data-i="${i}"><div class="img i${i}" style="view-transition-name:img${i}"></div><div class="t"><b style="view-transition-name:tt${i}">${p.t}</b><small>${p.s}</small></div></button>`).join('')}</div>`;
+    app.querySelectorAll('.tile').forEach(b => b.addEventListener('click', () => vt(() => detail(+b.dataset.i))));
+    if (from != null) app.querySelector(`[data-i="${from}"]`).focus();
+  }
+  function detail(i) {
+    const p = P[i];
+    app.innerHTML = `<div class="detail"><div class="img i${i}" style="view-transition-name:img${i}"></div><div><h2 style="view-transition-name:tt${i}">${p.t}</h2><p>${p.d}</p><dl><dt>Año</dt><dd>${p.y}</dd><dt>LOD</dt><dd>${p.lod}</dd><dt>Herramientas</dt><dd>${p.sw}</dd></dl><button class="back">← Volver</button></div></div>`;
+    const b = app.querySelector('.back'); b.focus();
+    b.addEventListener('click', () => vt(() => grid(i)));
+  }
+  grid();
+})();
+</script>
+</body>
+</html>
