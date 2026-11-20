@@ -96,7 +96,7 @@ En **admin.promii.co**, con inicio de sesión por correo y contraseña.
   - **11 parámetros de física y forma:** radio, suavizado squircle, desenfoque, brillo, refracción, bisel, rigidez y amortiguación de los muelles, gelatina, tamaño de la gota y aumento de la lupa;
   - un **banco de pruebas** con la palabra *promii* y la gota, que reacciona en vivo a cada control;
   - un **interruptor para cada animación**;
-  - **temas:** 14 sugeridos, uno al azar 🎲 y "Guardar como tema".
+  - **temas:** 14 sugeridos, uno al azar y "Guardar como tema".
 - **Aplicar con verificación:** el panel guarda, abre la página real por dentro y comprueba punto por punto que todo quedó como se dejó.
 - **Vista previa** en computador y en celular.
 
@@ -236,7 +236,7 @@ Las tres comparten los mismos 7 temas.
 >
 > Soy arquitecto, no programador. La IA construye rápido; el criterio sigue siendo nuestro.
 >
-> 👉 promii.co (toca la gota en home.promii.co)
+> → promii.co (toca la gota en home.promii.co)
 >
 > #Arquitectura #BIM #IA #DiseñoWeb #ClaudeCode #LiquidGlass
 
