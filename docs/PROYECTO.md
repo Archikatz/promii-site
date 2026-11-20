@@ -64,6 +64,12 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 - [ ] Decir "publícalo" para fusionar la rama en `main`.
 - [ ] Después de publicar: inscribirse en la lista de espera para probar MailerLite y revisar el panel.
 
+**Dominio brianzuleta.co (perdido por no renovar, disponible al 20-nov-2026):**
+- [ ] Recomprarlo cuando haya presupuesto (≈25–35 USD/año). Recordatorio programado para el 20-dic-2026.
+- [ ] Recrear el correo en ese dominio y pasar Vercel y cualquier otra cuenta a `hi@promii.co` o Gmail.
+- [ ] Mientras tanto, todo enlace a brianzuleta.co se cambió por promii.co.
+- [ ] Cuenta de Vercel: entrar con GitHub y cambiar el correo principal; si no se puede, cuenta nueva y recrear el proyecto (todo está en el repo).
+
 **Siguiente trabajo sugerido:**
 - [x] Corregir las alertas del inventario.
 - [x] Llevar efectos del Lab al sitio (squircles, Liquid Glass en nav, contacto líquido, tilt 3D, morph a detalle).
