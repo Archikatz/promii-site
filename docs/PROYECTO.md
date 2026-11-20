@@ -62,6 +62,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 17. **Subdominios conectados (20-nov-2026):** CNAME en GoDaddy → Vercel para admin, bitacora, lab, academy, comunidad y games (Vercel: los 6 verificados, sin conflictos). `admin` abre el panel; `bitacora` y `lab` redirigen a promii.co/bitacora y promii.co/lab; `academy`, `comunidad` y `games` redirigen a promii.co/#ecosistema hasta que tengan página propia (cambiar en `vercel.json`).
 
+18. **Academy y mapa de contenido:** página `promii.co/academy` (academy.promii.co redirige ahí) con 26 guías en 7 temas (3 disponibles, enlazadas a la Bitácora) y suscripción a MailerLite (interests=academy). Mapa de tres capas Bitácora / Academy / Experiencia en `docs/MAPA-CONTENIDO.md`. La tarjeta Academy del Ecosistema ahora está activa.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.

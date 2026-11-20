@@ -88,7 +88,7 @@
           "value": "academy.promii.co"
         }
       ],
-      "destination": "https://promii.co/#ecosistema",
+      "destination": "https://promii.co/academy/",
       "permanent": false
     },
     {
@@ -99,7 +99,7 @@
           "value": "academy.promii.co"
         }
       ],
-      "destination": "https://promii.co/#ecosistema",
+      "destination": "https://promii.co/academy/:path+",
       "permanent": false
     },
     {
