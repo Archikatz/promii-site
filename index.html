@@ -17,7 +17,12 @@
 <meta property="og:url" content="https://promii.co/">
 <meta property="og:locale" content="es_CO">
 <meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://promii.co/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Brian Zuleta · Arquitectura, BIM y sistemas de IA · promii.co">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://promii.co/assets/og.jpg">
 <meta name="twitter:title" content="Brian Zuleta · Arquitecto BIM y sistemas de IA | Promii">
 <meta name="twitter:description" content="Planos NYC DOB, Scan-to-BIM, coordinación de construcción y sistemas de IA para estudios AEC.">
 <script type="application/ld+json">
@@ -95,7 +100,7 @@ svg.ic{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.7;stro
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:920px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
-.svc{border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px;transition:transform .12s ease,border-color .16s,box-shadow .16s;position:relative;overflow:hidden;cursor:pointer;animation:fadeUp .5s ease both;transform-style:preserve-3d;will-change:transform}
+.svc{border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px;transition:transform .2s var(--m-ease),border-color .2s,box-shadow .2s;position:relative;overflow:hidden;cursor:pointer;animation:fadeUp .6s var(--m-ease) both;transform-style:preserve-3d;will-change:transform}
 .svc::after{content:"";position:absolute;inset:0;border-radius:16px;background:radial-gradient(220px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.10),transparent 60%);opacity:0;transition:opacity .2s;pointer-events:none}
 .svc:hover::after{opacity:1}
 .svc:hover{border-color:var(--line2)}
@@ -123,8 +128,6 @@ svg.ic{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.7;stro
 .note{font-size:11.5px;color:var(--dim);margin-top:10px}
 .formcard{border-radius:18px;padding:10px;max-width:780px;background:var(--formCard);border:1px solid var(--glass-brd);box-shadow:var(--shadow)}
 .formcard iframe{display:block;width:100%;min-height:760px;border:0;border-radius:12px;background:transparent}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
-.reveal.in{opacity:1;transform:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 footer{border-top:1px solid var(--line);padding:36px 0;color:var(--dim);font-size:13px}
 .foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}
@@ -161,7 +164,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--dim);font-siz
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:920px){.pgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.pgrid{grid-template-columns:1fr}}
-.proj{border-radius:16px;overflow:hidden;display:flex;flex-direction:column;animation:fadeUp .5s ease both}
+.proj{border-radius:16px;overflow:hidden;display:flex;flex-direction:column;animation:fadeUp .6s var(--m-ease) both}
 .proj .vis{aspect-ratio:16/10;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
 .proj .vis img{width:100%;height:100%;object-fit:cover;display:block}
 .proj .vis svg{width:100%;height:100%;display:block}
@@ -309,6 +312,7 @@ svg.ic{stroke:var(--text);filter:none}
     <a href="#experiencia" class="hidem" data-i="nav_exp">Experiencia</a>
     <a href="#proyectos" class="hidem" data-i="nav_proj">Proyectos</a>
     <a href="#servicios" class="hidem" data-i="nav_services">Servicios</a>
+    <a href="#casos" class="hidem" data-i="nav_cases">Casos</a>
     <a href="#ecosistema" class="hidem" data-i="nav_eco">Ecosistema</a>
     <a href="#contacto" class="hidem" data-i="nav_brief">Contacto</a>
     <div class="toggle"><button id="langES" class="on" onclick="setLang('es')">ES</button><button id="langEN" onclick="setLang('en')">EN</button></div>
@@ -374,6 +378,16 @@ svg.ic{stroke:var(--text);filter:none}
   <div class="pgrid" id="projGrid"></div>
   <p class="note" data-i="pr_note"></p>
 </div></section>
+<section id="casos"><div class="wrap">
+  <div class="eyebrow" data-i="cs_eye"></div>
+  <div class="h2" data-i="cs_h"></div>
+  <p class="sub" data-i="cs_sub"></p>
+  <div class="cases" id="caseBox"></div>
+  <div class="bita glass reveal"><div><b data-i="bt_t"></b><span data-i="bt_d"></span></div>
+    <form id="bitaForm" novalidate><label class="sr" for="bitaEmail">Email</label><input id="bitaEmail" name="email" type="email" required autocomplete="email" placeholder="tu@correo.com"><input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn btn-primary" type="submit" data-i="bt_btn"></button></form>
+    <p class="fstatus" id="bitaStatus" role="status" style="flex-basis:100%;margin:0"></p></div>
+</div></section>
+<dialog class="cased" id="caseDlg" aria-label="Caso"></dialog>
 <section id="habilidades"><div class="wrap">
   <div class="eyebrow" data-i="sk_eye"></div>
   <div class="h2" data-i="sk_h"></div>
@@ -856,7 +870,7 @@ render();
   nyc:function(c){var s='',k=0;for(var r=0;r<6;r++)for(var col=0;col<4;col++){var x=110+col*25+4,y=154-r*24+4,b=(k++*.37)%4.8;
    s+='<rect x="'+x+'" y="'+y+'" width="17" height="16" fill="'+c+'" opacity="0"><animate attributeName="opacity" values="0;.35;.35;0" keyTimes="0;.15;.7;1" dur="4.8s" begin="'+(b+r*.25).toFixed(2)+'s" repeatCount="indefinite"/></rect>';}return s;},
   urban:function(c){return '<g><path d="M160 100 L218 100 A58 58 0 0 0 201 59 Z" fill="'+c+'" opacity=".16"/><line x1="160" y1="100" x2="218" y2="100" stroke="'+c+'" stroke-width="2"/><animateTransform attributeName="transform" type="rotate" from="0 160 100" to="-360 160 100" dur="6s" repeatCount="indefinite"/></g>';},
-  arch:function(c){return '<path d="M40 170 Q160 120 290 60" fill="none" stroke="'+c+'" stroke-width="3" stroke-dasharray="14 260" stroke-linecap="round" style="filter:drop-shadow(0 0 6px '+c+')"><animate attributeName="stroke-dashoffset" from="274" to="0" dur="2.6s" repeatCount="indefinite"/></path><circle cx="210" cy="110" r="3" fill="'+c+'"><animate attributeName="opacity" values="1;.2;1" dur="1.6s" repeatCount="indefinite"/></circle>';}
+  arch:function(c){return '<path d="M40 170 Q160 120 290 60" fill="none" stroke="'+c+'" stroke-width="3" stroke-dasharray="14 260" stroke-linecap="round" style="filter:drop-shadow(0 0 6px '+c+')"><animate attributeName="stroke-dashoffset" from="274" to="0" dur="2.4s" repeatCount="indefinite"/></path><circle cx="210" cy="110" r="3" fill="'+c+'"><animate attributeName="opacity" values="1;.2;1" dur="1.6s" repeatCount="indefinite"/></circle>';}
  };
  if(typeof projArt==='function'&&!RMp){var _pa=projArt;projArt=function(p,i){var svg=_pa(p,i),m=svg.match(/class="ln" style="filter:drop-shadow\(0 0 6px ([^)]+\))"/),c=m?m[1]:'var(--text)';var f=LIFE[p.cat];return f?svg.replace(/<\/svg>$/,'<g class="life">'+f(c)+'</g></svg>'):svg;};}
 
@@ -1176,6 +1190,200 @@ html[data-style="ink"] #ink-cursor{display:block;position:fixed;inset:0;pointer-
 
  /* --- inclinación 3D apagable: si está apagada, no reaccionar --- */
  addEventListener('promii:config',function(){if(typeof render==='function'&&window._pmStyle!==cfg().style){window._pmStyle=cfg().style;}});
+})();
+</script>
+<!-- ===== v5: efectos del Lab en el sitio + Casos (Bitácora) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="lgDefs"></defs>
+  <filter id="lq-goo"><feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="g"/><feComposite in="SourceGraphic" in2="g" operator="atop"/></filter>
+</svg>
+<style id="v5">
+/* esquinas continuas tipo Apple en superficies (no en píldoras) */
+html:not([data-off~="squircle"]) :is(.glass,.proj,.svc,.path,.eco,.now,.wait,.stat,.sk,.job,.case,.fab-panel){corner-shape:superellipse(1.7)}
+/* inclinación 3D de proyectos con brillo */
+#projGrid .proj{animation-fill-mode:backwards}
+#projGrid .proj.in{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition-property:opacity,filter}
+.proj .glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(220px circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,.22),transparent 60%);mix-blend-mode:overlay;z-index:3}
+.proj:hover .glare{opacity:1}
+html[data-off~="projtilt"] #projGrid .proj.in{transform:none!important}html[data-off~="projtilt"] .proj .glare{display:none}
+html[data-style="ink"] .proj .glare{background:radial-gradient(220px circle at var(--gx,50%) var(--gy,30%),color-mix(in srgb,var(--accent) 18%,transparent),transparent 60%);mix-blend-mode:multiply}
+/* contacto líquido flotante */
+.fab{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:65;width:0;height:0}
+.fab-blobs{position:absolute;right:-28px;bottom:-28px;width:260px;height:260px;transform:translate(28px,28px);filter:url(#lq-goo);pointer-events:none}
+.fab-blob{position:absolute;right:28px;bottom:28px;width:56px;height:56px;margin:0;border-radius:50%;background:var(--text);transition:transform .7s var(--m-spring)}
+.fab-it{position:absolute;right:-28px;bottom:-28px;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;color:var(--bg);opacity:0;pointer-events:none;transition:transform .7s var(--m-spring),opacity .25s;text-decoration:none}
+.fab-it svg{width:22px;height:22px;fill:currentColor}
+.fab-it span{position:absolute;right:66px;white-space:nowrap;font:600 12px var(--body);color:var(--text);background:var(--glass2);border:1px solid var(--line2);padding:4px 10px;border-radius:999px;opacity:0;transform:translateX(6px);transition:opacity .25s,transform .4s var(--m-ease);pointer-events:none}
+.fab.open .fab-it{opacity:1;pointer-events:auto}
+.fab.open .fab-it:hover span,.fab.open .fab-it:focus-visible span{opacity:1;transform:none}
+.fab-btn{position:absolute;right:-28px;bottom:-28px;width:56px;height:56px;border-radius:50%;border:0;cursor:pointer;background:var(--text);color:var(--bg);display:grid;place-items:center;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:transform .5s var(--m-spring)}
+.fab-btn:active{transform:scale(.92)}
+.fab-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;transition:transform .6s var(--m-spring)}
+.fab.open .fab-btn svg{transform:rotate(135deg)}
+.fab-btn:focus-visible,.fab-it:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+html[data-off~="fab"] .fab{display:none}
+@media print{.fab{display:none}}
+/* Casos */
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+@media(max-width:1000px){.cases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.cases{grid-template-columns:1fr}}
+.case{font:inherit;text-align:left;border:0;margin:0;-webkit-appearance:none;appearance:none;box-sizing:border-box;cursor:pointer;display:grid;gap:10px;align-content:start;padding:20px;border-radius:22px;color:var(--text);transition:transform .5s var(--m-ease)}
+.case:hover{transform:translateY(-3px)}
+.case:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.case .ck{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.case b{font-family:var(--display);font-size:20px;line-height:1.15}
+.case p{margin:0;font-size:13.5px;color:var(--muted)}
+.case .mt{display:flex;flex-wrap:wrap;gap:6px}
+.case .mt span{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--text)}
+.case .rd{font-family:var(--display);font-weight:600;font-size:13px}
+.bita{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-top:14px;padding:18px 20px;border-radius:22px}
+.bita div{display:grid;gap:2px}.bita b{font-family:var(--display);font-size:17px}.bita span{font-size:13.5px;color:var(--muted)}
+.bita form{display:flex;gap:8px;flex-wrap:wrap;flex:1;justify-content:flex-end;min-width:260px}
+.bita input[type=email]{flex:1;min-width:180px;max-width:320px;font:inherit;color:var(--text);background:var(--glass);border:1px solid var(--line2);border-radius:12px;padding:11px 14px}
+dialog.cased{margin:auto;inset:0;position:fixed;border:0;padding:0;background:transparent;color:var(--text);width:min(860px,calc(100% - 32px));max-height:calc(100% - 48px)}
+dialog.cased::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
+.cdlg{border-radius:28px;padding:28px;background:var(--formCard,var(--bg));color:#15151c;max-height:calc(100vh - 48px);overflow:auto}
+html[data-theme="dark"]:not([data-style="ink"]) .cdlg{background:#111118;color:#f4f4f8}
+html[data-style="ink"][data-theme="dark"] .cdlg{background:#171513;color:#ece7dc}
+.cdlg .ck{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.cdlg h3{font-family:var(--display);font-size:clamp(26px,4vw,38px);line-height:1.05;letter-spacing:-.02em;margin:8px 0 16px}
+.cdlg h4{font-family:var(--display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin:18px 0 6px;opacity:.7}
+.cdlg p{margin:0;font-size:15px;line-height:1.65;max-width:68ch}
+.cdlg .mt{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.cdlg .mt span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid currentColor;opacity:.8}
+.cdlg .x{float:right;border:0;background:rgba(127,127,127,.18);color:inherit;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px}
+.cdlg .x:focus-visible{outline:2px solid var(--blue)}
+::view-transition-group(*){animation-duration:.8s;animation-timing-function:var(--m-spring)}
+@media(prefers-reduced-motion:reduce){.fab-blob,.fab-it,.fab-btn svg,.case{transition:none}}
+</style>
+<script id="v5-js">
+(function(){
+ var RMv=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ function on(k){var c=window.PROMII_CFG||{off:[]};return (c.off||[]).indexOf(k)<0;}
+ function st(){return (window.PROMII_CFG||{}).style||'glass';}
+ function e(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+
+ /* ---------- Casos (productos y sistemas documentados) ---------- */
+ var CASES=[
+  {id:'web',k:{es:'Producto web · 2026',en:'Web product · 2026'},t:{es:'Un portafolio que se administra solo',en:'A portfolio that runs itself'},
+   s:{es:'promii.co: dos estilos gráficos, analítica propia y panel de control.',en:'promii.co: two visual styles, in-house analytics and a control panel.'},
+   m:{es:['2 estilos','35+ animaciones','0 cookies'],en:['2 styles','35+ animations','0 cookies']},
+   p:{es:'El sitio era una página estática: sin datos de visitas, sin forma de capturar correos y sin poder cambiar el diseño sin tocar código.',en:'The site was a static page: no visit data, no way to capture emails, no way to change the design without editing code.'},
+   b:{es:'Diseñé un sistema de movimiento con tokens (curvas, duraciones y muelles) y dos estilos gráficos sobre la misma base: Liquid Glass y Tinta china. Construí analítica propia sin cookies sobre Supabase con reglas de acceso por fila, un panel privado con mapa de calor y controles para encender o apagar cada animación, listas de espera en MailerLite y SEO estructurado. Todo quedó documentado para retomarse desde cualquier IA.',en:'I designed a token-based motion system (curves, durations and springs) and two visual styles on the same base: Liquid Glass and Ink. I built cookie-free analytics on Supabase with row-level security, a private panel with a click heatmap and switches for every animation, MailerLite waitlists and structured SEO. Everything is documented so any AI can pick it up.'},
+   r:{es:'13 demos reutilizables, 35+ animaciones inventariadas, dos estilos intercambiables desde el panel y un sitio que mide lo que la gente hace. Diseñado y construido con Claude Code.',en:'13 reusable demos, 35+ catalogued animations, two styles switchable from the panel and a site that measures what people do. Designed and built with Claude Code.'},
+   x:['HTML/CSS/JS','WebGL','SVG','Supabase','MailerLite','Vercel','Claude Code']},
+  {id:'trinidad',k:{es:'Sistemas · 2026',en:'Systems · 2026'},t:{es:'La Trinidad: un sistema operativo de trabajo con IA',en:'La Trinidad: an AI work operating system'},
+   s:{es:'Notion + n8n + Claude como una sola fuente de verdad para personas y agentes.',en:'Notion + n8n + Claude as one source of truth for people and agents.'},
+   m:{es:['1 entrada única','Logs dobles','Agentes + humanos'],en:['1 single entry','Double logs','Agents + humans']},
+   p:{es:'Proyectos, clientes, contenido y finanzas vivían dispersos, y cada IA empezaba sin contexto.',en:'Projects, clients, content and finances were scattered, and every AI started without context.'},
+   b:{es:'Una entrada única en Notion (Zuleta OS) con protocolo para agentes, registro doble de cambios (Lumen: tickets y logs), flujos automáticos en n8n (Trinity) y Claude como capa de inteligencia. Cada proyecto tiene ficha de metadatos, referencias y bitácora.',en:'A single Notion entry point (Zuleta OS) with an agent protocol, double change logging (Lumen: tickets and logs), automated n8n workflows (Trinity) and Claude as the intelligence layer. Every project has a metadata card, references and a log.'},
+   r:{es:'Personas y agentes trabajan sobre la misma fuente de verdad. El sistema se empaqueta como producto para freelancers y estudios.',en:'People and agents work from the same source of truth. The system is being packaged as a product for freelancers and studios.'},
+   x:['Notion','n8n','Claude','MCP']},
+  {id:'agentic',k:{es:'IA + BIM · en desarrollo',en:'AI + BIM · in progress'},t:{es:'Claude trabajando dentro de Revit',en:'Claude working inside Revit'},
+   s:{es:'Un estudio BIM agéntico: el arquitecto dirige y el agente ejecuta.',en:'An agentic BIM studio: the architect directs, the agent executes.'},
+   m:{es:['MCP','QA/QC','Dynamo a pedido'],en:['MCP','QA/QC','Dynamo on demand']},
+   p:{es:'Revisar modelos, generar documentación y escribir scripts consume horas de trabajo repetitivo.',en:'Reviewing models, generating documentation and writing scripts eats hours of repetitive work.'},
+   b:{es:'Conecté Claude a sesiones vivas de Revit mediante MCP y C# (Roslyn, IExternalEventHandler) para revisar la calidad del modelo, generar documentación, analizar interferencias y escribir scripts de Python/Dynamo bajo demanda.',en:'I connected Claude to live Revit sessions through MCP and C# (Roslyn, IExternalEventHandler) to check model quality, generate documentation, analyze clashes and write Python/Dynamo scripts on demand.'},
+   r:{es:'Las tareas mecánicas pasan al agente con trazabilidad, y el criterio arquitectónico queda en manos del equipo.',en:'Mechanical tasks move to the agent with traceability, while architectural judgment stays with the team.'},
+   x:['Revit API','C#','MCP','Claude','Dynamo']},
+  {id:'docs',k:{es:'Construcción · 2026',en:'Construction · 2026'},t:{es:'Orden documental para 10+ obras multifamiliares',en:'Document control for 10+ multifamily builds'},
+   s:{es:'SharePoint, contratos por divisiones CSI y gobernanza de Asana con IA.',en:'SharePoint, CSI-coded contracts and AI-assisted Asana governance.'},
+   m:{es:['10+ proyectos','CSI','SOPs'],en:['10+ projects','CSI','SOPs']},
+   p:{es:'Contratos, permisos, certificados de seguro y planos de más de diez proyectos simultáneos sin un estándar común.',en:'Contracts, permits, insurance certificates and drawings for more than ten concurrent projects with no shared standard.'},
+   b:{es:'Sistema de control documental en SharePoint (numeración, nomenclatura y versiones), estándar de contratos por divisiones CSI con SOP de ciclo de vida, verificación de cumplimiento de proveedores antes de cada pago e integración de Asana, Teams, Fathom y Claude documentada en guías.',en:'A SharePoint document-control system (numbering, naming and versions), a CSI-coded contract standard with a lifecycle SOP, vendor-compliance checks before every payment, and an Asana, Teams, Fathom and Claude integration documented in guides.'},
+   r:{es:'Los pronósticos de caja y las hojas de desembolso salen directamente de los contratos, y el equipo trabaja con SOPs escritos.',en:'Cash forecasts and draw sheets come straight from the contracts, and the team works from written SOPs.'},
+   x:['SharePoint','Asana','Teams','Fathom','Claude']},
+  {id:'rabbit',k:{es:'Ventas · sistema',en:'Sales · system'},t:{es:'Rabbit Holes: prospección B2B con personas reales',en:'Rabbit Holes: B2B prospecting with real people'},
+   s:{es:'De la lista genérica a tres interlocutores con nombre por empresa.',en:'From generic lists to three named contacts per company.'},
+   m:{es:['1,882 firmas','3 contactos/empresa','CRM listo'],en:['1,882 firms','3 contacts/company','CRM-ready']},
+   p:{es:'Las listas compradas traen contactos genéricos y mensajes que nadie responde.',en:'Bought lists bring generic contacts and messages nobody answers.'},
+   b:{es:'Un flujo de punta a punta: descubrir personas reales en la web, directorios, ferias y Sales Navigator; evitar duplicados; perfilar el negocio; elegir hasta tres interlocutores con ángulos distintos; escribir secuencias de LinkedIn y correo, y exportar a CRM (Odoo) y MailerLite.',en:'An end-to-end flow: find real people on the web, directories, trade shows and Sales Navigator; avoid duplicates; profile the business; pick up to three contacts with different angles; write LinkedIn and email sequences; export to CRM (Odoo) and MailerLite.'},
+   r:{es:'Un piloto procesó 1,882 firmas de arquitectura e ingeniería y quedó empaquetado como motor reutilizable con scripts en Python.',en:'A pilot processed 1,882 architecture and engineering firms and was packaged as a reusable engine with Python scripts.'},
+   x:['Python','Odoo','MailerLite','Sales Navigator','Claude']},
+  {id:'energy',k:{es:'BIM · NYC DOB',en:'BIM · NYC DOB'},t:{es:'200+ tipos de vanos sin transcribir a mano',en:'200+ window types without manual transcription'},
+   s:{es:'Documentación energética NYCECC 2020 desde parámetros calculados.',en:'NYCECC 2020 energy documentation from calculated parameters.'},
+   m:{es:['200+ vanos','~15 proyectos','TR8'],en:['200+ types','~15 projects','TR8']},
+   p:{es:'Las tablas energéticas con cientos de vanos y valores U se llenaban a mano y cada ciclo de redlines repetía el trabajo.',en:'Energy tables with hundreds of openings and U-values were filled by hand, and every redline cycle repeated the work.'},
+   b:{es:'Parámetros calculados en Revit que alimentan las tablas, diagramas de muros energéticos y planos de barrera de aire con documentación TR8.',en:'Calculated Revit parameters feeding the schedules, energy wall diagrams and air-barrier plans with TR8 documentation.'},
+   r:{es:'Más de 200 tipos de vanos documentados en juegos de planos para unos 15 proyectos multifamiliares en Nueva York.',en:'Over 200 window types documented across drawing sets for about 15 multifamily projects in New York.'},
+   x:['Revit','NYCECC 2020','Parámetros calculados']}];
+ Object.assign(T.es,{nav_cases:"Casos",cs_eye:"Casos",cs_h:"Sistemas que construí, contados como productos",cs_sub:"Cada caso viene de mis registros de trabajo: el problema, lo que construí y lo que cambió.",cs_read:"Leer caso →",cs_p:"El problema",cs_b:"Lo que construí",cs_r:"El resultado",cs_x:"Herramientas",cs_close:"Cerrar",
+  bt_t:"Bitácora Promii",bt_d:"Un caso nuevo cada mes: sistemas, BIM e IA explicados paso a paso.",bt_btn:"Suscribirme",fab_l:"Contacto"});
+ Object.assign(T.en,{nav_cases:"Cases",cs_eye:"Case studies",cs_h:"Systems I built, told as products",cs_sub:"Each case comes from my work logs: the problem, what I built and what changed.",cs_read:"Read case →",cs_p:"The problem",cs_b:"What I built",cs_r:"The result",cs_x:"Tools",cs_close:"Close",
+  bt_t:"Promii Log",bt_d:"A new case every month: systems, BIM and AI explained step by step.",bt_btn:"Subscribe",fab_l:"Contact"});
+ function renderCases(){var L=lang,box=document.getElementById('caseBox');if(!box)return;
+  box.innerHTML=CASES.map(function(c){return '<button type="button" class="case glass reveal" data-case="'+c.id+'" style="view-transition-name:case-'+c.id+'"><span class="ck"><span>'+c.k[L]+'</span></span><b>'+e(c.t[L])+'</b><p>'+e(c.s[L])+'</p><span class="mt">'+c.m[L].map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span><span class="rd">'+T[L].cs_read+'</span></button>';}).join('');}
+ var dlg=document.getElementById('caseDlg');
+ function openCase(id){var c=CASES.filter(function(x){return x.id===id;})[0],L=lang,d=T[L];if(!c)return;
+  var html='<div class="cdlg" style="view-transition-name:case-'+c.id+'"><button class="x" type="button" aria-label="'+d.cs_close+'">×</button><span class="ck">'+c.k[L]+'</span><h3>'+e(c.t[L])+'</h3><span class="mt">'+c.m[L].map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span>'+
+   '<h4>'+d.cs_p+'</h4><p>'+e(c.p[L])+'</p><h4>'+d.cs_b+'</h4><p>'+e(c.b[L])+'</p><h4>'+d.cs_r+'</h4><p>'+e(c.r[L])+'</p><h4>'+d.cs_x+'</h4><span class="mt">'+c.x.map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span></div>';
+  var card=document.querySelector('[data-case="'+id+'"]');
+  var go=function(){if(card)card.style.viewTransitionName='none';dlg.innerHTML=html;dlg.showModal();dlg.querySelector('.x').onclick=closeCase;};
+  if(document.startViewTransition&&on('morph')&&!RMv)document.startViewTransition(go);else go();
+  try{window.dispatchEvent(new CustomEvent('promii:case',{detail:id}));}catch(x){}}
+ function closeCase(){var id=(dlg.querySelector('.cdlg')||{}).style;var done=function(){dlg.close();document.querySelectorAll('[data-case]').forEach(function(b){b.style.viewTransitionName='case-'+b.dataset.case;});};
+  if(document.startViewTransition&&on('morph')&&!RMv)document.startViewTransition(done);else done();}
+ if(dlg){dlg.addEventListener('click',function(ev){if(ev.target===dlg)closeCase();});dlg.addEventListener('cancel',function(ev){ev.preventDefault();closeCase();});}
+ document.addEventListener('click',function(ev){var b=ev.target.closest('[data-case]');if(b)openCase(b.dataset.case);});
+ var bf=document.getElementById('bitaForm');
+ if(bf)bf.addEventListener('submit',function(ev){ev.preventDefault();var d=T[lang],m=bf.email.value.trim(),stt=document.getElementById('bitaStatus');if(bf.querySelector('.hp').value)return;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)){stt.className='fstatus err';stt.textContent=d.wait_bad;return;}
+  stt.className='fstatus';stt.textContent=d.st_sending||'…';
+  window.promiiSubscribe(m,['newsletter'],'promii.co/casos').then(function(){stt.className='fstatus ok';stt.textContent=d.wait_ok;bf.reset();}).catch(function(){stt.className='fstatus err';stt.textContent=d.wait_err;});});
+
+ /* ---------- Contacto líquido flotante ---------- */
+ var ICO={wa:'<path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 .9c.3.1.5.2.5.4.1.1.1.7-.1 1.3z"/>',
+  li:'<path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.2 0-2.8-1.7-2.8s-2 1.3-2 2.7V21h-4z"/>',
+  ml:'<path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4 7v.3l8 5.1 8-5.1V7z"/>',
+  be:'<path d="M8.2 11.4c.9-.4 1.5-1.2 1.5-2.4 0-2.3-1.7-2.9-3.7-2.9H1v12h5.2c2.2 0 4.2-1 4.2-3.5 0-1.5-.7-2.7-2.2-3.2zM3.6 8.1h2.2c.8 0 1.6.2 1.6 1.2 0 .9-.6 1.3-1.4 1.3H3.6zm2.5 7.9H3.6v-3.4h2.6c1 0 1.7.4 1.7 1.6s-.8 1.8-1.8 1.8zM20 9.3c-2.8 0-4.4 2-4.4 4.6 0 2.7 1.6 4.5 4.4 4.5 2.1 0 3.5-1 4-3h-2.2c-.2.7-1 1.1-1.8 1.1-1.3 0-2-.7-2.1-2.1h6.2c.2-2.8-1.3-5.1-4.1-5.1zm-2.1 3.8c.1-1.2.8-1.9 2-1.9 1.1 0 1.7.8 1.8 1.9zM15.8 6.8h5v1.4h-5z"/>'};
+ var LINKS=[['wa','WhatsApp','https://wa.me/573160570258'],['li','LinkedIn','https://www.linkedin.com/in/bczuleta'],['ml','hi@promii.co','mailto:hi@promii.co'],['be','Behance','https://www.behance.net/brianzuleta']];
+ var fab=document.createElement('div');fab.className='fab';fab.id='fab';
+ fab.innerHTML='<div class="fab-blobs" aria-hidden="true"><i class="fab-blob" data-n="m"></i>'+LINKS.map(function(l,i){return '<i class="fab-blob" data-n="'+i+'"></i>';}).join('')+'</div>'+
+  LINKS.map(function(l,i){return '<a class="fab-it" data-n="'+i+'" href="'+l[2]+'"'+(l[2].indexOf('http')===0?' target="_blank" rel="noopener"':'')+' tabindex="-1" aria-label="'+l[1]+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+ICO[l[0]]+'</svg><span>'+l[1]+'</span></a>';}).join('')+
+  '<button class="fab-btn" type="button" aria-expanded="false" aria-controls="fab" aria-label="Contacto"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>';
+ document.body.appendChild(fab);
+ function setFab(open){fab.classList.toggle('open',open);fab.querySelector('.fab-btn').setAttribute('aria-expanded',open);
+  fab.querySelectorAll('[data-n]').forEach(function(x){var n=x.dataset.n;if(n==='m')return;var i=+n,dy=-(i+1)*64;
+   x.style.transitionDelay=(open?i*45:(3-i)*30)+'ms';x.style.transform=open?'translateY('+dy+'px)':'translateY(0) scale(.6)';if(x.tagName==='A')x.tabIndex=open?0:-1;});}
+ setFab(false);fab.querySelector('.fab-btn').addEventListener('click',function(){setFab(!fab.classList.contains('open'));});
+ document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&fab.classList.contains('open'))setFab(false);});
+ document.addEventListener('click',function(ev){if(fab.classList.contains('open')&&!fab.contains(ev.target))setFab(false);});
+
+ /* ---------- Inclinación 3D de proyectos (muelle) ---------- */
+ var tilts=new Map();
+ function bindTilt(){document.querySelectorAll('#projGrid .proj').forEach(function(p){if(tilts.has(p))return;var g=document.createElement('span');g.className='glare';p.appendChild(g);
+  var o={x:0,y:0,vx:0,vy:0,tx:0,ty:0};tilts.set(p,o);
+  p.addEventListener('pointermove',function(ev){if(ev.pointerType!=='mouse'||!on('projtilt')||RMv)return;var r=p.getBoundingClientRect(),px=(ev.clientX-r.left)/r.width,py=(ev.clientY-r.top)/r.height;o.ty=(px-.5)*9;o.tx=-(py-.5)*9;p.style.setProperty('--gx',px*100+'%');p.style.setProperty('--gy',py*100+'%');});
+  p.addEventListener('pointerleave',function(){o.tx=o.ty=0;});});}
+ var lt=performance.now();
+ (function loop(now){var dt=Math.min((now-lt)/1000,1/30);lt=now;tilts.forEach(function(o,p){if(!p.isConnected){tilts.delete(p);return;}
+  o.vx+=(180*(o.tx-o.x)-16*o.vx)*dt;o.vy+=(180*(o.ty-o.y)-16*o.vy)*dt;o.x+=o.vx*dt;o.y+=o.vy*dt;
+  if(Math.abs(o.x)>.01||Math.abs(o.y)>.01||Math.abs(o.vx)>.01){p.style.setProperty('--rx',o.x.toFixed(2)+'deg');p.style.setProperty('--ry',o.y.toFixed(2)+'deg');}});
+  requestAnimationFrame(loop);})(lt);
+ var pg=document.getElementById('projGrid');if(pg)new MutationObserver(bindTilt).observe(pg,{childList:true});bindTilt();
+
+ /* ---------- Liquid Glass real en la barra de navegación (Chromium) ---------- */
+ var ua=navigator.userAgent,lgOK=/Chrome\/|Chromium\//.test(ua)&&!/Firefox/.test(ua)&&CSS.supports('backdrop-filter','url(#x)');
+ var NS='http://www.w3.org/2000/svg',defs=document.getElementById('lgDefs');
+ function lgMap(w,h,r,bez){var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d'),img=x.createImageData(w,h),d=img.data,hw=w/2,hh=h/2;
+  function sdf(px,py){var qx=Math.abs(px-hw)-(hw-r),qy=Math.abs(py-hh)-(hh-r);return Math.hypot(Math.max(qx,0),Math.max(qy,0))+Math.min(Math.max(qx,qy),0)-r;}
+  for(var y=0;y<h;y++)for(var X=0;X<w;X++){var px=X+.5,py=y+.5,s=sdf(px,py),dx=0,dy=0;if(s<0){var t=Math.min(-s/bez,1),m=Math.pow(1-t,2.2);if(m>.001){var gx=sdf(px+.5,py)-sdf(px-.5,py),gy=sdf(px,py+.5)-sdf(px,py-.5),L=Math.hypot(gx,gy)||1;dx=gx/L*m;dy=gy/L*m;}}
+   var i=(y*w+X)*4;d[i]=128+dx*127;d[i+1]=128+dy*127;d[i+2]=128;d[i+3]=255;}
+  x.putImageData(img,0,0);return c.toDataURL();}
+ function applyLG(el,id,bez,scale){if(!lgOK||!el)return;var w=Math.round(el.offsetWidth),h=Math.round(el.offsetHeight);if(!w||!h)return;
+  var f=document.getElementById(id);if(!f){f=document.createElementNS(NS,'filter');f.id=id;f.setAttribute('filterUnits','userSpaceOnUse');f.setAttribute('color-interpolation-filters','sRGB');
+   f.innerHTML='<feImage result="map" preserveAspectRatio="none"/><feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G"/>';defs.appendChild(f);}
+  var r=Math.min(parseFloat(getComputedStyle(el).borderTopLeftRadius)||0,h/2),im=f.firstElementChild,dm=f.lastElementChild;
+  [f,im].forEach(function(n){n.setAttribute('x',0);n.setAttribute('y',0);n.setAttribute('width',w);n.setAttribute('height',h);});
+  im.setAttribute('href',lgMap(w,h,r,bez));dm.setAttribute('scale',-scale);el.dataset.lg=id;}
+ var navEl=document.querySelector('nav');
+ function lgAll(){var want=lgOK&&st()==='glass'&&on('lg');document.documentElement.classList.toggle('lg-on',want);if(want)applyLG(navEl,'lg-nav',16,46);}
+ var ls=document.createElement('style');ls.textContent='html.lg-on nav{backdrop-filter:url(#lg-nav) blur(14px) saturate(1.7)!important;-webkit-backdrop-filter:url(#lg-nav) blur(14px) saturate(1.7)!important}';document.head.appendChild(ls);
+ var rz;addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(lgAll,200);});addEventListener('promii:config',lgAll);setTimeout(lgAll,300);
+
+ /* ---------- render ---------- */
+ function v5(){renderCases();var fl=fab.querySelector('.fab-btn');if(fl)fl.setAttribute('aria-label',T[lang].fab_l);}
+ if(typeof render==='function'){var _r=render;render=function(){_r.apply(this,arguments);v5();if(typeof setupReveal==='function')setupReveal();};}
+ v5();if(typeof setupReveal==='function')setupReveal();if(typeof applyI18n==='function')applyI18n();
 })();
 </script>
 <script>try{var _l=new URLSearchParams(location.search).get("lang");if((_l==="en"||_l==="es")&&typeof setLang==="function")setLang(_l);}catch(e){}</script>

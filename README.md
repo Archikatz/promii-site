@@ -16,7 +16,8 @@ admin/index.html           Panel privado: analítica + Diseño y movimiento (log
 lab/                       Motion Lab: 13 demos reutilizables + inventario de animaciones
 lab/demos/*.html           Cada demo es un archivo independiente
 lab/inventario.html        Inventario de las 35 animaciones y revisión de consistencia
-docs/                      Documentación del proyecto (este es el respaldo de la conversación)
+docs/                      Documentación: PROYECTO, SISTEMA-DE-DISENO, OPERACION, CREDITOS (respaldo de la conversación)
+assets/og.jpg              Imagen para compartir en redes (1200×630)
 robots.txt, sitemap.xml    SEO
 vercel.json                Reglas para Vercel (admin.promii.co)
 CNAME                      Dominio para GitHub Pages

@@ -23,6 +23,11 @@
     { key: 'tilt',     group: 'Interacción',name: 'Inclinación 3D de servicios', where: 'Servicios' },
     { key: 'cursor',   group: 'Interacción',name: 'Estela de tinta del cursor',  where: 'Escritorio', styles: ['ink'] },
     { key: 'splash',   group: 'Interacción',name: 'Gota de tinta al hacer clic', where: 'Toda la página', styles: ['ink'] },
+    { key: 'squircle', group: 'Forma',      name: 'Esquinas continuas tipo Apple', where: 'Tarjetas y paneles' },
+    { key: 'lg',       group: 'Forma',      name: 'Refracción Liquid Glass',     where: 'Barra de navegación (Chrome/Edge)', styles: ['glass'] },
+    { key: 'projtilt', group: 'Interacción',name: 'Inclinación 3D de proyectos', where: 'Proyectos (escritorio)' },
+    { key: 'morph',    group: 'Interacción',name: 'Transición fluida a detalle', where: 'Casos' },
+    { key: 'fab',      group: 'Interacción',name: 'Contacto líquido flotante',   where: 'Abajo a la derecha' },
     { key: 'toast',    group: 'Avisos',     name: 'Aviso de redes de arte',      where: 'Abajo a la izquierda' }
   ];
   var STYLES = { glass: 'Liquid Glass', ink: 'Tinta china' };

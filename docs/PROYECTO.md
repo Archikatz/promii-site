@@ -47,6 +47,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 8. **Sistema de estilos**: `assets/promii-config.js` + estilo **Tinta china** (papel, bordes a pincel, nubes de tinta WebGL, trazo de pincel en el titular, estela de tinta del cursor, gota al hacer clic) + interruptores por animación.
 9. **Panel → Diseño y movimiento**: elegir estilo, color de contraste, apagar/encender cada animación, vista previa en vivo y "Guardar y publicar" (solo admin).
 
+10. **Ronda de cierre:** las 4 alertas del inventario corregidas (0 pendientes). Del Lab al sitio: esquinas continuas, refracción Liquid Glass en la barra de navegación (Chrome/Edge), contacto líquido flotante, inclinación 3D con brillo en proyectos y transición fluida a detalle. Nueva sección **Casos** con 6 sistemas contados como productos y suscripción a la **Bitácora Promii**. Imagen Open Graph (`assets/og.jpg`). Documento de créditos para CV/LinkedIn y calendario editorial (`docs/CREDITOS.md`). Carpeta de Drive "promii.co · Sitio web (repositorio)" con estos documentos.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
@@ -63,13 +65,14 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 - [ ] Después de publicar: inscribirse en la lista de espera para probar MailerLite y revisar el panel.
 
 **Siguiente trabajo sugerido:**
-- [ ] Corregir las 4 animaciones marcadas en el inventario (regla de revelado duplicada, servicios con `ease`, 2.6 s → 2.4 s, .75 s → .8 s).
-- [ ] Llevar al sitio los efectos del Lab que Brian aprobó ("me encantan todos"): Liquid Glass en nav y CTA, squircles, barra de vidrio móvil, contacto líquido, tarjetas 3D, morph a detalle, tipografía cinética.
-- [ ] Colección de arte ArchiKatz desde Drive (falta escoger imágenes) y usuarios de redes de ArchiKatz.
-- [ ] Comunidad: invitación a Discord tras la lista de espera (decisión de Notion).
+- [x] Corregir las alertas del inventario.
+- [x] Llevar efectos del Lab al sitio (squircles, Liquid Glass en nav, contacto líquido, tilt 3D, morph a detalle).
+- [x] Sección Casos + Bitácora + créditos de CV + imagen Open Graph.
+- [ ] Colección de arte ArchiKatz desde Drive (Brian escoge imágenes) y usuarios de redes de ArchiKatz.
+- [ ] Comunidad: enlace de invitación a Discord tras la lista de espera.
 - [ ] Tienda ArchiKatz en Shopify: enlazar cuando abra.
-- [ ] Reescritura más profunda de textos (servicios, sobre mí) con el tono de los dos caminos.
-- [ ] Imagen Open Graph (1200×630) para compartir en redes.
+- [ ] Escribir el número 1 de la Bitácora (ver calendario en `docs/CREDITOS.md`) y crear la automatización de bienvenida en MailerLite.
+- [ ] Llevar los créditos de `docs/CREDITOS.md` a la hoja de vida y a LinkedIn.
 
 ## 7. Prompt para retomar con cualquier IA
 
