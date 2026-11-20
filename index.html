@@ -203,6 +203,7 @@ html[data-theme="light"] .glass:not(.job)::before,html[data-theme="light"] .job>
 .glass:hover::after{opacity:1}
 .reveal{opacity:0;transform:translateY(28px) scale(.985);filter:blur(6px);transition:opacity .9s var(--m-ease),transform .9s var(--m-ease),filter .9s;transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none;filter:none}
+html.lg-soft .reveal{filter:none}
 .hero h1 .g{background:linear-gradient(100deg,var(--gold),var(--neon) 35%,var(--blue) 60%,var(--gold) 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;animation:shine 7s linear infinite}
 @keyframes shine{to{background-position:220% center}}
 .hero h1,.hero .lead,.hero .kicker,.hero .cta-row,.hero .trust{animation:rise 1s var(--m-ease) both}
@@ -792,6 +793,9 @@ var RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 function countUp(el){var raw=el.getAttribute('data-n'),m=raw.match(/^(\D*)(\d+)(.*)$/);if(!m||RM)return;var n=+m[2],t0=null;function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/1400),e=1-Math.pow(1-k,3);el.textContent=m[1]+Math.round(n*e)+m[3];if(k<1)requestAnimationFrame(f);}requestAnimationFrame(f);}
 function setupReveal(){if(!_io)_io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');_io.unobserve(e.target);var n=e.target.querySelector('.n[data-n]');if(n)countUp(n);}});},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.reveal:not(.in)').forEach(function(el){var sib=Array.prototype.filter.call(el.parentNode.children,function(c){return c.classList.contains('reveal');});el.style.setProperty('--d',(sib.indexOf(el)%6*0.08)+'s');_io.observe(el);});}
+/* red de seguridad: si el observador no marca un bloque visible (visto en iPhone), lo revela al hacer scroll o al cargar */
+var _rvT=0;function revealSweep(){_rvT=0;var H=innerHeight;document.querySelectorAll('.reveal:not(.in)').forEach(function(el){if(el.closest('#drop'))return;var r=el.getBoundingClientRect();if(r.bottom>0&&r.top<H&&r.height>0){el.classList.add('in');if(_io)_io.unobserve(el);}});}
+addEventListener('scroll',function(){if(!_rvT)_rvT=setTimeout(revealSweep,350);},{passive:true});addEventListener('load',function(){setTimeout(revealSweep,900);});setInterval(function(){if(!document.hidden)revealSweep();},2500);
 function render(){applyI18n();renderMarquee();renderContact();renderAbout();renderJobs();renderProjects();renderSkills();renderEdu();renderWhy();renderServices();renderCart();setupReveal();attachTilt();}
 const MQ=["Revit","NYC DOB","LOD 300–350","NYCECC 2020","Scan-to-BIM","Navisworks","Dynamo","AutoCAD","Bluebeam","BIM 360 / ACC","Claude ↔ Revit (MCP)","C# / Revit API","Python","n8n","GoHighLevel","Notion","Asana","SharePoint","D5 Render","Twinmotion","Lumion","Higgsfield","Midjourney"];
 function renderMarquee(){var h=MQ.map(function(t){return '<span>'+t+'</span>';}).join('');document.getElementById('mq').innerHTML=h+h;}
