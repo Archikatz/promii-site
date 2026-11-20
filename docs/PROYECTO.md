@@ -60,6 +60,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 16. **"Ahora" con la Bitácora y lupa real en iPhone:** la sección "En qué estoy trabajando" muestra las entradas con portada (carrusel deslizable en celular) más la tarjeta de KBM y un enlace a la Bitácora. En Safari/iPhone la gota ahora amplía cualquier parte de la página: copia las secciones que tiene debajo, las amplía y las alinea en cada cuadro (sin costo extra medido). En Chrome/Edge sigue la refracción real.
 
+17. **Subdominios conectados (20-nov-2026):** CNAME en GoDaddy → Vercel para admin, bitacora, lab, academy, comunidad y games (Vercel: los 6 verificados, sin conflictos). `admin` abre el panel; `bitacora` y `lab` redirigen a promii.co/bitacora y promii.co/lab; `academy`, `comunidad` y `games` redirigen a promii.co/#ecosistema hasta que tengan página propia (cambiar en `vercel.json`).
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
@@ -84,7 +86,7 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 **Pendiente inmediato (siguiente sesión):**
 - [ ] Brian prueba en iPhone 17 Pro Max y en PC: fluidez de Tinta china, barra de pestañas, gota, botones gelatinosos.
 - [ ] Promii Games (`games.promii.co`): portal + 2 juegos (Torre de niveles, Detección de interferencias); evento `game` en analítica (falta migración del check de `events.type`).
-- [ ] DNS en GoDaddy: CNAME `admin` → `efc942ef066e7ab1.vercel-dns-017.com`.
+- [x] DNS en GoDaddy: 6 subdominios conectados a Vercel.
 
 **Siguiente trabajo sugerido:**
 - [x] Corregir las alertas del inventario.
