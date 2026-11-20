@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Barra de vidrio · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Barra de navegación flotante de vidrio: indicador líquido con dos muelles (borde delantero rápido,
+   trasero lento) para que se estire entre pestañas; se compacta al hacer scroll hacia abajo. */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--blue:#2f6bff;--red:#ff3b30;color-scheme:dark;
+  --spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,sans-serif;overflow:hidden}
+.feed{position:absolute;inset:0;overflow-y:auto;padding:28px max(16px,env(safe-area-inset-right)) 140px max(16px,env(safe-area-inset-left));scrollbar-width:none}
+.feed::-webkit-scrollbar{display:none}
+.feed h1{font:700 30px/1.1 "Space Grotesk";letter-spacing:-.02em;margin:0 0 6px}
+.feed p.k{color:var(--muted);margin:0 0 22px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{height:190px;border-radius:30px;corner-shape:superellipse(1.8);padding:18px;display:flex;flex-direction:column;justify-content:flex-end;font:600 15px "Space Grotesk";position:relative;overflow:hidden}
+.card small{font:500 12px Inter;color:rgba(255,255,255,.75)}
+.card:nth-child(4n+1){background:linear-gradient(150deg,#2f6bff,#0b1f66)}
+.card:nth-child(4n+2){background:linear-gradient(150deg,#ff3b30,#5c0b06)}
+.card:nth-child(4n+3){background:linear-gradient(150deg,#e9e9f0,#7d7d92);color:#0b0b10}
+.card:nth-child(4n+3) small{color:rgba(0,0,0,.6)}
+.card:nth-child(4n){background:repeating-linear-gradient(45deg,#1b1b26 0 10px,#22222f 10px 20px)}
+.bar{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:4;
+  display:flex;align-items:center;gap:0;padding:6px;border-radius:999px;
+  background:rgba(22,22,30,.42);backdrop-filter:blur(18px) saturate(1.9) brightness(1.1);-webkit-backdrop-filter:blur(18px) saturate(1.9) brightness(1.1);
+  box-shadow:inset 0 0 0 .5px rgba(255,255,255,.28),inset 0 1px 0 rgba(255,255,255,.22),0 16px 40px -10px rgba(0,0,0,.7);
+  transition:padding .6s var(--spring),transform .6s var(--spring)}
+.bar.compact{transform:translateX(-50%) scale(.86)}
+.ind{position:absolute;top:6px;bottom:6px;left:0;border-radius:999px;background:rgba(255,255,255,.16);
+  box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35),inset 0 1px 0 rgba(255,255,255,.35);will-change:transform,width}
+.tab{all:unset;position:relative;z-index:1;cursor:pointer;display:grid;justify-items:center;gap:3px;padding:8px 16px;min-width:66px;border-radius:999px;color:rgba(255,255,255,.62);font:500 11px Inter;transition:color .3s}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s var(--spring)}
+.tab[aria-selected="true"]{color:#fff}
+.tab[aria-selected="true"] svg{transform:scale(1.12)}
+.tab:active svg{transform:scale(.88)}
+.tab:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.tab span{transition:opacity .35s,max-height .5s var(--spring);max-height:14px;overflow:hidden}
+.bar.compact .tab span{opacity:0;max-height:0}
+.fab{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:4;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(22,22,30,.42);backdrop-filter:blur(18px) saturate(1.9);-webkit-backdrop-filter:blur(18px) saturate(1.9);
+  box-shadow:inset 0 0 0 .5px rgba(255,255,255,.28),inset 0 1px 0 rgba(255,255,255,.22),0 16px 40px -10px rgba(0,0,0,.7);transition:transform .6s var(--spring),opacity .4s}
+.fab svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round}
+.bar.compact ~ .fab{transform:scale(.86)}
+@media (max-width:560px){.fab{display:none}.tab{min-width:56px;padding:8px 10px}}
+</style>
+</head>
+<body>
+<main class="feed" id="feed">
+  <h1>Proyectos</h1>
+  <p class="k">Haz scroll: la barra se compacta. Toca las pestañas: el indicador se estira como líquido.</p>
+  <div class="cards" id="cards"></div>
+</main>
+<nav class="bar" id="bar" role="tablist" aria-label="Secciones">
+  <div class="ind" id="ind"></div>
+  <button class="tab" role="tab" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></button>
+  <button class="tab" role="tab" aria-selected="false"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Proyectos</span></button>
+  <button class="tab" role="tab" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg><span>Servicios</span></button>
+  <button class="tab" role="tab" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span>Contacto</span></button>
+</nav>
+<button class="fab" aria-label="Buscar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></button>
+<script>
+(() => {
+  const names = ['Edificio residencial · Queens', 'Scan-to-BIM · Brooklyn', 'Agente IA para RFIs', 'Planos DOB · Bronx', 'Modelo LOD 350', 'Automatización Dynamo', 'Fachada · Manhattan', 'Coordinación MEP'];
+  const cards = document.getElementById('cards');
+  for (let i = 0; i < 16; i++) { const d = document.createElement('div'); d.className = 'card'; d.innerHTML = `${names[i % names.length]}<small>2024 · Revit · LOD ${300 + (i % 2) * 50}</small>`; cards.appendChild(d); }
+
+  const bar = document.getElementById('bar'), ind = document.getElementById('ind'), tabs = [...bar.querySelectorAll('.tab')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // dos muelles: borde izquierdo y derecho del indicador
+  const L = { x: 0, v: 0, t: 0 }, R = { x: 0, v: 0, t: 0 };
+  let cur = 0;
+  function targetFor(i) { const b = tabs[i], br = bar.getBoundingClientRect(), r = b.getBoundingClientRect(); return [r.left - br.left, r.right - br.left]; }
+  function select(i) {
+    const dir = i > cur ? 1 : -1; cur = i;
+    tabs.forEach((t, k) => t.setAttribute('aria-selected', k === i));
+    const [l, r] = targetFor(i); L.t = l; R.t = r;
+    // el borde que va adelante es más rígido → el indicador se estira y luego alcanza
+    L.k = dir > 0 ? 170 : 420; R.k = dir > 0 ? 420 : 170;
+    if (reduce) { L.x = l; R.x = r; }
+  }
+  tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));
+  const init = () => { const [l, r] = targetFor(cur); L.x = L.t = l; R.x = R.t = r; L.k = R.k = 300; };
+  init(); addEventListener('resize', init);
+  let last = performance.now();
+  function step(o, dt) { const c = 2 * Math.sqrt(o.k) * .72; o.v += (o.k * (o.t - o.x) - c * o.v) * dt; o.x += o.v * dt; }
+  (function loop(now) {
+    const dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+    step(L, dt); step(R, dt);
+    const w = Math.max(20, R.x - L.x), sq = Math.min(Math.abs(L.v - R.v) / 4000, .12);
+    ind.style.transform = `translateX(${L.x}px) scaleY(${1 - sq})`; ind.style.width = w + 'px';
+    requestAnimationFrame(loop);
+  })(last);
+
+  const feed = document.getElementById('feed'); let lastY = 0;
+  feed.addEventListener('scroll', () => {
+    const y = feed.scrollTop;
+    if (y > lastY + 4 && y > 60) bar.classList.add('compact'); else if (y < lastY - 4) bar.classList.remove('compact');
+    lastY = y;
+    setTimeout(init, 650);
+  }, { passive: true });
+  // demo automática: recorre las pestañas hasta que el usuario toque
+  let auto = !reduce, i = 0;
+  const timer = setInterval(() => { if (!auto) return clearInterval(timer); i = (i + 1) % tabs.length; select(i); }, 1600);
+  addEventListener('pointerdown', () => auto = false, { once: true });
+})();
+</script>
+</body>
+</html>

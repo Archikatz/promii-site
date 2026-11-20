@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tarjetas 3D · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Tarjetas de proyecto con inclinación 3D por muelle, brillo especular que sigue el cursor,
+   capas con profundidad (translateZ) y un botón magnético. */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--blue:#2f6bff;--red:#ff3b30;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(80% 60% at 50% 0%,#141428,var(--bg));color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;padding:34px max(16px,env(safe-area-inset-right)) 34px max(16px,env(safe-area-inset-left))}
+h1{font:700 22px "Space Grotesk";margin:0 0 4px;text-align:center}
+.sub{color:var(--muted);text-align:center;margin:0 0 30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,300px));justify-content:center;gap:28px;perspective:1100px}
+.card{position:relative;height:380px;border-radius:40px;corner-shape:superellipse(1.8);transform-style:preserve-3d;will-change:transform;cursor:pointer;
+  box-shadow:0 30px 60px -25px rgba(0,0,0,.85),inset 0 0 0 1px rgba(255,255,255,.1)}
+.card .bg{position:absolute;inset:0;border-radius:inherit;overflow:hidden}
+.card .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,var(--ga,0)),transparent 45%);mix-blend-mode:overlay;transition:--ga .3s}
+.card .rim{position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:radial-gradient(160px circle at var(--gx,50%) var(--gy,30%),rgba(255,255,255,.75),rgba(255,255,255,.06) 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:var(--ro,.35)}
+.l1{position:absolute;left:24px;top:24px;transform:translateZ(40px);font:500 11px Inter;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.l2{position:absolute;left:24px;right:24px;bottom:26px;transform:translateZ(70px)}
+.l2 b{display:block;font:700 26px/1.05 "Space Grotesk";letter-spacing:-.02em}
+.l2 small{color:rgba(255,255,255,.75)}
+.art{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) translateZ(55px);width:62%;filter:drop-shadow(0 20px 20px rgba(0,0,0,.45))}
+.c1 .bg{background:linear-gradient(160deg,#2f6bff,#0a1745)}
+.c2 .bg{background:linear-gradient(160deg,#2a2a37,#0d0d13)}
+.c3 .bg{background:linear-gradient(160deg,#ff3b30,#3d0703)}
+.cta{display:flex;justify-content:center;margin-top:40px}
+.mag{position:relative;border:0;cursor:pointer;padding:18px 34px;border-radius:999px;font:600 15px Inter;color:#0b0b10;background:#f4f4f8;will-change:transform;box-shadow:0 14px 40px -10px rgba(255,255,255,.35)}
+.mag span{display:inline-block;will-change:transform}
+.mag:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+</style>
+</head>
+<body>
+<h1>Proyectos con profundidad</h1>
+<p class="sub">Pasa el cursor sobre las tarjetas. Acerca el mouse al botón.</p>
+<div class="grid">
+  <article class="card c1"><div class="bg"></div><div class="rim"></div><span class="l1">Residencial · Queens</span>
+    <svg class="art" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M20 100V40l40-22 40 22v60z" fill="rgba(255,255,255,.12)"/><path d="M20 40l40 22 40-22M60 62v38"/><path d="M32 70h12v12H32zM76 70h12v12H76zM32 50h12v8H32zM76 50h12v8H76z"/></svg>
+    <div class="l2"><b>Planos NYC DOB</b><small>6 pisos · LOD 300</small></div></article>
+  <article class="card c2"><div class="bg"></div><div class="rim"></div><span class="l1">Scan-to-BIM</span>
+    <svg class="art" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="1.6"><circle cx="60" cy="60" r="40" stroke-dasharray="2 5"/><circle cx="60" cy="60" r="26" stroke-dasharray="2 4"/><path d="M30 80l30-50 30 50z" fill="rgba(255,255,255,.1)"/></svg>
+    <div class="l2"><b>Nube de puntos a Revit</b><small>Brooklyn · LOD 350</small></div></article>
+  <article class="card c3"><div class="bg"></div><div class="rim"></div><span class="l1">Sistemas de IA</span>
+    <svg class="art" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="2"><rect x="24" y="30" width="72" height="56" rx="18" fill="rgba(255,255,255,.12)"/><circle cx="47" cy="58" r="5" fill="#fff"/><circle cx="73" cy="58" r="5" fill="#fff"/><path d="M60 30V16M52 16h16"/></svg>
+    <div class="l2"><b>Agente para RFIs</b><small>Claude + Revit API</small></div></article>
+</div>
+<div class="cta"><button class="mag" id="mag" type="button"><span>Hablemos de tu proyecto →</span></button></div>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cards = [...document.querySelectorAll('.card')].map(el => ({ el, rx: 0, ry: 0, vx: 0, vy: 0, tx: 0, ty: 0, s: 1, vs: 0, ts: 1, ga: 0 }));
+  cards.forEach(c => {
+    c.el.addEventListener('pointermove', e => {
+      const r = c.el.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      c.ty = (px - .5) * 22; c.tx = -(py - .5) * 22; c.ts = 1.04;
+      c.el.style.setProperty('--gx', px * 100 + '%'); c.el.style.setProperty('--gy', py * 100 + '%');
+      c.el.style.setProperty('--ga', .5); c.el.style.setProperty('--ro', 1);
+    });
+    c.el.addEventListener('pointerleave', () => { c.tx = c.ty = 0; c.ts = 1; c.el.style.setProperty('--ga', 0); c.el.style.setProperty('--ro', .35); });
+  });
+  const mag = document.getElementById('mag'), lab = mag.firstElementChild, M = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 };
+  addEventListener('pointermove', e => {
+    const r = mag.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, dx = e.clientX - cx, dy = e.clientY - cy, d = Math.hypot(dx, dy);
+    if (d < 160) { M.tx = dx * .35; M.ty = dy * .45; } else { M.tx = M.ty = 0; }
+  });
+  const spring = (o, kx, k, c, dt) => { o['v' + kx] += (k * (o['t' + kx] - o[kx]) - c * o['v' + kx]) * dt; o[kx] += o['v' + kx] * dt; };
+  let last = performance.now(), t0 = last, auto = !reduce;
+  addEventListener('pointermove', () => auto = false, { once: true });
+  function loop(now) {
+    const dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+    if (auto) { const t = (now - t0) / 1000; cards.forEach((c, i) => { c.ty = Math.sin(t * 1.1 + i) * 10; c.tx = Math.cos(t * .9 + i) * 7; c.el.style.setProperty('--gx', 50 + Math.sin(t * 1.1 + i) * 40 + '%'); c.el.style.setProperty('--ro', .8); }); }
+    cards.forEach(c => {
+      spring(c, 'x', 180, 16, dt); spring(c, 'y', 180, 16, dt);
+      c.vs += (260 * (c.ts - c.s) - 20 * c.vs) * dt; c.s += c.vs * dt;
+      c.el.style.transform = `rotateX(${c.x || 0}deg) rotateY(${c.y || 0}deg) scale(${c.s})`;
+    });
+    spring(M, 'x', 220, 18, dt); spring(M, 'y', 220, 18, dt);
+    mag.style.transform = `translate(${M.x}px,${M.y}px)`; lab.style.transform = `translate(${M.x * .3}px,${M.y * .3}px)`;
+    requestAnimationFrame(loop);
+  }
+  cards.forEach(c => { c.x = 0; c.y = 0; c.vx = 0; c.vy = 0; });
+  M.x = M.y = 0;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

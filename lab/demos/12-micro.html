@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Microinteracciones · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Microinteracciones con muelles: interruptor líquido, botón que se hunde con onda,
+   contador tipo odómetro, botón de copiar que se transforma y deslizador con pulgar de vidrio. */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--blue:#2f6bff;--red:#ff3b30;--green:#30d158;--panel:#12121a;color-scheme:dark;
+  --spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;padding:26px max(16px,env(safe-area-inset-right)) 26px max(16px,env(safe-area-inset-left))}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.cell{background:var(--panel);border-radius:30px;corner-shape:superellipse(1.7);padding:22px;min-height:190px;display:grid;grid-template-rows:auto 1fr;gap:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.cell h3{margin:0;font:500 11px Inter;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.c{display:grid;place-items:center}
+/* interruptor */
+.sw{all:unset;cursor:pointer;position:relative;width:76px;height:40px;border-radius:999px;background:#2a2a36;transition:background .4s}
+.sw[aria-checked="true"]{background:var(--green)}
+.sw i{position:absolute;top:3px;left:3px;width:34px;height:34px;border-radius:999px;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.3);transition:left .6s var(--spring),width .25s ease}
+.sw:active i{width:46px}
+.sw[aria-checked="true"] i{left:39px}
+.sw[aria-checked="true"]:active i{left:27px}
+.sw:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+/* botón con onda */
+.press{position:relative;overflow:hidden;border:0;cursor:pointer;padding:16px 30px;border-radius:999px;font:600 15px Inter;background:var(--blue);color:#fff;transition:transform .5s var(--spring)}
+.press:active{transform:scale(.93)}
+.press:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.press .rp{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rp .7s ease-out forwards;pointer-events:none}
+@keyframes rp{to{transform:scale(4);opacity:0}}
+/* odómetro */
+.odo{display:flex;gap:2px;font:700 64px/1 "Space Grotesk";letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.dg{height:1em;overflow:hidden;display:inline-block}
+.dg span{display:block;transition:transform 1.4s var(--spring)}
+.odo small{font:500 13px Inter;color:var(--muted);align-self:flex-end;margin-left:8px;letter-spacing:0}
+.c2{display:grid;gap:10px;justify-items:center}
+.ghost{all:unset;cursor:pointer;font:500 12px Inter;color:var(--muted);padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06)}
+.ghost:focus-visible{outline:2px solid var(--blue)}
+/* copiar */
+.copy{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 16px;border-radius:999px;background:#1c1c26;font:500 14px Inter}
+.cb{all:unset;cursor:pointer;width:40px;height:40px;border-radius:999px;display:grid;place-items:center;background:#f4f4f8;color:#0b0b10;transition:background .3s,transform .5s var(--spring)}
+.cb:active{transform:scale(.85)}
+.cb:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.cb svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;grid-area:1/1;transition:transform .5s var(--spring),opacity .2s}
+.cb .ok{transform:scale(0) rotate(-45deg);opacity:0}
+.cb.done{background:var(--green);color:#fff}
+.cb.done .ok{transform:none;opacity:1}
+.cb.done .cp{transform:scale(0) rotate(45deg);opacity:0}
+/* deslizador */
+.sl{position:relative;width:100%;max-width:240px;height:44px;touch-action:none;cursor:pointer}
+.sl .tr{position:absolute;left:0;right:0;top:19px;height:6px;border-radius:9px;background:#2a2a36}
+.sl .fi{position:absolute;left:0;top:19px;height:6px;border-radius:9px;background:linear-gradient(90deg,var(--blue),#8fb0ff)}
+.sl .th{position:absolute;top:6px;width:32px;height:32px;margin-left:-16px;border-radius:999px;background:rgba(255,255,255,.25);backdrop-filter:blur(6px) saturate(1.8);-webkit-backdrop-filter:blur(6px) saturate(1.8);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.7),inset 0 1px 0 rgba(255,255,255,.7),0 6px 16px rgba(0,0,0,.4);transition:width .3s var(--spring),margin .3s var(--spring),height .3s var(--spring),top .3s var(--spring)}
+.sl.drag .th{width:48px;margin-left:-24px;height:26px;top:9px}
+.sl:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:8px}
+.val{font:700 28px "Space Grotesk";font-variant-numeric:tabular-nums}
+.val small{font:500 13px Inter;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="grid">
+  <section class="cell"><h3>Interruptor líquido</h3><div class="c"><button class="sw" id="sw" role="switch" aria-checked="true" aria-label="Disponible para proyectos"><i></i></button></div></section>
+  <section class="cell"><h3>Botón que se hunde</h3><div class="c"><button class="press" id="press">Cotizar proyecto</button></div></section>
+  <section class="cell"><h3>Contador odómetro</h3><div class="c c2"><div class="odo" id="odo"></div><button class="ghost" id="roll" type="button">Girar ↺</button></div></section>
+  <section class="cell"><h3>Copiar que se transforma</h3><div class="c"><div class="copy"><span id="mail">hola@promii.co</span><button class="cb" id="cb" aria-label="Copiar correo"><svg class="cp" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><svg class="ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button></div></div></section>
+  <section class="cell"><h3>Deslizador con pulgar de vidrio</h3><div class="c c2"><div class="val"><span id="v">12</span> <small>hojas por semana</small></div><div class="sl" id="sl" tabindex="0" role="slider" aria-valuemin="1" aria-valuemax="40" aria-valuenow="12" aria-label="Hojas por semana"><div class="tr"></div><div class="fi" id="fi"></div><div class="th" id="th"></div></div></div></section>
+</div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const sw = $('sw'); sw.addEventListener('click', () => sw.setAttribute('aria-checked', sw.getAttribute('aria-checked') !== 'true'));
+  const press = $('press');
+  press.addEventListener('pointerdown', e => { const r = press.getBoundingClientRect(), s = Math.max(r.width, r.height), d = document.createElement('span'); d.className = 'rp'; d.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - r.left - s / 2}px;top:${e.clientY - r.top - s / 2}px`; press.appendChild(d); setTimeout(() => d.remove(), 700); });
+  // odómetro
+  const odo = $('odo');
+  function setOdo(n) {
+    const str = String(n);
+    odo.innerHTML = [...str].map(() => `<span class="dg"><span>${[0,1,2,3,4,5,6,7,8,9].map(x => `<div style="height:1em">${x}</div>`).join('')}</span></span>`).join('') + '<small>proyectos</small>';
+    const cols = odo.querySelectorAll('.dg > span');
+    requestAnimationFrame(() => requestAnimationFrame(() => cols.forEach((c, i) => { c.style.transitionDelay = i * 90 + 'ms'; c.style.transform = `translateY(-${+str[i]}em)`; })));
+  }
+  let n = 15; setOdo(n);
+  $('roll').addEventListener('click', () => { n = 10 + Math.floor(Math.random() * 89); setOdo(n); });
+  // copiar
+  const cb = $('cb');
+  cb.addEventListener('click', () => { navigator.clipboard?.writeText($('mail').textContent).catch(() => {}); cb.classList.add('done'); setTimeout(() => cb.classList.remove('done'), 1600); });
+  // deslizador
+  const sl = $('sl'), th = $('th'), fi = $('fi'); let val = 12;
+  function set(v) { val = Math.max(1, Math.min(40, Math.round(v))); const p = (val - 1) / 39 * 100; th.style.left = p + '%'; fi.style.width = p + '%'; $('v').textContent = val; sl.setAttribute('aria-valuenow', val); }
+  const fromX = x => { const r = sl.getBoundingClientRect(); set(1 + (x - r.left) / r.width * 39); };
+  sl.addEventListener('pointerdown', e => { sl.setPointerCapture(e.pointerId); sl.classList.add('drag'); fromX(e.clientX); });
+  sl.addEventListener('pointermove', e => { if (sl.classList.contains('drag')) fromX(e.clientX); });
+  sl.addEventListener('pointerup', () => sl.classList.remove('drag'));
+  sl.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowUp') set(val + 1); if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') set(val - 1); });
+  set(val);
+})();
+</script>
+</body>
+</html>

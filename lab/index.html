@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Promii Motion Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: catálogo de demos en vivo en rejilla de 2 columnas, cada una una "placa" con vista previa,
+   ficha técnica y casilla para escoger; abajo la investigación de técnicas sin demo y formatos. */
+:root{
+  --bg:#f1f1f5;--surface:#ffffff;--surface2:#e9e9f0;--text:#121218;--muted:#5a5a6e;--dim:#8a8a9c;
+  --line:rgba(15,18,40,.10);--blue:#1f56e0;--red:#e0261b;--green:#16a34a;--amber:#b45309;
+  --display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--body:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  --spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#08080c;--surface:#111118;--surface2:#1a1a24;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;
+  --line:rgba(255,255,255,.09);--blue:#6b95ff;--red:#ff5a4f;--green:#30d158;--amber:#ffd60a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08080c;--surface:#111118;--surface2:#1a1a24;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;
+  --line:rgba(255,255,255,.09);--blue:#6b95ff;--red:#ff5a4f;--green:#30d158;--amber:#ffd60a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.02em}
+
+.top{padding-block:48px 28px}
+.eyebrow{font:500 11px/1 var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.top h1{font-size:clamp(40px,7vw,80px);line-height:.95;margin:14px 0 16px;letter-spacing:-.045em}
+.top h1 em{font-style:normal;color:var(--muted)}
+.lead{max-width:64ch;color:var(--muted);font-size:17px;margin:0}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:22px;font-size:13px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:7px}
+
+.pill{display:inline-flex;align-items:center;gap:6px;font:500 11.5px/1 var(--body);padding:5px 9px;border-radius:999px;background:var(--surface2);color:var(--muted);white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;flex:none}
+.d-all{background:var(--green)}.d-most{background:var(--blue)}.d-part{background:var(--amber)}
+
+.rec{margin-top:30px;padding:22px;border-radius:30px;corner-shape:superellipse(1.7);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.rec h2{font-size:19px;margin:0 0 6px}
+.rec p{margin:0 0 12px;color:var(--muted);max-width:72ch}
+.rec ol{margin:0;padding-left:20px;display:grid;gap:4px}
+.rec li::marker{color:var(--dim);font-family:var(--mono);font-size:12px}
+.rec b{font-weight:600}
+.rec button{margin-top:14px}
+
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-block:12px;margin-top:26px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{all:unset;cursor:pointer;flex:none;padding:8px 14px;border-radius:999px;font:500 13px var(--body);background:var(--surface);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);transition:background .2s,color .2s}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+.chip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;padding-block:8px 40px}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+.demo{background:var(--surface);border-radius:34px;corner-shape:superellipse(1.7);padding:10px;box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;min-width:0;transition:box-shadow .3s}
+.demo.picked{box-shadow:inset 0 0 0 2px var(--blue)}
+.demo[hidden]{display:none}
+.stage{position:relative;aspect-ratio:16/10;max-width:100%;border-radius:26px;corner-shape:superellipse(1.7);overflow:hidden;background:#08080c center/cover no-repeat}
+.stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity .5s}
+.stage iframe.on{opacity:1}
+.stage .num{position:absolute;left:12px;top:12px;z-index:2;font:500 11px var(--mono);color:#fff;background:rgba(0,0,0,.45);padding:4px 8px;border-radius:999px;pointer-events:none}
+.body{padding:14px 10px 6px;display:grid;gap:10px;flex:1}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.head h3{margin:0;font-size:20px;line-height:1.15}
+.head .cat{display:block;font:500 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.what{margin:0;color:var(--muted);font-size:14.5px}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:13px}
+.meta dt{color:var(--dim)}
+.meta dd{margin:0;min-width:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;font:600 13px var(--body);background:var(--surface2);color:var(--text);transition:transform .45s var(--spring)}
+.btn:active{transform:scale(.94)}
+.btn.primary{background:var(--text);color:var(--bg)}
+.btn[hidden]{display:none}
+.dlg header .btn{white-space:nowrap}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.pick{display:flex;align-items:center;gap:8px;cursor:pointer;font:600 13px var(--body);padding:8px 12px 8px 8px;border-radius:999px;background:var(--surface2);-webkit-user-select:none;user-select:none}
+.pick input{appearance:none;margin:0;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--dim);display:grid;place-items:center;cursor:pointer;transition:background .2s,box-shadow .2s}
+.pick input::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px) scale(0);transition:transform .4s var(--spring)}
+.pick input:checked{background:var(--blue);box-shadow:none}
+.pick input:checked::after{transform:rotate(-45deg) translate(1px,-1px) scale(1)}
+.pick input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+section.more{padding-block:20px 30px}
+section.more h2{font-size:clamp(26px,4vw,38px);margin:0 0 8px}
+section.more > p{color:var(--muted);max-width:70ch;margin:0 0 20px}
+.tbl{overflow-x:auto;border-radius:24px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+td .pick{padding:4px;background:none}
+.fmt{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.fmt div{padding:18px;border-radius:24px;corner-shape:superellipse(1.6);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.fmt b{display:block;font:600 16px var(--display);margin-bottom:4px}
+.fmt p{margin:0;color:var(--muted);font-size:14px}
+.limits{display:grid;gap:10px;margin:0;padding-left:20px;color:var(--muted);max-width:80ch}
+.limits b{color:var(--text);font-weight:600}
+footer{padding-block:30px 140px;color:var(--dim);font-size:13px}
+
+.bar{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translate(-50%,160%);z-index:20;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 18px;border-radius:999px;
+  background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(20px) saturate(1.8);-webkit-backdrop-filter:blur(20px) saturate(1.8);box-shadow:inset 0 0 0 1px var(--line),0 18px 40px -12px rgba(0,0,0,.45);transition:transform .7s var(--spring);max-width:calc(100% - 32px)}
+.bar.show{transform:translate(-50%,0)}
+.bar span{font-size:14px;white-space:nowrap}
+.bar b{font-variant-numeric:tabular-nums}
+
+dialog{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
+.dlg{position:absolute;inset:max(14px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));display:grid;grid-template-rows:auto minmax(0,1fr);grid-template-columns:minmax(0,1fr);border-radius:28px;overflow:hidden;background:var(--surface);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.dlg header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 10px 10px 18px;border-bottom:1px solid var(--line)}
+.dlg header b{font:600 15px var(--display);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dlg header div{display:flex;gap:6px}
+.dlg #dlgBody{display:grid;min-height:0;min-width:0}
+.dlg iframe{width:100%;height:100%;border:0;background:#08080c}
+.dlg pre{margin:0;overflow:auto;padding:18px;font:12.5px/1.55 var(--mono);background:var(--bg);white-space:pre;tab-size:2}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <div class="eyebrow"><i></i>promii.co · laboratorio de movimiento</div>
+  <h1>Promii Motion Lab <em>· 13 demos en vivo</em></h1>
+  <p class="lead">Todo lo que se puede construir desde aquí para que tu página deje de ser estática: vidrio líquido real, esquinas continuas como Apple, física de muelles, fondos en GPU y planos que se dibujan solos. Cada demo es un archivo HTML independiente que se puede reutilizar. Marca las que quieres y copia tu selección.</p>
+  <div class="legend">
+    <span><i class="dot d-all"></i>Funciona en todos los navegadores</span>
+    <span><i class="dot d-most"></i>Completo en Chrome, Edge y Safari; versión simple en el resto</span>
+    <span><i class="dot d-part"></i>Efecto completo solo en Chrome y Edge; respaldo en Safari y Firefox</span>
+  </div>
+  <div class="rec">
+    <h2>Mi recomendación para promii.co</h2>
+    <p>Un sistema coherente en vez de efectos sueltos. En este orden, porque cada paso se apoya en el anterior:</p>
+    <ol>
+      <li><b>Muelles (05) y esquinas continuas (02)</b> como base de todos los botones, tarjetas y transiciones.</li>
+      <li><b>Barra de vidrio (03)</b> como navegación, con <b>Liquid Glass (01)</b> en el botón principal y el selector ES/EN.</li>
+      <li><b>Fondo de seda líquida (08)</b> en el hero, en lugar de las partículas actuales.</li>
+      <li><b>Tipografía cinética (10)</b> en el titular y <b>plano que se dibuja (06)</b> en Experiencia.</li>
+      <li><b>Scroll (07)</b>, <b>tarjetas 3D (09)</b> y <b>morph a detalle (11)</b> en Proyectos.</li>
+      <li><b>Contacto líquido (04)</b> y <b>microinteracciones (12)</b> en contacto y cotizador. <b>Niveles BIM (13)</b> en Servicios.</li>
+    </ol>
+    <button class="btn" id="pickRec" type="button">Marcar la recomendación</button>
+  </div>
+</header>
+
+<nav class="filters" aria-label="Filtrar demos"><div class="wrap chips" id="chips"></div></nav>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+
+  <section class="more" id="mas">
+    <h2>Más opciones, sin demo todavía</h2>
+    <p>Herramientas que también podemos usar. Unas necesitan material tuyo (renders, modelos o archivos de After Effects) y otras pesan más, así que conviene escogerlas con intención.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Técnica</th><th>Para qué sirve en tu página</th><th>Peso aprox.</th><th>¿Se hace desde aquí?</th><th>Quiero</th></tr></thead>
+      <tbody id="more"></tbody>
+    </table></div>
+  </section>
+
+  <section class="more">
+    <h2>Formatos para tu colección</h2>
+    <p>Cómo se guarda y reutiliza cada animación.</p>
+    <div class="fmt">
+      <div><b>HTML independiente</b><p>Como estas 13 demos: un archivo que abre solo, sin dependencias. Se copia dentro de la página o se carga como sección.</p></div>
+      <div><b>Componente CSS + JS</b><p>La versión “pegable”: un bloque de estilos y un script pequeño por efecto, con variables para color, radio y velocidad.</p></div>
+      <div><b>SVG animado</b><p>Vectores con la animación adentro (íconos, logo, planos). Escalan a cualquier tamaño y pesan pocos KB.</p></div>
+      <div><b>Video MP4 / WebM</b><p>Grabo cualquier demo como video desde aquí para Instagram, LinkedIn o TikTok, en vertical u horizontal.</p></div>
+      <div><b>Lottie / Rive</b><p>Si alguna animación se diseña en After Effects o en Rive, la integro en la página con su reproductor.</p></div>
+      <div><b>Shader GLSL</b><p>Fondos generados por la GPU. Se guardan como texto de 2–3 KB y se pueden recolorear con tu paleta.</p></div>
+    </div>
+  </section>
+
+  <section class="more">
+    <h2>Límites que conviene saber</h2>
+    <ul class="limits">
+      <li><b>La refracción de Liquid Glass</b> (que el vidrio doble lo que hay detrás) solo funciona en Chrome y Edge. En iPhone y Safari se verá como vidrio esmerilado con brillo, que sigue viéndose bien, pero no dobla el fondo.</li>
+      <li><b>El rendimiento en celulares:</b> el vidrio con desenfoque y el shader WebGL consumen GPU. En la página real limitaría cuántos hay en pantalla a la vez y pausaría lo que no se ve.</li>
+      <li><b>La accesibilidad:</b> todo respeta la opción “reducir movimiento” del sistema. Con ella activada, las animaciones se detienen o se simplifican.</li>
+      <li><b>Lo que no puedo hacer desde aquí:</b> animar dentro de After Effects, Rive o Spline, ni generar renders nuevos. Sí puedo integrar lo que exportes de esas herramientas.</li>
+    </ul>
+  </section>
+</main>
+<footer class="wrap">Promii Motion Lab · cada demo está en <code>lab/demos/</code> del repositorio <code>promii-site</code>.</footer>
+
+<div class="bar" id="bar" role="region" aria-label="Tu selección"><span><b id="count">0</b> seleccionadas</span><button class="btn primary" id="copy" type="button">Copiar mi selección</button></div>
+
+<dialog id="dlg"><div class="dlg"><header><b id="dlgTitle"></b><div><button class="btn" id="dlgCopy" type="button" hidden>Copiar código</button><button class="btn" id="dlgClose" type="button">Cerrar</button></div></header><div id="dlgBody"></div></div></dialog>
+
+<script>
+(() => {
+  const DEMOS = [
+    { id: '01', f: '01-liquid-glass', t: 'Liquid Glass', cat: 'Vidrio y forma', sup: 'part',
+      what: 'Vidrio que refracta y separa los colores del fondo en el borde, como iOS 26. Se arrastra con física de muelle y se estira según la velocidad. La luz del borde sigue al cursor.',
+      use: 'Navegación, botón principal, selector ES/EN, tarjeta del cotizador', tech: ['SVG feDisplacementMap', 'backdrop-filter', 'Muelles JS'], kb: '6 KB' },
+    { id: '02', f: '02-squircle', t: 'Esquinas continuas', cat: 'Vidrio y forma', sup: 'all',
+      what: 'La curva de esquina de Apple (squircle) comparada con el radio circular normal, más la regla de radios concéntricos y la proporción de ícono iOS.',
+      use: 'Todas las tarjetas, botones, imágenes y paneles', tech: ['CSS corner-shape', 'SVG clip-path'], kb: '3 KB' },
+    { id: '03', f: '03-glass-tabbar', t: 'Barra de vidrio', cat: 'Vidrio y forma', sup: 'all',
+      what: 'Barra flotante tipo iOS. El indicador se estira como líquido entre pestañas y la barra se compacta al bajar con scroll.',
+      use: 'Navegación en móvil, filtros de proyectos', tech: ['backdrop-filter', 'Dos muelles JS', 'CSS linear()'], kb: '4 KB' },
+    { id: '04', f: '04-gooey', t: 'Contacto líquido', cat: 'Vidrio y forma', sup: 'all',
+      what: 'Botón que se divide en gotas (WhatsApp, LinkedIn, correo, agendar) y estela de cursor que se funde como mercurio.',
+      use: 'Botón flotante de contacto, cursor del hero', tech: ['Filtro SVG gooey', 'Muelles JS'], kb: '3 KB' },
+    { id: '05', f: '05-springs', t: 'Física de muelles', cat: 'Movimiento', sup: 'all',
+      what: 'La base de lo “híper fluido”. Compara un ease normal contra un muelle, genera la curva CSS para copiar y deja lanzar una tarjeta que regresa con rebote.',
+      use: 'Todas las transiciones de la página', tech: ['CSS linear()', 'Simulación física'], kb: '2 KB' },
+    { id: '06', f: '06-blueprint', t: 'Plano que se dibuja', cat: 'Vector animado', sup: 'all',
+      what: 'Alzado de un edificio de 6 pisos en Queens que se traza solo: muros, ventanas, niveles con cotas en pies, etiqueta de sección y norte.',
+      use: 'Hero alternativo, sección Experiencia, pantalla de carga', tech: ['SVG stroke-dashoffset', 'CSS keyframes'], kb: '5 KB' },
+    { id: '07', f: '07-scroll', t: 'Animaciones con scroll', cat: 'Scroll', sup: 'most',
+      what: 'Barra de progreso, palabras que se encienden al leer, imagen que crece como en las páginas de producto de Apple y galería horizontal fijada. Todo con CSS.',
+      use: 'Sobre mí, Proyectos, cifras', tech: ['CSS animation-timeline', 'view()', 'position: sticky'], kb: '0 KB JS' },
+    { id: '08', f: '08-aurora-shader', t: 'Fondo de seda líquida', cat: 'Fondos', sup: 'all',
+      what: 'Fondo generado por la GPU con ruido fluido en negro, azul y rojo Promii. Reacciona al mouse, cambia de paleta y se pausa fuera de pantalla.',
+      use: 'Fondo del hero en lugar de las partículas', tech: ['WebGL', 'Shader GLSL propio'], kb: '3 KB' },
+    { id: '09', f: '09-tilt-cards', t: 'Tarjetas 3D', cat: 'Profundidad', sup: 'all',
+      what: 'Tarjetas de proyecto que se inclinan hacia el cursor con brillo especular y capas a distintas profundidades. Incluye un botón magnético.',
+      use: 'Proyectos, Servicios, botón de cotizar', tech: ['CSS 3D transforms', 'Muelles JS'], kb: '3 KB' },
+    { id: '10', f: '10-kinetic-type', t: 'Tipografía cinética', cat: 'Tipografía', sup: 'all',
+      what: 'Titular que entra letra por letra, palabra rotativa, peso variable que sigue al cursor, brillo metálico y texto que se decodifica.',
+      use: 'Titular del hero, tu nombre, etiquetas técnicas', tech: ['Inter variable', 'CSS linear()', 'JS'], kb: '3 KB' },
+    { id: '11', f: '11-view-transitions', t: 'Morph a detalle', cat: 'Transiciones', sup: 'most',
+      what: 'Al tocar un proyecto, su imagen y su título vuelan a la vista de detalle sin corte. El navegador interpola la forma.',
+      use: 'Proyectos, pasos del cotizador', tech: ['View Transitions API'], kb: '2 KB' },
+    { id: '12', f: '12-micro', t: 'Microinteracciones', cat: 'Movimiento', sup: 'all',
+      what: 'Interruptor líquido, botón que se hunde con onda, contador tipo odómetro, botón de copiar que se transforma y deslizador con pulgar de vidrio.',
+      use: 'Contacto, cotizador, cifras de experiencia', tech: ['CSS', 'Muelles'], kb: '3 KB' },
+    { id: '13', f: '13-bim-explode', t: 'Niveles BIM en 3D', cat: 'Profundidad', sup: 'all',
+      what: 'Edificio isométrico en CSS 3D. Se gira arrastrando y los niveles se separan para mostrar cada planta con su cota.',
+      use: 'Servicios BIM, explicación de LOD', tech: ['CSS 3D', 'Muelles JS'], kb: '4 KB' }
+  ];
+  const MORE = [
+    ['GSAP 3', 'Secuencias largas y precisas, morph entre formas SVG, texto dividido. Desde 2025 es gratis con todos sus plugins.', '25–70 KB', 'Sí'],
+    ['Motion (motion.dev)', 'Muelles y gestos listos para usar, con menos código propio.', '4–18 KB', 'Sí'],
+    ['Lenis', 'Scroll suave con inercia en toda la página.', '4 KB', 'Sí'],
+    ['Three.js + tu modelo', 'Un proyecto real en 3D que el visitante gira. Revit → FBX/IFC → glTF.', '150 KB + modelo', 'Sí, si me pasas el modelo'],
+    ['Visor IFC (That Open)', 'Abrir un modelo BIM IFC en el navegador, con niveles y propiedades.', '1 MB+', 'Sí, es pesado'],
+    ['Lottie', 'Animaciones diseñadas en After Effects y exportadas como JSON.', '60 KB + archivo', 'Integro; tú o un diseñador anima'],
+    ['Rive', 'Animaciones interactivas con estados (hover, clic), diseñadas en el editor de Rive.', '150 KB', 'Integro; se diseña en Rive'],
+    ['Spline', 'Escenas 3D diseñadas visualmente, sin código.', '~1 MB', 'Integro; se diseña en Spline'],
+    ['Video con transparencia', 'Renders de Enscape o Twinmotion como fondo o transición.', 'Según el video', 'Integro tus renders'],
+    ['Transiciones entre páginas', 'Si la página crece a varias URLs, cada cambio de página hace morph.', '0 KB', 'Sí'],
+    ['Videos para redes', 'Grabar cualquier demo como MP4 o WebM vertical para Instagram, LinkedIn o TikTok.', '—', 'Sí']
+  ];
+  const SUP = { all: ['d-all', 'Todos'], most: ['d-most', 'Casi todos'], part: ['d-part', 'Completo en Chrome y Edge'] };
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let picked = new Set();
+  try { picked = new Set(JSON.parse(localStorage.getItem('promii-lab-picks') || '[]')); } catch (e) {}
+  const save = () => { try { localStorage.setItem('promii-lab-picks', JSON.stringify([...picked])); } catch (e) {} };
+
+  const grid = document.getElementById('grid');
+  grid.innerHTML = DEMOS.map(d => `
+    <article class="demo" data-id="${d.id}" data-cat="${d.cat}">
+      <div class="stage" style="background-image:url('posters/${d.f}.jpg')"><span class="num">${d.id}</span></div>
+      <div class="body">
+        <div class="head"><div><span class="cat">${d.cat}</span><h3>${d.t}</h3></div><span class="pill"><i class="dot ${SUP[d.sup][0]}"></i>${SUP[d.sup][1]}</span></div>
+        <p class="what">${d.what}</p>
+        <dl class="meta"><dt>Dónde</dt><dd>${d.use}</dd><dt>Peso</dt><dd>${d.kb}</dd></dl>
+        <div class="tags">${d.tech.map(x => `<span class="pill">${x}</span>`).join('')}</div>
+        <div class="actions">
+          <label class="pick"><input type="checkbox" id="pick-${d.id}" data-pick="${d.id} ${d.t}">Lo quiero</label>
+          <button class="btn primary" type="button" data-full="${d.id}">Pantalla completa</button>
+          <button class="btn" type="button" data-code="${d.id}">Ver código</button>
+        </div>
+      </div>
+    </article>`).join('');
+  document.getElementById('more').innerHTML = MORE.map((m, i) => `<tr><td>${m[0]}</td><td>${m[1]}</td><td>${m[2]}</td><td>${m[3]}</td><td><label class="pick"><input type="checkbox" id="pick-m${i}" data-pick="Extra: ${m[0]}" aria-label="Quiero ${m[0]}"></label></td></tr>`).join('');
+
+  // filtros
+  const cats = ['Todas', ...new Set(DEMOS.map(d => d.cat))];
+  const chips = document.getElementById('chips');
+  chips.innerHTML = cats.map((c, i) => `<button class="chip" type="button" aria-pressed="${i === 0}">${c}</button>`).join('');
+  chips.addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    chips.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', x === b));
+    const c = b.textContent;
+    grid.querySelectorAll('.demo').forEach(a => a.hidden = c !== 'Todas' && a.dataset.cat !== c);
+  });
+
+  // selección
+  const bar = document.getElementById('bar'), count = document.getElementById('count');
+  const boxes = [...document.querySelectorAll('[data-pick]')];
+  function sync() {
+    boxes.forEach(b => { b.checked = picked.has(b.dataset.pick); b.closest('.demo')?.classList.toggle('picked', b.checked); });
+    count.textContent = picked.size; bar.classList.toggle('show', picked.size > 0); save();
+  }
+  boxes.forEach(b => b.addEventListener('change', () => { b.checked ? picked.add(b.dataset.pick) : picked.delete(b.dataset.pick); sync(); }));
+  document.getElementById('pickRec').addEventListener('click', () => { boxes.filter(b => !b.dataset.pick.startsWith('Extra')).forEach(b => picked.add(b.dataset.pick)); sync(); });
+  document.getElementById('copy').addEventListener('click', async e => {
+    const txt = 'Mi selección del Promii Motion Lab:\n' + [...picked].sort().map(x => '• ' + x).join('\n');
+    const btn = e.currentTarget;
+    try { await navigator.clipboard.writeText(txt); btn.textContent = 'Copiado ✓'; }
+    catch (err) { showText('Tu selección', txt); btn.textContent = 'Selecciona y copia'; }
+    setTimeout(() => btn.textContent = 'Copiar mi selección', 1800);
+  });
+  sync();
+
+  // vista previa en vivo: solo las tarjetas visibles cargan su demo
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    const st = en.target, d = DEMOS.find(x => x.id === st.parentElement.dataset.id);
+    let fr = st.querySelector('iframe');
+    if (en.isIntersecting && !fr) {
+      fr = document.createElement('iframe'); fr.title = 'Demo: ' + d.t; fr.loading = 'lazy'; fr.src = `demos/${d.f}.html`;
+      fr.addEventListener('load', () => fr.classList.add('on')); st.appendChild(fr);
+    } else if (!en.isIntersecting && fr) fr.remove();
+  }), { rootMargin: '150px 0px' });
+  if (!reduce) grid.querySelectorAll('.stage').forEach(s => io.observe(s));
+
+  // diálogo
+  const dlg = document.getElementById('dlg'), body = document.getElementById('dlgBody'), title = document.getElementById('dlgTitle'), dcopy = document.getElementById('dlgCopy');
+  let codeText = '';
+  function open(t) { title.textContent = t; if (!dlg.open) dlg.showModal(); }
+  function showText(t, txt) { body.innerHTML = ''; const pre = document.createElement('pre'); pre.textContent = txt; body.appendChild(pre); dcopy.hidden = true; open(t); }
+  grid.addEventListener('click', async e => {
+    const full = e.target.closest('[data-full]'), code = e.target.closest('[data-code]');
+    if (full) { const d = DEMOS.find(x => x.id === full.dataset.full); body.innerHTML = `<iframe title="${d.t}" src="demos/${d.f}.html"></iframe>`; dcopy.hidden = true; open(`${d.id} · ${d.t}`); }
+    if (code) {
+      const d = DEMOS.find(x => x.id === code.dataset.code);
+      body.innerHTML = '<pre>Cargando…</pre>'; open(`${d.id} · ${d.t} · código`);
+      try { codeText = await (await fetch(`demos/${d.f}.html`)).text(); body.firstChild.textContent = codeText; dcopy.hidden = false; }
+      catch (err) { body.firstChild.textContent = 'No se pudo cargar el archivo. Ábrelo en lab/demos/' + d.f + '.html del repositorio.'; }
+    }
+  });
+  dcopy.addEventListener('click', async () => { try { await navigator.clipboard.writeText(codeText); dcopy.textContent = 'Copiado ✓'; } catch (e) { const r = document.createRange(); r.selectNodeContents(body.firstChild); getSelection().removeAllRanges(); getSelection().addRange(r); dcopy.textContent = 'Texto seleccionado'; } setTimeout(() => dcopy.textContent = 'Copiar código', 1600); });
+  document.getElementById('dlgClose').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('close', () => { body.innerHTML = ''; });
+})();
+</script>
+</body>
+</html>

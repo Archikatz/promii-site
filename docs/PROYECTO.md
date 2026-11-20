@@ -1,0 +1,79 @@
+# Proyecto promii.co: historia, decisiones y lo que sigue
+
+Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, rama `claude/happy-franklin-y53vk6`). Sirve para retomar desde cualquier cuenta de Claude u otra IA.
+
+## 1. Quién y qué
+
+- **Dueño:** Brian Zuleta, arquitecto matriculado (CPNAA), especialista BIM, Bogotá. Inglés C1. Contacto público: hi@promii.co.
+- **Marcas:** Promii (empresa-producto: servicios productizados de arquitectura, BIM e IA) · Studio Brian Zuleta (práctica de arquitectura) · ArchiKatz (IP creativa: arte, editorial, tienda).
+- **Regla de Notion:** Promii es independiente de MSI. No mezclar assets ni mencionar MSI en la web de Promii.
+- **Sitio:** promii.co (GitHub Pages desde `Archikatz/promii-site`, archivo único `index.html`, ES/EN, claro/oscuro).
+
+## 2. Lo que pidió Brian (en sus palabras, resumido)
+
+1. Una página **híper fluida**, con animaciones, que deje de ser estática. **Liquid Glass** como estilo principal, con **proporciones redondas tipo Apple**.
+2. Investigar qué se puede hacer y ver **demos**, guardadas como **colección reutilizable**.
+3. **No reemplazar** lo que ya le gusta (los dibujos animados de proyectos y los efectos actuales): **agregar** animaciones en otros lugares.
+4. Un **inventario de animaciones** dentro del sitio para clasificarlas, editarlas a la vez y verificar que tengan el mismo estilo.
+5. Actualizar la experiencia en **KBM Realty** (terminó en noviembre de 2026) y modernizar los textos (marketing).
+6. Publicar más proyectos y un briefing de lo reciente, usando Notion y Drive.
+7. Redes de arte (Behance, LinkedIn, Instagram), newsletter, tienda ArchiKatz (Shopify), ArchiKatz Magazine, Academy, Comunidad Promii.
+8. **Contador de visitas, SEO y captura de correos** (estilo GoHighLevel).
+9. **Panel de administrador privado** con correo y contraseña: visitas, tiempo de navegación, dónde hacen clic. Mismo diseño. Idealmente en `admin.promii.co`.
+10. Desde el panel, **encender y apagar cada animación** y cambiar entre **dos estilos gráficos**: Liquid Glass (principal) y **Tinta china híper fluida** negra con **un color de contraste personalizable**. Mismo sistema de movimiento, botones y proporciones.
+11. Usar una **carpeta de Google Drive** como repositorio del proyecto y dejar **READMEs de respaldo**.
+
+## 3. Decisiones tomadas
+
+| Tema | Decisión | Por qué |
+| --- | --- | --- |
+| Panel y datos | **Supabase** (Auth + Postgres con RLS) | GitHub Pages no protege páginas ni guarda datos. Con RLS los datos quedan protegidos aunque el HTML del panel sea público. |
+| Hosting del panel | `promii.co/admin` funciona ya; `admin.promii.co` vía **Vercel** | Vercel permite el subdominio con una regla por host (`vercel.json`). |
+| Correos | **MailerLite** (elegido por Brian sobre GHL) | Grupo "Web promii.co", campos `interests` y `signup_source`. |
+| Enfoque de textos | **Ambos públicos**: "Contratar a Brian" (reclutadores) y "Trabajar con Promii" (clientes) | Dos caminos desde el hero. |
+| Animaciones | Capa aditiva ("Motion+") sobre lo existente | Brian quiere conservar lo actual. |
+| Estilos | `data-style="glass"` o `"ink"` en `<html>`, mismos tokens de movimiento | Un sistema, dos materias. |
+| Privacidad | Sin cookies ni datos personales; id aleatorio; respeta Do Not Track | Analítica respetuosa sin banner. |
+
+## 4. Lo que se construyó (en orden de commits)
+
+1. **Motion Lab** (`lab/`): 13 demos independientes con catálogo, vista en vivo, ver/copiar código y selección. Liquid Glass (refracción real con SVG en Chromium; vidrio esmerilado en Safari/Firefox), squircles, barra de vidrio, gooey, muelles, plano que se dibuja, scroll-driven, shader WebGL, tarjetas 3D, tipografía cinética, View Transitions, microinteracciones, niveles BIM en 3D.
+2. **Motion+** en la página: los dibujos de proyecto siguen vivos después de dibujarse (pulsos IA, ventanas NYC, radar urbano, destello en curva), cotas A-01… bajo cada título, línea de tiempo que se llena con el scroll, íconos que se dibujan, ruta Nueva York ↔ Bogotá.
+3. **KBM** actualizado a *Ago – Nov 2026* con el logro de 10+ proyectos multifamiliares (de la hoja de vida 2026). "9+" pasó a "10+" años.
+4. **Tokens de movimiento** (`--m-ease`, `--m-draw`, `--m-spring`) e **inventario** (`lab/inventario.html`, 35 animaciones, marca las que se salen del sistema).
+5. **Analítica propia**: `analytics/track.js`, `analytics/schema.sql`, `admin/` con KPIs, visitantes por día, tiempo por sección, clics, scroll, origen, dispositivo/idioma, **mapa de calor sobre la página real** y actividad reciente.
+6. **Contenido nuevo**: hero con dos caminos, sección **Ahora** (KBM, Claude ↔ Revit, ArchiKatz Editorial, Promii Academy), sección **Ecosistema** (Promii, Studio BZ activos; tienda, magazine, academy, comunidad "próximamente" con **lista de espera**), redes agrupadas, aviso único de redes de arte, contador de visitas, proyecto **Casa Vértice**.
+7. **Supabase** (`promii-analytics`) creado y probado; **MailerLite** configurado; **SEO** (canonical, hreflang, Open Graph, JSON-LD, robots, sitemap, `?lang=en`).
+8. **Sistema de estilos**: `assets/promii-config.js` + estilo **Tinta china** (papel, bordes a pincel, nubes de tinta WebGL, trazo de pincel en el titular, estela de tinta del cursor, gota al hacer clic) + interruptores por animación.
+9. **Panel → Diseño y movimiento**: elegir estilo, color de contraste, apagar/encender cada animación, vista previa en vivo y "Guardar y publicar" (solo admin).
+
+10. **Ronda de cierre:** las 4 alertas del inventario corregidas (0 pendientes). Del Lab al sitio: esquinas continuas, refracción Liquid Glass en la barra de navegación (Chrome/Edge), contacto líquido flotante, inclinación 3D con brillo en proyectos y transición fluida a detalle. Nueva sección **Casos** con 6 sistemas contados como productos y suscripción a la **Bitácora Promii**. Imagen Open Graph (`assets/og.jpg`). Documento de créditos para CV/LinkedIn y calendario editorial (`docs/CREDITOS.md`). Carpeta de Drive "promii.co · Sitio web (repositorio)" con estos documentos.
+
+## 5. Fuentes de contenido usadas
+
+- Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
+- Drive: `[Gemini_Lab] Portafolio_Maestro_Unificado_Promii_OS` (29 activos en 5 verticales: productos ArchiKatz, academy, servicios).
+- Notion: "Arquitectura Web del Ecosistema — brianzuleta.co + promii.co (v1)" (marcas → dominios, comunidad en Discord primero, ArchiKatz en /ecosistema).
+- Notion: "ArchiKatz OS — Headquarters", "ArchiKatz Editorial" (7 volúmenes, primer libro en preparación), "Promii Academy", "Vértice 2026".
+
+## 6. Pendiente / lo que sigue
+
+**Brian (manual, minutos):**
+- [ ] Supabase → Authentication → Users → **Add user** `hi@promii.co` con contraseña. Luego desactivar "Allow new users to sign up".
+- [ ] Aprobar el acceso de Vercel al equipo `hi-2630s-projects` para crear `admin.promii.co`. Después, en GoDaddy, un **CNAME** `admin` → `cname.vercel-dns.com`.
+- [ ] Decir "publícalo" para fusionar la rama en `main`.
+- [ ] Después de publicar: inscribirse en la lista de espera para probar MailerLite y revisar el panel.
+
+**Siguiente trabajo sugerido:**
+- [x] Corregir las alertas del inventario.
+- [x] Llevar efectos del Lab al sitio (squircles, Liquid Glass en nav, contacto líquido, tilt 3D, morph a detalle).
+- [x] Sección Casos + Bitácora + créditos de CV + imagen Open Graph.
+- [ ] Colección de arte ArchiKatz desde Drive (Brian escoge imágenes) y usuarios de redes de ArchiKatz.
+- [ ] Comunidad: enlace de invitación a Discord tras la lista de espera.
+- [ ] Tienda ArchiKatz en Shopify: enlazar cuando abra.
+- [ ] Escribir el número 1 de la Bitácora (ver calendario en `docs/CREDITOS.md`) y crear la automatización de bienvenida en MailerLite.
+- [ ] Llevar los créditos de `docs/CREDITOS.md` a la hoja de vida y a LinkedIn.
+
+## 7. Prompt para retomar con cualquier IA
+
+> Estoy trabajando en promii.co (repo `Archikatz/promii-site`). Lee `README.md`, `docs/PROYECTO.md`, `docs/SISTEMA-DE-DISENO.md` y `docs/OPERACION.md`. Respeta: no reemplazar animaciones existentes, Liquid Glass es el estilo principal y Tinta china el alterno con el mismo sistema de movimiento; todo texto en ES y EN; Promii es independiente de MSI. Continúa con la sección "Pendiente" del documento.

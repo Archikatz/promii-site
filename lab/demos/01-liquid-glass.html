@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Liquid Glass · Promii Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Liquid Glass: lente que refracta el fondo con un mapa de desplazamiento SVG (Chromium)
+   y cae a vidrio esmerilado en Safari/Firefox. Física de muelle + estiramiento por velocidad. */
+:root{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--blue:#2f6bff;--red:#ff3b30;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;overflow:hidden;-webkit-user-select:none;user-select:none}
+.scene{position:fixed;inset:0;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(30px);will-change:transform}
+.b1{width:52vmax;height:52vmax;left:-14vmax;top:-18vmax;background:radial-gradient(circle,#2f6bff 0,rgba(47,107,255,.35) 40%,transparent 68%);animation:d1 16s ease-in-out infinite alternate}
+.b2{width:44vmax;height:44vmax;right:-12vmax;bottom:-16vmax;background:radial-gradient(circle,#ff3b30 0,rgba(255,59,48,.3) 42%,transparent 68%);animation:d2 19s ease-in-out infinite alternate}
+.b3{width:24vmax;height:24vmax;left:46%;top:8%;background:radial-gradient(circle,rgba(255,255,255,.55),transparent 65%);animation:d3 13s ease-in-out infinite alternate}
+@keyframes d1{to{transform:translate(18vmax,14vmax) scale(1.15)}}
+@keyframes d2{to{transform:translate(-20vmax,-10vmax) scale(.9)}}
+@keyframes d3{to{transform:translate(-26vmax,30vmax) scale(1.3)}}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:44px 44px}
+.word{position:absolute;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none}
+.word b{font:700 clamp(84px,21vw,290px)/.82 "Space Grotesk",system-ui,sans-serif;letter-spacing:-.065em}
+.word span{font:500 clamp(11px,1.4vw,15px)/1 Inter,system-ui,sans-serif;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-top:18px}
+.ticker{position:absolute;left:0;right:0;bottom:22%;display:flex;gap:28px;white-space:nowrap;font:600 13px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);animation:tk 30s linear infinite}
+@keyframes tk{to{transform:translateX(-50%)}}
+
+.glass{position:absolute;left:0;top:0;width:var(--w);height:var(--h);border-radius:var(--r);
+  display:grid;place-items:center;cursor:grab;touch-action:none;will-change:transform;
+  backdrop-filter:blur(var(--blur)) saturate(1.7) brightness(1.08);-webkit-backdrop-filter:blur(var(--blur)) saturate(1.7) brightness(1.08);
+  background:rgba(255,255,255,.04);
+  box-shadow:inset 0 0 0 .5px rgba(255,255,255,.25),0 22px 50px -12px rgba(0,0,0,.6),0 3px 10px rgba(0,0,0,.25)}
+.glass.refract{backdrop-filter:url(#lg) blur(var(--blur)) saturate(1.55) brightness(1.07)}
+.glass:active{cursor:grabbing}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(90% 70% at var(--hx,30%) var(--hy,20%),rgba(255,255,255,.16),transparent 55%)}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.3px;pointer-events:none;
+  background:conic-gradient(from var(--la,315deg),rgba(255,255,255,.95),rgba(255,255,255,.12) 18%,rgba(255,255,255,.04) 40%,rgba(255,255,255,.55) 52%,rgba(255,255,255,.06) 70%,rgba(255,255,255,.95));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.glass .lbl{font:600 13px/1 Inter,sans-serif;letter-spacing:.06em;color:rgba(255,255,255,.92);text-shadow:0 1px 8px rgba(0,0,0,.35);display:flex;gap:8px;align-items:center;pointer-events:none}
+
+.panel{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:5;
+  display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:center;width:max-content;max-width:calc(100% - 24px);
+  padding:10px 14px;border-radius:24px;background:rgba(16,16,24,.62);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);
+  box-shadow:inset 0 0 0 .5px rgba(255,255,255,.18),0 10px 30px rgba(0,0,0,.4);font-size:12px;color:var(--muted)}
+.seg{display:flex;padding:3px;border-radius:999px;background:rgba(255,255,255,.07)}
+.seg button{all:unset;cursor:pointer;padding:5px 11px;border-radius:999px;color:var(--muted);font-weight:500}
+.seg button[aria-pressed="true"]{background:rgba(255,255,255,.9);color:#0b0b10}
+.seg button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+label{display:flex;align-items:center;gap:6px}
+input[type=range]{width:86px;accent-color:#fff}
+.mode{position:fixed;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:5;font:500 11px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px;background:rgba(0,0,0,.45);color:rgba(255,255,255,.8);white-space:nowrap}
+.mode i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#30d158;margin-right:7px;vertical-align:1px}
+.mode.fb i{background:#ffd60a}
+@media (prefers-reduced-motion:reduce){.blob,.ticker{animation:none}}
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="grid"></div>
+  <div class="word"><b>promii</b><span>Arquitectura · BIM · IA</span></div>
+  <div class="ticker"><span>NYC DOB · LOD 350 · Revit · Navisworks · Scan-to-BIM · Dynamo · NYCECC 2020 · Bluebeam · ACC · Claude ↔ Revit ·</span><span>NYC DOB · LOD 350 · Revit · Navisworks · Scan-to-BIM · Dynamo · NYCECC 2020 · Bluebeam · ACC · Claude ↔ Revit ·</span></div>
+</div>
+
+<div class="glass" id="g" role="img" aria-label="Lente de vidrio líquido arrastrable"><div class="lbl" id="lbl">Arrástrame</div></div>
+
+<div class="mode" id="mode"><i></i><span></span></div>
+
+<div class="panel">
+  <div class="seg" role="group" aria-label="Forma">
+    <button type="button" data-shape="pill" aria-pressed="true">Píldora</button>
+    <button type="button" data-shape="lens" aria-pressed="false">Lente</button>
+    <button type="button" data-shape="card" aria-pressed="false">Tarjeta</button>
+  </div>
+  <label for="s-ref">Refracción <input id="s-ref" type="range" min="0" max="160" value="95"></label>
+  <label for="s-bez">Bisel <input id="s-bez" type="range" min="6" max="70" value="34"></label>
+  <label for="s-blur">Blur <input id="s-blur" type="range" min="0" max="12" step=".5" value="1"></label>
+  <label for="s-ca"><input id="s-ca" type="checkbox" checked> Aberración</label>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="lg" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feImage id="map" result="map" preserveAspectRatio="none"/>
+    <feDisplacementMap id="dr" in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" result="dr"/>
+    <feColorMatrix in="dr" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/>
+    <feDisplacementMap id="dg" in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" result="dg"/>
+    <feColorMatrix in="dg" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feDisplacementMap id="db" in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" result="db"/>
+    <feColorMatrix in="db" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b"/>
+    <feBlend in="r" in2="g" mode="screen" result="rg"/>
+    <feBlend in="rg" in2="b" mode="screen"/>
+  </filter>
+</svg>
+
+<script>
+(() => {
+  const g = document.getElementById('g'), lbl = document.getElementById('lbl');
+  const ua = navigator.userAgent;
+  const refractOK = /Chrome\/|Chromium\//.test(ua) && !/Firefox/.test(ua) && CSS.supports('backdrop-filter','url(#lg)');
+  const mode = document.getElementById('mode');
+  mode.querySelector('span').textContent = refractOK ? 'Refracción real activa' : 'Modo compatible · vidrio esmerilado';
+  if (!refractOK) mode.classList.add('fb');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const shapes = {
+    pill: { w: 280, h: 104, r: 52, label: 'Arrástrame' },
+    lens: { w: 190, h: 190, r: 95, label: '' },
+    card: { w: 320, h: 200, r: 44, label: 'Proyecto · NYC DOB' }
+  };
+  let shape = 'pill';
+  const ctl = { ref: 95, bez: 34, blur: 1, ca: true };
+
+  // Mapa de desplazamiento: normal del SDF de un rectángulo redondeado, intensidad en el bisel.
+  function makeMap(w, h, r, bezel) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const x = c.getContext('2d'), img = x.createImageData(w, h), d = img.data;
+    const hw = w / 2, hh = h / 2;
+    const sdf = (px, py) => {
+      const qx = Math.abs(px - hw) - (hw - r), qy = Math.abs(py - hh) - (hh - r);
+      return Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r;
+    };
+    for (let y = 0; y < h; y++) for (let X = 0; X < w; X++) {
+      const px = X + .5, py = y + .5, s = sdf(px, py);
+      let dx = 0, dy = 0;
+      if (s < 0) {
+        const t = Math.min(-s / bezel, 1), m = Math.pow(1 - t, 2.2);
+        if (m > 0.001) {
+          const gx = sdf(px + .5, py) - sdf(px - .5, py), gy = sdf(px, py + .5) - sdf(px, py - .5);
+          const L = Math.hypot(gx, gy) || 1; dx = gx / L * m; dy = gy / L * m;
+        }
+      }
+      const i = (y * w + X) * 4;
+      d[i] = 128 + dx * 127; d[i + 1] = 128 + dy * 127; d[i + 2] = 128; d[i + 3] = 255;
+    }
+    x.putImageData(img, 0, 0);
+    return c.toDataURL();
+  }
+
+  const filt = document.getElementById('lg'), map = document.getElementById('map');
+  function applyFilter() {
+    const s = shapes[shape];
+    g.style.setProperty('--w', s.w + 'px'); g.style.setProperty('--h', s.h + 'px'); g.style.setProperty('--r', s.r + 'px');
+    g.style.setProperty('--blur', ctl.blur + 'px');
+    lbl.textContent = s.label;
+    if (!refractOK) return;
+    for (const el of [filt, map]) { el.setAttribute('x', 0); el.setAttribute('y', 0); el.setAttribute('width', s.w); el.setAttribute('height', s.h); }
+    map.setAttribute('href', makeMap(s.w, s.h, s.r, ctl.bez));
+    const k = -ctl.ref;
+    document.getElementById('dr').setAttribute('scale', k);
+    document.getElementById('dg').setAttribute('scale', ctl.ca ? k * .93 : k);
+    document.getElementById('db').setAttribute('scale', ctl.ca ? k * .86 : k);
+    // fuerza a Chromium a recomponer el backdrop
+    g.classList.remove('refract'); void g.offsetWidth; g.classList.add('refract');
+  }
+
+  // Física de muelle
+  const st = { x: innerWidth / 2, y: innerHeight * .42, vx: 0, vy: 0 };
+  const tg = { x: st.x, y: st.y };
+  let dragging = false, off = { x: 0, y: 0 }, lastInput = -1e9, light = null;
+  const K = 210, C = 22;
+
+  g.addEventListener('pointerdown', e => {
+    dragging = true; g.setPointerCapture(e.pointerId);
+    off.x = e.clientX - st.x; off.y = e.clientY - st.y; lastInput = performance.now();
+  });
+  addEventListener('pointermove', e => {
+    light = { x: e.clientX, y: e.clientY };
+    if (!dragging) return;
+    tg.x = e.clientX - off.x; tg.y = e.clientY - off.y; lastInput = performance.now();
+  });
+  addEventListener('pointerup', () => { dragging = false; lastInput = performance.now(); });
+
+  let last = performance.now(), t0 = last;
+  function frame(now) {
+    const dt = Math.min((now - last) / 1000, 1 / 30); last = now;
+    if (!dragging && now - lastInput > 2600 && !reduce) {
+      const t = (now - t0) / 1000;
+      tg.x = innerWidth / 2 + Math.sin(t * .55) * innerWidth * .26;
+      tg.y = innerHeight * .44 + Math.sin(t * .9 + 1) * innerHeight * .16;
+    }
+    const ax = K * (tg.x - st.x) - C * st.vx, ay = K * (tg.y - st.y) - C * st.vy;
+    st.vx += ax * dt; st.vy += ay * dt; st.x += st.vx * dt; st.y += st.vy * dt;
+    const s = shapes[shape], sp = Math.hypot(st.vx, st.vy);
+    const k = Math.min(sp / 2600, .2), a = Math.atan2(st.vy, st.vx) * 180 / Math.PI;
+    g.style.transform = `translate(${st.x - s.w / 2}px,${st.y - s.h / 2}px) rotate(${a}deg) scale(${1 + k},${1 - k * .75}) rotate(${-a}deg)`;
+    const L = light || { x: 0, y: 0 };
+    const la = Math.atan2(L.x - st.x, -(L.y - st.y)) * 180 / Math.PI;
+    g.style.setProperty('--la', (la - 40) + 'deg');
+    const hx = Math.max(0, Math.min(100, 50 + (L.x - st.x) / s.w * 60)), hy = Math.max(0, Math.min(100, 50 + (L.y - st.y) / s.h * 60));
+    g.style.setProperty('--hx', hx + '%'); g.style.setProperty('--hy', hy + '%');
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+    shape = b.dataset.shape;
+    document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    applyFilter();
+  }));
+  const bind = (id, key, num = true) => document.getElementById(id).addEventListener('input', e => {
+    ctl[key] = num ? +e.target.value : e.target.checked; applyFilter();
+  });
+  bind('s-ref', 'ref'); bind('s-bez', 'bez'); bind('s-blur', 'blur'); bind('s-ca', 'ca', false);
+  applyFilter();
+})();
+</script>
+</body>
+</html>
