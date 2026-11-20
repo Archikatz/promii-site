@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* Tokens de movimiento: cambia aquí y se actualizan todas las animaciones */
+:root{--m-ease:cubic-bezier(.2,.7,.2,1);--m-draw:cubic-bezier(.4,.1,.2,1);--m-spring:linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1)}
 :root{--display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--body:"Inter",ui-sans-serif,system-ui,sans-serif;--gold:#ffffff;--neon:#c9c9d3;--blue:#2f6bff;--red:#ff3b30}
 html[data-theme="dark"]{color-scheme:dark;--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.18);--glass:rgba(255,255,255,.045);--glass2:rgba(255,255,255,.07);--glass-brd:rgba(255,255,255,.12);--hi:rgba(255,255,255,.10);--shadow:0 10px 34px rgba(0,0,0,.45);--ctaText:#0b0b0f;--formCard:rgba(248,248,252,.97)}
 html[data-theme="light"]{color-scheme:light;--bg:#eceef3;--text:#15151c;--muted:#55576a;--dim:#8a8c9e;--line:rgba(15,18,40,.10);--line2:rgba(15,18,40,.16);--glass:rgba(255,255,255,.55);--glass2:rgba(255,255,255,.72);--glass-brd:rgba(255,255,255,.7);--hi:rgba(255,255,255,.9);--shadow:0 10px 30px rgba(40,45,70,.14);--gold:#0d0d10;--neon:#3c3c46;--blue:#1f56e0;--red:#e0261b;--ctaText:#ffffff;--formCard:rgba(255,255,255,.95)}
@@ -167,11 +169,11 @@ html[data-theme="light"] .orbs i{mix-blend-mode:multiply;opacity:.22}
 html[data-theme="light"] .glass:not(.job)::before,html[data-theme="light"] .job>.edge{background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.4) 40%,rgba(31,86,224,.35))}
 .glass:not(.svc)::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(260px circle at var(--mx,50%) var(--my,-30%),rgba(255,255,255,.09),transparent 65%);opacity:0;transition:opacity .25s}
 .glass:hover::after{opacity:1}
-.reveal{opacity:0;transform:translateY(28px) scale(.985);filter:blur(6px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),filter .9s;transition-delay:var(--d,0s)}
+.reveal{opacity:0;transform:translateY(28px) scale(.985);filter:blur(6px);transition:opacity .9s var(--m-ease),transform .9s var(--m-ease),filter .9s;transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none;filter:none}
 .hero h1 .g{background:linear-gradient(100deg,var(--gold),var(--neon) 35%,var(--blue) 60%,var(--gold) 100%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;animation:shine 7s linear infinite}
 @keyframes shine{to{background-position:220% center}}
-.hero h1,.hero .lead,.hero .kicker,.hero .cta-row,.hero .trust{animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+.hero h1,.hero .lead,.hero .kicker,.hero .cta-row,.hero .trust{animation:rise 1s var(--m-ease) both}
 .hero .kicker{animation-delay:.05s}.hero h1{animation-delay:.15s}.hero .lead{animation-delay:.3s}.hero .cta-row{animation-delay:.45s}.hero .trust{animation-delay:.6s}
 @keyframes rise{from{opacity:0;transform:translateY(24px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
 .btn{position:relative;overflow:hidden}
@@ -185,13 +187,13 @@ html[data-theme="light"] .glass:not(.job)::before,html[data-theme="light"] .job>
 @keyframes slide{to{transform:translateX(-50%)}}
 .tl::before{transform-origin:top;transform:scaleY(var(--tp,0));transition:transform .15s linear}
 .job{transition:transform .3s,box-shadow .3s}.job:hover{transform:translateX(4px)}
-.proj{animation:none;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,opacity .9s cubic-bezier(.2,.7,.2,1),filter .9s}
+.proj{animation:none;transition:transform .35s var(--m-ease),box-shadow .35s,opacity .9s var(--m-ease),filter .9s}
 .proj.in:hover{transform:translateY(-6px)}
-.proj .vis img,.proj .vis svg{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.proj .vis img,.proj .vis svg{transition:transform .8s var(--m-ease)}
 .proj:hover .vis img,.proj:hover .vis svg{transform:scale(1.06)}
-.proj .ln *{stroke-dasharray:900;stroke-dashoffset:900;transition:stroke-dashoffset 2.2s cubic-bezier(.4,.1,.2,1) .2s}
+.proj .ln *{stroke-dasharray:900;stroke-dashoffset:900;transition:stroke-dashoffset 2.2s var(--m-draw) .2s}
 .proj.in .ln *{stroke-dashoffset:0}
-.bar .fl{width:0;transition:width 1.4s cubic-bezier(.2,.7,.2,1) .2s}
+.bar .fl{width:0;transition:width 1.4s var(--m-ease) .2s}
 .sk.in .bar .fl{width:var(--w)}
 .stat{transition:transform .3s}.stat:hover{transform:translateY(-4px)}
 .contact{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
@@ -569,9 +571,9 @@ const WHY={es:[["bolt","Más barato","Operación LATAM + tarifas internacionales
 const STATS={es:[["9+","años en arquitectura y BIM"],["~15","proyectos NYC DOB documentados"],["10+","proyectos propios en Revit"],["4+","años en CRM, automatización e IA"]],
  en:[["9+","years in architecture and BIM"],["~15","NYC DOB projects documented"],["10+","own projects in Revit"],["4+","years in CRM, automation and AI"]]};
 const JOBS=[
- {cur:1,when:{es:"Ago 2026 – presente",en:"Aug 2026 – present"},co:"Sunshine Management / KBM Realty · Chicago · Remoto",area:{es:"Construcción",en:"Construction"},
-  es:{t:"Administrador de Desarrollo y Construcción",b:["Construí el sistema de control documental en SharePoint (numeración, nomenclatura, versiones) y un estándar de contratos de oficios con codificación CSI y SOP del ciclo de vida.","Pronósticos de egresos de caja y hojas de desembolsos a partir de los contratos, conciliados con compras y finanzas.","Control de cumplimiento de proveedores (contratos, COIs, W-9) antes de liberar pagos; comunicación con la ciudad, aliados comunitarios y trades.","Gobernanza de Asana e integración asistida por IA de Asana, SharePoint, Teams, Fathom y Claude, documentada en guías y SOPs."]},
-  en:{t:"Development & Construction Administrator",b:["Built the SharePoint document-control system (numbering, naming, versioning) and a CSI-coded trade-contract standard with a lifecycle SOP.","Cash-outflow forecasts and draw sheets built from contract data, reconciled with procurement and finance.","Vendor compliance tracking (contracts, COIs, W-9) before payment release; communication with the city, community partners and trades.","Asana governance and an AI-assisted integration of Asana, SharePoint, Teams, Fathom and Claude, documented in guides and SOPs."]}},
+ {when:{es:"Ago – Nov 2026",en:"Aug – Nov 2026"},co:"Sunshine Management / KBM Realty · Chicago · Remoto",area:{es:"Construcción",en:"Construction"},
+  es:{t:"Administrador de Desarrollo y Construcción",b:["Coordiné 10+ proyectos multifamiliares simultáneos con construcción, finanzas y compras: control documental, contratos de oficios, permisos, inspecciones y comunicación con contratistas y la ciudad.","Construí el sistema de control documental en SharePoint (numeración, nomenclatura, versiones) y un estándar de contratos de oficios con codificación CSI y SOP del ciclo de vida.","Pronósticos de egresos de caja y hojas de desembolsos a partir de los contratos, conciliados con compras y finanzas.","Control de cumplimiento de proveedores (contratos, COIs, W-9) antes de liberar pagos; comunicación con la ciudad, aliados comunitarios y trades.","Gobernanza de Asana e integración asistida por IA de Asana, SharePoint, Teams, Fathom y Claude, documentada en guías y SOPs."]},
+  en:{t:"Development & Construction Administrator",b:["Coordinated 10+ concurrent multifamily projects across construction, finance and procurement: document control, trade contracts, permits, inspections and contractor and city communication.","Built the SharePoint document-control system (numbering, naming, versioning) and a CSI-coded trade-contract standard with a lifecycle SOP.","Cash-outflow forecasts and draw sheets built from contract data, reconciled with procurement and finance.","Vendor compliance tracking (contracts, COIs, W-9) before payment release; communication with the city, community partners and trades.","Asana governance and an AI-assisted integration of Asana, SharePoint, Teams, Fathom and Claude, documented in guides and SOPs."]}},
  {when:{es:"2026",en:"2026"},co:"MSI Americas · Remoto",area:{es:"AEC · Cuentas",en:"AEC · Accounts"},
   es:{t:"Key Account Manager, vertical AEC",b:["Definí el catálogo de servicios BIM y construcción (40+ servicios en 5 pilares), estructura de SOW, ICP y go-to-market por territorio.","Diseñé un modelo de estudio A/E remoto (pods de PM/coordinador BIM, delineantes y MEP) con QA/QC y estándares para FL, NY, CO y Colombia.","Piloto de prospección A/E en Florida (1,882 firmas) empaquetado como motor de enriquecimiento reutilizable con scripts en Python; CRM en Odoo y reporte ejecutivo semanal."]},
   en:{t:"Key Account Manager, AEC vertical",b:["Defined the BIM and construction service catalog (40+ services in 5 pillars), SOW structure, ICP and go-to-market by territory.","Designed a remote A/E studio model (PM/BIM coordinator, drafter and MEP pods) with QA/QC and standards for FL, NY, CO and Colombia.","Ran a Florida A/E prospecting pilot (1,882 firms), packaged as a reusable enrichment engine with Python scripts; Odoo CRM and weekly executive reporting."]}},
@@ -764,7 +766,7 @@ render();
 /* 2. Cota bajo cada título de sección */
 .mp-dim{display:block;width:min(220px,60%);height:18px;margin:2px 0 10px;overflow:visible}
 .mp-dim *{fill:none;stroke:var(--blue);stroke-width:1.2;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.mp-dim .m{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.4s cubic-bezier(.4,.1,.2,1) .15s}
+.mp-dim .m{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.4s var(--m-draw) .15s}
 .mp-dim .t{opacity:0;transition:opacity .4s ease 1.2s}
 .mp-dim.in .m{stroke-dashoffset:0}.mp-dim.in .t{opacity:1}
 .mp-dim text{fill:var(--dim);stroke:none;font:600 9px var(--display,system-ui);letter-spacing:.14em}
@@ -772,12 +774,12 @@ render();
 .tl .mp-prog{position:absolute;left:5.5px;top:6px;width:2.5px;height:calc(100% - 12px);transform-origin:top;transform:scaleY(var(--p,0));background:linear-gradient(var(--blue),var(--red));border-radius:3px;box-shadow:0 0 12px rgba(47,107,255,.6);pointer-events:none}
 .tl .mp-head{position:absolute;left:2px;top:calc(6px + (100% - 12px) * var(--p,0));width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(255,59,48,.18),0 0 16px var(--red);pointer-events:none}
 /* 4. Íconos de "por qué" que se dibujan y flotan */
-.band .b .ic{stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset 1.8s cubic-bezier(.4,.1,.2,1) .3s}
+.band .b .ic{stroke-dasharray:140;stroke-dashoffset:140;transition:stroke-dashoffset 1.8s var(--m-draw) .3s}
 .band .b.in .ic{stroke-dashoffset:0;animation:mpFloat 4.5s ease-in-out 2.2s infinite}
 @keyframes mpFloat{50%{transform:translateY(-4px)}}
 /* 5. Ruta Nueva York ↔ Bogotá en contacto */
 .mp-route{display:block;width:100%;height:auto;margin:6px 0 18px;overflow:visible}
-.mp-route .d{fill:none;stroke:var(--text);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.4s cubic-bezier(.4,.1,.2,1)}
+.mp-route .d{fill:none;stroke:var(--text);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.4s var(--m-draw)}
 .mp-route .d.b{stroke:var(--blue);filter:drop-shadow(0 0 5px var(--blue))}
 .mp-route .d.r{stroke:var(--red);filter:drop-shadow(0 0 5px var(--red))}
 .mp-route .arc{fill:none;stroke:var(--dim);stroke-width:1.2;stroke-dasharray:3 6;opacity:0;transition:opacity .8s ease 1.6s}

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Inventario de Movimiento</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: resumen de salud del sistema arriba, tokens del sistema, luego tabla filtrable de todas las animaciones. */
+:root{
+  --bg:#f1f1f5;--surface:#fff;--surface2:#e9e9f0;--text:#121218;--muted:#5a5a6e;--dim:#8a8a9c;--line:rgba(15,18,40,.1);
+  --blue:#1f56e0;--red:#e0261b;--ok:#15803d;--warn:#b45309;
+  --display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--body:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#08080c;--surface:#111118;--surface2:#1a1a24;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--line:rgba(255,255,255,.09);--blue:#6b95ff;--red:#ff5a4f;--ok:#30d158;--warn:#ffd60a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#08080c;--surface:#111118;--surface2:#1a1a24;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--line:rgba(255,255,255,.09);--blue:#6b95ff;--red:#ff5a4f;--ok:#30d158;--warn:#ffd60a;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14.5px/1.55 var(--body)}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));padding-block:40px 60px}
+h1{font:700 clamp(32px,6vw,58px)/1 var(--display);letter-spacing:-.04em;margin:10px 0 12px}
+h2{font:600 20px var(--display);margin:34px 0 12px;letter-spacing:-.01em}
+.eyebrow{font:500 11px var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.lead{color:var(--muted);max-width:68ch;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:26px}
+@media (max-width:720px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border-radius:24px;corner-shape:superellipse(1.6);padding:16px 18px;box-shadow:inset 0 0 0 1px var(--line)}
+.kpi b{display:block;font:700 34px/1 var(--display);font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:13px}
+.kpi.warn b{color:var(--warn)}.kpi.ok b{color:var(--ok)}
+.tokens{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.tok{background:var(--surface);border-radius:22px;corner-shape:superellipse(1.6);padding:14px 16px;box-shadow:inset 0 0 0 1px var(--line);display:grid;gap:8px}
+.tok code{font:500 12px var(--mono);color:var(--blue)}
+.tok small{color:var(--muted)}
+.track{position:relative;height:8px;border-radius:9px;background:var(--surface2);overflow:hidden}
+.track i{position:absolute;left:0;top:0;bottom:0;width:22%;border-radius:9px;background:var(--text);animation:run 1.8s infinite alternate}
+@media (prefers-reduced-motion:reduce){.track i{animation:none}}
+@keyframes run{to{left:78%}}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip{all:unset;cursor:pointer;padding:7px 13px;border-radius:999px;font:500 13px var(--body);background:var(--surface);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line)}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+.chip:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+#q{flex:1;min-width:180px;font:inherit;padding:7px 14px;border-radius:999px;border:0;background:var(--surface);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+.tbl{overflow-x:auto;background:var(--surface);border-radius:24px;box-shadow:inset 0 0 0 1px var(--line)}
+table{border-collapse:collapse;width:100%;min-width:980px;font-size:13.5px}
+th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);position:sticky;top:0;background:var(--surface)}
+tr:last-child td{border-bottom:0}
+td.n{font-weight:600;min-width:180px}
+td.n small{display:block;font-weight:400;color:var(--muted)}
+td code{font:12px var(--mono)}
+.pill{display:inline-flex;align-items:center;gap:6px;font:500 11.5px/1 var(--body);padding:5px 9px;border-radius:999px;background:var(--surface2);color:var(--muted);white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%}
+.s-live{background:var(--ok)}.s-new{background:var(--blue)}.s-lab{background:var(--dim)}
+.flag{color:var(--warn);font-size:12.5px}
+.okc{color:var(--ok);font-size:12.5px}
+.note{color:var(--muted);font-size:13px;margin-top:14px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="eyebrow">promii.co · sistema de movimiento</div>
+  <h1>Inventario de Movimiento</h1>
+  <p class="lead">Todas las animaciones de la página y del laboratorio en una sola lista. Cada una usa los tokens del sistema; si alguna se sale (otra curva, otra duración, sin respaldo para “reducir movimiento”), aparece marcada para corregirla.</p>
+  <div class="kpis" id="kpis"></div>
+
+  <h2>Tokens del sistema</h2>
+  <p class="lead" style="margin-bottom:12px">Están definidos una sola vez al inicio de <code>index.html</code>. Cambiar un token cambia todas las animaciones que lo usan.</p>
+  <div class="tokens" id="tokens"></div>
+
+  <h2>Animaciones</h2>
+  <div class="bar" id="filters"></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Animación</th><th>Dónde</th><th>Disparador</th><th>Duración</th><th>Curva</th><th>Colores</th><th>Estado</th><th>Revisión</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <p class="note">Fuente: este archivo (<code>lab/inventario.html</code>, lista <code>MOTION</code>). Al agregar una animación nueva a la página, se registra aquí.</p>
+</main>
+<script>
+const TOKENS = [
+  { id: '--m-ease', v: 'cubic-bezier(.2,.7,.2,1)', use: 'Entradas, revelados, hover, barras', css: 'cubic-bezier(.2,.7,.2,1)' },
+  { id: '--m-draw', v: 'cubic-bezier(.4,.1,.2,1)', use: 'Trazos de líneas (dibujos, cotas, rutas)', css: 'cubic-bezier(.4,.1,.2,1)' },
+  { id: '--m-spring', v: 'linear(…) muelle', use: 'Interacciones con rebote (lab, futuras)', css: 'linear(0,0.009,0.035 2.1%,0.141 4.4%,0.723 12.9%,0.938 16.7%,1.017 19.4%,1.067,1.099 24.3%,1.108 26%,1.1 28.2%,1.032 34.6%,0.995 39.9%,0.987 44.3%,1.001 56.1%,1.002 63.1%,1)' },
+  { id: 'Duraciones', v: '.2 · .6 · .9 · 1.4 · 2.2 s', use: 'Rápida, base, lenta, relleno, trazo', css: null },
+  { id: 'Colores', v: 'texto · azul · rojo', use: 'Siempre por variable (--text, --blue, --red)', css: null }
+];
+const SCALE = [.12, .15, .2, .3, .35, .5, .6, .8, .9, 1, 1.4, 1.8, 2.2, 2.4];
+// st: live = en promii.co · new = capa Motion+ (rama de prueba) · lab = solo en el laboratorio
+const MOTION = [
+  { n: 'Constelación de partículas', d: 'Canvas que conecta puntos y huye del mouse', w: 'Hero', tr: 'Bucle', dur: 'continuo', ease: '—', col: 'azul', st: 'live', rm: true },
+  { n: 'Orbes de color', d: 'Manchas difusas que derivan', w: 'Fondo global', tr: 'Bucle', dur: 26, ease: 'ease-in-out', col: 'azul · rojo', st: 'live', rm: true },
+  { n: 'Entrada del hero', d: 'Sube y se enfoca desde desenfoque', w: 'Hero', tr: 'Carga', dur: 1, ease: '--m-ease', col: '—', st: 'live', rm: true },
+  { n: 'Brillo del titular', d: 'Degradado que recorre el texto', w: 'Hero · h1', tr: 'Bucle', dur: 7, ease: 'linear', col: 'texto · azul', st: 'live', rm: true },
+  { n: 'Cinta de herramientas', d: 'Marquee infinito', w: 'Hero', tr: 'Bucle', dur: 40, ease: 'linear', col: '—', st: 'live', rm: true },
+  { n: 'Revelado al hacer scroll', d: 'Sube, se escala y se enfoca en cascada', w: 'Todas las secciones', tr: 'Scroll', dur: .9, ease: '--m-ease', col: '—', st: 'live', rm: true },
+  { n: 'Revelado v1 (heredado)', d: 'Regla antigua que la v3 sobrescribe', w: 'Todas las secciones', tr: 'Scroll', dur: .7, ease: 'ease', col: '—', st: 'live', rm: true, flag: 'Regla duplicada: se puede borrar' },
+  { n: 'Barra de progreso', d: 'Línea superior según el scroll', w: 'Global', tr: 'Scroll', dur: 'continuo', ease: '—', col: 'texto · azul · rojo', st: 'live', rm: true },
+  { n: 'Contadores', d: 'Cifras que cuentan hacia arriba', w: 'Sobre mí', tr: 'Scroll', dur: 1.4, ease: 'cubic out (JS)', col: '—', st: 'live', rm: true },
+  { n: 'Barras de años', d: 'Relleno por herramienta', w: 'Habilidades', tr: 'Scroll', dur: 1.4, ease: '--m-ease', col: 'texto · azul', st: 'live', rm: true },
+  { n: 'Dibujo de proyecto', d: 'Las líneas del gráfico se trazan', w: 'Proyectos', tr: 'Scroll', dur: 2.2, ease: '--m-draw', col: 'texto · azul · rojo', st: 'live', rm: true },
+  { n: 'Zoom de proyecto', d: 'La imagen crece al pasar el mouse', w: 'Proyectos', tr: 'Hover', dur: .8, ease: '--m-ease', col: '—', st: 'live', rm: true },
+  { n: 'Tarjetas de servicio', d: 'Aparición y brillo al pasar', w: 'Servicios', tr: 'Carga · hover', dur: .5, ease: 'ease', col: '—', st: 'live', rm: true, flag: 'Usa “ease” en vez de --m-ease' },
+  { n: 'Inclinación de servicios', d: 'Tilt 3D que sigue al mouse', w: 'Servicios', tr: 'Hover', dur: .15, ease: 'linear', col: '—', st: 'live', rm: true },
+  { n: 'Vida del dibujo · IA', d: 'Pulsos por las conexiones y ondas en los nodos', w: 'Proyectos · IA', tr: 'Bucle', dur: 2.2, ease: 'spline .4 0 .2 1', col: 'del proyecto', st: 'new', rm: true },
+  { n: 'Vida del dibujo · NYC', d: 'Ventanas que se encienden piso por piso', w: 'Proyectos · NYC', tr: 'Bucle', dur: 4.8, ease: 'linear', col: 'del proyecto', st: 'new', rm: true },
+  { n: 'Vida del dibujo · Urbano', d: 'Barrido de radar', w: 'Proyectos · Urbano', tr: 'Bucle', dur: 6, ease: 'linear', col: 'del proyecto', st: 'new', rm: true },
+  { n: 'Vida del dibujo · Arquitectura', d: 'Destello que recorre la curva', w: 'Proyectos · Arq.', tr: 'Bucle', dur: 2.6, ease: 'linear', col: 'del proyecto', st: 'new', rm: true, flag: '2.6 s fuera de la escala (usar 2.4)' },
+  { n: 'Cotas de título', d: 'Línea de cota con número de hoja', w: 'Títulos de sección', tr: 'Scroll', dur: 1.4, ease: '--m-draw', col: 'azul', st: 'new', rm: true },
+  { n: 'Línea de tiempo viva', d: 'Se llena con el scroll y lleva un punto brillante', w: 'Experiencia', tr: 'Scroll', dur: 'continuo', ease: '—', col: 'azul · rojo', st: 'new', rm: true },
+  { n: 'Íconos que se dibujan', d: 'Trazo y luego flotación suave', w: 'Por qué Studio BZ', tr: 'Scroll · bucle', dur: 1.8, ease: '--m-draw', col: 'azul', st: 'new', rm: true },
+  { n: 'Ruta NY ↔ Bogotá', d: 'Skylines que se dibujan y puntos que viajan', w: 'Contacto', tr: 'Scroll · bucle', dur: 2.4, ease: '--m-draw', col: 'texto · azul · rojo', st: 'new', rm: true },
+  { n: 'Liquid Glass', d: 'Refracción real con muelles', w: 'Lab 01', tr: 'Arrastre', dur: 'física', ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Esquinas continuas', d: 'Squircle y radios concéntricos', w: 'Lab 02', tr: '—', dur: .5, ease: '—', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Barra de vidrio', d: 'Indicador líquido entre pestañas', w: 'Lab 03', tr: 'Clic · scroll', dur: .6, ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Contacto líquido', d: 'Botón que se divide en gotas', w: 'Lab 04', tr: 'Clic', dur: .6, ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Física de muelles', d: 'Generador de curvas linear()', w: 'Lab 05', tr: 'Clic · arrastre', dur: 'física', ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Plano que se dibuja', d: 'Alzado de 6 pisos con cotas', w: 'Lab 06', tr: 'Carga', dur: 6, ease: '--m-draw', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Animaciones con scroll', d: 'CSS animation-timeline', w: 'Lab 07', tr: 'Scroll', dur: 'scroll', ease: 'linear', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Seda líquida', d: 'Shader WebGL', w: 'Lab 08', tr: 'Bucle', dur: 'continuo', ease: '—', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Tarjetas 3D', d: 'Inclinación con brillo especular', w: 'Lab 09', tr: 'Hover', dur: 'física', ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Tipografía cinética', d: 'Letras, palabra rotativa, peso variable', w: 'Lab 10', tr: 'Carga · bucle', dur: 1, ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Morph a detalle', d: 'View Transitions', w: 'Lab 11', tr: 'Clic', dur: .75, ease: '--m-spring', col: '—', st: 'lab', rm: true, flag: '.75 s fuera de la escala (usar .8)' },
+  { n: 'Microinteracciones', d: 'Switch, odómetro, copiar, slider', w: 'Lab 12', tr: 'Clic', dur: .6, ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true },
+  { n: 'Niveles BIM 3D', d: 'Edificio que se separa por niveles', w: 'Lab 13', tr: 'Clic · arrastre', dur: 'física', ease: '--m-spring', col: 'azul · rojo', st: 'lab', rm: true }
+];
+const ST = { live: ['s-live', 'En promii.co'], new: ['s-new', 'Nueva (en prueba)'], lab: ['s-lab', 'Laboratorio'] };
+const OKEASE = ['--m-ease', '--m-draw', '--m-spring', 'linear', '—', 'ease-in-out', 'cubic out (JS)', 'spline .4 0 .2 1'];
+function check(m) {
+  const f = [];
+  if (m.flag) f.push(m.flag);
+  else {
+    if (!OKEASE.includes(m.ease)) f.push('Curva fuera del sistema');
+    const loop = /bucle/i.test(m.tr);
+    if (typeof m.dur === 'number' && !loop && m.dur <= 3 && !SCALE.includes(m.dur)) f.push('Duración fuera de la escala');
+  }
+  if (!m.rm) f.push('Sin respaldo para reducir movimiento');
+  return f;
+}
+MOTION.forEach(m => m.f = check(m));
+const $ = id => document.getElementById(id);
+const total = MOTION.length, bad = MOTION.filter(m => m.f.length).length;
+$('kpis').innerHTML = [
+  ['', total, 'animaciones registradas'],
+  ['', MOTION.filter(m => m.st === 'live').length + ' / ' + MOTION.filter(m => m.st === 'new').length, 'en vivo / nuevas'],
+  ['ok', Math.round((total - bad) / total * 100) + '%', 'dentro del sistema'],
+  ['warn', bad, 'para revisar']
+].map(k => `<div class="kpi ${k[0]}"><b>${k[1]}</b><span>${k[2]}</span></div>`).join('');
+$('tokens').innerHTML = TOKENS.map(t => `<div class="tok"><code>${t.id}</code><b>${t.v}</b><small>${t.use}</small>${t.css ? `<div class="track"><i style="animation-timing-function:${t.css}"></i></div>` : ''}</div>`).join('');
+const filters = [['all', 'Todas'], ['live', 'En promii.co'], ['new', 'Nuevas'], ['lab', 'Laboratorio'], ['flag', 'Para revisar']];
+let cur = 'all', q = '';
+$('filters').innerHTML = filters.map((f, i) => `<button class="chip" type="button" data-f="${f[0]}" aria-pressed="${!i}">${f[1]}</button>`).join('') + '<input id="q" type="search" placeholder="Buscar…" aria-label="Buscar animación">';
+$('filters').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; cur = b.dataset.f; $('filters').querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+$('q').addEventListener('input', e => { q = e.target.value.toLowerCase(); draw(); });
+function draw() {
+  $('rows').innerHTML = MOTION.filter(m => (cur === 'all' || m.st === cur || (cur === 'flag' && m.f.length)) && (!q || (m.n + m.d + m.w).toLowerCase().includes(q)))
+    .map(m => `<tr><td class="n">${m.n}<small>${m.d}</small></td><td>${m.w}</td><td>${m.tr}</td><td>${typeof m.dur === 'number' ? m.dur + ' s' : m.dur}</td><td><code>${m.ease}</code></td><td>${m.col}</td>
+      <td><span class="pill"><i class="dot ${ST[m.st][0]}"></i>${ST[m.st][1]}</span></td><td>${m.f.length ? m.f.map(x => `<div class="flag">▲ ${x}</div>`).join('') : '<span class="okc">✓ En sistema</span>'}</td></tr>`).join('');
+}
+draw();
+</script>
+</body>
+</html>
