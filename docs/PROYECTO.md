@@ -49,6 +49,9 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 10. **Ronda de cierre:** las 4 alertas del inventario corregidas (0 pendientes). Del Lab al sitio: esquinas continuas, refracción Liquid Glass en la barra de navegación (Chrome/Edge), contacto líquido flotante, inclinación 3D con brillo en proyectos y transición fluida a detalle. Nueva sección **Casos** con 6 sistemas contados como productos y suscripción a la **Bitácora Promii**. Imagen Open Graph (`assets/og.jpg`). Documento de créditos para CV/LinkedIn y calendario editorial (`docs/CREDITOS.md`). Carpeta de Drive "promii.co · Sitio web (repositorio)" con estos documentos.
 
+11. **Publicación y ajustes (20-nov-2026, tarde):** publicado en promii.co (PR #1–#5). brianzuleta.co → promii.co en la página (el dominio se perdió; recordatorio para recomprarlo el 20-dic-2026). Adaptación por dispositivo: barra superior en píldora flotante y barra de pestañas tipo iOS en celular; vidrio reforzado en Safari/iPhone. Panel: **Aplicar a la página** con verificación en la página real, vista previa Computador/Celular, **Temas** (sugeridos, 🎲 aleatorio, Mis temas en Supabase `design_presets`).
+12. **Ronda de rendimiento y física:** Tinta china sin filtros SVG en vivo; nubes de tinta, orbes y destello solo se animan en la portada (detrás del vidrio nada se mueve al bajar → 60 fps medidos en mitad y final de página, antes 14–22). Animaciones de interacción duermen en reposo; Tally diferido; barra de pestañas medida con offsetLeft y muelles más rápidos. **Física y forma** en el panel (radio, squircle, desenfoque, brillo, refracción, bisel, rigidez, amortiguación, gelatina, tamaño de la gota) con **banco de pruebas** (palabra promii + gota arrastrable). **Botones gelatinosos.** **Tercer estilo Obsidiana** (SOP-001: obsidiana + oro #E8B23A + neón #22E0C8, gemas por marca) con temas Obsidiana Promii, ArchiKatz magenta, Michi zafiro, Lumen ámbar. **Palabra promii gigante** en el hero y **gota de agua viva** que viaja con el scroll.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
@@ -69,6 +72,11 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 - [ ] Recrear el correo en ese dominio y pasar Vercel y cualquier otra cuenta a `hi@promii.co` o Gmail.
 - [ ] Mientras tanto, todo enlace a brianzuleta.co se cambió por promii.co.
 - [ ] Cuenta de Vercel: entrar con GitHub y cambiar el correo principal; si no se puede, cuenta nueva y recrear el proyecto (todo está en el repo).
+
+**Pendiente inmediato (siguiente sesión):**
+- [ ] Brian prueba en iPhone 17 Pro Max y en PC: fluidez de Tinta china, barra de pestañas, gota, botones gelatinosos.
+- [ ] Promii Games (`games.promii.co`): portal + 2 juegos (Torre de niveles, Detección de interferencias); evento `game` en analítica (falta migración del check de `events.type`).
+- [ ] DNS en GoDaddy: CNAME `admin` → `efc942ef066e7ab1.vercel-dns-017.com`.
 
 **Siguiente trabajo sugerido:**
 - [x] Corregir las alertas del inventario.
