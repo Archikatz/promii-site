@@ -64,6 +64,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 18. **Academy y mapa de contenido:** página `promii.co/academy` (academy.promii.co redirige ahí) con 26 guías en 7 temas (3 disponibles, enlazadas a la Bitácora) y suscripción a MailerLite (interests=academy). Mapa de tres capas Bitácora / Academy / Experiencia en `docs/MAPA-CONTENIDO.md`. La tarjeta Academy del Ecosistema ahora está activa.
 
+19. **Juegos, bienvenida, barra común y control de calidad:** Promii Games (`/games/`, games.promii.co) con Torre de niveles y Detección de choques (eventos `game` en analítica). Bienvenida en `/home/` (home.promii.co): gota central que se abre en gotas-camino con física de N cuerpos (gravedad central y entre gotas, antigravedad, giro/centrífuga, choques con rebote, inercia al lanzar), controles de física y modo tres cuerpos (órbita en ocho); es también el mapa del sitio. Encabezado, menú y pie comunes (`assets/site-shell.js`, fuente única `PROMII_SITE`) en Bitácora, Academy, Lab, Juegos; píldora de regreso en las demos. Verificador `qa/check.js` + estándares en `docs/CALIDAD.md`.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
