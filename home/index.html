@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark" data-title-en="Promii · Welcome">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -14,15 +14,16 @@
 <style>
 :root{--bg:#06060a;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--line:rgba(255,255,255,.1);--accent:#ff3b30;--display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--body:"Inter",ui-sans-serif,system-ui,sans-serif}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased;overflow:hidden;overscroll-behavior:none}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+.hero{position:relative;height:calc(100svh - 66px);min-height:560px;overflow:hidden;margin-top:-56px;padding-top:56px;touch-action:pan-y}
 /* Fondo quieto: nada se mueve detrás del vidrio salvo las gotas */
-.bg{position:fixed;inset:0;background:
+.bg{position:absolute;inset:0;background:
   radial-gradient(40% 32% at 18% 16%,rgba(47,107,255,.32),transparent 70%),
   radial-gradient(38% 30% at 86% 84%,rgba(255,59,48,.26),transparent 70%),
   radial-gradient(30% 26% at 82% 18%,rgba(34,224,200,.16),transparent 70%),
   radial-gradient(34% 28% at 14% 86%,rgba(232,178,58,.14),transparent 70%),var(--bg)}
 .bg::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.2px);background-size:26px 26px;mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 100%);-webkit-mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 100%)}
-.ring{position:fixed;left:50%;top:50%;width:min(84vw,84vh,520px);aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:1px dashed rgba(255,255,255,.08);pointer-events:none;transition:opacity .8s}
+.ring{position:absolute;left:50%;top:50%;width:min(84vw,84vh,520px);aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:1px dashed rgba(255,255,255,.08);pointer-events:none;transition:opacity .8s}
 .ring.r2{width:min(56vw,56vh,340px)}
 body:not(.open) .ring{opacity:0}
 /* Marca y accesos fijos */
@@ -31,14 +32,14 @@ body:not(.open) .ring{opacity:0}
 .brand i{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
 .pill{font:600 13px var(--body);color:var(--text);text-decoration:none;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer}
 .pill:hover{background:rgba(255,255,255,.12)}
-.bottom{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 16px calc(18px + env(safe-area-inset-bottom));z-index:20}
+.bottom{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 16px calc(18px + env(safe-area-inset-bottom));z-index:20}
 /* Titular */
-.hello{position:fixed;left:0;right:0;top:calc(50% + min(26vw,120px));text-align:center;pointer-events:none;transition:opacity .6s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.hello{position:absolute;left:0;right:0;top:calc(50% + min(26vw,120px));text-align:center;pointer-events:none;transition:opacity .6s,transform .8s cubic-bezier(.2,.7,.2,1)}
 .hello h1{font:700 clamp(42px,9vw,84px)/.9 var(--display);letter-spacing:-.06em;margin:0}
 .hello p{margin:12px 0 0;color:var(--muted);font-size:14px;letter-spacing:.04em}
 body.open .hello{opacity:0;transform:translateY(20px)}
 /* Gotas de vidrio líquido */
-.drop{position:fixed;left:0;top:0;border-radius:50%;will-change:transform;cursor:grab;touch-action:none;-webkit-tap-highlight-color:transparent;display:grid;place-items:center;text-align:center;
+.drop{position:absolute;left:0;top:0;border-radius:50%;will-change:transform;cursor:grab;touch-action:none;-webkit-tap-highlight-color:transparent;display:grid;place-items:center;text-align:center;
   background:radial-gradient(42% 26% at 34% 20%,rgba(255,255,255,.42),transparent 70%),radial-gradient(70% 70% at 70% 82%,color-mix(in srgb,var(--c,#fff) 26%,transparent),transparent 70%),rgba(255,255,255,.035);
   box-shadow:inset 0 0 0 .7px rgba(255,255,255,.6),inset 3px 2px 5px -1px rgba(255,90,130,.38),inset -3px -2px 5px -1px rgba(70,180,255,.4),inset 0 -16px 24px -16px rgba(255,255,255,.45),inset 0 10px 20px -12px rgba(0,0,0,.3),0 18px 36px -18px rgba(0,0,0,.6),0 0 30px -10px var(--c,transparent);
   backdrop-filter:blur(3px) saturate(1.7) brightness(1.08);-webkit-backdrop-filter:blur(3px) saturate(1.7) brightness(1.08)}
@@ -67,7 +68,7 @@ body.open .core::after{display:none}
 .chip{flex:none;font:600 10px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:var(--dim)}
 .chip.live{color:#30d158;border-color:rgba(48,209,88,.4)}
 /* Panel de física */
-.phys{position:fixed;right:12px;top:calc(62px + env(safe-area-inset-top));z-index:25;width:min(300px,calc(100% - 24px));padding:14px 16px;border-radius:22px;background:rgba(14,14,20,.7);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid rgba(255,255,255,.14);display:none}
+.phys{position:fixed;right:12px;top:calc(74px + env(safe-area-inset-top));z-index:25;width:min(300px,calc(100% - 24px));padding:14px 16px;border-radius:22px;background:rgba(14,14,20,.7);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid rgba(255,255,255,.14);display:none}
 .phys.on{display:block}
 .phys label{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:12.5px;color:var(--muted);margin:8px 0}
 .phys label output{color:var(--text);font-variant-numeric:tabular-nums}
@@ -75,33 +76,43 @@ body.open .core::after{display:none}
 .phys .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .phys .row button{flex:1;font:600 12px var(--body);color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 10px;cursor:pointer}
 .phys .row button.on{background:#22e0c8;color:#06060a;border-color:transparent}
+.mapsec{max-width:1120px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-left)) 0}
+.mapsec .eye{font:600 11px var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}.mapsec .eye::before{content:"";width:18px;height:2px;background:var(--accent)}
+.mapsec h2{font:700 clamp(30px,5vw,48px)/1.05 var(--display);letter-spacing:-.03em;margin:12px 0 8px}
+.mapsec>p{color:var(--muted);margin:0;max-width:60ch}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:22px}
+.mg{padding:18px;border-radius:24px;background:linear-gradient(140deg,rgba(255,255,255,.07),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+.mg h3{display:flex;align-items:center;gap:10px;font:700 19px var(--display);margin:0 0 8px}.mg h3 i{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+.mg .it{padding:9px 10px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){.core,.core::after{animation:none}}
 </style>
 </head>
 <body>
+<section class="hero" id="hero" aria-label="Caminos" data-en-label="Paths">
 <div class="bg" aria-hidden="true"></div>
 <div class="ring" aria-hidden="true"></div><div class="ring r2" aria-hidden="true"></div>
-<header class="top"><a class="brand" href="/"><i></i>Promii</a><a class="pill" href="/">Entrar al portafolio →</a></header>
-<div class="hello" id="hello"><h1>promii</h1><p>Toca la gota y escoge tu camino</p></div>
-<canvas id="trail" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+<div class="hello" id="hello"><h1>promii</h1><p data-en="Tap the drop and choose your path">Toca la gota y escoge tu camino</p></div>
+<canvas id="trail" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
 <div id="world" aria-label="Caminos"></div>
-<nav class="bottom" aria-label="Accesos"><button class="pill" id="mapBtn" type="button">Mapa completo</button><button class="pill" id="physBtn" type="button" aria-expanded="false">Física</button></nav>
-<section class="sheet" id="sheet" role="dialog" aria-modal="false" aria-labelledby="sheetT"><button class="x" id="sheetX" type="button" aria-label="Cerrar">×</button><div id="sheetIn"></div></section>
-<section class="phys" id="phys" aria-label="Controles de física">
-  <label>Gravedad central <output id="o-g"></output><input type="range" id="g" min="0" max="2" step=".05" value="1"></label>
-  <label>Gravedad entre gotas <output id="o-n"></output><input type="range" id="n" min="0" max="3" step=".05" value="1"></label>
-  <label>Antigravedad <output id="o-a"></output><input type="range" id="a" min="0" max="3" step=".05" value="1"></label>
-  <label>Giro (fuerza centrífuga) <output id="o-s"></output><input type="range" id="s" min="-2" max="2" step=".05" value=".4"></label>
-  <label>Rebote al chocar <output id="o-e"></output><input type="range" id="e" min="0" max="1" step=".05" value=".7"></label>
-  <label>Fricción <output id="o-f"></output><input type="range" id="f" min="0" max="2" step=".05" value=".3"></label>
-  <div class="row"><button type="button" id="three">Tres cuerpos</button><button type="button" id="shake">Sacudir</button><button type="button" id="calm">Calmar</button></div>
+<div class="bottom"><a class="pill" href="/" data-en="Enter the portfolio →">Entrar al portafolio →</a><button class="pill" id="mapBtn" type="button" data-en="Full map ↓">Mapa completo ↓</button><button class="pill" id="physBtn" type="button" aria-expanded="false" data-en="Physics">Física</button></div>
 </section>
-<script src="/assets/site-shell.js" data-mode="data"></script>
+<section class="mapsec" id="mapa"><div class="eye" data-en="Site map">Mapa del sitio</div><h2 data-en="Everything on promii.co, by path">Todo lo que hay en promii.co, por camino</h2><p data-en="This map grows as the site grows. Tap any destination.">Este mapa crece a medida que el sitio crece. Toca cualquier destino.</p><div class="mgrid" id="mgrid"></div></section>
+<section class="sheet" id="sheet" role="dialog" aria-modal="false" aria-labelledby="sheetT"><button class="x" id="sheetX" type="button" aria-label="Cerrar" data-en-label="Close">×</button><div id="sheetIn"></div></section>
+<section class="phys" id="phys" aria-label="Controles de física" data-en-label="Physics controls">
+  <label><span data-en="Central gravity">Gravedad central</span> <output id="o-g"></output><input type="range" id="g" min="0" max="2" step=".05" value="1"></label>
+  <label><span data-en="Gravity between drops">Gravedad entre gotas</span> <output id="o-n"></output><input type="range" id="n" min="0" max="3" step=".05" value="1"></label>
+  <label><span data-en="Anti-gravity">Antigravedad</span> <output id="o-a"></output><input type="range" id="a" min="0" max="3" step=".05" value="1"></label>
+  <label><span data-en="Spin (centrifugal force)">Giro (fuerza centrífuga)</span> <output id="o-s"></output><input type="range" id="s" min="-2" max="2" step=".05" value=".4"></label>
+  <label><span data-en="Bounce on impact">Rebote al chocar</span> <output id="o-e"></output><input type="range" id="e" min="0" max="1" step=".05" value=".7"></label>
+  <label><span data-en="Friction">Fricción</span> <output id="o-f"></output><input type="range" id="f" min="0" max="2" step=".05" value=".3"></label>
+  <div class="row"><button type="button" id="three" data-en="Three bodies">Tres cuerpos</button><button type="button" id="shake" data-en="Shake">Sacudir</button><button type="button" id="calm" data-en="Calm">Calmar</button></div>
+</section>
+<script src="/assets/site-shell.js" data-mode="full" data-dark-only></script>
 <script>
 (function(){
- var SITE=window.PROMII_SITE||{map:[]},world=document.getElementById('world'),body=document.body;
- var W=innerWidth,H=innerHeight,cx=W/2,cy=H/2,RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ var SITE=window.PROMII_SITE||{map:[]},world=document.getElementById('world'),body=document.body,hero=document.getElementById('hero'),L=SITE.L||function(o){return o&&o.es||o;};
+ var W=hero.clientWidth,H=hero.clientHeight,cx=W/2,cy=H/2+20,heroOn=true,RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
  var P={g:1,n:1,a:1,s:.4,e:.7,f:.3},mode='orbit',bodies=[],held=null,run=false,last=0;
  function q(id){return document.getElementById(id);}
  function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -109,22 +120,22 @@ body.open .core::after{display:none}
 
  /* ===== cuerpos ===== */
  function mk(o){var el=document.createElement(o.href?'a':'button');el.className='drop'+(o.core?' core':'');if(o.href)el.href=o.href;else el.type='button';
-  el.style.setProperty('--c',o.c||'#fff');el.innerHTML='<span>'+esc(o.t||'')+(o.sub?'<small>'+esc(o.sub)+'</small>':'')+'</span>';
+  el.style.setProperty('--c',o.c||'#fff');el.innerHTML='<span>'+esc(L(o.t)||'')+'</span>';
   if(!o.core){el.style.width=el.style.height=(o.r*2)+'px';}
   world.appendChild(el);var b={el:el,x:o.x,y:o.y,vx:o.vx||0,vy:o.vy||0,r:o.r,m:o.m||(o.r*o.r)/1600,sq:0,sa:0,data:o,core:o.core};
   bindDrag(b);bodies.push(b);return b;}
- var core=mk({core:1,t:'Toca',x:cx,y:cy,r:0,c:'#ff3b30'});
+ var core=mk({core:1,t:{es:'Toca',en:'Tap'},x:cx,y:cy,r:0,c:'#ff3b30'});
  core.r=core.el.offsetWidth/2;core.fixed=true;
- core.el.setAttribute('aria-label','Abrir los caminos');
+ core.el.setAttribute('aria-label','Abrir los caminos');core.el.setAttribute('data-en-label','Open the paths');
 
  function burst(){if(body.classList.contains('open'))return;body.classList.add('open');mode='orbit';
   core.el.animate([{scale:'1 1'},{scale:'1.25 .8'},{scale:'.85 1.15'},{scale:'1 1'}],{duration:520,easing:'ease-out'});
-  core.el.querySelector('span').textContent='promii';
+  core.el.querySelector('span').textContent='promii';core.data.t='promii';
   var groups=SITE.map,n=groups.length,s=scale(),R0=Math.max(110,Math.min(W,H)*.3);
   groups.forEach(function(g,i){var ang=i/n*Math.PI*2-Math.PI/4,r=Math.max(42,64*s+8),rad=R0*.82;
    var v=Math.sqrt(GM()/rad),b=mk({t:g.g,c:g.c,r:r,x:cx+Math.cos(ang)*core.r*.6,y:cy+Math.sin(ang)*core.r*.6,vx:Math.cos(ang)*700-Math.sin(ang)*v,vy:Math.sin(ang)*700+Math.cos(ang)*v,group:g});b.home=rad;});
   // gotitas satélite: un destino cada una, más pequeñas
-  var sat=[];groups.forEach(function(g){var it=g.items.filter(function(x){return x.st==='live'&&x.t.length<=12;})[0];if(it)sat.push({g:g,it:it});});
+  var sat=[];groups.forEach(function(g){var it=g.items.filter(function(x){return x.st==='live'&&L(x.t).length<=12;})[0];if(it)sat.push({g:g,it:it});});
   sat.forEach(function(o,i){var ang=i/sat.length*Math.PI*2,rad=R0*1.3,r=Math.max(30,38*s),v=Math.sqrt(GM()/rad),b=mk({t:o.it.t,c:o.g.c,r:r,x:cx+Math.cos(ang)*core.r*.6,y:cy+Math.sin(ang)*core.r*.6,vx:Math.cos(ang)*900-Math.sin(ang)*v*1.1,vy:Math.sin(ang)*900+Math.cos(ang)*v*1.1,href:o.it.href,item:o.it});b.home=rad;});
   wake();}
  function GM(){return 2.6e6*Math.pow(scale(),3)*P.g+1;}
@@ -142,7 +153,7 @@ body.open .core::after{display:none}
  function bindDrag(b){var el=b.el,down=null;
   el.addEventListener('pointerdown',function(e){if(e.button>0)return;down={x:e.clientX,y:e.clientY,t:performance.now(),h:[]};el.setPointerCapture(e.pointerId);});
   el.addEventListener('pointermove',function(e){if(!down)return;var d=Math.hypot(e.clientX-down.x,e.clientY-down.y);if(d>6&&!b.core){held=b;el.classList.add('held');}
-   if(held===b){b.x=e.clientX;b.y=e.clientY;down.h.push({x:e.clientX,y:e.clientY,t:performance.now()});if(down.h.length>5)down.h.shift();wake();}});
+   if(held===b){var R=hero.getBoundingClientRect();b.x=e.clientX-R.left;b.y=e.clientY-R.top;down.h.push({x:e.clientX,y:e.clientY,t:performance.now()});if(down.h.length>5)down.h.shift();wake();}});
   function up(e){if(!down)return;var wasHeld=held===b;
    if(wasHeld){var h=down.h;if(h.length>1){var a=h[0],z=h[h.length-1],dt=Math.max((z.t-a.t)/1000,.008);b.vx=(z.x-a.x)/dt;b.vy=(z.y-a.y)/dt;}held=null;el.classList.remove('held');}
    else tap(b,e);down=null;}
@@ -155,11 +166,15 @@ body.open .core::after{display:none}
 
  /* ===== hojas: grupo y mapa ===== */
  var sheet=q('sheet'),sin=q('sheetIn');
- function items(g){return g.items.map(function(it){return '<a class="it" href="'+it.href+'"><span><b>'+esc(it.t)+'</b><em>'+esc(it.d||'')+'</em></span><span class="chip'+(it.st==='live'?' live':'')+'">'+(it.st==='live'?'Activo':'Pronto')+'</span></a>';}).join('');}
- function showGroup(g){sin.innerHTML='<h2 id="sheetT" style="--c:'+g.c+'"><i></i>'+esc(g.g)+'</h2>'+items(g);open();}
- function showMap(){sin.innerHTML='<h2 id="sheetT">Mapa del sitio</h2><p style="color:var(--muted);margin:0">Todo lo que hay en promii.co, por camino. Crece a medida que el sitio crece.</p>'+SITE.map.map(function(g){return '<h3 style="--c:'+g.c+'"><i></i>'+esc(g.g)+'</h3>'+items(g);}).join('');open();}
+ function EN(){return document.documentElement.lang==='en';}
+ function items(g){return g.items.map(function(it){return '<a class="it" href="'+it.href+'"><span><b>'+esc(L(it.t))+'</b><em>'+esc(L(it.d)||'')+'</em></span><span class="chip'+(it.st==='live'?' live':'')+'">'+(it.st==='live'?(EN()?'Live':'Activo'):(EN()?'Soon':'Pronto'))+'</span></a>';}).join('');}
+ function drawMap(){q('mgrid').innerHTML=SITE.map.map(function(g){return '<div class="mg" style="--c:'+g.c+'"><h3><i></i>'+esc(L(g.g))+'</h3>'+items(g)+'</div>';}).join('');}
+ function showGroup(g){sin.innerHTML='<h2 id="sheetT" style="--c:'+g.c+'"><i></i>'+esc(L(g.g))+'</h2>'+items(g);open();}
+ function showMap(){q('mapa').scrollIntoView({behavior:'smooth'});}
  function open(){sheet.classList.add('on');}function close(){sheet.classList.remove('on');}
- q('sheetX').addEventListener('click',close);q('mapBtn').addEventListener('click',showMap);
+ q('sheetX').addEventListener('click',close);q('mapBtn').addEventListener('click',showMap);drawMap();
+ addEventListener('promii:lang',function(){drawMap();bodies.forEach(function(b){var sp=b.el.querySelector('span');if(sp)sp.textContent=L(b.data.t);});close();});
+ if('IntersectionObserver' in window)new IntersectionObserver(function(e){heroOn=e[0].isIntersecting;if(heroOn)wake();},{threshold:.05}).observe(hero);
  addEventListener('keydown',function(e){if(e.key==='Escape'){close();q('phys').classList.remove('on');}});
  world.addEventListener('pointerdown',function(e){if(e.target===world)close();});
 
@@ -195,7 +210,7 @@ body.open .core::after{display:none}
      var hit=Math.min(.45,-rv/1400);if(!p.fixed){p.sq=Math.max(p.sq,hit);p.sa=Math.atan2(ny,nx);}k.sq=Math.max(k.sq,hit);k.sa=Math.atan2(ny,nx);}}}
   for(i=0;i<n;i++){var w=B[i];if(w.fixed||w===held)continue;
    if(w.x<w.r){w.x=w.r;if(w.vx<0){w.sq=Math.max(w.sq,Math.min(.4,-w.vx/1600));w.sa=0;w.vx*=-P.e;}}if(w.x>W-w.r){w.x=W-w.r;if(w.vx>0){w.sq=Math.max(w.sq,Math.min(.4,w.vx/1600));w.sa=0;w.vx*=-P.e;}}
-   if(w.y<w.r+56){w.y=w.r+56;if(w.vy<0){w.sq=Math.max(w.sq,Math.min(.4,-w.vy/1600));w.sa=Math.PI/2;w.vy*=-P.e;}}if(w.y>H-w.r-64){w.y=H-w.r-64;if(w.vy>0){w.sq=Math.max(w.sq,Math.min(.4,w.vy/1600));w.sa=Math.PI/2;w.vy*=-P.e;}}}}
+   if(w.y<w.r+60){w.y=w.r+60;if(w.vy<0){w.sq=Math.max(w.sq,Math.min(.4,-w.vy/1600));w.sa=Math.PI/2;w.vy*=-P.e;}}if(w.y>H-w.r-64){w.y=H-w.r-64;if(w.vy>0){w.sq=Math.max(w.sq,Math.min(.4,w.vy/1600));w.sa=Math.PI/2;w.vy*=-P.e;}}}}
  function render(dt){bodies.forEach(function(b){var sp=Math.hypot(b.vx,b.vy),k=Math.min(sp/2600,.22),a=Math.atan2(b.vy,b.vx)*57.2958;
    b.sq*=Math.exp(-dt*7);var q2=b.sq,sa=b.sa*57.2958;
    b.el.style.transform='translate3d('+(b.x-b.r).toFixed(1)+'px,'+(b.y-b.r).toFixed(1)+'px,0)'+
@@ -204,13 +219,13 @@ body.open .core::after{display:none}
  var tc=q('trail'),tx=tc.getContext('2d'),TD=Math.min(devicePixelRatio||1,2);function tsize(){tc.width=W*TD;tc.height=H*TD;tx.setTransform(TD,0,0,TD,0,0);}tsize();
  function trails(){tx.globalCompositeOperation='destination-out';tx.fillStyle='rgba(0,0,0,.035)';tx.fillRect(0,0,W,H);tx.globalCompositeOperation='source-over';
   if(mode!=='three')return;bodies.forEach(function(b){if(b.core)return;if(b.px!=null){tx.strokeStyle=b.data.c;tx.globalAlpha=.7;tx.lineWidth=2;tx.beginPath();tx.moveTo(b.px,b.py);tx.lineTo(b.x,b.y);tx.stroke();tx.globalAlpha=1;}b.px=b.x;b.py=b.y;});}
- function loop(t){var dt=Math.min((t-last)/1000,1/30);last=t;if(document.hidden){run=false;return;}
+ function loop(t){var dt=Math.min((t-last)/1000,1/30);last=t;if(document.hidden||!heroOn){run=false;return;}
   var sub=mode==='three'?10:3;for(var i=0;i<sub;i++)step(dt/sub);render(dt);trails();
   var moving=bodies.some(function(b){return !b.fixed&&(Math.abs(b.vx)+Math.abs(b.vy)>2||b.sq>.01);})||held;
   if(moving||mode==='three'||(mode==='orbit'&&body.classList.contains('open')))requestAnimationFrame(loop);else run=false;}
  function wake(){if(!run){run=true;last=performance.now();requestAnimationFrame(loop);}}
  document.addEventListener('visibilitychange',function(){if(!document.hidden)wake();});
- addEventListener('resize',function(){W=innerWidth;H=innerHeight;tsize();cx=W/2;cy=H/2;core.x=cx;core.y=cy;core.r=core.el.offsetWidth/2;render(0);wake();});
+ addEventListener('resize',function(){W=hero.clientWidth;H=hero.clientHeight;tsize();cx=W/2;cy=H/2+20;core.x=cx;core.y=cy;core.r=core.el.offsetWidth/2;render(0);wake();});
  render(0);
  if(RM){burst();bodies.forEach(function(b){b.vx=b.vy=0;});}
  if(new URLSearchParams(location.search).get('fisica')){q('phys').classList.add('on');q('physBtn').setAttribute('aria-expanded','true');burst();}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-title-en="Level Tower · Promii Games">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -15,10 +15,10 @@
 <main class="wrap">
   <div class="stage glass" id="stage">
     <canvas id="cv"></canvas>
-    <div class="hud"><span>Nivel <b id="lv">0</b></span><span>Récord <b id="best">0</b></span></div>
-    <div class="over" id="over"><div><h2 id="ot">Torre de niveles</h2><p id="op">Toca la pantalla (o la barra espaciadora) para soltar cada losa. Lo que sobresale se cae. Un encaje perfecto mantiene el ancho.</p><button class="btn" id="go">Empezar</button></div></div>
+    <div class="hud"><span><span data-en="Level">Nivel</span> <b id="lv">0</b></span><span><span data-en="Best">Récord</span> <b id="best">0</b></span></div>
+    <div class="over" id="over"><div><h2 id="ot" data-en="Level Tower">Torre de niveles</h2><p id="op" data-en="Tap the screen (or press space) to drop each slab. What overhangs falls off. A perfect fit keeps the width.">Toca la pantalla (o la barra espaciadora) para soltar cada losa. Lo que sobresale se cae. Un encaje perfecto mantiene el ancho.</p><button class="btn" id="go" data-en="Start">Empezar</button></div></div>
   </div>
-  <p class="help">Toca en cualquier parte del tablero · Barra espaciadora en el computador</p>
+  <p class="help" data-en="Tap anywhere on the board · Space bar on a computer">Toca en cualquier parte del tablero · Barra espaciadora en el computador</p>
 </main>
 <script>
 (function(){
@@ -37,7 +37,8 @@
  function yOf(i){return H-60-i*SH;}
  function end(){state='over';if(score>best){best=score;try{localStorage.setItem('pg-best-torre',best);}catch(e){}bestEl.textContent=best;}
   try{window.promiiEvent&&promiiEvent('game',{label:'torre',value:score});}catch(e){}
-  setTimeout(function(){document.getElementById('ot').textContent=score+(score===1?' nivel':' niveles');document.getElementById('op').textContent=score>=best&&score>0?'¡Nuevo récord! La torre aguantó '+score+' losas.':'Récord: '+best+'. Cada encaje perfecto mantiene el ancho de la losa.';document.getElementById('go').textContent='Otra vez';over.classList.remove('hide');},700);}
+  setTimeout(function(){var E=document.documentElement.lang==='en',ot=document.getElementById('ot'),op=document.getElementById('op'),go=document.getElementById('go');[ot,op,go].forEach(function(n){n.removeAttribute('data-en');n.removeAttribute('data-es');});
+   ot.textContent=E?score+(score===1?' level':' levels'):score+(score===1?' nivel':' niveles');op.textContent=score>=best&&score>0?(E?'New record! The tower held '+score+' slabs.':'¡Nuevo récord! La torre aguantó '+score+' losas.'):(E?'Best: '+best+'. Every perfect fit keeps the slab width.':'Récord: '+best+'. Cada encaje perfecto mantiene el ancho de la losa.');go.textContent=E?'Again':'Otra vez';over.classList.remove('hide');},700);}
  function start(){reset();state='play';over.classList.add('hide');}
  document.getElementById('go').addEventListener('click',function(e){e.stopPropagation();start();});
  st.addEventListener('pointerdown',function(e){if(e.target.closest('.over'))return;drop();});

@@ -120,22 +120,32 @@ footer{color:var(--dim);font-size:13px;padding-block:40px;text-align:center}
     return out.join('\n');
   }
   const slug = new URLSearchParams(location.search).get('p');
-  const subBox = () => `<section class="sub glass" id="suscribirse"><b>Recibe la próxima entrada</b><span>Un caso nuevo cada mes: sistemas, BIM e IA explicados paso a paso. Sin spam.</span>
-    <form id="subForm" novalidate><label class="hp" for="hp">No llenar</label><input class="hp" id="hp" name="_honey" tabindex="-1" autocomplete="off"><label for="subEmail" style="position:absolute;left:-9999px">Tu correo</label><input id="subEmail" name="email" type="email" required autocomplete="email" placeholder="tu@correo.com"><button type="submit">Suscribirme</button></form><p class="st" id="subSt" role="status"></p></section>`;
-  function bindSub(source) {
+  const LG = () => (window.PROMII_SITE && PROMII_SITE.lang && PROMII_SITE.lang()) || 'es';
+  const U = {
+    es: { eye: 'Blog · Bitácora', h1: 'Casos, sistemas y lo que aprendo construyéndolos', lead: 'Escribo sobre los proyectos y sistemas que hago: arquitectura, BIM, IA y diseño web. Cada entrada cuenta el problema, cómo lo resolví y qué cambió.', read: 'Leer →', min: 'min', minRead: 'min de lectura', back: '← Blog', none: 'No encontré esa entrada.', all: 'Ver todas', fail: 'No se pudo cargar el blog.',
+      subT: 'Recibe la próxima entrada', subD: 'Un caso nuevo cada mes: sistemas, BIM e IA explicados paso a paso. Sin spam.', subB: 'Suscribirme', ph: 'tu@correo.com', bad: 'Escribe un correo válido.', sending: 'Enviando…', ok: '¡Listo! Te escribo cuando publique la próxima.', err: 'No se pudo enviar. Escríbeme a hi@promii.co.', loc: 'es-CO', site: 'Blog Promii' },
+    en: { eye: 'Blog', h1: 'Cases, systems and what I learn building them', lead: 'I write about the projects and systems I make: architecture, BIM, AI and web design. Each post covers the problem, how I solved it and what changed.', read: 'Read →', min: 'min', minRead: 'min read', back: '← Blog', none: 'I could not find that post.', all: 'See all', fail: 'The blog could not be loaded.',
+      subT: 'Get the next post', subD: 'One new case a month: systems, BIM and AI explained step by step. No spam.', subB: 'Subscribe', ph: 'you@email.com', bad: 'Enter a valid email.', sending: 'Sending…', ok: 'Done! I will write when the next one is out.', err: 'Could not send. Write to hi@promii.co.', loc: 'en-US', site: 'Promii Blog' }
+  };
+  const T = () => U[LG()];
+  const F = (p, k) => (LG() === 'en' && p[k + '_en']) || p[k];
+  const fmtL = d => new Date(d + 'T12:00').toLocaleDateString(T().loc, { day: 'numeric', month: 'long', year: 'numeric' });
+  const subBoxL = () => `<section class="sub glass" id="suscribirse"><b>${T().subT}</b><span>${T().subD}</span>
+    <form id="subForm" novalidate><label class="hp" for="hp">No llenar</label><input class="hp" id="hp" name="_honey" tabindex="-1" autocomplete="off"><label for="subEmail" style="position:absolute;left:-9999px">Email</label><input id="subEmail" name="email" type="email" required autocomplete="email" placeholder="${T().ph}"><button type="submit">${T().subB}</button></form><p class="st" id="subSt" role="status"></p></section>`;
+  function bindSubL(source) {
     const f = document.getElementById('subForm'); if (!f) return;
     f.addEventListener('submit', async e => {
       e.preventDefault(); const st = document.getElementById('subSt'), m = f.email.value.trim();
       if (f._honey.value) return;
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { st.className = 'st err'; st.textContent = 'Escribe un correo válido.'; return; }
-      st.className = 'st'; st.textContent = 'Enviando…';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { st.className = 'st err'; st.textContent = T().bad; return; }
+      st.className = 'st'; st.textContent = T().sending;
       const M = (window.PROMII_FORMS || {}).mailerlite || {};
       try {
-        const fd = new FormData(); fd.append('fields[email]', m); fd.append('fields[signup_source]', source); fd.append('fields[interests]', 'newsletter'); fd.append('ml-submit', '1'); fd.append('anticsrf', 'true');
+        const fd = new FormData(); fd.append('fields[email]', m); fd.append('fields[signup_source]', source + (LG() === 'en' ? ' (en)' : '')); fd.append('fields[interests]', 'newsletter'); fd.append('ml-submit', '1'); fd.append('anticsrf', 'true');
         const r = await fetch('https://assets.mailerlite.com/jsonp/' + M.account + '/forms/' + M.form + '/subscribe', { method: 'POST', body: fd });
         const j = await r.json(); if (!j.success) throw 0;
-        st.className = 'st ok'; st.textContent = '¡Listo! Te escribo cuando publique la próxima.'; f.reset();
-      } catch (x) { st.className = 'st err'; st.textContent = 'No se pudo enviar. Escríbeme a hi@promii.co.'; }
+        st.className = 'st ok'; st.textContent = T().ok; f.reset();
+      } catch (x) { st.className = 'st err'; st.textContent = T().err; }
     });
   }
   function setMeta(title, desc, img) {
@@ -143,25 +153,32 @@ footer{color:var(--dim);font-size:13px;padding-block:40px;text-align:center}
     document.querySelector('meta[property="og:title"]').content = title; document.querySelector('meta[property="og:description"]').content = desc;
     if (img) document.querySelector('meta[property="og:image"]').content = new URL(img, location.href).href;
   }
-  fetch('posts.json').then(r => r.json()).then(async posts => {
-    posts.sort((a, b) => b.date.localeCompare(a.date));
+  let POSTS = null;
+  async function draw() {
+    if (!POSTS) { POSTS = await (await fetch('posts.json')).json(); POSTS.sort((a, b) => b.date.localeCompare(a.date)); }
+    const posts = POSTS, t = T();
     if (!slug) {
-      app.innerHTML = `<header class="top"><div class="eyebrow">Bitácora</div><h1>Casos, sistemas y lo que aprendo construyéndolos</h1><p class="lead">Escribo sobre los proyectos y sistemas que hago: arquitectura, BIM, IA y diseño web. Cada entrada cuenta el problema, cómo lo resolví y qué cambió.</p></header>
-        <div class="list">${posts.map(p => `<a class="card glass" href="?p=${encodeURIComponent(p.slug)}"><img src="${esc(p.cover)}" alt="" loading="lazy"><div class="c"><div class="meta"><span>${fmt(p.date)}</span><span>· ${p.minutes} min</span></div><h2>${esc(p.title)}</h2><p>${esc(p.summary)}</p><div class="meta">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div><span class="more">Leer →</span></div></a>`).join('')}</div>` + subBox();
-      bindSub('promii.co/bitacora');
+      app.innerHTML = `<header class="top"><div class="eyebrow">${t.eye}</div><h1>${t.h1}</h1><p class="lead">${t.lead}</p></header>
+        <div class="list">${posts.map(p => `<a class="card glass" href="?p=${encodeURIComponent(p.slug)}"><img src="${esc(p.cover)}" alt="" loading="lazy"><div class="c"><div class="meta"><span>${fmtL(p.date)}</span><span>· ${p.minutes} ${t.min}</span></div><h2>${esc(F(p, 'title'))}</h2><p>${esc(F(p, 'summary'))}</p><div class="meta">${F(p, 'tags').map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div><span class="more">${t.read}</span></div></a>`).join('')}</div>` + subBoxL();
+      document.title = (LG() === 'en' ? 'Blog · Promii · Brian Zuleta' : 'Blog · Bitácora Promii · Brian Zuleta');
+      bindSubL('promii.co/bitacora');
       return;
     }
     const p = posts.find(x => x.slug === slug);
-    if (!p) { app.innerHTML = '<p class="empty">No encontré esa entrada. <a href="./">Ver todas</a></p>'; return; }
-    const md = await (await fetch('posts/' + encodeURIComponent(p.slug) + '.md')).text();
+    if (!p) { app.innerHTML = `<p class="empty">${t.none} <a href="./">${t.all}</a></p>`; return; }
+    let md = null;
+    if (LG() === 'en') { const r = await fetch('posts/en/' + encodeURIComponent(p.slug) + '.md'); if (r.ok) md = await r.text(); }
+    if (md === null) md = await (await fetch('posts/' + encodeURIComponent(p.slug) + '.md')).text();
     const html = mdToHtml(md);
-    app.innerHTML = `<article><div class="head"><a class="back" href="./">← Bitácora</a><div class="eyebrow" style="margin-top:22px">${fmt(p.date)} · ${p.minutes} min de lectura</div><h1>${esc(p.title)}</h1><p class="lead">${esc(p.summary)}</p><div class="meta" style="margin-top:14px">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div></div>
-      <div class="prose" id="prose">${html}</div></article>` + subBox();
-    // pie de foto a partir del texto alternativo
+    app.innerHTML = `<article><div class="head"><a class="back" href="./">${t.back}</a><div class="eyebrow" style="margin-top:22px">${fmtL(p.date)} · ${p.minutes} ${t.minRead}</div><h1>${esc(F(p, 'title'))}</h1><p class="lead">${esc(F(p, 'summary'))}</p><div class="meta" style="margin-top:14px">${F(p, 'tags').map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div></div>
+      <div class="prose" id="prose">${html}</div></article>` + subBoxL();
     document.querySelectorAll('#prose img').forEach(img => { img.loading = 'lazy'; if (img.alt) { const c = document.createElement('span'); c.className = 'cap'; c.textContent = img.alt; img.insertAdjacentElement('afterend', c); } });
-    setMeta(p.title + ' · Bitácora Promii', p.summary, p.cover);
-    bindSub('promii.co/bitacora/' + p.slug);
-  }).catch(() => { app.innerHTML = '<p class="empty">No se pudo cargar la Bitácora.</p>'; });
+    setMeta(F(p, 'title') + ' · ' + t.site, F(p, 'summary'), p.cover);
+    bindSubL('promii.co/bitacora/' + p.slug);
+  }
+  const go = () => draw().catch(() => { app.innerHTML = `<p class="empty">${T().fail}</p>`; });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+  addEventListener('promii:lang', go);
 })();
 </script>
 <script src="/assets/site-shell.js" data-mode="full"></script>

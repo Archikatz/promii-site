@@ -1,6 +1,8 @@
 /* Promii Games · estilo común */
 html{--display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--body:"Inter",ui-sans-serif,system-ui,sans-serif;--accent:#ff3b30;--blue:#2f6bff;--neon:#22e0c8;
   --bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--line:rgba(255,255,255,.1);--glass:rgba(255,255,255,.045);--glass2:rgba(255,255,255,.07);--brd:rgba(255,255,255,.13);color-scheme:dark}
+html[data-theme="light"]{--bg:#eceef3;--text:#15151c;--muted:#55576a;--dim:#8a8c9e;--line:rgba(15,18,40,.1);--glass:rgba(255,255,255,.6);--glass2:rgba(255,255,255,.8);--brd:rgba(255,255,255,.85);color-scheme:light}
+html[data-theme="light"] .stage{background:#0b0b12}html[data-theme="light"] .stage .hud,html[data-theme="light"] .stage .over{color:#f4f4f8}html[data-theme="light"] .over{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased;min-height:100vh}
 body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(45% 40% at 10% 0%,color-mix(in srgb,var(--neon) 18%,transparent),transparent 70%),radial-gradient(40% 40% at 100% 100%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 70%)}

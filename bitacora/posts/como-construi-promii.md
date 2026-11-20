@@ -34,7 +34,7 @@ Funciona como una **lupa**. En Chrome y Edge usa un mapa de desplazamiento: una 
 
 ![La gota como lupa: amplía la "o" de promii](img/lupa.jpg)
 
-En iPhone, Safari no permite deformar el fondo de una página web. En vez de rendirme, la gota usa una copia de la palabra *promii*, ampliada y recortada en forma de círculo, que se alinea con la palabra real mientras la mueves. Sobre el resto de la página se ve como una gota transparente con borde de luz.
+En iPhone, Safari no permite deformar el fondo de una página web. En vez de rendirme, la gota copia en vivo lo que tiene debajo, lo amplía y lo mantiene alineado con la página real mientras la mueves. Así amplía cualquier parte de la página.
 
 Y se puede jugar con ella: la arrastras y la dejas donde quieras para usarla como lupa. Si la tocas rápido o la lanzas con fuerza, **explota en gotitas** que salen volando y se vuelven a juntar con física de muelles.
 

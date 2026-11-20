@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-title-en="Promii Games · Architecture web games">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -27,22 +27,22 @@ header{padding-block:56px 26px}
 <main class="wrap">
 <header>
   <span class="eyebrow">Promii Games</span>
-  <h1>Juegos de arquitectura para un rato libre</h1>
-  <p class="lead">Juegos web ligeros, sin descargas, que salen de lo que hago en obra y en BIM. Funcionan en el celular y en el computador.</p>
+  <h1 data-en="Architecture games for a spare moment">Juegos de arquitectura para un rato libre</h1>
+  <p class="lead" data-en="Lightweight web games, no downloads, born from what I do on site and in BIM. They work on phones and computers.">Juegos web ligeros, sin descargas, que salen de lo que hago en obra y en BIM. Funcionan en el celular y en el computador.</p>
 </header>
 <div class="grid">
   <a class="g glass" href="torre.html">
     <svg viewBox="0 0 320 180" fill="none" stroke="#f4f4f8" stroke-width="1.6"><g opacity=".08" stroke="#fff"><path d="M0 30h320M0 60h320M0 90h320M0 120h320M0 150h320M40 0v180M80 0v180M120 0v180M160 0v180M200 0v180M240 0v180M280 0v180"/></g><rect x="110" y="140" width="100" height="18"/><rect x="114" y="122" width="94" height="18"/><rect x="120" y="104" width="86" height="18"/><rect x="124" y="86" width="80" height="18" stroke="#22e0c8"/><rect x="170" y="52" width="80" height="18" stroke="#ff3b30" stroke-dasharray="4 4"/><path d="M60 158h200" stroke-width="2.4"/></svg>
-    <div class="c"><b>Torre de niveles</b><span>Suelta cada losa en el momento justo. Lo que sobresale se cae: la torre se vuelve más angosta y más difícil.</span><span class="best" data-best="torre"></span><em>Jugar →</em></div></a>
+    <div class="c"><b data-en="Level Tower">Torre de niveles</b><span data-en="Drop each slab at the right moment. What overhangs falls off: the tower gets narrower and harder.">Suelta cada losa en el momento justo. Lo que sobresale se cae: la torre se vuelve más angosta y más difícil.</span><span class="best" data-best="torre"></span><em data-en="Play →">Jugar →</em></div></a>
   <a class="g glass" href="choques.html">
     <svg viewBox="0 0 320 180" fill="none" stroke-width="2"><rect width="320" height="180" fill="#0b0b12"/><g stroke="#8a8c9e"><path d="M0 50h320M0 120h320"/></g><g stroke="#ff3b30"><path d="M40 0v80l60 40v60M220 0v180"/></g><g stroke="#2f6bff" opacity=".8"><path d="M0 90h130l50-40h140"/></g><g stroke="#22e0c8" stroke-width="1.6"><circle cx="40" cy="50" r="10"/><circle cx="220" cy="120" r="10"/></g></svg>
-    <div class="c"><b>Detección de choques</b><span>Toca los puntos donde la tubería roja atraviesa una viga antes de que se acabe el tiempo.</span><span class="best" data-best="choques"></span><em>Jugar →</em></div></a>
+    <div class="c"><b data-en="Clash Detection">Detección de choques</b><span data-en="Tap the points where the red pipe goes through a beam before time runs out.">Toca los puntos donde la tubería roja atraviesa una viga antes de que se acabe el tiempo.</span><span class="best" data-best="choques"></span><em data-en="Play →">Jugar →</em></div></a>
   <div class="g glass soon">
     <svg viewBox="0 0 320 180" fill="none" stroke="#f4f4f8" stroke-width="1.4" opacity=".6"><rect width="320" height="180" fill="#0b0b12"/><path d="M60 140V70l100-40 100 40v70zM60 70h200M160 30v110"/></svg>
-    <div class="c"><b>Próximamente</b><span>Más juegos de planos, permisos y diseño en camino.</span></div></div>
+    <div class="c"><b data-en="Coming soon">Próximamente</b><span data-en="More games about drawings, permits and design on the way.">Más juegos de planos, permisos y diseño en camino.</span></div></div>
 </div>
 </main>
-<script>document.querySelectorAll('[data-best]').forEach(function(e){try{var v=localStorage.getItem('pg-best-'+e.dataset.best);if(v)e.textContent='Tu récord: '+v;}catch(x){}});</script>
+<script>document.querySelectorAll('[data-best]').forEach(function(e){try{var v=localStorage.getItem('pg-best-'+e.dataset.best);if(v){e.textContent='Tu récord: '+v;e.setAttribute('data-en','Your best: '+v);}}catch(x){}});</script>
 <script src="/assets/site-shell.js" data-mode="full"></script>
 <script src="/analytics/config.js"></script>
 <script src="/analytics/track.js" defer></script>

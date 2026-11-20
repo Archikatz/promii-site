@@ -11,7 +11,15 @@
       "Claude Code"
     ],
     "cover": "img/glass.jpg",
-    "minutes": 7
+    "minutes": 7,
+    "title_en": "How I built a portfolio that runs itself",
+    "summary_en": "The concept behind promii.co: three styles with the same physics, a water drop that works as a magnifier, performance measured at 60 frames per second and a panel to change the page without touching code.",
+    "tags_en": [
+      "Web design",
+      "Liquid Glass",
+      "Physics",
+      "Claude Code"
+    ]
   },
   {
     "slug": "claude-dentro-de-revit",
@@ -25,7 +33,15 @@
       "En progreso"
     ],
     "cover": "img/agentic-bim.jpg",
-    "minutes": 3
+    "minutes": 3,
+    "title_en": "Claude working inside Revit",
+    "summary_en": "A study in progress: connecting AI to Revit through MCP to review models, prepare sheets, detect clashes and write Dynamo routines.",
+    "tags_en": [
+      "BIM",
+      "AI",
+      "Revit",
+      "In progress"
+    ]
   },
   {
     "slug": "la-trinidad-sistema-operativo",
@@ -39,7 +55,15 @@
       "n8n"
     ],
     "cover": "img/trinidad.jpg",
-    "minutes": 3
+    "minutes": 3,
+    "title_en": "The Trinity: the operating system I work with",
+    "summary_en": "Notion as memory, n8n as the nervous system and Claude as judgment. The inbox, outbox and log pattern I use in all my automations.",
+    "tags_en": [
+      "Systems",
+      "Automation",
+      "Notion",
+      "n8n"
+    ]
   },
   {
     "slug": "archikatz-editorial",
@@ -52,7 +76,14 @@
       "Proceso creativo"
     ],
     "cover": "img/editorial.jpg",
-    "minutes": 3
+    "minutes": 3,
+    "title_en": "From encyclopedia to publishing imprint",
+    "summary_en": "How I'm turning the ArchiKatz universe into an imprint with five collections and a three-phase plan: decide, publish one book, then grow.",
+    "tags_en": [
+      "ArchiKatz",
+      "Publishing",
+      "Creative process"
+    ]
   },
   {
     "slug": "academy-estrategias-reutilizables",
@@ -65,6 +96,13 @@
       "Marketing"
     ],
     "cover": "img/academy.jpg",
-    "minutes": 2
+    "minutes": 2,
+    "title_en": "How I turn what I learn into reusable strategies",
+    "summary_en": "Promii Academy: marketing and B2B sales playbooks with a code, steps and a way to measure them, organized in five layers.",
+    "tags_en": [
+      "Academy",
+      "B2B sales",
+      "Marketing"
+    ]
   }
 ]

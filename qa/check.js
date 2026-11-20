@@ -19,7 +19,7 @@ const fromSitemap = [...fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8').
 const extra = ['/lab/', '/admin/', '/lab/inventario.html', ...fs.readdirSync(path.join(ROOT, 'lab/demos')).filter(f => f.endsWith('.html') && !f.startsWith('14')).map(f => '/lab/demos/' + f), '/bitacora/?p=como-construi-promii'];
 const PAGES = [...new Set([...fromSitemap, ...extra])];
 // Páginas con un diseño propio sin la barra común (se revisa que tengan su propia navegación)
-const OWN_SHELL = { '/': 'nav', '/admin/': null, '/home/': '.top', '/lab/demos/': '.pm-mini' };
+const OWN_SHELL = { '/': 'nav', '/admin/': null, '/lab/demos/': '.pm-mini' };
 const shellFor = u => Object.keys(OWN_SHELL).filter(k => k !== '/' ? u.startsWith(k) : u === '/').map(k => OWN_SHELL[k])[0];
 
 (async () => {

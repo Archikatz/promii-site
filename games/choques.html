@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-title-en="Clash Detection · Promii Games">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -16,10 +16,10 @@
 <main class="wrap">
   <div class="stage glass" id="stage">
     <canvas id="cv"></canvas>
-    <div class="hud"><span>Choques <b id="sc">0</b></span><span>Nivel <b id="lv">1</b></span><span>Tiempo <b id="tm">30</b></span></div>
-    <div class="over" id="over"><div><h2 id="ot">Detección de choques</h2><p id="op">Toca cada punto donde una tubería <b style="color:#ff5a4f">roja</b> atraviesa una viga <b style="color:#b9bccb">gris</b>. Los ductos azules pasan por debajo: no cuentan. Un toque equivocado resta 3 segundos.</p><button class="btn" id="go">Empezar</button></div></div>
+    <div class="hud"><span><span data-en="Clashes">Choques</span> <b id="sc">0</b></span><span><span data-en="Level">Nivel</span> <b id="lv">1</b></span><span><span data-en="Time">Tiempo</span> <b id="tm">30</b></span></div>
+    <div class="over" id="over"><div><h2 id="ot" data-en="Clash Detection">Detección de choques</h2><p id="op" data-en="Tap every point where a &lt;b style=&quot;color:#ff5a4f&quot;&gt;red&lt;/b&gt; pipe goes through a &lt;b style=&quot;color:#b9bccb&quot;&gt;grey&lt;/b&gt; beam. Blue ducts pass below: they don't count. A wrong tap costs 3 seconds.">Toca cada punto donde una tubería <b style="color:#ff5a4f">roja</b> atraviesa una viga <b style="color:#b9bccb">gris</b>. Los ductos azules pasan por debajo: no cuentan. Un toque equivocado resta 3 segundos.</p><button class="btn" id="go" data-en="Start">Empezar</button></div></div>
   </div>
-  <div class="legend"><span><i style="background:#b9bccb"></i>Viga</span><span><i style="background:#ff3b30"></i>Tubería</span><span><i style="background:#2f6bff"></i>Ducto (no cuenta)</span></div>
+  <div class="legend"><span><i style="background:#b9bccb"></i><span data-en="Beam">Viga</span></span><span><i style="background:#ff3b30"></i><span data-en="Pipe">Tubería</span></span><span><i style="background:#2f6bff"></i><span data-en="Duct (doesn't count)">Ducto (no cuenta)</span></span></div>
 </main>
 <script>
 (function(){
@@ -52,7 +52,8 @@
   else{marks.push({x:px,y:py,t:1});time=Math.max(0,time-3);}});
  function end(){state='over';if(score>best){best=score;try{localStorage.setItem('pg-best-choques',best);}catch(e){}}
   try{window.promiiEvent&&promiiEvent('game',{label:'choques',value:score});}catch(e){}
-  document.getElementById('ot').textContent=score+(score===1?' choque':' choques');document.getElementById('op').textContent='Llegaste al nivel '+level+'. Récord: '+best+'. En un modelo real, cada choque encontrado a tiempo es un cambio de obra que no se paga.';document.getElementById('go').textContent='Otra vez';over.classList.remove('hide');}
+  var E=document.documentElement.lang==='en',ot=document.getElementById('ot'),op=document.getElementById('op'),go=document.getElementById('go');[ot,op,go].forEach(function(n){n.removeAttribute('data-en');n.removeAttribute('data-es');});
+  ot.textContent=E?score+(score===1?' clash':' clashes'):score+(score===1?' choque':' choques');op.textContent=E?'You reached level '+level+'. Best: '+best+'. In a real model, every clash found in time is a change order nobody pays for.':'Llegaste al nivel '+level+'. Récord: '+best+'. En un modelo real, cada choque encontrado a tiempo es un cambio de obra que no se paga.';go.textContent=E?'Again':'Otra vez';over.classList.remove('hide');}
  function line(pl,col,w,dash){x.save();x.strokeStyle=col;x.lineWidth=w;x.setLineDash(dash||[]);x.lineJoin='round';x.beginPath();pl.forEach(function(p,i){i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]);});x.stroke();x.restore();}
  function draw(){x.clearRect(0,0,W,H);x.fillStyle='#0b0b12';x.fillRect(0,0,W,H);
   x.strokeStyle='rgba(255,255,255,.045)';x.lineWidth=1;x.beginPath();for(var i=0;i<W;i+=24){x.moveTo(i+.5,0);x.lineTo(i+.5,H);}for(var j=0;j<H;j+=24){x.moveTo(0,j+.5);x.lineTo(W,j+.5);}x.stroke();

@@ -67,6 +67,7 @@ nav .row{display:flex;align-items:center;justify-content:space-between;height:62
 .toggle button{background:transparent;color:var(--muted);border:none;padding:6px 11px;cursor:pointer;transition:.15s}
 .toggle button.on{background:var(--gold);color:var(--ctaText)}
 .iconbtn{width:36px;height:34px;border-radius:9px;border:1px solid var(--line2);background:var(--glass);color:var(--text);cursor:pointer;font-size:15px;line-height:1}
+.mapbtn{display:inline-grid;place-items:center;text-decoration:none}
 @media(max-width:760px){.navlinks .hidem,.brand .hidem{display:none}}
 .brand{white-space:nowrap}
 .hero{padding:84px 0 60px;position:relative}
@@ -314,9 +315,11 @@ svg.ic{stroke:var(--text);filter:none}
     <a href="#proyectos" class="hidem" data-i="nav_proj">Proyectos</a>
     <a href="#servicios" class="hidem" data-i="nav_services">Servicios</a>
     <a href="#casos" class="hidem" data-i="nav_cases">Casos</a>
-    <a href="bitacora/" class="hidem" data-i="nav_blog">Bitácora</a>
+    <a href="bitacora/" class="hidem" data-i="nav_blog">Blog</a>
+    <a href="academy/" class="hidem">Academy</a>
     <a href="#ecosistema" class="hidem" data-i="nav_eco">Ecosistema</a>
     <a href="#contacto" class="hidem" data-i="nav_brief">Contacto</a>
+    <a href="home/" class="iconbtn mapbtn" title="Mapa del sitio / Site map" aria-label="Mapa del sitio"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3c3.4 4.2 6 7.4 6 10.6A6 6 0 0 1 6 13.6C6 10.4 8.6 7.2 12 3z"/><circle cx="9.8" cy="12.6" r="1.2" fill="currentColor" stroke="none"/></svg></a>
     <div class="toggle"><button id="langES" class="on" onclick="setLang('es')">ES</button><button id="langEN" onclick="setLang('en')">EN</button></div>
     <button class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="Modo claro / oscuro">🌙</button>
   </div>
@@ -527,7 +530,7 @@ svg.ic{stroke:var(--text);filter:none}
       <a href="https://www.tiktok.com/@promii" target="_blank" rel="noopener"><svg><use href="#s-tiktok"/></svg>TikTok</a>
       <a href="https://github.com/Promii" target="_blank" rel="noopener"><svg><use href="#s-github"/></svg>GitHub</a>
     </div></div>
-    <div class="explore"><a href="home/">Mapa del sitio</a><a href="bitacora/">Bitácora</a><a href="academy/">Academy</a><a href="lab/">Motion Lab</a><a href="games/">Juegos</a></div>
+    <div class="explore"><a href="home/">Mapa del sitio · Site map</a><a href="bitacora/">Blog</a><a href="academy/">Academy</a><a href="lab/">Motion Lab</a><a href="games/">Juegos</a></div>
   </div>
   <div style="text-align:right">
     <div>hi@promii.co · WhatsApp +57 316 057 0258</div>
@@ -764,7 +767,7 @@ let lang="es",market="us",cart=[],_io;
 function activeSVC(){return market==='us'?SVC_US:SVC_LATAM;}
 function fromPrice(s){return s.base>0?s.base:(s.per>0?s.per:0);}
 function money(n){return market==='us'?'$'+n.toLocaleString('en-US'):'COP $'+n.toLocaleString('es-CO');}
-function setLang(l){lang=l;document.getElementById('langES').classList.toggle('on',l==='es');document.getElementById('langEN').classList.toggle('on',l==='en');document.documentElement.lang=l;render();}
+function setLang(l){lang=l;try{localStorage.setItem('promii-lang',l);}catch(e){}document.getElementById('langES').classList.toggle('on',l==='es');document.getElementById('langEN').classList.toggle('on',l==='en');document.documentElement.lang=l;render();}
 function setMarket(m){if(m===market)return;market=m;cart=[];document.getElementById('mkA').classList.toggle('on',m==='us');document.getElementById('mkB').classList.toggle('on',m==='latam');render();}
 function toggleTheme(){var h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeBtn').textContent=d?'☀️':'🌙';try{localStorage.setItem('promii-theme',d?'light':'dark');}catch(e){}}
 (function(){try{var t=localStorage.getItem('promii-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}var b=document.getElementById('themeBtn');if(b)b.textContent=document.documentElement.getAttribute('data-theme')==='light'?'☀️':'🌙';})();
@@ -994,7 +997,7 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  Object.assign(T.es,{nav_eco:"Ecosistema",
   p1_k:"Para empresas que contratan",p1_t:"Contratar a Brian",p1_d:"Arquitecto CPNAA, coordinación BIM y administración de construcción. Disponibilidad inmediata, remoto en horario de EE.UU.",p1_a:"Ver experiencia y hoja de vida →",
   p2_k:"Para estudios y desarrolladores",p2_t:"Trabajar con Promii",p2_d:"Planos listos para permiso, Scan-to-BIM, renders con IA y sistemas de automatización por proyecto o retainer.",p2_a:"Ver servicios y cotizar →",
-  now_eye:"Ahora",now_h:"En qué estoy trabajando",now_sub:"Lo que estoy construyendo ahora, contado en la Bitácora.",
+  now_eye:"Ahora",now_h:"En qué estoy trabajando",now_sub:"Lo que estoy construyendo ahora, contado en el blog.",
   eco_eye:"Ecosistema",eco_h:"Más allá de la arquitectura",eco_sub:"Promii es el estudio. Alrededor crecen una marca de arte, una editorial, una academia y una comunidad. Algunas abren pronto: déjame tu correo y te aviso.",
   wait_t:"Avísame cuando abra",wait_d:"Escoge lo que te interesa. Un correo cuando esté listo, sin spam.",wait_ph:"Tu correo",wait_btn:"Unirme a la lista",
   wait_ok:"¡Listo! Te aviso cuando abra.",wait_bad:"Escribe un correo válido.",wait_err:"No se pudo enviar. Escríbeme a hi@promii.co.",
@@ -1003,7 +1006,7 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  Object.assign(T.en,{nav_eco:"Ecosystem",
   p1_k:"For companies hiring",p1_t:"Hire Brian",p1_d:"Licensed architect (CPNAA), BIM coordination and construction administration. Available now, remote on US hours.",p1_a:"See experience and résumé →",
   p2_k:"For studios and developers",p2_t:"Work with Promii",p2_d:"Permit-ready drawings, Scan-to-BIM, AI renders and automation systems, per project or on retainer.",p2_a:"See services and get a quote →",
-  now_eye:"Now",now_h:"What I'm working on",now_sub:"What I am building right now, told in the Log.",
+  now_eye:"Now",now_h:"What I'm working on",now_sub:"What I am building right now, told on the blog.",
   eco_eye:"Ecosystem",eco_h:"Beyond architecture",eco_sub:"Promii is the studio. Around it grow an art brand, a publishing line, an academy and a community. Some open soon: leave your email and I'll let you know.",
   wait_t:"Tell me when it opens",wait_d:"Pick what interests you. One email when it's ready, no spam.",wait_ph:"Your email",wait_btn:"Join the list",
   wait_ok:"Done! I'll let you know when it opens.",wait_bad:"Enter a valid email.",wait_err:"Couldn't send. Write to hi@promii.co.",
@@ -1339,9 +1342,9 @@ html[data-style="ink"][data-theme="dark"] .cdlg{background:#171513;color:#ece7dc
    b:{es:'Parámetros calculados en Revit que alimentan las tablas, diagramas de muros energéticos y planos de barrera de aire con documentación TR8.',en:'Calculated Revit parameters feeding the schedules, energy wall diagrams and air-barrier plans with TR8 documentation.'},
    r:{es:'Más de 200 tipos de vanos documentados en juegos de planos para unos 15 proyectos multifamiliares en Nueva York.',en:'Over 200 window types documented across drawing sets for about 15 multifamily projects in New York.'},
    x:['Revit','NYCECC 2020','Parámetros calculados']}];
- Object.assign(T.es,{nav_blog:"Bitácora",bt_read:"Leer la Bitácora →",cs_story:"Leer la historia completa en la Bitácora →",nav_cases:"Casos",cs_eye:"Casos",cs_h:"Sistemas que construí, contados como productos",cs_sub:"Cada caso viene de mis registros de trabajo: el problema, lo que construí y lo que cambió.",cs_read:"Leer caso →",cs_p:"El problema",cs_b:"Lo que construí",cs_r:"El resultado",cs_x:"Herramientas",cs_close:"Cerrar",
-  bt_t:"Bitácora Promii",bt_d:"Un caso nuevo cada mes: sistemas, BIM e IA explicados paso a paso.",bt_btn:"Suscribirme",fab_l:"Contacto"});
- Object.assign(T.en,{nav_blog:"Log",bt_read:"Read the Log →",cs_story:"Read the full story in the Log (Spanish) →",nav_cases:"Cases",cs_eye:"Case studies",cs_h:"Systems I built, told as products",cs_sub:"Each case comes from my work logs: the problem, what I built and what changed.",cs_read:"Read case →",cs_p:"The problem",cs_b:"What I built",cs_r:"The result",cs_x:"Tools",cs_close:"Close",
+ Object.assign(T.es,{nav_blog:"Blog",bt_read:"Leer el blog →",cs_story:"Leer la historia completa en el blog →",nav_cases:"Casos",cs_eye:"Casos",cs_h:"Sistemas que construí, contados como productos",cs_sub:"Cada caso viene de mis registros de trabajo: el problema, lo que construí y lo que cambió.",cs_read:"Leer caso →",cs_p:"El problema",cs_b:"Lo que construí",cs_r:"El resultado",cs_x:"Herramientas",cs_close:"Cerrar",
+  bt_t:"Blog · Bitácora Promii",bt_d:"Un caso nuevo cada mes: sistemas, BIM e IA explicados paso a paso.",bt_btn:"Suscribirme",fab_l:"Contacto"});
+ Object.assign(T.en,{nav_blog:"Blog",bt_read:"Read the blog →",cs_story:"Read the full story on the blog →",nav_cases:"Cases",cs_eye:"Case studies",cs_h:"Systems I built, told as products",cs_sub:"Each case comes from my work logs: the problem, what I built and what changed.",cs_read:"Read case →",cs_p:"The problem",cs_b:"What I built",cs_r:"The result",cs_x:"Tools",cs_close:"Close",
   bt_t:"Promii Log",bt_d:"A new case every month: systems, BIM and AI explained step by step.",bt_btn:"Subscribe",fab_l:"Contact"});
  function renderCases(){var L=lang,box=document.getElementById('caseBox');if(!box)return;
   box.innerHTML=CASES.map(function(c){return '<button type="button" class="case glass reveal" data-case="'+c.id+'" style="view-transition-name:case-'+c.id+'"><span class="ck"><span>'+c.k[L]+'</span></span><b>'+e(c.t[L])+'</b><p>'+e(c.s[L])+'</p><span class="mt">'+c.m[L].map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span><span class="rd">'+T[L].cs_read+'</span></button>';}).join('');}
@@ -1616,8 +1619,10 @@ html.lg-soft #drop i{backdrop-filter:saturate(1.25) brightness(1.06) contrast(1.
 #drop .mag{font-style:normal;position:absolute;left:0;top:0;pointer-events:none;white-space:nowrap}
 #drop .mag b{display:block;font:700 clamp(92px,23vw,330px)/.8 var(--display);letter-spacing:-.065em;color:var(--text)}
 html.lg-real #drop .mag{display:none}
-#drop .magc{font-style:normal;position:absolute;left:0;top:0;transform-origin:0 0;background:var(--bg);pointer-events:none;will-change:transform;contain:layout paint style}
-#drop .magc>section{position:absolute!important;margin:0!important}
+#drop .magc{font-style:normal;position:absolute;left:0;top:0;pointer-events:none;will-change:transform}
+#drop .magz{position:relative;transform-origin:0 0;background:var(--bg);contain:layout style}
+#drop i.cl{animation:none!important}
+#drop .magz>section{position:absolute!important;margin:0!important}
 #drop .magc *{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 #drop .magc .reveal{opacity:1!important;transform:none!important;filter:none!important}
 #drop i.cl::after{content:"";position:absolute;inset:0;border-radius:inherit;background:inherit;box-shadow:inherit;pointer-events:none}
@@ -1662,19 +1667,24 @@ html[data-off~="drop"] #drop{display:none}
  /* lupa sobre la palabra en navegadores sin refracción (iPhone/Safari): copia ampliada recortada por la gota */
  /* lupa general en iPhone/Safari: copia de las secciones bajo la gota, ampliada y alineada en cada cuadro */
  var secs=[].slice.call(document.querySelectorAll('section')).filter(function(x){return !x.parentElement.closest('section');}),magc=null,ref=null,curKey='',pend=0;
- function build(hit){pend=0;if(!magc){magc=document.createElement('div');magc.className='magc';magc.setAttribute('aria-hidden','true');magc.inert=true;lens.insertBefore(magc,lens.firstChild);}
+ var magz=null,zNow=0,box=[],boxT=0,hasZoom=CSS.supports&&CSS.supports('zoom','2');
+ function measure(){var y=scrollY;box=secs.map(function(x){var r=x.getBoundingClientRect();return {t:r.top+y,b:r.bottom+y,l:r.left,h:r.height};});boxT=performance.now();}
+ addEventListener('resize',function(){boxT=0;curKey='';});
+ function build(hit){pend=0;if(!magc){magc=document.createElement('div');magc.className='magc';magc.setAttribute('aria-hidden','true');magc.inert=true;magz=document.createElement('div');magz.className='magz';magc.appendChild(magz);lens.insertBefore(magc,lens.firstChild);}
+  var zz=zoom();zNow=zz;if(hasZoom){magz.style.zoom=zz;magz.style.transform='';}else{magz.style.zoom='';magz.style.transform='scale('+zz+')';}
   var r0=secs[hit[0]].getBoundingClientRect(),w=0,hgt=0,f=document.createDocumentFragment();
   hit.forEach(function(i){var sx=secs[i],r=sx.getBoundingClientRect(),c=sx.cloneNode(true);
    c.querySelectorAll('script,iframe,video,canvas,noscript').forEach(function(n){n.remove();});
    c.style.left=(r.left-r0.left)+'px';c.style.top=(r.top-r0.top)+'px';c.style.width=r.width+'px';c.style.height=r.height+'px';
    w=Math.max(w,r.right-r0.left);hgt=Math.max(hgt,r.bottom-r0.top);f.appendChild(c);});
-  magc.textContent='';magc.appendChild(f);magc.style.width=w+'px';magc.style.height=hgt+'px';ref=secs[hit[0]];curKey=hit.join(',');lens.classList.add('cl');}
+  magz.textContent='';magz.appendChild(f);magz.style.width=w+'px';magz.style.height=hgt+'px';ref=secs[hit[0]];curKey=hit.join(',');lens.classList.add('cl');}
  function lensAll(sp){if(real||!lens||!secs.length)return;var S=size(),z=zoom(),hit=[];
-  for(var i=0;i<secs.length;i++){var r=secs[i].getBoundingClientRect();if(r.height>0&&r.bottom>st.y-6&&r.top<st.y+S+6)hit.push(i);}
+  var now=performance.now();if(now-boxT>1200)measure();var sy=scrollY;
+  for(var i=0;i<box.length;i++){var r=box[i];if(r.h>0&&r.b-sy>st.y-6&&r.t-sy<st.y+S+6)hit.push(i);}
   if(!hit.length){if(magc)magc.style.display='none';return;}
   var k=hit.join(',');if(k!==curKey&&!pend){if(!magc||sp<1400||held)build(hit);else pend=setTimeout(function(){pend=0;curKey='';wake();},140);}
-  if(!magc||!ref)return;var rr=ref.getBoundingClientRect(),cx=st.x+S/2,cy=st.y+S/2;magc.style.display='';
-  magc.style.transform='translate3d('+(cx+(rr.left-cx)*z-st.x).toFixed(1)+'px,'+(cy+(rr.top-cy)*z-st.y).toFixed(1)+'px,0) scale('+z+')';}
+  if(!magc||!ref)return;if(zNow!==z){curKey='';return;}var rb=box[secs.indexOf(ref)],cx=st.x+S/2,cy=st.y+S/2,rl=rb.l,rt=rb.t-sy;magc.style.display='';
+  magc.style.transform='translate3d('+(cx+(rl-cx)*z-st.x).toFixed(2)+'px,'+(cy+(rt-cy)*z-st.y).toFixed(2)+'px,0)';}
  function magnify(){if(real||!mag||!wb)return;var S=size(),z=zoom(),r=wb.getBoundingClientRect(),cx=st.x+S/2,cy=st.y+S/2;
   if(r.bottom<st.y-40||r.top>st.y+S+40||r.right<st.x||r.left>st.x+S){mag.style.display='none';return;}
   mag.style.display='block';mag.style.transform='translate('+(cx+(r.left-cx)*z-st.x).toFixed(1)+'px,'+(cy+(r.top-cy)*z-st.y).toFixed(1)+'px) scale('+z+')';mag.style.transformOrigin='0 0';
@@ -1714,7 +1724,7 @@ html[data-off~="drop"] #drop{display:none}
   return {x:px-S/2,y:py-S/2,idle:a>0.02};}
  function wake(){if(!run&&on('drop')){run=true;last=performance.now();requestAnimationFrame(loop);}}
  function loop(now){var dt=Math.min((now-last)/1000,1/30);last=now;if(!on('drop')||document.hidden){run=false;return;}
-  var T=target(now),K=held?(P().springK||300)*1.6:(P().springK||300)*.35,C=2*Math.sqrt(K)*(held?.85:(P().springZ||.72));
+  var T=target(now),K=held?(P().springK||300)*1.6:(P().springK||300)*.6,C=2*Math.sqrt(K)*(held?.85:(P().springZ||.72));
   st.vx+=(K*(T.x-st.x)-C*st.vx)*dt;st.vy+=(K*(T.y-st.y)-C*st.vy)*dt;st.x+=st.vx*dt;st.y+=st.vy*dt;
   var sp=Math.hypot(st.vx,st.vy),j=.5+(P().jelly==null?.5:P().jelly),k=Math.min(sp/2400*j,.26),ang=Math.atan2(st.vy,st.vx)*57.2958;
   d.style.transform='translate3d('+st.x.toFixed(1)+'px,'+st.y.toFixed(1)+'px,0) rotate('+ang.toFixed(1)+'deg) scale('+(1+k).toFixed(3)+','+(1-k*.75).toFixed(3)+') rotate('+(-ang).toFixed(1)+'deg)';
@@ -1724,7 +1734,7 @@ html[data-off~="drop"] #drop{display:none}
  apply();
 })();
 </script>
-<script>try{var _l=new URLSearchParams(location.search).get("lang");if((_l==="en"||_l==="es")&&typeof setLang==="function")setLang(_l);}catch(e){}</script>
+<script>try{var _l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("promii-lang");if((_l==="en"||_l==="es")&&_l!==lang&&typeof setLang==="function")setLang(_l);}catch(e){}</script>
 <script src="analytics/config.js" defer></script>
 <script src="analytics/track.js" defer></script>
 </body>

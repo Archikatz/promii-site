@@ -68,6 +68,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 20. **Matriz de imágenes (Nano Banana Pro / Google Flow):** 75 piezas (logos, perfiles, LinkedIn, YouTube, Instagram, TikTok, Facebook, X, Pinterest, Behance, web, correo, tienda ArchiKatz) con tamaño, proporción para generar, zona segura, prompt completo con bloque de estilo, negativo, texto a superponer, referencia, paleta, nombre de archivo y carpeta. Basada en las skills brand-character-director, archikatz-story-bible e higgsfield-content-factory. Hoja en Drive "Imágenes · Matriz de generación" (con subcarpetas 01_Logos…10_ArchiKatz_Tienda en "Imágenes · Generadas"); copia en `docs/imagenes/` (se regenera con `python3 docs/imagenes/generar_matriz.py salida.xlsx`). Cuando Brian suba las imágenes web (W-xx, L-03), instalarlas en el sitio.
 
+21. **Sitio bilingüe y encabezado completo en todas las páginas:** `assets/site-shell.js` v2 con idioma ES/EN (guardado en `promii-lang`, compartido con el portafolio), modo claro/oscuro, botón de mapa (gota) y menú con secciones del portafolio; traducción por atributos `data-en`. Blog (antes "Log" en inglés) con los 5 artículos traducidos (`bitacora/posts/en/`), Academy (generador `academy/build.py`), Juegos y Home en ES/EN. La home ahora tiene encabezado y un mapa completo visible bajo las gotas; las gotas se pausan al salir de pantalla. Lupa del iPhone nítida (CSS `zoom` en vez de escalar un bitmap) y la gota sigue el scroll más rápido. El Lab conserva su contenido solo en español (barra y pie bilingües).
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
