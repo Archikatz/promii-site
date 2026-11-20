@@ -30,6 +30,8 @@
     { key: 'fab',      group: 'Interacción',name: 'Contacto líquido flotante',   where: 'Abajo a la derecha' },
     { key: 'jelly',    group: 'Interacción',name: 'Botones gelatinosos',         where: 'Botones, pestañas y tarjetas' },
     { key: 'facets',   group: 'Fondo',      name: 'Geometría sagrada',           where: 'Toda la página', styles: ['gem'] },
+    { key: 'wordmark', group: 'Tipografía', name: 'Palabra promii gigante',      where: 'Hero' },
+    { key: 'drop',     group: 'Fondo',      name: 'Gota de agua viva',           where: 'Viaja por toda la página' },
     { key: 'toast',    group: 'Avisos',     name: 'Aviso de redes de arte',      where: 'Abajo a la izquierda' }
   ];
   var STYLES = { glass: 'Liquid Glass', ink: 'Tinta china', gem: 'Obsidiana' };
@@ -43,7 +45,8 @@
     bezel:      [4, 40, 1, 16, 'Bisel de la lente', 'px', 'Vidrio'],
     springK:    [80, 900, 10, 300, 'Rigidez de los muelles', '', 'Movimiento'],
     springZ:    [.3, 1.2, .02, .72, 'Amortiguación', '', 'Movimiento'],
-    jelly:      [0, 1, .05, .5, 'Gelatina de los botones', '', 'Movimiento']
+    jelly:      [0, 1, .05, .5, 'Gelatina de los botones', '', 'Movimiento'],
+    drop:       [70, 260, 5, 150, 'Tamaño de la gota', 'px', 'Vidrio']
   };
   var PDEF = {}; Object.keys(PARAMS).forEach(function (k) { PDEF[k] = PARAMS[k][3]; });
   var DEFAULT = { style: 'glass', accent: '#ff3b30', off: [], p: PDEF };

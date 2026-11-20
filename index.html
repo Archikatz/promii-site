@@ -336,6 +336,7 @@ svg.ic{stroke:var(--text);filter:none}
     </div>
     <div class="trust"><span data-i="trust1"></span><span data-i="trust2"></span><span data-i="trust3"></span></div>
     <div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
+    <div class="wordmark" aria-hidden="true"><b>promii</b><span>Arquitectura · BIM · IA</span></div>
   </div>
 </header>
 
@@ -1551,6 +1552,81 @@ html[data-style="gem"] #prog{background:linear-gradient(90deg,var(--accent),#22e
  ['pointerup','pointercancel','pointerleave','dragstart'].forEach(function(t){document.addEventListener(t,release,{passive:true,capture:t==='pointerleave'});});
  /* refracción y bisel desde el panel */
  addEventListener('promii:config',function(){if(window._pmLG)window._pmLG();});
+})();
+</script>
+<!-- ===== v8: palabra promii + gota de agua viva (Liquid Glass) ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="lg-drop" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feImage id="dropMap" result="map" preserveAspectRatio="none"/>
+    <feDisplacementMap id="dropR" in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" result="dr"/>
+    <feColorMatrix in="dr" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/>
+    <feDisplacementMap id="dropG" in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" result="dg"/>
+    <feColorMatrix in="dg" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feDisplacementMap id="dropB" in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" result="db"/>
+    <feColorMatrix in="db" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b"/>
+    <feBlend in="r" in2="g" mode="screen" result="rg"/><feBlend in="rg" in2="b" mode="screen"/>
+  </filter>
+</svg>
+<style id="v8">
+.wordmark{position:relative;margin-top:34px;line-height:.8;user-select:none;-webkit-user-select:none;pointer-events:none}
+.wordmark b{display:block;font:700 clamp(92px,23vw,330px)/.8 var(--display);letter-spacing:-.065em;color:var(--text)}
+.wordmark span{display:block;margin-top:14px;font-size:clamp(11px,1.3vw,14px);font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+html[data-style="gem"] .wordmark b{background:linear-gradient(100deg,var(--accent),#fff3d0 35%,#22e0c8 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-off~="wordmark"] .wordmark{display:none}
+#drop{position:fixed;left:0;top:0;width:var(--drop,150px);height:var(--drop,150px);z-index:40;pointer-events:none;will-change:transform;transform:translate3d(-400px,-400px,0)}
+#drop i{position:absolute;inset:0;border-radius:50%;animation:dropBreath 7s ease-in-out infinite;
+  backdrop-filter:blur(1.5px) saturate(1.7) brightness(1.08);-webkit-backdrop-filter:blur(1.5px) saturate(1.7) brightness(1.08);
+  background:radial-gradient(60% 50% at 32% 26%,rgba(255,255,255,calc(var(--spec,.5)*.55)),transparent 60%),radial-gradient(80% 80% at 70% 80%,rgba(255,255,255,.06),transparent 70%);
+  box-shadow:inset 0 0 0 .6px rgba(255,255,255,.5),inset 2px 1px 3px rgba(255,80,120,.22),inset -2px -1px 3px rgba(60,170,255,.25),inset 0 -10px 18px -10px rgba(255,255,255,.35),0 18px 40px -16px rgba(0,0,0,.45)}
+html.lg-real #drop i{backdrop-filter:url(#lg-drop) blur(.6px) saturate(1.5) brightness(1.06)}
+html[data-style="ink"] #drop i{box-shadow:inset 0 0 0 1.2px var(--text),inset 0 -10px 18px -10px rgba(255,255,255,.5),0 14px 30px -18px rgba(0,0,0,.4)}
+html[data-style="gem"] #drop i{box-shadow:inset 0 0 0 .8px color-mix(in srgb,var(--accent) 80%,transparent),inset 2px 1px 3px rgba(34,224,200,.35),inset 0 -10px 18px -10px rgba(255,236,190,.4),0 18px 40px -16px rgba(0,0,0,.6)}
+@keyframes dropBreath{0%,100%{border-radius:50%}33%{border-radius:47% 53% 52% 48%/52% 47% 53% 48%}66%{border-radius:53% 47% 48% 52%/48% 54% 46% 52%}}
+html[data-off~="drop"] #drop{display:none}
+@media (prefers-reduced-motion:reduce){#drop{display:none}}
+@media print{#drop{display:none}}
+</style>
+<div id="drop" aria-hidden="true"><i></i></div>
+<script id="v8-js">
+(function(){
+ var d=document.getElementById('drop'),wm=document.querySelector('.wordmark'),hero=document.getElementById('top');
+ if(!d||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ var real=document.documentElement.classList.contains('lg-real');
+ function P(){return window.PROMII_P||{};}
+ function on(k){return ((window.PROMII_CFG||{}).off||[]).indexOf(k)<0;}
+ function size(){var s=P().drop||150;return Math.round(innerWidth<760?s*.72:s);}
+ /* mapa de refracción para una lente circular: se regenera solo si cambia tamaño, bisel o refracción */
+ var key='';
+ function map(){if(!real)return;var S=size(),b=Math.min(P().bezel||16,S/2-2),r=P().refraction==null?46:P().refraction,k=S+'|'+b+'|'+r;if(k===key)return;key=k;
+  var c=document.createElement('canvas');c.width=c.height=S;var x=c.getContext('2d'),im=x.createImageData(S,S),D=im.data,h=S/2;
+  for(var y=0;y<S;y++)for(var X=0;X<S;X++){var dx=X+.5-h,dy=y+.5-h,dist=Math.hypot(dx,dy),s=dist-h,vx=0,vy=0;if(s<0){var t=Math.min(-s/b,1),m=Math.pow(1-t,2.2);if(dist>0){vx=dx/dist*m;vy=dy/dist*m;}}
+   var i=(y*S+X)*4;D[i]=128+vx*127;D[i+1]=128+vy*127;D[i+2]=128;D[i+3]=255;}
+  x.putImageData(im,0,0);var f=document.getElementById('lg-drop'),fi=document.getElementById('dropMap');
+  [f,fi].forEach(function(n){n.setAttribute('x',0);n.setAttribute('y',0);n.setAttribute('width',S);n.setAttribute('height',S);});
+  fi.setAttribute('href',c.toDataURL());var sc=-r*1.5;
+  document.getElementById('dropR').setAttribute('scale',sc);document.getElementById('dropG').setAttribute('scale',sc*.93);document.getElementById('dropB').setAttribute('scale',sc*.86);
+  var i2=d.firstElementChild;i2.style.backdropFilter='none';void i2.offsetWidth;i2.style.backdropFilter='';}
+ function apply(){d.style.setProperty('--drop',size()+'px');map();wake();}
+ addEventListener('promii:config',apply);addEventListener('resize',function(){key='';apply();});
+ /* movimiento: sobre la palabra en el hero; al bajar, vaga por la página siguiendo el scroll */
+ var st={x:innerWidth*.6,y:innerHeight*.5,vx:0,vy:0},mx=null,my=null,run=false,last=performance.now(),t0=last,lastScroll=performance.now();
+ addEventListener('scroll',function(){lastScroll=performance.now();wake();},{passive:true});
+ addEventListener('pointermove',function(e){if(e.pointerType!=='mouse')return;mx=e.clientX;my=e.clientY;wake();},{passive:true});
+ function target(now){var S=size(),W=innerWidth,H=innerHeight,doc=document.documentElement,pr=scrollY/Math.max(1,doc.scrollHeight-H),t=(now-t0)/1000;
+  var px=W*(.5+.34*Math.sin(pr*Math.PI*2*1.35+.7)),py=H*(.42+.2*Math.sin(pr*Math.PI*2*2.3+1.1));
+  var a=0;if(wm&&hero){var r=wm.getBoundingClientRect();if(r.bottom>0&&r.top<H){var b=wm.querySelector('b').getBoundingClientRect();a=Math.max(0,Math.min(1,1-scrollY/(hero.offsetHeight*.7)));
+   var ax=b.left+b.width*(.5+.32*Math.sin(t*.45)),ay=b.top+b.height*(.5+.12*Math.sin(t*.8+1));px=px*(1-a)+ax*a;py=py*(1-a)+ay*a;}}
+  if(mx!=null){var dx=mx-px,dy=my-py,dm=Math.hypot(dx,dy);if(dm<260){px+=dx*.18;py+=dy*.18;}}
+  return {x:px-S/2,y:py-S/2,idle:a>0.02};}
+ function wake(){if(!run&&on('drop')){run=true;last=performance.now();requestAnimationFrame(loop);}}
+ function loop(now){var dt=Math.min((now-last)/1000,1/30);last=now;if(!on('drop')||document.hidden){run=false;return;}
+  var T=target(now),K=(P().springK||300)*.35,C=2*Math.sqrt(K)*(P().springZ||.72);
+  st.vx+=(K*(T.x-st.x)-C*st.vx)*dt;st.vy+=(K*(T.y-st.y)-C*st.vy)*dt;st.x+=st.vx*dt;st.y+=st.vy*dt;
+  var sp=Math.hypot(st.vx,st.vy),j=.5+(P().jelly==null?.5:P().jelly),k=Math.min(sp/2400*j,.26),ang=Math.atan2(st.vy,st.vx)*57.2958;
+  d.style.transform='translate3d('+st.x.toFixed(1)+'px,'+st.y.toFixed(1)+'px,0) rotate('+ang.toFixed(1)+'deg) scale('+(1+k).toFixed(3)+','+(1-k*.75).toFixed(3)+') rotate('+(-ang).toFixed(1)+'deg)';
+  var moving=sp>3||Math.abs(T.x-st.x)+Math.abs(T.y-st.y)>.8;
+  if(moving||T.idle||now-lastScroll<400)requestAnimationFrame(loop);else run=false;}
+ apply();
 })();
 </script>
 <script>try{var _l=new URLSearchParams(location.search).get("lang");if((_l==="en"||_l==="es")&&typeof setLang==="function")setLang(_l);}catch(e){}</script>
