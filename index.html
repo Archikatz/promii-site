@@ -313,6 +313,7 @@ svg.ic{stroke:var(--text);filter:none}
     <a href="#proyectos" class="hidem" data-i="nav_proj">Proyectos</a>
     <a href="#servicios" class="hidem" data-i="nav_services">Servicios</a>
     <a href="#casos" class="hidem" data-i="nav_cases">Casos</a>
+    <a href="bitacora/" class="hidem" data-i="nav_blog">Bitácora</a>
     <a href="#ecosistema" class="hidem" data-i="nav_eco">Ecosistema</a>
     <a href="#contacto" class="hidem" data-i="nav_brief">Contacto</a>
     <div class="toggle"><button id="langES" class="on" onclick="setLang('es')">ES</button><button id="langEN" onclick="setLang('en')">EN</button></div>
@@ -384,7 +385,7 @@ svg.ic{stroke:var(--text);filter:none}
   <div class="h2" data-i="cs_h"></div>
   <p class="sub" data-i="cs_sub"></p>
   <div class="cases" id="caseBox"></div>
-  <div class="bita glass reveal"><div><b data-i="bt_t"></b><span data-i="bt_d"></span></div>
+  <div class="bita glass reveal"><div><b data-i="bt_t"></b><span data-i="bt_d"></span><a class="bt-read" href="bitacora/" data-i="bt_read">Leer la Bitácora →</a></div>
     <form id="bitaForm" novalidate><label class="sr" for="bitaEmail">Email</label><input id="bitaEmail" name="email" type="email" required autocomplete="email" placeholder="tu@correo.com"><input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn btn-primary" type="submit" data-i="bt_btn"></button></form>
     <p class="fstatus" id="bitaStatus" role="status" style="flex-basis:100%;margin:0"></p></div>
 </div></section>
@@ -1247,7 +1248,7 @@ html[data-off~="fab"] .fab{display:none}
 .case .mt span{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--text)}
 .case .rd{font-family:var(--display);font-weight:600;font-size:13px}
 .bita{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-top:14px;padding:18px 20px;border-radius:22px}
-.bita div{display:grid;gap:2px}.bita b{font-family:var(--display);font-size:17px}.bita span{font-size:13.5px;color:var(--muted)}
+.bita div{display:grid;gap:2px}.bita .bt-read{font:600 13px var(--display);color:var(--text);text-decoration:none;margin-top:6px}.bita .bt-read:hover{color:var(--blue)}.bita b{font-family:var(--display);font-size:17px}.bita span{font-size:13.5px;color:var(--muted)}
 .bita form{display:flex;gap:8px;flex-wrap:wrap;flex:1;justify-content:flex-end;min-width:260px}
 .bita input[type=email]{flex:1;min-width:180px;max-width:320px;font:inherit;color:var(--text);background:var(--glass);border:1px solid var(--line2);border-radius:12px;padding:11px 14px}
 dialog.cased{margin:auto;inset:0;position:fixed;border:0;padding:0;background:transparent;color:var(--text);width:min(860px,calc(100% - 32px));max-height:calc(100% - 48px)}
@@ -1275,7 +1276,7 @@ html[data-style="ink"][data-theme="dark"] .cdlg{background:#171513;color:#ece7dc
 
  /* ---------- Casos (productos y sistemas documentados) ---------- */
  var CASES=[
-  {id:'web',k:{es:'Producto web · 2026',en:'Web product · 2026'},t:{es:'Un portafolio que se administra solo',en:'A portfolio that runs itself'},
+  {id:'web',post:'como-construi-promii',k:{es:'Producto web · 2026',en:'Web product · 2026'},t:{es:'Un portafolio que se administra solo',en:'A portfolio that runs itself'},
    s:{es:'promii.co: dos estilos gráficos, analítica propia y panel de control.',en:'promii.co: two visual styles, in-house analytics and a control panel.'},
    m:{es:['2 estilos','35+ animaciones','0 cookies'],en:['2 styles','35+ animations','0 cookies']},
    p:{es:'El sitio era una página estática: sin datos de visitas, sin forma de capturar correos y sin poder cambiar el diseño sin tocar código.',en:'The site was a static page: no visit data, no way to capture emails, no way to change the design without editing code.'},
@@ -1317,16 +1318,16 @@ html[data-style="ink"][data-theme="dark"] .cdlg{background:#171513;color:#ece7dc
    b:{es:'Parámetros calculados en Revit que alimentan las tablas, diagramas de muros energéticos y planos de barrera de aire con documentación TR8.',en:'Calculated Revit parameters feeding the schedules, energy wall diagrams and air-barrier plans with TR8 documentation.'},
    r:{es:'Más de 200 tipos de vanos documentados en juegos de planos para unos 15 proyectos multifamiliares en Nueva York.',en:'Over 200 window types documented across drawing sets for about 15 multifamily projects in New York.'},
    x:['Revit','NYCECC 2020','Parámetros calculados']}];
- Object.assign(T.es,{nav_cases:"Casos",cs_eye:"Casos",cs_h:"Sistemas que construí, contados como productos",cs_sub:"Cada caso viene de mis registros de trabajo: el problema, lo que construí y lo que cambió.",cs_read:"Leer caso →",cs_p:"El problema",cs_b:"Lo que construí",cs_r:"El resultado",cs_x:"Herramientas",cs_close:"Cerrar",
+ Object.assign(T.es,{nav_blog:"Bitácora",bt_read:"Leer la Bitácora →",cs_story:"Leer la historia completa en la Bitácora →",nav_cases:"Casos",cs_eye:"Casos",cs_h:"Sistemas que construí, contados como productos",cs_sub:"Cada caso viene de mis registros de trabajo: el problema, lo que construí y lo que cambió.",cs_read:"Leer caso →",cs_p:"El problema",cs_b:"Lo que construí",cs_r:"El resultado",cs_x:"Herramientas",cs_close:"Cerrar",
   bt_t:"Bitácora Promii",bt_d:"Un caso nuevo cada mes: sistemas, BIM e IA explicados paso a paso.",bt_btn:"Suscribirme",fab_l:"Contacto"});
- Object.assign(T.en,{nav_cases:"Cases",cs_eye:"Case studies",cs_h:"Systems I built, told as products",cs_sub:"Each case comes from my work logs: the problem, what I built and what changed.",cs_read:"Read case →",cs_p:"The problem",cs_b:"What I built",cs_r:"The result",cs_x:"Tools",cs_close:"Close",
+ Object.assign(T.en,{nav_blog:"Log",bt_read:"Read the Log →",cs_story:"Read the full story in the Log (Spanish) →",nav_cases:"Cases",cs_eye:"Case studies",cs_h:"Systems I built, told as products",cs_sub:"Each case comes from my work logs: the problem, what I built and what changed.",cs_read:"Read case →",cs_p:"The problem",cs_b:"What I built",cs_r:"The result",cs_x:"Tools",cs_close:"Close",
   bt_t:"Promii Log",bt_d:"A new case every month: systems, BIM and AI explained step by step.",bt_btn:"Subscribe",fab_l:"Contact"});
  function renderCases(){var L=lang,box=document.getElementById('caseBox');if(!box)return;
   box.innerHTML=CASES.map(function(c){return '<button type="button" class="case glass reveal" data-case="'+c.id+'" style="view-transition-name:case-'+c.id+'"><span class="ck"><span>'+c.k[L]+'</span></span><b>'+e(c.t[L])+'</b><p>'+e(c.s[L])+'</p><span class="mt">'+c.m[L].map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span><span class="rd">'+T[L].cs_read+'</span></button>';}).join('');}
  var dlg=document.getElementById('caseDlg');
  function openCase(id){var c=CASES.filter(function(x){return x.id===id;})[0],L=lang,d=T[L];if(!c)return;
   var html='<div class="cdlg" style="view-transition-name:case-'+c.id+'"><button class="x" type="button" aria-label="'+d.cs_close+'">×</button><span class="ck">'+c.k[L]+'</span><h3>'+e(c.t[L])+'</h3><span class="mt">'+c.m[L].map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span>'+
-   '<h4>'+d.cs_p+'</h4><p>'+e(c.p[L])+'</p><h4>'+d.cs_b+'</h4><p>'+e(c.b[L])+'</p><h4>'+d.cs_r+'</h4><p>'+e(c.r[L])+'</p><h4>'+d.cs_x+'</h4><span class="mt">'+c.x.map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span></div>';
+   '<h4>'+d.cs_p+'</h4><p>'+e(c.p[L])+'</p><h4>'+d.cs_b+'</h4><p>'+e(c.b[L])+'</p><h4>'+d.cs_r+'</h4><p>'+e(c.r[L])+'</p><h4>'+d.cs_x+'</h4><span class="mt">'+c.x.map(function(x){return '<span>'+e(x)+'</span>';}).join('')+'</span>'+(c.post?'<p style="margin-top:20px"><a href="bitacora/?p='+c.post+'" style="font-weight:600;color:inherit">'+d.cs_story+'</a></p>':'')+'</div>';
   var card=document.querySelector('[data-case="'+id+'"]');
   var go=function(){if(card)card.style.viewTransitionName='none';dlg.innerHTML=html;dlg.showModal();dlg.querySelector('.x').onclick=closeCase;};
   if(document.startViewTransition&&on('morph')&&!RMv)document.startViewTransition(go);else go();

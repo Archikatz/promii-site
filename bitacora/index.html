@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bitácora Promii · Brian Zuleta</title>
+<meta name="description" content="Bitácora de Brian Zuleta: casos, sistemas y experiencias en arquitectura, BIM, IA y diseño web, contados paso a paso.">
+<link rel="canonical" href="https://promii.co/bitacora/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bitácora Promii">
+<meta property="og:description" content="Casos, sistemas y experiencias en arquitectura, BIM, IA y diseño web.">
+<meta property="og:image" content="https://promii.co/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script>try{var t=localStorage.getItem('promii-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<script src="../assets/promii-config.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* Bitácora: lista de entradas y lector de Markdown con el mismo vidrio de promii.co */
+html{--display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--body:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--accent:#ff3b30;--blue:#2f6bff}
+html[data-theme="dark"]{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--line:rgba(255,255,255,.1);--glass:rgba(255,255,255,.045);--glass2:rgba(255,255,255,.07);--brd:rgba(255,255,255,.13);--hi:rgba(255,255,255,.16);--shadow:0 18px 40px -20px rgba(0,0,0,.7);color-scheme:dark}
+html[data-theme="light"]{--bg:#eceef3;--text:#15151c;--muted:#55576a;--dim:#8a8c9e;--line:rgba(15,18,40,.1);--glass:rgba(255,255,255,.6);--glass2:rgba(255,255,255,.78);--brd:rgba(255,255,255,.8);--hi:rgba(255,255,255,.9);--shadow:0 16px 36px -20px rgba(40,45,70,.3);color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 var(--body);-webkit-font-smoothing:antialiased;min-height:100vh}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(45% 40% at 12% 0%,color-mix(in srgb,var(--blue) 26%,transparent),transparent 70%),radial-gradient(40% 40% at 100% 100%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 70%)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.glass{background:linear-gradient(140deg,var(--glass2),var(--glass));backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);border:1px solid var(--brd);box-shadow:var(--shadow),inset 0 1px 0 var(--hi);border-radius:24px;corner-shape:superellipse(1.7)}
+nav{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));z-index:5;margin:10px auto 0;width:min(1080px,calc(100% - 24px));display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px 8px 18px;border-radius:999px}
+.brand{display:flex;align-items:center;gap:10px;font:700 13px var(--display);letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
+.brand i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+nav .links{display:flex;gap:6px;flex-wrap:wrap}
+nav .links a{text-decoration:none;font:500 13px var(--body);color:var(--muted);padding:7px 12px;border-radius:999px}
+nav .links a:hover,nav .links a[aria-current="page"]{color:var(--text);background:var(--glass2)}
+header.top{padding-block:56px 24px}
+.eyebrow{font:600 11px var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:18px;height:2px;background:var(--accent)}
+h1{font:700 clamp(40px,7vw,76px)/1 var(--display);letter-spacing:-.04em;margin:14px 0 14px;text-wrap:balance}
+.lead{color:var(--muted);max-width:62ch;font-size:18px;margin:0}
+.list{display:grid;gap:16px;padding-block:10px 40px}
+.card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:0;overflow:hidden;text-decoration:none;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.card:hover{transform:translateY(-3px)}
+.card img{width:100%;height:100%;object-fit:cover;display:block;min-height:220px}
+.card .c{padding:24px;display:grid;gap:10px;align-content:center}
+.card h2{font:700 clamp(22px,3vw,30px)/1.1 var(--display);letter-spacing:-.02em;margin:0}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12.5px;color:var(--dim)}
+.tag{font:600 11px var(--body);padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.more{font:600 14px var(--display)}
+@media (max-width:720px){.card{grid-template-columns:1fr}.card img{min-height:180px;max-height:220px}}
+article{padding-block:48px 20px}
+article .head{max-width:760px;margin:0 auto}
+article .cover{margin:26px 0 0;border-radius:24px;overflow:hidden;corner-shape:superellipse(1.7)}
+article .cover img{display:block;width:100%;height:auto}
+.prose{max-width:720px;margin:34px auto 0;font-size:17.5px;line-height:1.75}
+.prose h2{font:700 clamp(24px,3.4vw,32px)/1.15 var(--display);letter-spacing:-.02em;margin:46px 0 12px;text-wrap:balance}
+.prose h3{font:600 20px var(--display);margin:30px 0 8px}
+.prose p{margin:0 0 18px}
+.prose ul,.prose ol{margin:0 0 18px;padding-left:22px}
+.prose li{margin:6px 0}
+.prose strong{color:var(--text)}
+.prose em{color:var(--text)}
+.prose img{display:block;width:100%;height:auto;border-radius:20px;margin:26px 0 6px;box-shadow:var(--shadow)}
+.prose img+em,.prose p>img+br+em{display:block}
+.prose .cap{display:block;text-align:center;color:var(--dim);font-size:13.5px;margin:6px 0 26px}
+.prose code{font:14px var(--mono);background:var(--glass2);padding:2px 6px;border-radius:6px}
+.prose a{color:var(--accent)}
+.prose blockquote{margin:24px 0;padding:6px 20px;border-left:3px solid var(--accent);color:var(--muted)}
+.back{display:inline-flex;gap:8px;align-items:center;font:600 14px var(--display);text-decoration:none;color:var(--muted)}
+.back:hover{color:var(--text)}
+.sub{max-width:720px;margin:40px auto 0;padding:22px;display:grid;gap:12px}
+.sub b{font:700 19px var(--display)}
+.sub span{color:var(--muted);font-size:15px}
+.sub form{display:flex;flex-wrap:wrap;gap:8px}
+.sub input[type=email]{flex:1;min-width:200px;font:inherit;font-size:15px;color:var(--text);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:11px 16px}
+.sub button{font:600 14px var(--body);border:0;border-radius:999px;padding:11px 18px;background:var(--text);color:var(--bg);cursor:pointer}
+.hp{position:absolute;left:-9999px;opacity:0}
+.st{margin:0;font-size:14px;min-height:1.2em}.st.ok{color:#30d158}.st.err{color:#ff5a4f}
+@media (max-width:620px){nav .links a:not([aria-current]):not(:first-child){display:none}.brand{white-space:nowrap}}
+footer{color:var(--dim);font-size:13px;padding-block:40px;text-align:center}
+.empty{color:var(--muted);padding:40px 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<nav class="glass" aria-label="Navegación"><a class="brand" href="../"><i></i>Brian Zuleta</a>
+  <div class="links"><a href="../">Inicio</a><a href="../#casos">Casos</a><a href="./" aria-current="page">Bitácora</a><a href="../#contacto">Contacto</a></div></nav>
+<main class="wrap" id="app"><p class="empty">Cargando…</p></main>
+<footer class="wrap">Bitácora Promii · Brian Zuleta · <a href="../">promii.co</a></footer>
+
+<script src="../analytics/config.js"></script>
+<script src="../analytics/track.js" defer></script>
+<script>
+(function () {
+  const app = document.getElementById('app');
+  const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const fmt = d => new Date(d + 'T12:00').toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Convertidor Markdown propio (títulos, párrafos, listas, citas, imágenes, enlaces, negrita, cursiva, código)
+  function inline(t) {
+    t = esc(t);
+    t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (m, a, u) => `<img src="${u}" alt="${a}">`);
+    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, a, u) => `<a href="${u}"${/^https?:/.test(u) ? ' target="_blank" rel="noopener"' : ''}>${a}</a>`);
+    t = t.replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
+    return t;
+  }
+  function mdToHtml(md) {
+    const out = [], lines = md.replace(/\r/g, '').split('\n'); let i = 0;
+    while (i < lines.length) {
+      const l = lines[i];
+      if (!l.trim()) { i++; continue; }
+      let m;
+      if ((m = l.match(/^(#{1,4})\s+(.*)$/))) { const n = Math.max(2, Math.min(4, m[1].length)); out.push(`<h${n}>${inline(m[2])}</h${n}>`); i++; continue; }
+      if (/^>\s?/.test(l)) { const q = []; while (i < lines.length && /^>\s?/.test(lines[i])) q.push(lines[i++].replace(/^>\s?/, '')); out.push(`<blockquote><p>${inline(q.join(' '))}</p></blockquote>`); continue; }
+      if (/^\s*[-*]\s+/.test(l)) { const it = []; while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) it.push(lines[i++].replace(/^\s*[-*]\s+/, '')); out.push('<ul>' + it.map(x => `<li>${inline(x)}</li>`).join('') + '</ul>'); continue; }
+      if (/^\s*\d+\.\s+/.test(l)) { const it = []; while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) it.push(lines[i++].replace(/^\s*\d+\.\s+/, '')); out.push('<ol>' + it.map(x => `<li>${inline(x)}</li>`).join('') + '</ol>'); continue; }
+      if ((m = l.match(/^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/))) { out.push(inline(l)); i++; continue; }
+      const para = []; while (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|>|\s*[-*]\s|\s*\d+\.\s|!\[)/.test(lines[i])) para.push(lines[i++]);
+      out.push(`<p>${inline(para.join(' '))}</p>`);
+    }
+    return out.join('\n');
+  }
+  const slug = new URLSearchParams(location.search).get('p');
+  const subBox = () => `<section class="sub glass" id="suscribirse"><b>Recibe la próxima entrada</b><span>Un caso nuevo cada mes: sistemas, BIM e IA explicados paso a paso. Sin spam.</span>
+    <form id="subForm" novalidate><label class="hp" for="hp">No llenar</label><input class="hp" id="hp" name="_honey" tabindex="-1" autocomplete="off"><label for="subEmail" style="position:absolute;left:-9999px">Tu correo</label><input id="subEmail" name="email" type="email" required autocomplete="email" placeholder="tu@correo.com"><button type="submit">Suscribirme</button></form><p class="st" id="subSt" role="status"></p></section>`;
+  function bindSub(source) {
+    const f = document.getElementById('subForm'); if (!f) return;
+    f.addEventListener('submit', async e => {
+      e.preventDefault(); const st = document.getElementById('subSt'), m = f.email.value.trim();
+      if (f._honey.value) return;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { st.className = 'st err'; st.textContent = 'Escribe un correo válido.'; return; }
+      st.className = 'st'; st.textContent = 'Enviando…';
+      const M = (window.PROMII_FORMS || {}).mailerlite || {};
+      try {
+        const fd = new FormData(); fd.append('fields[email]', m); fd.append('fields[signup_source]', source); fd.append('fields[interests]', 'newsletter'); fd.append('ml-submit', '1'); fd.append('anticsrf', 'true');
+        const r = await fetch('https://assets.mailerlite.com/jsonp/' + M.account + '/forms/' + M.form + '/subscribe', { method: 'POST', body: fd });
+        const j = await r.json(); if (!j.success) throw 0;
+        st.className = 'st ok'; st.textContent = '¡Listo! Te escribo cuando publique la próxima.'; f.reset();
+      } catch (x) { st.className = 'st err'; st.textContent = 'No se pudo enviar. Escríbeme a hi@promii.co.'; }
+    });
+  }
+  function setMeta(title, desc, img) {
+    document.title = title; document.querySelector('meta[name="description"]').content = desc;
+    document.querySelector('meta[property="og:title"]').content = title; document.querySelector('meta[property="og:description"]').content = desc;
+    if (img) document.querySelector('meta[property="og:image"]').content = new URL(img, location.href).href;
+  }
+  fetch('posts.json').then(r => r.json()).then(async posts => {
+    posts.sort((a, b) => b.date.localeCompare(a.date));
+    if (!slug) {
+      app.innerHTML = `<header class="top"><div class="eyebrow">Bitácora</div><h1>Casos, sistemas y lo que aprendo construyéndolos</h1><p class="lead">Escribo sobre los proyectos y sistemas que hago: arquitectura, BIM, IA y diseño web. Cada entrada cuenta el problema, cómo lo resolví y qué cambió.</p></header>
+        <div class="list">${posts.map(p => `<a class="card glass" href="?p=${encodeURIComponent(p.slug)}"><img src="${esc(p.cover)}" alt="" loading="lazy"><div class="c"><div class="meta"><span>${fmt(p.date)}</span><span>· ${p.minutes} min</span></div><h2>${esc(p.title)}</h2><p>${esc(p.summary)}</p><div class="meta">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div><span class="more">Leer →</span></div></a>`).join('')}</div>` + subBox();
+      bindSub('promii.co/bitacora');
+      return;
+    }
+    const p = posts.find(x => x.slug === slug);
+    if (!p) { app.innerHTML = '<p class="empty">No encontré esa entrada. <a href="./">Ver todas</a></p>'; return; }
+    const md = await (await fetch('posts/' + encodeURIComponent(p.slug) + '.md')).text();
+    const html = mdToHtml(md);
+    app.innerHTML = `<article><div class="head"><a class="back" href="./">← Bitácora</a><div class="eyebrow" style="margin-top:22px">${fmt(p.date)} · ${p.minutes} min de lectura</div><h1>${esc(p.title)}</h1><p class="lead">${esc(p.summary)}</p><div class="meta" style="margin-top:14px">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div></div>
+      <div class="prose" id="prose">${html}</div></article>` + subBox();
+    // pie de foto a partir del texto alternativo
+    document.querySelectorAll('#prose img').forEach(img => { img.loading = 'lazy'; if (img.alt) { const c = document.createElement('span'); c.className = 'cap'; c.textContent = img.alt; img.insertAdjacentElement('afterend', c); } });
+    setMeta(p.title + ' · Bitácora Promii', p.summary, p.cover);
+    bindSub('promii.co/bitacora/' + p.slug);
+  }).catch(() => { app.innerHTML = '<p class="empty">No se pudo cargar la Bitácora.</p>'; });
+})();
+</script>
+</body>
+</html>

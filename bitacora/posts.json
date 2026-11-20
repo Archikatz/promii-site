@@ -1,0 +1,11 @@
+[
+  {
+    "slug": "como-construi-promii",
+    "title": "Cómo construí un portafolio que se administra solo",
+    "summary": "El concepto de promii.co: tres estilos con la misma física, una gota de agua que funciona como lupa, rendimiento medido a 60 cuadros por segundo y un panel para cambiar la página sin tocar código.",
+    "date": "2026-11-20",
+    "tags": ["Diseño web", "Liquid Glass", "Física", "Claude Code"],
+    "cover": "img/glass.jpg",
+    "minutes": 7
+  }
+]

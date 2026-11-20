@@ -15,7 +15,8 @@ analytics/schema.sql       Esquema de la base de datos (Supabase)
 admin/index.html           Panel privado: analítica + Diseño y movimiento (login con correo y contraseña)
 lab/                       Motion Lab: 13 demos reutilizables + inventario de animaciones
 lab/demos/*.html           Cada demo es un archivo independiente
-lab/inventario.html        Inventario de las 35 animaciones y revisión de consistencia
+lab/inventario.html        Inventario de las animaciones y revisión de consistencia
+bitacora/                  Blog (Bitácora): index.html + posts.json + posts/*.md + img/
 docs/                      Documentación: PROYECTO, SISTEMA-DE-DISENO, OPERACION, CREDITOS (respaldo de la conversación)
 assets/og.jpg              Imagen para compartir en redes (1200×630)
 robots.txt, sitemap.xml    SEO
@@ -48,3 +49,10 @@ El rastreador no envía nada desde `localhost` ni desde navegadores automatizado
 ## Publicar
 
 Los cambios se trabajan en una rama y se publican al fusionar en `main` (GitHub Pages lo sirve en promii.co).
+
+## Escribir en la Bitácora
+
+1. Crea `bitacora/posts/mi-entrada.md` en Markdown (títulos con `##`, listas, **negrita**, *cursiva*, `![pie de foto](img/foto.jpg)`).
+2. Pon las imágenes en `bitacora/img/` (JPG de ~1200 px de ancho).
+3. Agrega la entrada al inicio de `bitacora/posts.json` con `slug` (igual al nombre del archivo), `title`, `summary`, `date` (AAAA-MM-DD), `tags`, `cover` y `minutes`.
+4. Publica. La entrada queda en `promii.co/bitacora/?p=mi-entrada`. Añádela también a `sitemap.xml`.

@@ -54,6 +54,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 13. **Gota lupa interactiva:** la gota es una lupa transparente (sin desenfoque) en los tres estilos. En Chrome/Edge amplía lo que hay debajo con refracción real (mapa de desplazamiento de aumento + borde); en iPhone/Safari amplía la palabra promii con una copia recortada y en el resto es una gota transparente con borde de luz. Se arrastra (se queda donde la dejas hasta que haces scroll ~60 % de pantalla), un toque rápido o un lanzamiento fuerte la explota en gotitas que se vuelven a juntar con muelles. Nuevo parámetro **Aumento de la lupa** (1–2.2×) en el panel y en el banco de pruebas.
 
+14. **Bitácora (blog):** `promii.co/bitacora` con lista de entradas y lector Markdown propio (sin librerías externas). Primera entrada: "Cómo construí un portafolio que se administra solo" (concepto, tres estilos, la gota y su óptica, rendimiento medido, panel, proceso con Claude Code) con 6 capturas reales. Enlaces desde el menú, la sección Casos y el caso "Un portafolio que se administra solo". Suscripción a MailerLite al final de cada entrada. Cómo escribir nuevas entradas: ver README.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
@@ -87,7 +89,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 - [ ] Colección de arte ArchiKatz desde Drive (Brian escoge imágenes) y usuarios de redes de ArchiKatz.
 - [ ] Comunidad: enlace de invitación a Discord tras la lista de espera.
 - [ ] Tienda ArchiKatz en Shopify: enlazar cuando abra.
-- [ ] Escribir el número 1 de la Bitácora (ver calendario en `docs/CREDITOS.md`) y crear la automatización de bienvenida en MailerLite.
+- [x] Número 1 de la Bitácora publicado en la web.
+- [ ] Enviar el número 1 por MailerLite y crear la automatización de bienvenida.
 - [ ] Llevar los créditos de `docs/CREDITOS.md` a la hoja de vida y a LinkedIn.
 
 ## 7. Prompt para retomar con cualquier IA
