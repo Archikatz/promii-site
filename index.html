@@ -364,6 +364,7 @@ svg.ic{stroke:var(--text);filter:none}
   <div class="h2" data-i="now_h"></div>
   <p class="sub" data-i="now_sub"></p>
   <div class="nowgrid" id="nowBox"></div>
+  <a class="nowmore" href="bitacora/" data-i="bt_read">Leer la Bitácora →</a>
 </div></section>
 <section id="experiencia"><div class="wrap">
   <div class="eyebrow" data-i="ex_eye"></div>
@@ -922,10 +923,19 @@ render();
 .path b{font-family:var(--display);font-size:20px;line-height:1.15}
 .path .pd{font-size:13.5px;color:var(--muted)}
 .path .pa{font-family:var(--display);font-weight:600;font-size:13px;margin-top:4px}
-.nowgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}
+.nowgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
 @media(max-width:1000px){.nowgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.nowgrid{grid-template-columns:1fr}}
-.now{border-radius:18px;padding:18px;display:grid;gap:8px;align-content:start}
+@media(max-width:560px){.nowgrid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:84%;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-22px;padding:2px 22px 10px;scroll-padding-inline:22px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.nowgrid::-webkit-scrollbar{display:none}.now{scroll-snap-align:start}}
+.now{border-radius:20px;padding:0;display:grid;grid-template-rows:auto 1fr;overflow:hidden;color:var(--text);text-decoration:none;transition:transform .5s var(--m-ease)}
+a.now:hover{transform:translateY(-3px)}
+.now .ni{display:block;aspect-ratio:16/9;overflow:hidden;background:linear-gradient(135deg,color-mix(in srgb,var(--blue) 45%,var(--bg)),color-mix(in srgb,var(--red) 35%,var(--bg)))}
+.now .ni img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--m-ease)}
+a.now:hover .ni img{transform:scale(1.04)}
+.now .ni.txt{display:grid;place-items:center;font:700 clamp(20px,2.2vw,26px)/1.1 var(--display);letter-spacing:-.02em;color:#fff;text-align:center;padding:16px}
+.now .nb{display:grid;gap:8px;align-content:start;padding:16px 18px 18px}
+.now .nm{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.now .more{font-family:var(--display);font-weight:600;font-size:13px;margin-top:2px}
+.nowmore{display:inline-block;margin-top:16px;font-family:var(--display);font-weight:600;color:var(--text)}
 .now time{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .now b{font-family:var(--display);font-size:16px;line-height:1.2}
 .now p{margin:0;font-size:13.5px;color:var(--muted)}
@@ -978,7 +988,7 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  Object.assign(T.es,{nav_eco:"Ecosistema",
   p1_k:"Para empresas que contratan",p1_t:"Contratar a Brian",p1_d:"Arquitecto CPNAA, coordinación BIM y administración de construcción. Disponibilidad inmediata, remoto en horario de EE.UU.",p1_a:"Ver experiencia y hoja de vida →",
   p2_k:"Para estudios y desarrolladores",p2_t:"Trabajar con Promii",p2_d:"Planos listos para permiso, Scan-to-BIM, renders con IA y sistemas de automatización por proyecto o retainer.",p2_a:"Ver servicios y cotizar →",
-  now_eye:"Ahora",now_h:"En qué estoy trabajando",now_sub:"Lo más reciente de la práctica, los proyectos y el ecosistema.",
+  now_eye:"Ahora",now_h:"En qué estoy trabajando",now_sub:"Lo que estoy construyendo ahora, contado en la Bitácora.",
   eco_eye:"Ecosistema",eco_h:"Más allá de la arquitectura",eco_sub:"Promii es el estudio. Alrededor crecen una marca de arte, una editorial, una academia y una comunidad. Algunas abren pronto: déjame tu correo y te aviso.",
   wait_t:"Avísame cuando abra",wait_d:"Escoge lo que te interesa. Un correo cuando esté listo, sin spam.",wait_ph:"Tu correo",wait_btn:"Unirme a la lista",
   wait_ok:"¡Listo! Te aviso cuando abra.",wait_bad:"Escribe un correo válido.",wait_err:"No se pudo enviar. Escríbeme a hi@promii.co.",
@@ -987,7 +997,7 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  Object.assign(T.en,{nav_eco:"Ecosystem",
   p1_k:"For companies hiring",p1_t:"Hire Brian",p1_d:"Licensed architect (CPNAA), BIM coordination and construction administration. Available now, remote on US hours.",p1_a:"See experience and résumé →",
   p2_k:"For studios and developers",p2_t:"Work with Promii",p2_d:"Permit-ready drawings, Scan-to-BIM, AI renders and automation systems, per project or on retainer.",p2_a:"See services and get a quote →",
-  now_eye:"Now",now_h:"What I'm working on",now_sub:"The latest from the practice, the projects and the ecosystem.",
+  now_eye:"Now",now_h:"What I'm working on",now_sub:"What I am building right now, told in the Log.",
   eco_eye:"Ecosystem",eco_h:"Beyond architecture",eco_sub:"Promii is the studio. Around it grow an art brand, a publishing line, an academy and a community. Some open soon: leave your email and I'll let you know.",
   wait_t:"Tell me when it opens",wait_d:"Pick what interests you. One email when it's ready, no spam.",wait_ph:"Your email",wait_btn:"Join the list",
   wait_ok:"Done! I'll let you know when it opens.",wait_bad:"Enter a valid email.",wait_err:"Couldn't send. Write to hi@promii.co.",
@@ -995,10 +1005,13 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
   toast_t:"Into the visuals?",toast_d:"My art, renders and architecture live on Behance and Instagram.",toast_c:"Close"});
 
  var NOW=[
-  {d:{es:"Nov 2026",en:"Nov 2026"},tg:{es:"Construcción",en:"Construction"},t:{es:"Cierre de etapa en KBM Realty",en:"Wrapping up at KBM Realty"},p:{es:"Cuatro meses coordinando 10+ proyectos multifamiliares en Chicago: control documental, contratos de oficios, permisos e inspecciones.",en:"Four months coordinating 10+ multifamily projects in Chicago: document control, trade contracts, permits and inspections."}},
-  {d:{es:"2026",en:"2026"},tg:{es:"IA + BIM",en:"AI + BIM"},t:{es:"Claude conectado a Revit",en:"Claude connected to Revit"},p:{es:"Agentes que revisan modelos, generan documentación y escriben scripts de Dynamo sobre sesiones de Revit en vivo.",en:"Agents that review models, generate documentation and write Dynamo scripts on live Revit sessions."}},
-  {d:{es:"2026",en:"2026"},tg:{es:"Editorial",en:"Publishing"},t:{es:"ArchiKatz Editorial",en:"ArchiKatz Editorial"},p:{es:"Una enciclopedia de arquitectura y universos visuales planeada en 7 volúmenes. El primer libro está en preparación.",en:"An encyclopedia of architecture and visual worlds planned in 7 volumes. The first book is in the works."}},
-  {d:{es:"2026",en:"2026"},tg:{es:"Academia",en:"Academy"},t:{es:"Promii Academy",en:"Promii Academy"},p:{es:"Los playbooks de marketing, ventas y operación que uso con clientes, empaquetados para enseñarlos.",en:"The marketing, sales and operations playbooks I use with clients, packaged to teach."}}];
+  {slug:"claude-dentro-de-revit",img:"agentic-bim",d:{es:"En progreso",en:"In progress"},tg:{es:"IA + BIM",en:"AI + BIM"},t:{es:"Claude trabajando dentro de Revit",en:"Claude working inside Revit"},p:{es:"Conecto la IA con Revit mediante MCP para revisar modelos, preparar planos, detectar choques y escribir rutinas de Dynamo.",en:"Connecting AI to Revit through MCP to review models, prepare sheets, find clashes and write Dynamo routines."}},
+  {slug:"la-trinidad-sistema-operativo",img:"trinidad",d:{es:"Sistemas",en:"Systems"},tg:{es:"Automatización",en:"Automation"},t:{es:"La Trinidad: mi sistema operativo",en:"The Trinity: my operating system"},p:{es:"Notion como memoria, n8n como sistema nervioso y Claude como criterio.",en:"Notion as memory, n8n as the nervous system and Claude as judgment."}},
+  {slug:"archikatz-editorial",img:"editorial",d:{es:"Editorial",en:"Publishing"},tg:{es:"ArchiKatz",en:"ArchiKatz"},t:{es:"De enciclopedia a sello editorial",en:"From encyclopedia to publishing imprint"},p:{es:"Cinco colecciones y un plan en tres fases. El primer libro: geometría sagrada.",en:"Five collections and a three-phase plan. The first book: sacred geometry."}},
+  {slug:"academy-estrategias-reutilizables",img:"academy",d:{es:"Academy",en:"Academy"},tg:{es:"Playbooks",en:"Playbooks"},t:{es:"Lo que aprendo, convertido en estrategias",en:"What I learn, turned into playbooks"},p:{es:"Playbooks de marketing y ventas B2B con pasos y forma de medirlos.",en:"Marketing and B2B sales playbooks with steps and a way to measure them."}},
+  {slug:"como-construi-promii",img:"glass",d:{es:"Este sitio",en:"This site"},tg:{es:"Diseño web",en:"Web design"},t:{es:"Un portafolio que se administra solo",en:"A portfolio that runs itself"},p:{es:"Tres estilos con la misma física, una gota que es lupa y un panel para cambiarlo todo.",en:"Three styles with the same physics, a drop that works as a lens and a panel to change it all."}},
+  {href:"#experiencia",cover:{es:"Chicago · 10+ obras",en:"Chicago · 10+ projects"},d:{es:"Nov 2026",en:"Nov 2026"},tg:{es:"Construcción",en:"Construction"},t:{es:"Cierre de etapa en KBM Realty",en:"Wrapping up at KBM Realty"},p:{es:"Cuatro meses coordinando 10+ proyectos multifamiliares: control documental, contratos, permisos e inspecciones.",en:"Four months coordinating 10+ multifamily projects: document control, contracts, permits and inspections."}}];
+ var NOWREAD={es:"Leer →",en:"Read (Spanish) →"},NOWEXP={es:"Ver experiencia →",en:"See experience →"};
  var ECO=[
   {k:"Promii",st:"live",t:{es:"Estudio y sistemas",en:"Studio and systems"},p:{es:"Servicios productizados de arquitectura, BIM e IA para estudios AEC.",en:"Productized architecture, BIM and AI services for AEC studios."},href:"#servicios",more:{es:"Ver servicios →",en:"See services →"}},
   {k:"Studio Brian Zuleta",st:"live",t:{es:"Arquitectura y diseño",en:"Architecture and design"},p:{es:"Proyectos propios y de clientes en Colombia y EE.UU., con renders y documentación BIM.",en:"Own and client projects in Colombia and the US, with renders and BIM documentation."},href:"https://www.behance.net/brianzuleta",more:{es:"Ver en Behance ↗",en:"See on Behance ↗"}},
@@ -1015,7 +1028,9 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  var SOON={es:"Próximamente",en:"Coming soon"},LIVE={es:"Activo",en:"Live"},NOTIFY={es:"Avísame →",en:"Notify me →"};
  function e(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
  function v4(){var L=lang;
-  var nb=document.getElementById('nowBox');if(nb)nb.innerHTML=NOW.map(function(n){return '<article class="now glass reveal"><time>'+n.d[L]+'</time><span class="tg">'+n.tg[L]+'</span><b>'+e(n.t[L])+'</b><p>'+e(n.p[L])+'</p></article>';}).join('');
+  var nb=document.getElementById('nowBox');if(nb)nb.innerHTML=NOW.map(function(n){var h=n.slug?'bitacora/?p='+n.slug:n.href;
+   var im=n.img?'<span class="ni"><img src="bitacora/img/'+n.img+'.jpg" alt="" loading="lazy" decoding="async" width="1200" height="675"></span>':'<span class="ni txt">'+e(n.cover[L])+'</span>';
+   return '<a class="now glass reveal" href="'+h+'">'+im+'<span class="nb"><span class="nm"><time>'+n.d[L]+'</time><span class="tg">'+n.tg[L]+'</span></span><b>'+e(n.t[L])+'</b><p>'+e(n.p[L])+'</p><span class="more">'+(n.slug?NOWREAD[L]:NOWEXP[L])+'</span></span></a>';}).join('');
   var eb=document.getElementById('ecoBox');if(eb)eb.innerHTML=ECO.map(function(c){var tag=c.href?'a':'article',attr=c.href?' href="'+c.href+'"'+(c.href.charAt(0)==='#'?'':' target="_blank" rel="noopener"'):'';
    var more=c.href?'<span class="more">'+c.more[L]+'</span>':'<a class="more" href="#waitForm" data-want="'+c.id+'">'+NOTIFY[L]+'</a>';
    return '<'+tag+' class="eco glass reveal"'+attr+'><div class="top"><span class="brandk">'+c.k+'</span><span class="st '+c.st+'">'+(c.st==='live'?LIVE[L]:SOON[L])+'</span></div><b>'+e(c.t[L])+'</b><p>'+e(c.p[L])+'</p>'+more+'</'+tag+'>';}).join('');
@@ -1592,9 +1607,15 @@ html[data-off~="wordmark"] .wordmark{display:none}
   box-shadow:inset 0 0 0 .6px rgba(255,255,255,.55),inset 3px 2px 4px -1px rgba(255,90,130,.35),inset -3px -2px 4px -1px rgba(70,180,255,.38),inset 0 -14px 22px -14px rgba(255,255,255,.45),inset 0 10px 18px -12px rgba(0,0,0,.25),0 16px 34px -18px rgba(0,0,0,.45)}
 html.lg-real #drop i{backdrop-filter:url(#lg-drop) saturate(1.12) brightness(1.04);-webkit-backdrop-filter:url(#lg-drop)}
 html.lg-soft #drop i{backdrop-filter:saturate(1.25) brightness(1.06) contrast(1.04);-webkit-backdrop-filter:saturate(1.25) brightness(1.06) contrast(1.04)}
-#drop .mag{position:absolute;left:0;top:0;pointer-events:none;white-space:nowrap}
+#drop .mag{font-style:normal;position:absolute;left:0;top:0;pointer-events:none;white-space:nowrap}
 #drop .mag b{display:block;font:700 clamp(92px,23vw,330px)/.8 var(--display);letter-spacing:-.065em;color:var(--text)}
 html.lg-real #drop .mag{display:none}
+#drop .magc{font-style:normal;position:absolute;left:0;top:0;transform-origin:0 0;background:var(--bg);pointer-events:none;will-change:transform;contain:layout paint style}
+#drop .magc>section{position:absolute!important;margin:0!important}
+#drop .magc *{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#drop .magc .reveal{opacity:1!important;transform:none!important;filter:none!important}
+#drop i.cl::after{content:"";position:absolute;inset:0;border-radius:inherit;background:inherit;box-shadow:inherit;pointer-events:none}
+#drop i.cl .mag{display:none}
 html[data-style="ink"] #drop i{box-shadow:inset 0 0 0 1.2px var(--text),inset 0 -14px 22px -14px rgba(255,255,255,.55),0 14px 30px -18px rgba(0,0,0,.4)}
 html[data-style="gem"] #drop i{box-shadow:inset 0 0 0 .8px color-mix(in srgb,var(--accent) 80%,transparent),inset 3px 2px 4px -1px rgba(34,224,200,.4),inset 0 -14px 22px -14px rgba(255,236,190,.45),0 16px 36px -18px rgba(0,0,0,.6)}
 @keyframes dropBreath{0%,100%{border-radius:50%}33%{border-radius:47% 53% 52% 48%/52% 47% 53% 48%}66%{border-radius:53% 47% 48% 52%/48% 54% 46% 52%}}
@@ -1631,8 +1652,23 @@ html[data-off~="drop"] #drop{display:none}
   document.getElementById('dropR').setAttribute('scale',SC);document.getElementById('dropG').setAttribute('scale',SC*.975);document.getElementById('dropB').setAttribute('scale',SC*.95);
   lens.style.backdropFilter='none';void lens.offsetWidth;lens.style.backdropFilter='';}
  function apply(){d.style.setProperty('--drop',size()+'px');map();if(mag){var b=mag.firstElementChild;b.classList.toggle('gem',(window.PROMII_CFG||{}).style==='gem');}wake();}
- addEventListener('promii:config',apply);addEventListener('resize',function(){key='';apply();});
+ addEventListener('promii:config',function(){curKey='';apply();});addEventListener('resize',function(){key='';apply();});
  /* lupa sobre la palabra en navegadores sin refracción (iPhone/Safari): copia ampliada recortada por la gota */
+ /* lupa general en iPhone/Safari: copia de las secciones bajo la gota, ampliada y alineada en cada cuadro */
+ var secs=[].slice.call(document.querySelectorAll('section')).filter(function(x){return !x.parentElement.closest('section');}),magc=null,ref=null,curKey='',pend=0;
+ function build(hit){pend=0;if(!magc){magc=document.createElement('div');magc.className='magc';magc.setAttribute('aria-hidden','true');magc.inert=true;lens.insertBefore(magc,lens.firstChild);}
+  var r0=secs[hit[0]].getBoundingClientRect(),w=0,hgt=0,f=document.createDocumentFragment();
+  hit.forEach(function(i){var sx=secs[i],r=sx.getBoundingClientRect(),c=sx.cloneNode(true);
+   c.querySelectorAll('script,iframe,video,canvas,noscript').forEach(function(n){n.remove();});
+   c.style.left=(r.left-r0.left)+'px';c.style.top=(r.top-r0.top)+'px';c.style.width=r.width+'px';c.style.height=r.height+'px';
+   w=Math.max(w,r.right-r0.left);hgt=Math.max(hgt,r.bottom-r0.top);f.appendChild(c);});
+  magc.textContent='';magc.appendChild(f);magc.style.width=w+'px';magc.style.height=hgt+'px';ref=secs[hit[0]];curKey=hit.join(',');lens.classList.add('cl');}
+ function lensAll(sp){if(real||!lens||!secs.length)return;var S=size(),z=zoom(),hit=[];
+  for(var i=0;i<secs.length;i++){var r=secs[i].getBoundingClientRect();if(r.height>0&&r.bottom>st.y-6&&r.top<st.y+S+6)hit.push(i);}
+  if(!hit.length){if(magc)magc.style.display='none';return;}
+  var k=hit.join(',');if(k!==curKey&&!pend){if(!magc||sp<1400||held)build(hit);else pend=setTimeout(function(){pend=0;curKey='';wake();},140);}
+  if(!magc||!ref)return;var rr=ref.getBoundingClientRect(),cx=st.x+S/2,cy=st.y+S/2;magc.style.display='';
+  magc.style.transform='translate3d('+(cx+(rr.left-cx)*z-st.x).toFixed(1)+'px,'+(cy+(rr.top-cy)*z-st.y).toFixed(1)+'px,0) scale('+z+')';}
  function magnify(){if(real||!mag||!wb)return;var S=size(),z=zoom(),r=wb.getBoundingClientRect(),cx=st.x+S/2,cy=st.y+S/2;
   if(r.bottom<st.y-40||r.top>st.y+S+40||r.right<st.x||r.left>st.x+S){mag.style.display='none';return;}
   mag.style.display='block';mag.style.transform='translate('+(cx+(r.left-cx)*z-st.x).toFixed(1)+'px,'+(cy+(r.top-cy)*z-st.y).toFixed(1)+'px) scale('+z+')';mag.style.transformOrigin='0 0';
@@ -1643,7 +1679,7 @@ html[data-off~="drop"] #drop{display:none}
  addEventListener('scroll',function(){lastScroll=performance.now();if(parked&&Math.abs(scrollY-parked.sy)>innerHeight*.6)parked=null;wake();},{passive:true});
  addEventListener('pointermove',function(e){if(e.pointerType!=='mouse')return;mx=e.clientX;my=e.clientY;wake();},{passive:true});
  d.addEventListener('pointerdown',function(e){if(popped||!on('drop'))return;e.preventDefault();d.setPointerCapture(e.pointerId);
-  held={ox:e.clientX-st.x,oy:e.clientY-st.y,t:performance.now(),sx:e.clientX,sy:e.clientY,hist:[]};d.classList.add('held');wake();});
+  curKey='';held={ox:e.clientX-st.x,oy:e.clientY-st.y,t:performance.now(),sx:e.clientX,sy:e.clientY,hist:[]};d.classList.add('held');wake();});
  d.addEventListener('pointermove',function(e){if(!held)return;held.tx=e.clientX-held.ox;held.ty=e.clientY-held.oy;held.hist.push({x:e.clientX,y:e.clientY,t:performance.now()});if(held.hist.length>6)held.hist.shift();});
  function up(e){if(!held)return;var h=held;held=null;d.classList.remove('held');var dt=performance.now()-h.t,moved=Math.hypot(e.clientX-h.sx,e.clientY-h.sy),vx=0,vy=0;
   if(h.hist.length>1){var a=h.hist[0],b=h.hist[h.hist.length-1],tt=Math.max((b.t-a.t)/1000,.001);vx=(b.x-a.x)/tt;vy=(b.y-a.y)/tt;}
@@ -1676,7 +1712,7 @@ html[data-off~="drop"] #drop{display:none}
   st.vx+=(K*(T.x-st.x)-C*st.vx)*dt;st.vy+=(K*(T.y-st.y)-C*st.vy)*dt;st.x+=st.vx*dt;st.y+=st.vy*dt;
   var sp=Math.hypot(st.vx,st.vy),j=.5+(P().jelly==null?.5:P().jelly),k=Math.min(sp/2400*j,.26),ang=Math.atan2(st.vy,st.vx)*57.2958;
   d.style.transform='translate3d('+st.x.toFixed(1)+'px,'+st.y.toFixed(1)+'px,0) rotate('+ang.toFixed(1)+'deg) scale('+(1+k).toFixed(3)+','+(1-k*.75).toFixed(3)+') rotate('+(-ang).toFixed(1)+'deg)';
-  magnify();if(popped&&popped.t)stepDrops(dt,now);
+  lensAll(sp);if(popped&&popped.t)stepDrops(dt,now);
   var moving=sp>3||Math.abs(T.x-st.x)+Math.abs(T.y-st.y)>.8;d.classList.toggle('moving',moving);
   if(moving||T.idle||held||drops.length||now-lastScroll<400)requestAnimationFrame(loop);else{run=false;d.classList.remove('moving');}}
  apply();

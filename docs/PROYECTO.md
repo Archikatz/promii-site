@@ -58,6 +58,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 15. **Catálogo editorial y 4 entradas nuevas (20-nov-2026, noche):** revisión de fuentes en Notion (Trinity HQ, ArchiKatz Editorial, Promii Academy, Estudio BIM Agéntico) y Drive. Matriz de 33 entradas en 7 pilares (`docs/bitacora-matriz.csv`, `docs/BITACORA-CATALOGO.md`; copia en Drive carpeta **Bitácora** como hoja de cálculo). Publicadas: "Claude trabajando dentro de Revit", "La Trinidad: el sistema operativo con el que trabajo", "De enciclopedia a sello editorial" y "Cómo convierto lo que aprendo en estrategias reutilizables", con portadas propias y en el sitemap.
 
+16. **"Ahora" con la Bitácora y lupa real en iPhone:** la sección "En qué estoy trabajando" muestra las entradas con portada (carrusel deslizable en celular) más la tarjeta de KBM y un enlace a la Bitácora. En Safari/iPhone la gota ahora amplía cualquier parte de la página: copia las secciones que tiene debajo, las amplía y las alinea en cada cuadro (sin costo extra medido). En Chrome/Edge sigue la refracción real.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
