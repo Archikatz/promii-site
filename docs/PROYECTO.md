@@ -66,6 +66,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 19. **Juegos, bienvenida, barra común y control de calidad:** Promii Games (`/games/`, games.promii.co) con Torre de niveles y Detección de choques (eventos `game` en analítica). Bienvenida en `/home/` (home.promii.co): gota central que se abre en gotas-camino con física de N cuerpos (gravedad central y entre gotas, antigravedad, giro/centrífuga, choques con rebote, inercia al lanzar), controles de física y modo tres cuerpos (órbita en ocho); es también el mapa del sitio. Encabezado, menú y pie comunes (`assets/site-shell.js`, fuente única `PROMII_SITE`) en Bitácora, Academy, Lab, Juegos; píldora de regreso en las demos. Verificador `qa/check.js` + estándares en `docs/CALIDAD.md`.
 
+20. **Matriz de imágenes (Nano Banana Pro / Google Flow):** 75 piezas (logos, perfiles, LinkedIn, YouTube, Instagram, TikTok, Facebook, X, Pinterest, Behance, web, correo, tienda ArchiKatz) con tamaño, proporción para generar, zona segura, prompt completo con bloque de estilo, negativo, texto a superponer, referencia, paleta, nombre de archivo y carpeta. Basada en las skills brand-character-director, archikatz-story-bible e higgsfield-content-factory. Hoja en Drive "Imágenes · Matriz de generación" (con subcarpetas 01_Logos…10_ArchiKatz_Tienda en "Imágenes · Generadas"); copia en `docs/imagenes/` (se regenera con `python3 docs/imagenes/generar_matriz.py salida.xlsx`). Cuando Brian suba las imágenes web (W-xx, L-03), instalarlas en el sitio.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
