@@ -6,6 +6,7 @@
   if (!C.url || !C.key || /^__/.test(C.key)) return;
   if (navigator.doNotTrack === '1' || /bot|crawl|spider|lighthouse|headless/i.test(navigator.userAgent)) return;
   if (location.hostname === 'localhost' && !C.dev) return;
+  try { if (window.top !== window.self) return; } catch (e) { return; }  // vistas previas del panel: no cuentan
 
   function rid() { return Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
   function store(k, s) { try { var v = s.getItem(k); if (!v) { v = rid(); s.setItem(k, v); } return v; } catch (e) { return rid(); } }
