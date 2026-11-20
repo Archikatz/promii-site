@@ -1,10 +1,96 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/index.html" }
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.promii.co"
+        }
+      ],
+      "destination": "/admin/index.html"
+    }
   ],
   "headers": [
-    { "source": "/admin/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }, { "key": "X-Frame-Options", "value": "SAMEORIGIN" }] },
-    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }] }
+    {
+      "source": "/admin/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "bitacora.promii.co"
+        }
+      ],
+      "destination": "https://promii.co/bitacora/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "lab.promii.co"
+        }
+      ],
+      "destination": "https://promii.co/lab/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "academy.promii.co"
+        }
+      ],
+      "destination": "https://promii.co/#ecosistema",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "comunidad.promii.co"
+        }
+      ],
+      "destination": "https://promii.co/#ecosistema",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "games.promii.co"
+        }
+      ],
+      "destination": "https://promii.co/#ecosistema",
+      "permanent": false
+    }
   ]
 }
