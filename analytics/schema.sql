@@ -80,3 +80,19 @@ begin
   return out_json;
 end $$;
 grant execute on function public.admin_summary(int) to authenticated;
+
+-- Configuración del sitio (estilo, color de contraste, animaciones apagadas). Lectura pública, escritura solo admin.
+create table if not exists public.site_config (
+  id int primary key default 1 check (id = 1),
+  data jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+insert into public.site_config (id, data) values (1, '{"style":"glass","accent":"#e0261b","off":[]}') on conflict (id) do nothing;
+alter table public.site_config enable row level security;
+drop policy if exists "todos leen la config" on public.site_config;
+create policy "todos leen la config" on public.site_config for select to anon, authenticated using (true);
+drop policy if exists "admin edita la config" on public.site_config;
+create policy "admin edita la config" on public.site_config for update to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));
+create or replace function public.touch_site_config() returns trigger language plpgsql set search_path = public as $$ begin new.updated_at = now(); return new; end $$;
+drop trigger if exists site_config_touch on public.site_config;
+create trigger site_config_touch before update on public.site_config for each row execute function public.touch_site_config();
