@@ -280,6 +280,7 @@ svg.ic{stroke:var(--text);filter:none}
     <a href="#experiencia" class="hidem" data-i="nav_exp">Experiencia</a>
     <a href="#proyectos" class="hidem" data-i="nav_proj">Proyectos</a>
     <a href="#servicios" class="hidem" data-i="nav_services">Servicios</a>
+    <a href="#ecosistema" class="hidem" data-i="nav_eco">Ecosistema</a>
     <a href="#contacto" class="hidem" data-i="nav_brief">Contacto</a>
     <div class="toggle"><button id="langES" class="on" onclick="setLang('es')">ES</button><button id="langEN" onclick="setLang('en')">EN</button></div>
     <button class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="Modo claro / oscuro">🌙</button>
@@ -295,6 +296,10 @@ svg.ic{stroke:var(--text);filter:none}
     <div class="cta-row">
       <a href="#proyectos" class="btn btn-primary" data-i="cta1"></a>
       <a href="#servicios" class="btn btn-ghost" data-i="cta2"></a>
+    </div>
+    <div class="paths">
+      <a class="path glass" href="#experiencia" data-path="hire"><span class="pk" data-i="p1_k"></span><b data-i="p1_t"></b><span class="pd" data-i="p1_d"></span><span class="pa" data-i="p1_a"></span></a>
+      <a class="path glass" href="#servicios" data-path="promii"><span class="pk" data-i="p2_k"></span><b data-i="p2_t"></b><span class="pd" data-i="p2_d"></span><span class="pa" data-i="p2_a"></span></a>
     </div>
     <div class="trust"><span data-i="trust1"></span><span data-i="trust2"></span><span data-i="trust3"></span></div>
     <div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
@@ -318,6 +323,12 @@ svg.ic{stroke:var(--text);filter:none}
     </div>
     <div class="stats" id="statBox"></div>
   </div>
+</div></section>
+<section id="ahora"><div class="wrap">
+  <div class="eyebrow" data-i="now_eye"></div>
+  <div class="h2" data-i="now_h"></div>
+  <p class="sub" data-i="now_sub"></p>
+  <div class="nowgrid" id="nowBox"></div>
 </div></section>
 <section id="experiencia"><div class="wrap">
   <div class="eyebrow" data-i="ex_eye"></div>
@@ -394,6 +405,19 @@ svg.ic{stroke:var(--text);filter:none}
   <p class="note">¿No carga el formulario? <a href="https://tally.so/r/PdkRGx" target="_blank" rel="noopener" style="color:var(--blue)">Ábrelo en una pestaña →</a></p>
 </div></section>
 
+<section id="ecosistema"><div class="wrap">
+  <div class="eyebrow" data-i="eco_eye"></div>
+  <div class="h2" data-i="eco_h"></div>
+  <p class="sub" data-i="eco_sub"></p>
+  <div class="ecogrid" id="ecoBox"></div>
+  <form class="wait glass reveal" id="waitForm" novalidate>
+    <div class="wait-t"><b data-i="wait_t"></b><span data-i="wait_d"></span></div>
+    <div class="wait-opts" id="waitOpts"></div>
+    <div class="wait-row"><label class="sr" for="waitEmail" data-i="wait_ph"></label><input id="waitEmail" name="email" type="email" required autocomplete="email"><input class="hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn btn-primary" type="submit" data-i="wait_btn"></button></div>
+    <p class="fstatus" id="waitStatus" role="status"></p>
+  </form>
+  <div class="follow" id="followBox"></div>
+</div></section>
 <section id="contacto"><div class="wrap">
   <div class="eyebrow" data-i="ct_eye"></div>
   <div class="h2" data-i="ct_h"></div>
@@ -460,6 +484,7 @@ svg.ic{stroke:var(--text);filter:none}
     <div>hi@promii.co · WhatsApp +57 316 057 0258</div>
     <div class="dim" style="margin-top:6px">Bogotá · GMT-5 (EST-compatible) · EN C1 / ES nativo</div>
     <span class="pill" style="margin-top:8px;display:inline-block" data-i="foot_zero"></span>
+    <div class="visits" id="visits" hidden><i></i><span id="visitsN"></span></div>
   </div>
 </div></footer>
 
@@ -468,7 +493,7 @@ svg.ic{stroke:var(--text);filter:none}
 const T={
  es:{nav_about:"Sobre mí",nav_exp:"Experiencia",nav_proj:"Proyectos",nav_services:"Servicios",nav_quote:"Cotizador",nav_brief:"Contacto",kicker:"Brian Zuleta · Arquitecto · BIM · Sistemas de IA",
    h1:'Arquitectura, BIM y sistemas de IA que <span class="g">llevan proyectos de la idea a la obra</span>.',
-   lead:"Soy Brian Zuleta, arquitecto matriculado y especialista BIM con 9+ años de experiencia. Produzco planos constructivos para Nueva York, administro proyectos de construcción y construyo sistemas de IA y automatización que hacen que los equipos rindan más.",
+   lead:"Soy Brian Zuleta, arquitecto matriculado y especialista BIM con 10+ años de experiencia. Produzco planos constructivos para Nueva York, administro proyectos de construcción y construyo sistemas de IA y automatización que hacen que los equipos rindan más.",
    cta1:"Ver proyectos →",cta2:"Servicios y cotizador",
    trust1:"✓ ~15 proyectos NYC DOB · LOD 300–350",trust2:"✓ Arquitecto CPNAA · EN C1 / ES nativo",trust3:"✓ Remoto · horario de EE.UU.",
    ab_eye:"Sobre mí",ab_h:"Arquitecto con mentalidad de sistemas",
@@ -503,7 +528,7 @@ const T={
    f_note:"Al enviar aceptas ser contactado por Studio Brian Zuleta / Promii.",foot_zero:"Oferta cero-riesgo · pagas al aprobar",social_label:"Redes (en construcción):"},
  en:{nav_about:"About",nav_exp:"Experience",nav_proj:"Projects",nav_services:"Services",nav_quote:"Estimator",nav_brief:"Contact",kicker:"Brian Zuleta · Architect · BIM · AI Systems",
    h1:'Architecture, BIM and AI systems that <span class="g">take projects from idea to construction</span>.',
-   lead:"I'm Brian Zuleta, a licensed architect and BIM specialist with 9+ years of experience. I produce construction documents for New York, administer construction projects, and build AI and automation systems that help teams do more.",
+   lead:"I'm Brian Zuleta, a licensed architect and BIM specialist with 10+ years of experience. I produce construction documents for New York, administer construction projects, and build AI and automation systems that help teams do more.",
    cta1:"View projects →",cta2:"Services & estimator",
    trust1:"✓ ~15 NYC DOB projects · LOD 300–350",trust2:"✓ Licensed architect · EN C1 / ES native",trust3:"✓ Remote · US business hours",
    ab_eye:"About",ab_h:"An architect with a systems mindset",
@@ -568,8 +593,8 @@ const SVC_LATAM=[
 const WHY={es:[["bolt","Más barato","Operación LATAM + tarifas internacionales: 30–50% bajo un estudio tradicional, sin sacrificar calidad."],["rocket","Más rápido","Entregas en días, no semanas. Remoto y alineado a tu zona horaria (EST)."],["shield","Cero riesgo","Pagas solo cuando apruebas el primer entregable. Sin retainers para empezar."]],
  en:[["bolt","Cheaper","LATAM ops + international rates: 30–50% below a traditional studio, no quality trade-off."],["rocket","Faster","Delivery in days, not weeks. Remote and aligned to your time zone (EST)."],["shield","Zero risk","You pay only once you approve the first deliverable. No retainers to start."]]};
 
-const STATS={es:[["9+","años en arquitectura y BIM"],["~15","proyectos NYC DOB documentados"],["10+","proyectos propios en Revit"],["4+","años en CRM, automatización e IA"]],
- en:[["9+","years in architecture and BIM"],["~15","NYC DOB projects documented"],["10+","own projects in Revit"],["4+","years in CRM, automation and AI"]]};
+const STATS={es:[["10+","años en arquitectura y BIM"],["~15","proyectos NYC DOB documentados"],["10+","proyectos propios en Revit"],["4+","años en CRM, automatización e IA"]],
+ en:[["10+","years in architecture and BIM"],["~15","NYC DOB projects documented"],["10+","own projects in Revit"],["4+","years in CRM, automation and AI"]]};
 const JOBS=[
  {when:{es:"Ago – Nov 2026",en:"Aug – Nov 2026"},co:"Sunshine Management / KBM Realty · Chicago · Remoto",area:{es:"Construcción",en:"Construction"},
   es:{t:"Administrador de Desarrollo y Construcción",b:["Coordiné 10+ proyectos multifamiliares simultáneos con construcción, finanzas y compras: control documental, contratos de oficios, permisos, inspecciones y comunicación con contratistas y la ciudad.","Construí el sistema de control documental en SharePoint (numeración, nomenclatura, versiones) y un estándar de contratos de oficios con codificación CSI y SOP del ciclo de vida.","Pronósticos de egresos de caja y hojas de desembolsos a partir de los contratos, conciliados con compras y finanzas.","Control de cumplimiento de proveedores (contratos, COIs, W-9) antes de liberar pagos; comunicación con la ciudad, aliados comunitarios y trades.","Gobernanza de Asana e integración asistida por IA de Asana, SharePoint, Teams, Fathom y Claude, documentada en guías y SOPs."]},
@@ -612,6 +637,9 @@ const PROJ=[
  {cat:"nyc",yr:"2026",img:null,tools:["Revit","AutoCAD","ADA 2010"],
   es:{n:"NYC DOT Builder's Pavement Plans",m:"Andenes y rampas ADA · Brooklyn, NY",d:"680 Lorimer St (~2,750 SF de andén nuevo) y 2745 Atlantic Ave, edificio de 14 pisos (~4,132 SF, 260 LF de sardinel, 9 árboles nuevos). Estándares NYC DOT H-1010, H-1011, H-1045 y H-1046.",r:"Modelado y dibujo en Revit · The J Associates"},
   en:{n:"NYC DOT Builder's Pavement Plans",m:"Sidewalks and ADA ramps · Brooklyn, NY",d:"680 Lorimer St (~2,750 SF of new sidewalk) and 2745 Atlantic Ave, a 14-story building (~4,132 SF, 260 LF of curb, 9 new street trees). NYC DOT standards H-1010, H-1011, H-1045 and H-1046.",r:"Revit modeling and drafting · The J Associates"}},
+ {cat:"arch",yr:"2026",img:null,tools:["Revit","D5 Render"],
+  es:{n:"Casa Vértice",m:"Vivienda unifamiliar · La Mesa, Cundinamarca",d:"Casa de campo diseñada y modelada en Revit de concepto a planos, con renders en D5 para presentar el proyecto al cliente antes de construir.",r:"Diseño y documentación BIM · Studio Brian Zuleta"},
+  en:{n:"Vértice House",m:"Single-family · La Mesa, Cundinamarca",d:"Country house designed and modeled in Revit from concept to drawings, with D5 renders to present the project to the client before construction.",r:"Design and BIM documentation · Studio Brian Zuleta"}},
  {cat:"arch",yr:"2026",img:null,tools:["Revit","D5 Render"],
   es:{n:"Casa Anapoima",m:"Vivienda unifamiliar · Anapoima, Cundinamarca · ~260 m²",d:"Residencia en ladera que convierte una pendiente del 20% en el rasgo principal: tres niveles escalonados, terraza social con piscina de panel de vidrio estructural y concreto a la vista. Una segunda versión explora acero, pilotes y muros de adobe.",r:"Diseño y documentación BIM · Studio Brian Zuleta"},
   en:{n:"Anapoima House",m:"Single-family · Anapoima, Cundinamarca · ~260 m²",d:"Hillside residence that turns a 20% slope into its main feature: three stepped levels, a social terrace with a structural glass-panel pool and exposed concrete. A second iteration explores steel, piles and adobe walls.",r:"Design and BIM documentation · Studio Brian Zuleta"}},
@@ -831,6 +859,163 @@ render();
  if(typeof render==='function'){var _r=render;render=function(){_r.apply(this,arguments);mp();};}
  if(typeof renderProjects==='function'&&!RMp){try{renderProjects();if(typeof setupReveal==='function')setupReveal();}catch(e){}}
  mp();
+})();
+</script>
+<!-- ===== v4: dos caminos, Ahora, Ecosistema, redes, contador ===== -->
+<style id="v4">
+.paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:26px;max-width:860px;animation:rise 1s var(--m-ease) .5s both}
+@media(max-width:700px){.paths{grid-template-columns:1fr}}
+.path{display:grid;gap:6px;padding:18px 20px;border-radius:22px;color:var(--text);text-decoration:none;transition:transform .5s var(--m-ease)}
+.path:hover{transform:translateY(-3px)}
+.path .pk{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.path[data-path="hire"] .pk::before,.path[data-path="promii"] .pk::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:1px;background:var(--blue)}
+.path[data-path="promii"] .pk::before{background:var(--red)}
+.path b{font-family:var(--display);font-size:20px;line-height:1.15}
+.path .pd{font-size:13.5px;color:var(--muted)}
+.path .pa{font-family:var(--display);font-weight:600;font-size:13px;margin-top:4px}
+.nowgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}
+@media(max-width:1000px){.nowgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.nowgrid{grid-template-columns:1fr}}
+.now{border-radius:18px;padding:18px;display:grid;gap:8px;align-content:start}
+.now time{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.now b{font-family:var(--display);font-size:16px;line-height:1.2}
+.now p{margin:0;font-size:13.5px;color:var(--muted)}
+.now .tg{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blue)}
+.ecogrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+@media(max-width:900px){.ecogrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.ecogrid{grid-template-columns:1fr}}
+.eco{border-radius:20px;padding:20px;display:grid;gap:8px;align-content:start;color:var(--text);text-decoration:none}
+.eco .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.eco .brandk{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.eco b{font-family:var(--display);font-size:19px;line-height:1.15}
+.eco p{margin:0;font-size:13.5px;color:var(--muted)}
+.eco .st{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;border:1px solid var(--line2)}
+.eco .st.live{color:var(--text)}
+.eco .st.live::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#30d158;margin-right:6px;vertical-align:1px}
+.eco .st.soon{color:var(--muted)}
+.eco .more{font-family:var(--display);font-weight:600;font-size:13px;margin-top:4px}
+a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3px)}
+.wait{border-radius:22px;padding:20px;margin-top:14px;display:grid;gap:14px}
+.wait-t{display:grid;gap:2px}.wait-t b{font-family:var(--display);font-size:18px}.wait-t span{font-size:13.5px;color:var(--muted)}
+.wait-opts{display:flex;flex-wrap:wrap;gap:8px}
+.wait-opts label{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;border:1px solid var(--line2);font-size:13px;cursor:pointer;user-select:none}
+.wait-opts input{accent-color:var(--blue)}
+.wait-opts label:has(input:checked){background:var(--glass2);border-color:var(--blue)}
+.wait-row{display:flex;gap:10px;flex-wrap:wrap}
+.wait-row input[type=email]{flex:1;min-width:200px;font:inherit;color:var(--text);background:var(--glass);border:1px solid var(--line2);border-radius:12px;padding:12px 14px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.follow{margin-top:26px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media(max-width:900px){.follow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.follow{grid-template-columns:1fr}}
+.fgroup h3{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.fgroup a,.fgroup span{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text);text-decoration:none;padding:5px 0}
+.fgroup a:hover{color:var(--blue)}
+.fgroup svg{width:16px;height:16px;fill:currentColor;flex:none}
+.fgroup span{color:var(--dim)}
+.visits{display:flex;align-items:center;gap:8px;justify-content:flex-end;margin-top:10px;font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.visits i{width:7px;height:7px;border-radius:50%;background:#30d158;box-shadow:0 0 10px #30d158}
+.toast{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:70;width:min(360px,calc(100% - 32px));border-radius:22px;padding:16px 16px 14px;display:grid;gap:10px;transform:translateY(140%);opacity:0;transition:transform .8s var(--m-spring),opacity .4s}
+.toast.show{transform:none;opacity:1}
+.toast b{font-family:var(--display);font-size:15px;padding-right:28px}
+.toast p{margin:0;font-size:13px;color:var(--muted)}
+.toast .row{display:flex;gap:8px;flex-wrap:wrap}
+.toast .row a{font-size:13px;padding:8px 12px}
+.toast .x{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;border:0;background:var(--glass2);color:var(--text);cursor:pointer;font-size:16px;line-height:1}
+@media(prefers-reduced-motion:reduce){.paths{animation:none}.toast{transition:none}}
+</style>
+<script id="v4-js">
+(function(){
+ /* Textos nuevos (ES/EN) */
+ Object.assign(T.es,{nav_eco:"Ecosistema",
+  p1_k:"Para empresas que contratan",p1_t:"Contratar a Brian",p1_d:"Arquitecto CPNAA, coordinación BIM y administración de construcción. Disponibilidad inmediata, remoto en horario de EE.UU.",p1_a:"Ver experiencia y hoja de vida →",
+  p2_k:"Para estudios y desarrolladores",p2_t:"Trabajar con Promii",p2_d:"Planos listos para permiso, Scan-to-BIM, renders con IA y sistemas de automatización por proyecto o retainer.",p2_a:"Ver servicios y cotizar →",
+  now_eye:"Ahora",now_h:"En qué estoy trabajando",now_sub:"Lo más reciente de la práctica, los proyectos y el ecosistema.",
+  eco_eye:"Ecosistema",eco_h:"Más allá de la arquitectura",eco_sub:"Promii es el estudio. Alrededor crecen una marca de arte, una editorial, una academia y una comunidad. Algunas abren pronto: déjame tu correo y te aviso.",
+  wait_t:"Avísame cuando abra",wait_d:"Escoge lo que te interesa. Un correo cuando esté listo, sin spam.",wait_ph:"Tu correo",wait_btn:"Unirme a la lista",
+  wait_ok:"¡Listo! Te aviso cuando abra.",wait_bad:"Escribe un correo válido.",wait_err:"No se pudo enviar. Escríbeme a hi@promii.co.",
+  visits:"visitantes desde el lanzamiento",
+  toast_t:"¿Te gusta lo visual?",toast_d:"Mi trabajo de arte, renders y arquitectura vive en Behance e Instagram.",toast_c:"Cerrar"});
+ Object.assign(T.en,{nav_eco:"Ecosystem",
+  p1_k:"For companies hiring",p1_t:"Hire Brian",p1_d:"Licensed architect (CPNAA), BIM coordination and construction administration. Available now, remote on US hours.",p1_a:"See experience and résumé →",
+  p2_k:"For studios and developers",p2_t:"Work with Promii",p2_d:"Permit-ready drawings, Scan-to-BIM, AI renders and automation systems, per project or on retainer.",p2_a:"See services and get a quote →",
+  now_eye:"Now",now_h:"What I'm working on",now_sub:"The latest from the practice, the projects and the ecosystem.",
+  eco_eye:"Ecosystem",eco_h:"Beyond architecture",eco_sub:"Promii is the studio. Around it grow an art brand, a publishing line, an academy and a community. Some open soon: leave your email and I'll let you know.",
+  wait_t:"Tell me when it opens",wait_d:"Pick what interests you. One email when it's ready, no spam.",wait_ph:"Your email",wait_btn:"Join the list",
+  wait_ok:"Done! I'll let you know when it opens.",wait_bad:"Enter a valid email.",wait_err:"Couldn't send. Write to hi@promii.co.",
+  visits:"visitors since launch",
+  toast_t:"Into the visuals?",toast_d:"My art, renders and architecture live on Behance and Instagram.",toast_c:"Close"});
+
+ var NOW=[
+  {d:{es:"Nov 2026",en:"Nov 2026"},tg:{es:"Construcción",en:"Construction"},t:{es:"Cierre de etapa en KBM Realty",en:"Wrapping up at KBM Realty"},p:{es:"Cuatro meses coordinando 10+ proyectos multifamiliares en Chicago: control documental, contratos de oficios, permisos e inspecciones.",en:"Four months coordinating 10+ multifamily projects in Chicago: document control, trade contracts, permits and inspections."}},
+  {d:{es:"2026",en:"2026"},tg:{es:"IA + BIM",en:"AI + BIM"},t:{es:"Claude conectado a Revit",en:"Claude connected to Revit"},p:{es:"Agentes que revisan modelos, generan documentación y escriben scripts de Dynamo sobre sesiones de Revit en vivo.",en:"Agents that review models, generate documentation and write Dynamo scripts on live Revit sessions."}},
+  {d:{es:"2026",en:"2026"},tg:{es:"Editorial",en:"Publishing"},t:{es:"ArchiKatz Editorial",en:"ArchiKatz Editorial"},p:{es:"Una enciclopedia de arquitectura y universos visuales planeada en 7 volúmenes. El primer libro está en preparación.",en:"An encyclopedia of architecture and visual worlds planned in 7 volumes. The first book is in the works."}},
+  {d:{es:"2026",en:"2026"},tg:{es:"Academia",en:"Academy"},t:{es:"Promii Academy",en:"Promii Academy"},p:{es:"Los playbooks de marketing, ventas y operación que uso con clientes, empaquetados para enseñarlos.",en:"The marketing, sales and operations playbooks I use with clients, packaged to teach."}}];
+ var ECO=[
+  {k:"Promii",st:"live",t:{es:"Estudio y sistemas",en:"Studio and systems"},p:{es:"Servicios productizados de arquitectura, BIM e IA para estudios AEC.",en:"Productized architecture, BIM and AI services for AEC studios."},href:"#servicios",more:{es:"Ver servicios →",en:"See services →"}},
+  {k:"Studio Brian Zuleta",st:"live",t:{es:"Arquitectura y diseño",en:"Architecture and design"},p:{es:"Proyectos propios y de clientes en Colombia y EE.UU., con renders y documentación BIM.",en:"Own and client projects in Colombia and the US, with renders and BIM documentation."},href:"https://www.behance.net/brianzuleta",more:{es:"Ver en Behance ↗",en:"See on Behance ↗"}},
+  {k:"ArchiKatz",st:"soon",id:"shop",t:{es:"Tienda de arte",en:"Art shop"},p:{es:"Prints en metal y acrílico, desk mats y techwear con las colecciones de ArchiKatz. Reabre en Shopify.",en:"Metal and acrylic prints, desk mats and techwear from the ArchiKatz collections. Reopening on Shopify."}},
+  {k:"ArchiKatz",st:"soon",id:"magazine",t:{es:"Magazine y Editorial",en:"Magazine and Editorial"},p:{es:"Historias, colecciones visuales y libros sobre arquitectura imaginada.",en:"Stories, visual collections and books about imagined architecture."}},
+  {k:"Promii",st:"soon",id:"academy",t:{es:"Academy",en:"Academy"},p:{es:"Cursos y playbooks de BIM, IA y automatización para arquitectos y estudios.",en:"Courses and playbooks on BIM, AI and automation for architects and studios."}},
+  {k:"Promii",st:"soon",id:"community",t:{es:"Comunidad",en:"Community"},p:{es:"Un espacio para compartir conocimiento entre arquitectos, BIM managers y creadores que usan IA.",en:"A space to share knowledge among architects, BIM managers and creators who use AI."}}];
+ var WAIT=[["newsletter",{es:"Newsletter",en:"Newsletter"}],["shop",{es:"Tienda ArchiKatz",en:"ArchiKatz shop"}],["magazine",{es:"Magazine",en:"Magazine"}],["academy",{es:"Academy",en:"Academy"}],["community",{es:"Comunidad",en:"Community"}]];
+ var FOLLOW=[
+  {h:{es:"Arte y arquitectura",en:"Art and architecture"},l:[["Behance","https://www.behance.net/brianzuleta","s-behance"],["Instagram · Studio BZ","https://www.instagram.com/studiobrianzuleta","s-instagram"]]},
+  {h:{es:"Profesional",en:"Professional"},l:[["LinkedIn · Brian","https://www.linkedin.com/in/bczuleta","s-linkedin"],["LinkedIn · Promii","https://www.linkedin.com/company/promii","s-linkedin"]]},
+  {h:{es:"Promii",en:"Promii"},l:[["Instagram","https://www.instagram.com/promii.co","s-instagram"],["YouTube","https://www.youtube.com/@promii","s-youtube"],["TikTok","https://www.tiktok.com/@promii","s-tiktok"],["GitHub","https://github.com/Promii","s-github"]]},
+  {h:{es:"ArchiKatz",en:"ArchiKatz"},l:[[{es:"Redes próximamente",en:"Socials coming soon"},null,null]]}];
+ var SOON={es:"Próximamente",en:"Coming soon"},LIVE={es:"Activo",en:"Live"},NOTIFY={es:"Avísame →",en:"Notify me →"};
+ function e(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+ function v4(){var L=lang;
+  var nb=document.getElementById('nowBox');if(nb)nb.innerHTML=NOW.map(function(n){return '<article class="now glass reveal"><time>'+n.d[L]+'</time><span class="tg">'+n.tg[L]+'</span><b>'+e(n.t[L])+'</b><p>'+e(n.p[L])+'</p></article>';}).join('');
+  var eb=document.getElementById('ecoBox');if(eb)eb.innerHTML=ECO.map(function(c){var tag=c.href?'a':'article',attr=c.href?' href="'+c.href+'"'+(c.href.charAt(0)==='#'?'':' target="_blank" rel="noopener"'):'';
+   var more=c.href?'<span class="more">'+c.more[L]+'</span>':'<a class="more" href="#waitForm" data-want="'+c.id+'">'+NOTIFY[L]+'</a>';
+   return '<'+tag+' class="eco glass reveal"'+attr+'><div class="top"><span class="brandk">'+c.k+'</span><span class="st '+c.st+'">'+(c.st==='live'?LIVE[L]:SOON[L])+'</span></div><b>'+e(c.t[L])+'</b><p>'+e(c.p[L])+'</p>'+more+'</'+tag+'>';}).join('');
+  var wo=document.getElementById('waitOpts');if(wo){var on={};wo.querySelectorAll('input:checked').forEach(function(i){on[i.value]=1;});if(!wo.children.length)on.newsletter=1;
+   wo.innerHTML=WAIT.map(function(w){return '<label><input type="checkbox" name="want" value="'+w[0]+'"'+(on[w[0]]?' checked':'')+'>'+w[1][L]+'</label>';}).join('');}
+  var we=document.getElementById('waitEmail');if(we)we.placeholder=T[L].wait_ph;
+  var fb=document.getElementById('followBox');if(fb)fb.innerHTML=FOLLOW.map(function(g){return '<div class="fgroup"><h3>'+g.h[L]+'</h3>'+g.l.map(function(x){return x[1]?'<a href="'+x[1]+'" target="_blank" rel="noopener"><svg><use href="#'+x[2]+'"/></svg>'+x[0]+'</a>':'<span>'+x[0][L]+'</span>';}).join('')+'</div>';}).join('');
+  var vn=document.getElementById('visitsN');if(vn&&vn.dataset.n)vn.textContent=Number(vn.dataset.n).toLocaleString(L==='es'?'es-CO':'en-US')+' '+T[L].visits;
+  var tt=document.getElementById('toast');if(tt)fillToast(tt);
+ }
+ if(typeof render==='function'){var _r=render;render=function(){_r.apply(this,arguments);v4();if(typeof setupReveal==='function')setupReveal();};}
+
+ /* "Avísame" en una tarjeta marca esa opción en la lista de espera */
+ document.addEventListener('click',function(ev){var a=ev.target.closest('[data-want]');if(!a)return;var i=document.querySelector('#waitOpts input[value="'+a.dataset.want+'"]');if(i)i.checked=true;});
+
+ /* Correos: MailerLite si está configurado; si no, el buzón actual (FormSubmit) */
+ function subscribe(email,wants,source){
+  var M=(window.PROMII_FORMS||{}).mailerlite||{};
+  if(M.account&&M.form&&!/^__/.test(M.account)){
+   var fd=new FormData();fd.append('fields[email]',email);fd.append('fields[source]',source);fd.append('fields[interests]',wants.join(', '));fd.append('ml-submit','1');fd.append('anticsrf','true');
+   return fetch('https://assets.mailerlite.com/jsonp/'+M.account+'/forms/'+M.form+'/subscribe',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(!j.success)throw 0;});}
+  return fetch(FORM_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Lista de espera · '+wants.join(', '),email:email,intereses:wants.join(', '),origen:source,_template:'table'})}).then(function(r){return r.json().then(function(j){if(!r.ok||String(j.success)==='false')throw 0;});});
+ }
+ window.promiiSubscribe=subscribe;
+ var wf=document.getElementById('waitForm');
+ if(wf)wf.addEventListener('submit',function(ev){ev.preventDefault();var d=T[lang],st=document.getElementById('waitStatus'),m=document.getElementById('waitEmail').value.trim();
+  if(wf.querySelector('.hp').value)return;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)){st.className='fstatus err';st.textContent=d.wait_bad;return;}
+  var wants=[].map.call(wf.querySelectorAll('input[name=want]:checked'),function(i){return i.value;});if(!wants.length)wants=['newsletter'];
+  var b=wf.querySelector('button');b.disabled=true;st.className='fstatus';st.textContent=d.st_sending||'…';
+  subscribe(m,wants,'promii.co/ecosistema').then(function(){st.className='fstatus ok';st.textContent=d.wait_ok;wf.reset();v4();}).catch(function(){st.className='fstatus err';st.textContent=d.wait_err;}).then(function(){b.disabled=false;});});
+ /* El newsletter existente también va a MailerLite cuando esté configurado */
+ var nl=document.getElementById('nlForm');
+ if(nl)nl.addEventListener('submit',function(ev){var M=(window.PROMII_FORMS||{}).mailerlite||{};if(!(M.account&&!/^__/.test(M.account)))return;ev.preventDefault();ev.stopImmediatePropagation();
+  var st=document.getElementById('nlStatus'),m=nl.email.value.trim(),d=T[lang];if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)){st.className='fstatus err';st.textContent=d.wait_bad;return;}
+  subscribe(m,['newsletter'],'promii.co/newsletter').then(function(){st.className='fstatus ok';st.textContent=d.wait_ok;nl.reset();}).catch(function(){st.className='fstatus err';st.textContent=d.wait_err;});},true);
+
+ /* Aviso de redes de arte: una vez, al pasar 55% de la página o 40 s */
+ function fillToast(t){var d=T[lang];t.innerHTML='<button class="x" type="button" aria-label="'+d.toast_c+'">×</button><b>'+d.toast_t+'</b><p>'+d.toast_d+'</p><div class="row"><a class="btn btn-primary" href="https://www.behance.net/brianzuleta" target="_blank" rel="noopener">Behance ↗</a><a class="btn btn-ghost" href="https://www.instagram.com/studiobrianzuleta" target="_blank" rel="noopener">Instagram ↗</a></div>';
+  t.querySelector('.x').onclick=function(){t.classList.remove('show');try{localStorage.setItem('pm_toast','1');}catch(x){}};}
+ var seen=false;try{seen=localStorage.getItem('pm_toast')==='1';}catch(x){}
+ if(!seen){var t=document.createElement('aside');t.id='toast';t.className='toast glass';t.setAttribute('role','status');fillToast(t);document.body.appendChild(t);
+  var shown=false;function show(){if(shown)return;shown=true;t.classList.add('show');try{localStorage.setItem('pm_toast','1');}catch(x){}}
+  setTimeout(show,40000);addEventListener('scroll',function(){if(scrollY+innerHeight>document.documentElement.scrollHeight*.55)show();},{passive:true});}
+
+ /* Contador público de visitas (cuando la analítica está conectada) */
+ addEventListener('load',function(){if(!window.promiiVisitCount)return;window.promiiVisitCount().then(function(r){if(!r||!r.visitors)return;var vn=document.getElementById('visitsN');vn.dataset.n=r.visitors;document.getElementById('visits').hidden=false;v4();}).catch(function(){});});
+
+ v4();if(typeof setupReveal==='function')setupReveal();if(typeof applyI18n==='function')applyI18n();
 })();
 </script>
 <script src="analytics/config.js" defer></script>
