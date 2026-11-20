@@ -1386,6 +1386,92 @@ html[data-style="ink"][data-theme="dark"] .cdlg{background:#171513;color:#ece7dc
  v5();if(typeof setupReveal==='function')setupReveal();if(typeof applyI18n==='function')applyI18n();
 })();
 </script>
+<!-- ===== v6: adaptación por dispositivo (píldora flotante, barra de pestañas móvil, vidrio reforzado en Safari) ===== -->
+<style id="v6">
+/* barra superior: píldora de vidrio flotante */
+nav{top:calc(10px + env(safe-area-inset-top,0px))!important;width:min(1200px,calc(100% - 24px));margin:10px auto 0;border-radius:999px;border:1px solid var(--glass-brd)!important;border-bottom:1px solid var(--glass-brd)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(255,255,255,.06),0 18px 40px -20px rgba(0,0,0,.6)}
+nav .wrap.row{padding-left:20px;padding-right:10px;height:56px}
+nav::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 55%)}
+html[data-theme="light"] nav{box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 18px 40px -22px rgba(40,45,70,.35)}
+/* vidrio reforzado donde no hay refracción real (Safari, iPhone, Firefox) */
+html.lg-soft nav,html.lg-soft .tabbar{backdrop-filter:blur(22px) saturate(2) brightness(1.08)!important;-webkit-backdrop-filter:blur(22px) saturate(2) brightness(1.08)!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05))!important}
+html.lg-soft[data-theme="light"] nav,html.lg-soft[data-theme="light"] .tabbar{background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.5))!important}
+html.lg-soft .glass:not(.job){box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 .5px rgba(255,255,255,.12),inset 0 -12px 24px -18px rgba(255,255,255,.12)}
+html[data-style="ink"] nav,html[data-style="ink"] .tabbar{background:color-mix(in srgb,var(--bg) 86%,transparent)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important;box-shadow:inset 0 0 0 1.3px var(--text)!important;border-color:transparent!important}
+html[data-style="ink"] nav::after,html[data-style="ink"] .tabbar::after{display:none}
+/* barra de pestañas móvil (estilo iOS) */
+.tabbar{display:none}
+@media (max-width:760px){
+  nav .wrap.row{padding-left:16px;height:52px}
+  .tabbar{display:flex;position:fixed;left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:66;padding:6px;border-radius:999px;gap:0;
+    background:rgba(24,24,32,.42);backdrop-filter:blur(20px) saturate(1.9);-webkit-backdrop-filter:blur(20px) saturate(1.9);border:1px solid var(--glass-brd);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.06),0 18px 40px -14px rgba(0,0,0,.7);transition:transform .6s var(--m-spring),padding .6s var(--m-spring)}
+  html[data-theme="light"] .tabbar{background:rgba(255,255,255,.62);box-shadow:inset 0 1px 0 #fff,0 18px 40px -16px rgba(40,45,70,.35)}
+  .tabbar::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 60%)}
+  .tabbar.compact{transform:translateX(-50%) scale(.9)}
+  .tab-ind{position:absolute;top:6px;bottom:6px;left:0;border-radius:999px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.4),inset 0 1px 0 rgba(255,255,255,.4);will-change:transform,width}
+  html[data-theme="light"] .tab-ind{background:rgba(15,18,40,.08);box-shadow:inset 0 0 0 .5px rgba(15,18,40,.15)}
+  html[data-style="ink"] .tab-ind{background:var(--text);box-shadow:none}
+  .tab{all:unset;position:relative;z-index:1;cursor:pointer;display:grid;justify-items:center;gap:2px;padding:7px 10px;min-width:54px;border-radius:999px;color:var(--muted);font:600 10px var(--body);letter-spacing:.01em;transition:color .3s}
+  .tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s var(--m-spring)}
+  .tab[aria-current="true"]{color:var(--text)}
+  html[data-style="ink"] .tab[aria-current="true"]{color:var(--bg)}
+  .tab[aria-current="true"] svg{transform:scale(1.1)}
+  .tab:active svg{transform:scale(.86)}
+  .tab:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+  .tab span{max-height:13px;overflow:hidden;transition:opacity .3s,max-height .5s var(--m-spring)}
+  .tabbar.compact .tab span{opacity:0;max-height:0}
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .fab .fab-btn{display:none}
+  .fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important;right:calc(40px + env(safe-area-inset-right,0px))!important}
+  .toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
+}
+/* contacto: sin filtro de gotas fuera de Chromium (Safari lo recortaba) */
+html:not(.lg-real) .fab-blobs{display:none}
+html:not(.lg-real) .fab-it{background:var(--text);box-shadow:0 10px 24px -10px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+html.lg-real .fab-it{background:transparent}
+@media (hover:none){.fab.open .fab-it span{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.tabbar,.tab svg,.tab span{transition:none}}
+</style>
+<div class="tabbar" id="tabbar" role="navigation" aria-label="Secciones">
+  <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
+  <a class="tab" href="#top" data-t="top" aria-current="true"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-i="nav_home">Inicio</span></a>
+  <a class="tab" href="#proyectos" data-t="proyectos"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span data-i="nav_proj">Proyectos</span></a>
+  <a class="tab" href="#casos" data-t="casos"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg><span data-i="nav_cases">Casos</span></a>
+  <a class="tab" href="#servicios" data-t="servicios"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg><span data-i="nav_services">Servicios</span></a>
+  <button class="tab" type="button" data-t="contacto" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span data-i="nav_brief">Contacto</span></button>
+</div>
+<script id="v6-js">
+(function(){
+ var ua=navigator.userAgent,real=/Chrome\/|Chromium\//.test(ua)&&!/Firefox/.test(ua)&&!/CriOS|FxiOS|EdgiOS/.test(ua)&&CSS.supports('backdrop-filter','url(#x)');
+ document.documentElement.classList.add(real?'lg-real':'lg-soft');
+ Object.assign(T.es,{nav_home:"Inicio"});Object.assign(T.en,{nav_home:"Home"});
+ var bar=document.getElementById('tabbar'),ind=document.getElementById('tabInd'),tabs=[].slice.call(bar.querySelectorAll('.tab'));
+ var RMt=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ var GROUP={top:'top',sobre:'top',ahora:'top',experiencia:'top',proyectos:'proyectos',casos:'casos',habilidades:'casos',formacion:'casos',why:'casos',servicios:'servicios',cotizar:'servicios',intake:'servicios',ecosistema:'servicios',contacto:'contacto'};
+ var L={x:0,v:0,t:0,k:300},R={x:0,v:0,t:0,k:300},cur=0;
+ function tgt(i){var br=bar.getBoundingClientRect(),r=tabs[i].getBoundingClientRect();return [r.left-br.left,r.right-br.left];}
+ function select(i,instant){if(i<0)return;var dir=i>cur?1:-1;cur=i;tabs.forEach(function(t,k){t.setAttribute('aria-current',k===i);});var p=tgt(i);L.t=p[0];R.t=p[1];L.k=dir>0?170:420;R.k=dir>0?420:170;if(instant||RMt){L.x=L.t;R.x=R.t;L.v=R.v=0;}}
+ function init(){if(getComputedStyle(bar).display==='none')return;var p=tgt(cur);L.x=L.t=p[0];R.x=R.t=p[1];}
+ addEventListener('resize',init);setTimeout(init,60);
+ var last=performance.now();
+ (function loop(now){var dt=Math.min((now-last)/1000,1/30);last=now;
+  [L,R].forEach(function(o){var c=2*Math.sqrt(o.k)*.72;o.v+=(o.k*(o.t-o.x)-c*o.v)*dt;o.x+=o.v*dt;});
+  ind.style.transform='translateX('+L.x+'px)';ind.style.width=Math.max(20,R.x-L.x)+'px';requestAnimationFrame(loop);})(last);
+ /* sección visible → pestaña activa */
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var g=GROUP[e.target.id];if(!g)return;var i=tabs.map(function(t){return t.dataset.t;}).indexOf(g);if(i!==cur&&!manual)select(i);});},{rootMargin:'-45% 0px -50% 0px'});
+ document.querySelectorAll('header[id],section[id]').forEach(function(s){io.observe(s);});
+ var manual=false,mt;
+ tabs.forEach(function(t,i){t.addEventListener('click',function(ev){
+  if(t.dataset.t==='contacto'){ev.preventDefault();ev.stopPropagation();var b=document.querySelector('.fab-btn');if(b)b.click();var open=document.getElementById('fab')&&document.getElementById('fab').classList.contains('open');t.setAttribute('aria-expanded',open);select(i);return;}
+  manual=true;clearTimeout(mt);mt=setTimeout(function(){manual=false;},900);select(i);});});
+ /* se compacta al bajar, se expande al subir */
+ var lastY=scrollY;addEventListener('scroll',function(){var y=scrollY;if(y>lastY+6&&y>120)bar.classList.add('compact');else if(y<lastY-6)bar.classList.remove('compact');lastY=y;setTimeout(init,620);},{passive:true});
+ if(typeof applyI18n==='function')applyI18n();setTimeout(function(){select(cur,true);},80);
+})();
+</script>
 <script>try{var _l=new URLSearchParams(location.search).get("lang");if((_l==="en"||_l==="es")&&typeof setLang==="function")setLang(_l);}catch(e){}</script>
 <script src="analytics/config.js" defer></script>
 <script src="analytics/track.js" defer></script>
