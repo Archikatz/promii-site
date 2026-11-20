@@ -31,7 +31,7 @@
     { key: 'toast',    group: 'Avisos',     name: 'Aviso de redes de arte',      where: 'Abajo a la izquierda' }
   ];
   var STYLES = { glass: 'Liquid Glass', ink: 'Tinta china' };
-  var DEFAULT = { style: 'glass', accent: '#e0261b', off: [] };
+  var DEFAULT = { style: 'glass', accent: '#ff3b30', off: [] };
   var C = window.PROMII_ANALYTICS_BOOT || { url: 'https://lcahlrunxtgbghxauwoy.supabase.co', key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjYWhscnVueHRnYmdoeGF1d295Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUxODAzOTYsImV4cCI6MjExMDc1NjM5Nn0.gJ3wl9R9BjIpafbxJco2Wcl4kM24_s36liSy5t-M1A4' };
 
   function norm(c) {

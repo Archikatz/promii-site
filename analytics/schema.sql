@@ -96,3 +96,14 @@ create policy "admin edita la config" on public.site_config for update to authen
 create or replace function public.touch_site_config() returns trigger language plpgsql set search_path = public as $$ begin new.updated_at = now(); return new; end $$;
 drop trigger if exists site_config_touch on public.site_config;
 create trigger site_config_touch before update on public.site_config for each row execute function public.touch_site_config();
+
+-- Temas guardados del panel (solo admin)
+create table if not exists public.design_presets (
+  id uuid primary key default gen_random_uuid(),
+  name text not null check (char_length(name) between 1 and 60),
+  data jsonb not null,
+  created_at timestamptz not null default now()
+);
+alter table public.design_presets enable row level security;
+drop policy if exists "admin gestiona temas" on public.design_presets;
+create policy "admin gestiona temas" on public.design_presets for all to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));

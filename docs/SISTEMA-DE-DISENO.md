@@ -11,7 +11,7 @@ Un solo sistema de **movimiento, proporciones y botones** con dos **materias** i
 
 Ambos funcionan en claro y oscuro (`data-theme`). En tinta oscura el papel es carbón y la tinta es hueso.
 
-**Color de contraste:** variable `--accent` (por defecto `#e0261b`, bermellón). En tinta reemplaza a `--blue` y `--red`. Presets del panel: Bermellón, Azul Prusia `#1d4e89`, Oro viejo `#b8860b`, Jade `#2f7d5b`, Amatista `#7a3e9d`.
+**Color de contraste:** variable `--accent` (por defecto `#ff3b30`). En Liquid Glass reemplaza a `--red`; en Tinta china reemplaza a `--blue` y `--red`. Presets del panel: Bermellón, Azul Prusia `#1d4e89`, Oro viejo `#b8860b`, Jade `#2f7d5b`, Amatista `#7a3e9d`.
 
 ## Tokens de movimiento (en `:root` de `index.html`)
 
@@ -52,3 +52,11 @@ Cada animación tiene una **clave**. Si la clave está en `data-off` de `<html>`
 ## Motion Lab
 
 `lab/index.html` + `lab/demos/01…13`. Cada demo es un HTML independiente, sin dependencias, reutilizable. `lab/inventario.html` lista todas las animaciones y su revisión.
+
+## Temas
+
+En el panel → Diseño y movimiento → **Temas**:
+- **Sugeridos** (8): Cristal nocturno, Presentación a cliente, Galería silenciosa, Amatista de lanzamiento, Sumi bermellón, Plano azul Prusia, Jade zen, Oro de obra.
+- **🎲 Aleatorio:** estilo al azar, acento de una paleta curada de 12 colores y algunas animaciones decorativas apagadas (nunca apaga revelado, dibujo de proyectos, contacto, esquinas ni transición a detalle).
+- **Mis temas:** se guardan en Supabase (tabla `design_presets`, solo admin).
+- Cargar un tema no cambia la página: hay que tocar **Aplicar a la página**, que guarda y verifica.
