@@ -5,6 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brian Zuleta · Arquitecto BIM & Sistemas de IA — Portafolio | Promii</title>
 <meta name="description" content="Portafolio profesional de Brian Zuleta, arquitecto matriculado (CPNAA) y especialista BIM: planos NYC DOB LOD 300–350, Scan-to-BIM, administración de construcción, sistemas de IA y automatización. Servicios de Promii / Studio Brian Zuleta.">
+<link rel="canonical" href="https://promii.co/">
+<link rel="alternate" hreflang="es" href="https://promii.co/">
+<link rel="alternate" hreflang="en" href="https://promii.co/?lang=en">
+<meta name="theme-color" content="#08080c">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Promii · Studio Brian Zuleta">
+<meta property="og:title" content="Brian Zuleta · Arquitecto BIM y sistemas de IA | Promii">
+<meta property="og:description" content="Planos NYC DOB LOD 300–350, Scan-to-BIM, coordinación de construcción y sistemas de IA para estudios AEC. Contrata a Brian o trabaja con Promii.">
+<meta property="og:url" content="https://promii.co/">
+<meta property="og:locale" content="es_CO">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brian Zuleta · Arquitecto BIM y sistemas de IA | Promii">
+<meta name="twitter:description" content="Planos NYC DOB, Scan-to-BIM, coordinación de construcción y sistemas de IA para estudios AEC.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Person","@id":"https://promii.co/#brian","name":"Brian Zuleta","jobTitle":"Arquitecto y especialista BIM","url":"https://promii.co/","email":"mailto:hi@promii.co",
+  "address":{"@type":"PostalAddress","addressLocality":"Bogotá","addressCountry":"CO"},
+  "alumniOf":{"@type":"CollegeOrUniversity","name":"Universidad de La Salle"},
+  "knowsAbout":["BIM","Revit","NYC DOB","Scan-to-BIM","Navisworks","Dynamo","Construction administration","AI automation"],
+  "knowsLanguage":["es","en"],
+  "sameAs":["https://www.linkedin.com/in/bczuleta","https://www.behance.net/brianzuleta","https://www.instagram.com/studiobrianzuleta"],
+  "worksFor":{"@id":"https://promii.co/#promii"}},
+ {"@type":"ProfessionalService","@id":"https://promii.co/#promii","name":"Promii","url":"https://promii.co/","email":"hi@promii.co","founder":{"@id":"https://promii.co/#brian"},
+  "areaServed":["US","CO","Latin America"],"description":"Servicios productizados de arquitectura, BIM e IA para estudios AEC y desarrolladores.",
+  "sameAs":["https://www.linkedin.com/company/promii","https://www.instagram.com/promii.co","https://www.youtube.com/@promii","https://www.tiktok.com/@promii","https://github.com/Promii"]},
+ {"@type":"WebSite","@id":"https://promii.co/#web","url":"https://promii.co/","name":"Promii","inLanguage":["es","en"],"publisher":{"@id":"https://promii.co/#promii"}}]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -986,7 +1014,7 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  function subscribe(email,wants,source){
   var M=(window.PROMII_FORMS||{}).mailerlite||{};
   if(M.account&&M.form&&!/^__/.test(M.account)){
-   var fd=new FormData();fd.append('fields[email]',email);fd.append('fields[source]',source);fd.append('fields[interests]',wants.join(', '));fd.append('ml-submit','1');fd.append('anticsrf','true');
+   var fd=new FormData();fd.append('fields[email]',email);fd.append('fields[signup_source]',source);fd.append('fields[interests]',wants.join(', '));fd.append('ml-submit','1');fd.append('anticsrf','true');
    return fetch('https://assets.mailerlite.com/jsonp/'+M.account+'/forms/'+M.form+'/subscribe',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(!j.success)throw 0;});}
   return fetch(FORM_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Lista de espera · '+wants.join(', '),email:email,intereses:wants.join(', '),origen:source,_template:'table'})}).then(function(r){return r.json().then(function(j){if(!r.ok||String(j.success)==='false')throw 0;});});
  }
@@ -1018,6 +1046,7 @@ a.eco{transition:transform .5s var(--m-ease)}a.eco:hover{transform:translateY(-3
  v4();if(typeof setupReveal==='function')setupReveal();if(typeof applyI18n==='function')applyI18n();
 })();
 </script>
+<script>try{var _l=new URLSearchParams(location.search).get("lang");if((_l==="en"||_l==="es")&&typeof setLang==="function")setLang(_l);}catch(e){}</script>
 <script src="analytics/config.js" defer></script>
 <script src="analytics/track.js" defer></script>
 </body>

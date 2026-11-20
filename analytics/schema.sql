@@ -56,7 +56,7 @@ grant execute on function public.visit_count() to anon, authenticated;
 -- Resumen para el panel (solo administradores)
 create or replace function public.admin_summary(days int default 30) returns json
 language plpgsql stable security definer set search_path = public as $$
-declare since timestamptz := now() - make_interval(days => days); r json;
+declare since timestamptz := now() - make_interval(days => days); out_json json;
 begin
   if not public.is_admin() then raise exception 'no autorizado'; end if;
   with e as (select * from public.events where ts >= since),
@@ -75,8 +75,8 @@ begin
     'langs',    (select coalesce(json_agg(c order by c.n desc), '[]') from (select lang, count(*) n from e where type = 'pageview' group by 1) c),
     'scroll',   (select coalesce(json_agg(c order by c.b), '[]') from (select least(floor(m / 25) * 25, 100)::int b, count(*) n from (select sid, max(value) m from e where type = 'scroll' group by sid) x group by 1) c),
     'heat',     (select coalesce(json_agg(json_build_array(round(x::numeric, 1), round((y / nullif(dh, 0) * 100)::numeric, 2))), '[]') from (select x, y, dh from e where type = 'click' and device = 'desktop' and x is not null order by ts desc limit 4000) h),
-    'recent',   (select coalesce(json_agg(r), '[]') from (select ts, type, section, label, device from e where type in ('pageview', 'click', 'form') order by ts desc limit 30) r)
-  ) into r;
-  return r;
+    'recent',   (select coalesce(json_agg(rec), '[]') from (select ts, type, section, label, device from e where type in ('pageview', 'click', 'form') order by ts desc limit 30) rec)
+  ) into out_json;
+  return out_json;
 end $$;
 grant execute on function public.admin_summary(int) to authenticated;
