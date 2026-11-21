@@ -1,0 +1,38 @@
+{
+  "pillars": {
+    "P1_BIM_AI": { "es": "BIM y Automatización IA", "en": "BIM & AI Automation" },
+    "P2_CODE_DATA": { "es": "Normativa Urbana y Datos", "en": "Code Compliance & Data" },
+    "P3_SYSTEMS": { "es": "Sistemas y Agentes IA", "en": "Agentic Systems & Ops" },
+    "P4_ARCHVIZ": { "es": "ArchViz IA y Diseño Editorial", "en": "AI ArchViz & Editorial" }
+  },
+  "terms": {
+    "NYC DOB": {
+      "en": "New York City Department of Buildings. The strict regulatory body governing zoning and construction codes in NYC.",
+      "es": "Departamento de Edificios de NYC. Entidad que rige los códigos de zonificación y construcción en Nueva York."
+    },
+    "Prompt Chaining": {
+      "en": "The technique of linking multiple LLM outputs together to solve complex logic tasks, like generating Revit API code.",
+      "es": "Técnica de encadenar múltiples respuestas de IA para resolver tareas lógicas complejas."
+    },
+    "Scan-to-BIM": {
+      "en": "The process of converting point cloud data (laser scans) into accurate 3D BIM models.",
+      "es": "Proceso de conversión de nubes de puntos (escáner láser) a modelos BIM 3D."
+    },
+    "Dynamo": {
+      "en": "Visual programming interface for Revit used to automate tasks and manipulate geometric data.",
+      "es": "Interfaz de programación visual para Revit usada para automatizar tareas."
+    },
+    "QA/QC": {
+      "en": "Quality Assurance & Quality Control. In BIM, ensuring the model meets drafting and code standards before construction.",
+      "es": "Aseguramiento y Control de Calidad del modelo antes de construcción."
+    },
+    "ArchiKatz": {
+      "en": "An editorial AI-driven architectural imprint.",
+      "es": "Sello editorial arquitectónico impulsado por IA."
+    },
+    "Liquid Glass": {
+      "en": "Translucent glassmorphism UI language used across promii.co.",
+      "es": "Lenguaje visual de vidrio translúcido usado en promii.co."
+    }
+  }
+}
