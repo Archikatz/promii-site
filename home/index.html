@@ -134,9 +134,9 @@ body.open .core::after{display:none}
   world.appendChild(el);var b={el:el,x:o.x,y:o.y,vx:o.vx||0,vy:o.vy||0,r:o.r,m:o.m||(o.r*o.r)/1600,sq:0,sa:0,data:o,core:o.core};
   bindDrag(b);bodies.push(b);return b;}
  var core=mk({core:1,t:{es:'Toca',en:'Tap'},x:cx,y:cy,r:0,c:'#ff3b30'});
- core.r=core.el.offsetWidth/2;core.fixed=true;
+ core.r=core.el.offsetWidth/2;core.fixed=true;window.__promiiCore=core;
  core.el.setAttribute('aria-label','Abrir los caminos');core.el.setAttribute('data-en-label','Open the paths');
- function burst(){if(body.classList.contains('open'))return;body.classList.add('open');mode='orbit';
+ function burst(){if(body.classList.contains('open'))return;body.classList.add('open');mode='orbit';try{window.dispatchEvent(new Event('promii:burst'));}catch(e){}
   core.el.animate([{scale:'1 1'},{scale:'1.25 .8'},{scale:'.85 1.15'},{scale:'1 1'}],{duration:520,easing:'ease-out'});
   core.el.querySelector('span').textContent='promii';core.data.t='promii';
   var groups=SITE.map,n=groups.length,s=scale(),R0=Math.max(110,Math.min(W,H)*.3);
@@ -163,7 +163,8 @@ body.open .core::after{display:none}
   el.addEventListener('pointerup',up);el.addEventListener('pointercancel',function(){down=null;held=null;el.classList.remove('held');});
   el.addEventListener('click',function(e){if(b.data.href&&(b._drag||!b._go)){e.preventDefault();}b._drag=false;});
   el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tap(b);}});}
- function tap(b){if(b.core){if(!body.classList.contains('open'))burst();else showMap();return;}
+ function reassemble(){if(!body.classList.contains('open'))return;clear();body.classList.remove('open');mode='orbit';q('three').classList.remove('on');core.el.style.opacity='';core.el.style.pointerEvents='';var sp=core.el.querySelector('span');if(sp)sp.textContent='O';try{window.dispatchEvent(new Event('promii:reassemble'));}catch(e){}wake();}
+ function tap(b){if(b.core){if(!body.classList.contains('open'))burst();else reassemble();return;}
   if(b.data.group){showGroup(b.data.group);b.vx*=.2;b.vy*=.2;b.sq=.5;return;}
   if(b.data.href){location.href=b.data.href;}}
  var sheet=q('sheet'),sin=q('sheetIn');
