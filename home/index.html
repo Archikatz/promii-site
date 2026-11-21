@@ -132,7 +132,7 @@ body.open .core::after{display:none}
  var W=hero.clientWidth,H=hero.clientHeight,cx=W/2,cy=H/2+20,heroOn=true,RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
  var P={g:1,n:1,a:1,s:.4,e:.7,f:.3},mode='orbit',bodies=[],held=null,run=false,last=0;
  function q(id){return document.getElementById(id);}
- function esc(t){return String(t).replace(/&/g,'&').replace(/</g,'<');}
+ function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
  function scale(){return Math.min(W,H)/800;}
 
  /* ===== cuerpos ===== */
