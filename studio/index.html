@@ -180,6 +180,15 @@ hr{border:none;border-top:1px solid var(--border);}
 </style>
 </head>
 <body>
+<div class="pm-modes" role="note">
+  <span class="pm-mode on"><b>Modo A · activo</b> Usa tus propias claves (Gemini, Higgsfield, Freepik) en CONFIG. Se guardan solo en tu navegador.</span>
+  <span class="pm-mode"><b>Modo B · próximamente</b> Inicia sesión y genera sin claves, con un cupo mensual. <a href="/#ecosistema">Avísame →</a></span>
+</div>
+<style>.pm-modes{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px 10px 120px;background:#08080c;border-bottom:1px solid #181818;font:11px/1.45 'Space Mono',monospace;color:#888}
+.pm-mode{flex:1;min-width:240px;padding:8px 12px;border:1px solid #222;border-radius:10px}.pm-mode b{display:block;color:#ccc;letter-spacing:1px;font-size:10px;margin-bottom:2px}
+.pm-mode.on{border-color:rgba(39,174,96,.5)}.pm-mode.on b{color:#27ae60}.pm-mode a{color:#D4A017}
+@media (max-width:600px){.pm-modes{padding-left:12px;padding-top:56px}}</style>
+
 
 <div class="hdr">
   <div><div class="logo">ARCHIKATZ<small>STUDIO v2.0</small></div></div>

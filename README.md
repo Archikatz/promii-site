@@ -7,21 +7,24 @@ Sitio de **Brian Zuleta · Promii / Studio Brian Zuleta**: portafolio de arquite
 ## Estructura
 
 ```
-index.html                 La página completa (HTML + CSS + JS en un solo archivo, ES/EN)
-assets/promii-config.js    Sistema de estilos y movimiento: registro de animaciones, estilo, color de contraste
-analytics/track.js         Rastreador ligero (visitas, tiempo por sección, scroll, clics, formularios)
-analytics/config.js        Claves públicas de Supabase y MailerLite
-analytics/schema.sql       Esquema de la base de datos (Supabase)
-admin/index.html           Panel privado: analítica + Diseño y movimiento (login con correo y contraseña)
-lab/                       Motion Lab: 13 demos reutilizables + inventario de animaciones
-lab/demos/*.html           Cada demo es un archivo independiente
-lab/inventario.html        Inventario de las animaciones y revisión de consistencia
-bitacora/                  Blog (Bitácora): index.html + posts.json + posts/*.md + img/
-docs/                      Documentación: PROYECTO, SISTEMA-DE-DISENO, OPERACION, CREDITOS, BITACORA-CATALOGO + bitacora-matriz.csv
-assets/og.jpg              Imagen para compartir en redes (1200×630)
+index.html                 Portafolio (HTML + CSS + JS en un solo archivo, ES/EN). Menú común en <nav data-shell>
+home/                      Bienvenida con gotas y física (home.promii.co) + mapa del sitio
+bitacora/                  Blog: index.html + posts.json + posts/*.md (ES) + posts/en/*.md (EN) + img/
+academy/                   Academy: index.html generado por academy/build.py (ES/EN)
+games/                     Promii Games: torre, choques, ducto, orbita, ruta + social.js (ranking, retos, tutorial, redes)
+                           build_games.py genera ducto/orbita/ruta
+studio/                    ArchiKatz Studio v2.0 (claves propias del usuario; modo B próximamente)
+editorial/                 Universo ArchiKatz + webtoon (toon.html, episodes.json, gallery.json, img/)
+lab/                       Motion Lab: 14 demos + inventario de animaciones
+admin/index.html           Panel privado: analítica por áreas + Diseño y movimiento
+assets/site-shell.js       Encabezado, menú, idioma, tema y pie comunes + mapa del sitio (PROMII_SITE)
+assets/promii-config.js    Sistema de estilos y movimiento
+analytics/                 track.js (rastreador), config.js (claves públicas), schema.sql (Supabase)
+qa/check.js                Verificador de calidad (correr antes de publicar) → qa/REPORTE.md
+docs/                      PROYECTO (registro y pasos siguientes), SISTEMA-DE-DISENO, OPERACION, CALIDAD,
+                           CREDITOS, MAPA-CONTENIDO, BITACORA-CATALOGO, LINKEDIN-DOCUMENTO-MAESTRO, imagenes/
+vercel.json                Subdominios (admin, home, bitacora, academy, lab, games, comunidad)
 robots.txt, sitemap.xml    SEO
-vercel.json                Reglas para Vercel (admin.promii.co)
-CNAME                      Dominio para GitHub Pages
 ```
 
 ## Servicios conectados

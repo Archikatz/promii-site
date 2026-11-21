@@ -78,6 +78,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 25. **Analítica por áreas en el panel:** `admin_summary` ahora agrupa por área del sitio (función `area_of(path)`: Portafolio, Bienvenida, Blog, Academy, Lab, Juegos, Studio, Editorial) con visitantes, vistas, tiempo, clics, partidas y formularios; páginas más vistas (artículos `?p=` y episodios `?ep=` por separado); juegos (partidas, jugadores, promedio, mejor y entradas al ranking); uso de herramientas (clics en Studio, editorial, juegos, Academy y bienvenida). El mapa de calor y el scroll quedan solo para el portafolio. Pendiente de decisión: si ArchiKatz Studio se abre al público con inicio de sesión y cuotas (requiere un proxy con las claves de Brian y control de costos) o sigue con la clave propia de cada usuario.
 
+26. **Studio con dos modos y cierre de la sesión (21-nov-2026):** ArchiKatz Studio muestra el modo A activo (claves propias del usuario) y el modo B como próximamente (inicio de sesión con cupo mensual). README con la estructura completa y sección 6 de este archivo reescrita con el estado actual y los pasos siguientes.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.
@@ -85,36 +87,46 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 - Notion: "Arquitectura Web del Ecosistema — brianzuleta.co + promii.co (v1)" (marcas → dominios, comunidad en Discord primero, ArchiKatz en /ecosistema).
 - Notion: "ArchiKatz OS — Headquarters", "ArchiKatz Editorial" (7 volúmenes, primer libro en preparación), "Promii Academy", "Vértice 2026".
 
-## 6. Pendiente / lo que sigue
+## 6. Estado actual y lo que sigue (actualizado 21-nov-2026)
 
-**Brian (manual, minutos):**
-- [ ] Supabase → Authentication → Users → **Add user** `hi@promii.co` con contraseña. Luego desactivar "Allow new users to sign up".
-- [ ] Aprobar el acceso de Vercel al equipo `hi-2630s-projects` para crear `admin.promii.co`. Después, en GoDaddy, un **CNAME** `admin` → `cname.vercel-dns.com`.
-- [ ] Decir "publícalo" para fusionar la rama en `main`.
-- [ ] Después de publicar: inscribirse en la lista de espera para probar MailerLite y revisar el panel.
+**Dónde vamos:** todo lo pedido hasta la última instrucción está publicado en promii.co y verificado en vivo:
+- portafolio con menú único (descripciones al pasar el mouse, mapa, admin, ES/EN, tema);
+- bienvenida con física (home.promii.co);
+- blog bilingüe (5 entradas);
+- Academy (26 guías);
+- Motion Lab (14 demos);
+- 5 juegos con tutorial, ranking, retos y botones para publicar;
+- ArchiKatz Studio (modo A activo, modo B "próximamente");
+- universo editorial con webtoon (episodio 0);
+- panel con analítica por áreas;
+- 8 subdominios;
+- verificador de calidad.
 
-**Dominio brianzuleta.co (perdido por no renovar, disponible al 20-nov-2026):**
-- [ ] Recomprarlo cuando haya presupuesto (≈25–35 USD/año). Recordatorio programado para el 20-dic-2026.
-- [ ] Recrear el correo en ese dominio y pasar Vercel y cualquier otra cuenta a `hi@promii.co` o Gmail.
-- [ ] Mientras tanto, todo enlace a brianzuleta.co se cambió por promii.co.
-- [ ] Cuenta de Vercel: entrar con GitHub y cambiar el correo principal; si no se puede, cuenta nueva y recrear el proyecto (todo está en el repo).
+**Brian (manual):**
+- [ ] Generar imágenes con la matriz de Drive y el master prompt de Gemini. Prioridad: L-01 a L-03, W-01, W-02 y las viñetas WT-00-xx del webtoon. Pasármelas para instalarlas.
+- [ ] Leer el episodio 0 del webtoon ("La Guardiana del Umbral", escrito a partir del lore) y aprobar o ajustar el texto.
+- [ ] Recomprar brianzuleta.co (recordatorio para el 20-dic-2026) y cambiar el correo de la cuenta de Vercel.
+- [ ] Publicar en LinkedIn con el documento maestro (Drive: "promii.co · Documento maestro para LinkedIn").
+- [ ] Decidir el presupuesto mensual para el modo B de Studio (generación con las claves de Brian y cupo por usuario).
 
-**Pendiente inmediato (siguiente sesión):**
-- [ ] Brian prueba en iPhone 17 Pro Max y en PC: fluidez de Tinta china, barra de pestañas, gota, botones gelatinosos.
-- [ ] Promii Games (`games.promii.co`): portal + 2 juegos (Torre de niveles, Detección de interferencias); evento `game` en analítica (falta migración del check de `events.type`).
-- [x] DNS en GoDaddy: 6 subdominios conectados a Vercel.
+**Siguiente trabajo técnico (en orden):**
+1. **Rendimiento:** subir a ≥ 50 fps el portafolio (44 fps), el Lab (45) y Torre de niveles (48), medidos con `node qa/check.js` en un celular simulado 4 veces más lento.
+2. **Instalar imágenes** cuando lleguen: Open Graph (`/assets/og-*.jpg`), favicon, portadas del blog e íconos de Academy; viñetas en `editorial/img/` con su ruta en `editorial/episodes.json`; galería en `editorial/gallery.json`.
+3. **Studio modo B:** inicio de sesión (Supabase Auth), función de servidor (Supabase Edge Function) que guarde las claves como secretos, cupo mensual por usuario y registro de uso en la analítica.
+4. **Webtoon:** episodio 1 ("Habitando lo no construido") y un capítulo de la Metrópolis de Neón; quizás un generador de viñetas dentro de Studio.
+5. **Lab bilingüe:** el contenido del Lab sigue solo en español.
+6. **Ranking:** validar puntajes en el servidor (hoy cualquiera con conocimientos técnicos podría enviar uno falso).
+7. **Blog y Academy:** siguientes entradas de la matriz (BT-006, BT-010, BT-013, BT-017, BT-030) y publicar guías una por una (cambiar `None` por la URL en `academy/build.py`).
+8. **MailerLite:** campaña del número 1 y automatización de bienvenida.
+9. **Riesgo estructural de vivienda** (repo `zuleta-os-internal`): decidir si se publica como app dentro del ecosistema.
+10. **Comunidad y tienda ArchiKatz:** enlazar cuando existan.
 
-**Siguiente trabajo sugerido:**
-- [x] Corregir las alertas del inventario.
-- [x] Llevar efectos del Lab al sitio (squircles, Liquid Glass en nav, contacto líquido, tilt 3D, morph a detalle).
-- [x] Sección Casos + Bitácora + créditos de CV + imagen Open Graph.
-- [ ] Colección de arte ArchiKatz desde Drive (Brian escoge imágenes) y usuarios de redes de ArchiKatz.
-- [ ] Comunidad: enlace de invitación a Discord tras la lista de espera.
-- [ ] Tienda ArchiKatz en Shopify: enlazar cuando abra.
-- [x] Número 1 de la Bitácora publicado en la web.
-- [ ] Siguientes entradas de la matriz (prioridad Alta: BT-006, BT-010, BT-013, BT-017, BT-030). BT-006 necesita capturas reales de Revit.
-- [ ] Enviar el número 1 por MailerLite y crear la automatización de bienvenida.
-- [ ] Llevar los créditos de `docs/CREDITOS.md` a la hoja de vida y a LinkedIn.
+**Cómo trabajar:**
+- Leer `README.md` y este archivo.
+- Hacer los cambios en la rama de trabajo.
+- Correr `node qa/check.js`.
+- Publicar en `main`.
+- Actualizar este archivo y la copia en Drive.
 
 ## 7. Prompt para retomar con cualquier IA
 
