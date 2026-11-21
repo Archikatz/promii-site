@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ACOI 2027 · Asociación Colombiana de Inmunología — Propuesta</title>
+<meta name="description" content="Propuesta de experiencia digital 2027 para la Asociación Colombiana de Inmunología (ACOI). Trabajo de campo de Studio Brian Zuleta.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://promii.co/acoi/">
+<meta name="theme-color" content="#0b1210">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --acoi-deep:#47744B;
+  --acoi-light:#95C35D;
+  --acoi-mist:#c8e6a0;
+  --bg:#0b1210;
+  --text:#f2f7f1;
+  --muted:#a7b8a9;
+  --dim:#6f7f70;
+  --line:rgba(149,195,93,.18);
+  --glass:rgba(18,28,22,.55);
+  --display:"Fraunces",ui-serif,Georgia,serif;
+  --body:"DM Sans",ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(42% 36% at 12% 8%,rgba(71,116,75,.45),transparent 70%),radial-gradient(38% 32% at 88% 12%,rgba(149,195,93,.22),transparent 70%),radial-gradient(50% 40% at 70% 90%,rgba(71,116,75,.28),transparent 72%),var(--bg)}
+.bg::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),radial-gradient(rgba(149,195,93,.14) 1px,transparent 1.2px);background-size:96px 96px,96px 96px,24px 24px;mask:radial-gradient(70% 60% at 50% 40%,#000 20%,transparent 100%);-webkit-mask:radial-gradient(70% 60% at 50% 40%,#000 20%,transparent 100%)}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 20px}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);background:rgba(11,18,16,.55);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand .mark{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c8e6a0,#47744B 55%,#2d4a30);box-shadow:0 4px 12px rgba(149,195,93,.35);display:grid;place-items:center;font:700 11px var(--body);color:#0b1210}
+.brand b{font:700 13px var(--body);letter-spacing:.18em;text-transform:uppercase}
+.brand span{display:block;font:500 11px var(--body);color:var(--muted);letter-spacing:.04em}
+.nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.nav a,.btn{font:600 13px var(--body);text-decoration:none;color:var(--text);padding:9px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+.nav a:hover,.btn:hover{background:rgba(149,195,93,.15);border-color:rgba(149,195,93,.35)}
+.btn-primary{background:linear-gradient(135deg,var(--acoi-deep),var(--acoi-light));border-color:transparent;color:#0b1210;font-weight:700;box-shadow:0 12px 28px -14px rgba(149,195,93,.7)}
+.hero{padding:72px 0 48px;display:grid;gap:28px;grid-template-columns:1.15fr .85fr;align-items:center}
+@media (max-width:860px){.hero{grid-template-columns:1fr;padding-top:40px}.nav{display:none}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 11px var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--acoi-light)}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--acoi-light);box-shadow:0 0 12px var(--acoi-light)}
+h1{font:700 clamp(34px,5.5vw,56px)/1.08 var(--display);letter-spacing:-.02em;margin:12px 0 16px;max-width:16ch}
+h1 em{font-style:normal;color:var(--acoi-light)}
+.lede{color:var(--muted);font-size:17px;max-width:42ch;margin:0 0 24px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.glass{border-radius:28px;padding:22px;background:var(--glass);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 24px 50px -28px rgba(0,0,0,.7);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5)}
+.hero-card{position:relative;overflow:hidden;min-height:280px}
+.hero-card::before{content:"";position:absolute;inset:-20% -10% auto auto;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(149,195,93,.45),transparent 70%);filter:blur(8px)}
+.orbits{position:absolute;inset:18% 12%;border-radius:50%;border:1px dashed rgba(149,195,93,.25)}
+.orbits.r2{inset:28% 22%}
+.drop{position:absolute;left:50%;top:50%;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;background:radial-gradient(32% 22% at 34% 22%,#fff,rgba(255,255,255,.35) 48%,transparent 72%),radial-gradient(80% 55% at 50% 100%,rgba(71,116,75,.55),transparent 70%),radial-gradient(120% 120% at 28% 18%,rgba(255,255,255,.1),rgba(0,0,0,.2));box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),0 18px 32px -16px rgba(0,0,0,.7);animation:breath 6s ease-in-out infinite;display:grid;place-items:center;font:700 14px var(--body);color:#0b1210;letter-spacing:.06em}
+@keyframes breath{0%,100%{border-radius:50%}33%{border-radius:47% 53% 52% 48%}66%{border-radius:53% 47% 48% 52%}}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:2}
+.chip{font:600 11px var(--body);letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:rgba(0,0,0,.2)}
+.section{padding:56px 0}
+.section h2{font:700 clamp(26px,3.5vw,36px)/1.15 var(--display);letter-spacing:-.02em;margin:0 0 10px}
+.section .sub{color:var(--muted);max-width:56ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:800px){.grid{grid-template-columns:1fr}}
+.card h3{font:700 18px var(--display);margin:0 0 8px}
+.card p{margin:0;color:var(--muted);font-size:14.5px}
+.card .dot{width:10px;height:10px;border-radius:50%;background:var(--acoi-light);box-shadow:0 0 12px var(--acoi-light);margin-bottom:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:800px){.split{grid-template-columns:1fr}}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);color:var(--muted);font-size:14.5px}
+.list li strong{display:block;color:var(--text);font-weight:600}
+.list li::before{content:"";flex:none;width:8px;height:8px;margin-top:7px;border-radius:50%;background:var(--acoi-light);box-shadow:0 0 10px var(--acoi-light)}
+.note{margin-top:18px;padding:14px 16px;border-radius:16px;border:1px dashed rgba(149,195,93,.35);color:var(--dim);font-size:13px}
+.footer{margin-top:40px;padding:28px 0 40px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;color:var(--dim);font-size:13px}
+.footer a{color:var(--acoi-light);text-decoration:none}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(149,195,93,.1);border:1px solid rgba(149,195,93,.25);color:var(--acoi-mist);font-size:12px}
+@media (prefers-reduced-motion:reduce){.drop{animation:none}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="/acoi/">
+    <div class="mark">ACOI</div>
+    <div><b>ACOI</b><span>Inmunología · Colombia</span></div>
+  </a>
+  <nav class="nav" aria-label="Secciones">
+    <a href="#asociacion">Asociación</a>
+    <a href="#comunidad">Comunidad</a>
+    <a href="#membresia">Membresía</a>
+    <a href="#contacto">Contacto</a>
+    <a class="btn-primary" href="https://www.inmunoacoi.com/" rel="noopener" target="_blank">Sitio actual</a>
+  </nav>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><i></i> Propuesta digital 2027</div>
+      <h1>La inmunología colombiana, con una presencia <em>clara y viva</em></h1>
+      <p class="lede">First page para la Asociación Colombiana de Inmunología: lenguaje de marca ACOI, estructura profesional y la misma exigencia de diseño que Studio Brian Zuleta aplica en Promii. Pensada para que la junta vea el salto de calidad antes de decidir dominio y plataforma final.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contacto">Hablar con el estudio</a>
+        <a class="btn" href="#asociacion">Ver el enfoque</a>
+      </div>
+    </div>
+    <div class="glass hero-card" aria-hidden="true">
+      <div class="orbits"></div><div class="orbits r2"></div>
+      <div class="drop">ACOI</div>
+      <div class="chip-row">
+        <span class="chip">Marca ACOI</span>
+        <span class="chip">#47744B</span>
+        <span class="chip">#95C35D</span>
+        <span class="chip">Preview · promii.co/acoi</span>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="asociacion">
+    <h2>Asociación, no solo un sitio</h2>
+    <p class="sub">ACOI reúne profesionales de la salud dedicados a la academia y la investigación en inmunología. Esta propuesta conserva ese tono científico y lo traduce a una experiencia digital sobria, accesible y editable a largo plazo.</p>
+    <div class="grid">
+      <article class="glass card"><div class="dot"></div><h3>Identidad oficial</h3><p>Verde institucional, imagotipo circular y jerarquía tipográfica alineada al manual de marca ACOI 2023.</p></article>
+      <article class="glass card"><div class="dot"></div><h3>Contenido validado</h3><p>Sin cifras ni eventos inventados. Todo dato sensible se marca para validación con la junta y comunicaciones.</p></article>
+      <article class="glass card"><div class="dot"></div><h3>Base Promii</h3><p>Misma disciplina de diseño: glass, ritmo, foco en móvil y performance. Branding 100 % ACOI.</p></article>
+    </div>
+  </section>
+  <section class="section" id="comunidad">
+    <h2>Comunidad científica</h2>
+    <p class="sub">Lo que la asociación ya comunica de forma pública, reordenado para una first page 2027.</p>
+    <div class="split">
+      <div class="glass" style="padding:22px 24px">
+        <ul class="list">
+          <li><div><strong>Áreas de formación</strong>Bacteriología, biología, medicina, odontología, microbiología y formación de posgrado.</div></li>
+          <li><div><strong>Red nacional</strong>Parte de la Asociación Colombiana de Sociedades Científicas (ACSC).</div></li>
+          <li><div><strong>Membresías</strong>Titular, adjunto y adherente — residentes en Colombia o en el exterior.</div></li>
+          <li><div><strong>Presidencia 2024–2026</strong>Dr. John Mario González Escobar.</div></li>
+        </ul>
+      </div>
+      <div class="glass" style="padding:22px 24px">
+        <h3 style="font:700 18px var(--display);margin:0 0 12px">Próximos bloques del sitio</h3>
+        <ul class="list">
+          <li><div><strong>Noticias y comunicados</strong>Canal único, con fechas y fuentes verificables.</div></li>
+          <li><div><strong>Eventos académicos</strong>Solo convocatorias confirmadas por ACOI.</div></li>
+          <li><div><strong>Directorio de miembros</strong>62 registros del Excel maestro — con autorización y limpieza de erratas.</div></li>
+          <li><div><strong>Unirse a ACOI</strong>Ruta clara de contacto y requisitos validados.</div></li>
+        </ul>
+        <p class="note">[VALIDAR CON ACOI] cuotas 2026, correos oficiales (@inmunoacoi.co vs .com) y calendario 2027 antes de publicar cifras o fechas.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="membresia">
+    <h2>Membresía</h2>
+    <p class="sub">Tipos de vínculo ya usados por la asociación. Los valores económicos se completan cuando la junta los confirme por escrito.</p>
+    <div class="grid">
+      <article class="glass card"><div class="dot"></div><h3>Titular</h3><p>Profesionales de la inmunología con trayectoria académica o clínica. [VALIDAR CON ACOI] requisitos y cuota vigente.</p></article>
+      <article class="glass card"><div class="dot"></div><h3>Adjunto</h3><p>Incluye perfiles profesionales y de formación (estudiante / pregrado según clasificación interna).</p></article>
+      <article class="glass card"><div class="dot"></div><h3>Adherente</h3><p>Vínculo de acompañamiento a la red ACOI. Detalle de beneficios pendiente de validación.</p></article>
+    </div>
+  </section>
+  <section class="section" id="contacto">
+    <h2>Contacto</h2>
+    <p class="sub">Canales públicos actuales. Esta preview no sustituye el sitio oficial hasta que ACOI lo apruebe.</p>
+    <div class="glass" style="padding:22px 24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font:700 18px var(--display);margin-bottom:6px">Asociación Colombiana de Inmunología</div>
+        <div style="color:var(--muted);font-size:14.5px">
+          Sitio en operación: <a href="https://www.inmunoacoi.com/" style="color:var(--acoi-light)">inmunoacoi.com</a><br>
+          Correo público: <a href="mailto:asistenteacoi@gmail.com" style="color:var(--acoi-light)">asistenteacoi@gmail.com</a>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:asistenteacoi@gmail.com">Escribir a ACOI</a>
+        <a class="btn" href="https://promii.co/">Studio Brian Zuleta</a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <div>
+      <span class="badge">Preview · trabajo de campo · no oficial</span>
+      <div style="margin-top:10px">Diseño y prototipo: Studio Brian Zuleta · alojado temporalmente en promii.co/acoi/</div>
+    </div>
+    <div>Cuando exista dominio propio (acoi.co / inmunoacoi.co), esta base se mueve o se enlaza por CNAME.</div>
+  </footer>
+</main>
+</body>
+</html>
