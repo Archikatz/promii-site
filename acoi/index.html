@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ACOI · Asociación Colombiana de Inmunología</title>
-<meta name="description" content="Asociación Colombiana de Inmunología (ACOI). Noticias, eventos, membresía y comunidad científica. Propuesta web 2027 — Studio Brian Zuleta.">
+<meta name="description" content="Asociación Colombiana de Inmunología (ACOI). Propuesta web 2027 — liquid glass + marca oficial. Studio Brian Zuleta.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="canonical" href="https://promii.co/acoi/">
 <meta name="theme-color" content="#0a100e">
-<link rel="icon" href="https://static.wixstatic.com/media/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png">
+<link rel="icon" href="assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -23,54 +23,63 @@
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-  radial-gradient(40% 34% at 10% 0%,rgba(71,116,75,.5),transparent 70%),
-  radial-gradient(36% 30% at 90% 10%,rgba(149,195,93,.25),transparent 70%),
-  radial-gradient(50% 40% at 50% 100%,rgba(71,116,75,.3),transparent 75%),var(--bg)}
-.bg::after{content:"";position:absolute;inset:0;opacity:.9;background-image:
+  radial-gradient(42% 36% at 8% 0%,rgba(71,116,75,.48),transparent 70%),
+  radial-gradient(36% 30% at 92% 8%,rgba(149,195,93,.22),transparent 70%),
+  radial-gradient(50% 40% at 50% 100%,rgba(71,116,75,.28),transparent 75%),var(--bg)}
+.bg::after{content:"";position:absolute;inset:0;background-image:
   linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
   linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px),
-  radial-gradient(rgba(149,195,93,.12) 1px,transparent 1.2px);
+  radial-gradient(rgba(149,195,93,.1) 1px,transparent 1.2px);
   background-size:88px 88px,88px 88px,22px 22px;
-  mask:radial-gradient(65% 55% at 50% 35%,#000 15%,transparent 100%)}
+  mask:radial-gradient(65% 55% at 50% 30%,#000 15%,transparent 100%)}
 .shell{position:relative;z-index:1}
 .top{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:12px 20px;background:rgba(10,16,14,.72);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);
   border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:12px}
-.brand img{width:48px;height:48px;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(149,195,93,.35))}
+.brand img{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 4px 14px rgba(149,195,93,.4))}
 .brand b{display:block;font:700 12.5px var(--body);letter-spacing:.2em}
 .brand small{color:var(--muted);font-size:11px}
 .nav{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
 .nav a{font:600 12.5px var(--body);padding:8px 12px;border-radius:999px;color:var(--muted)}
 .nav a:hover,.nav a.on{color:var(--text);background:rgba(149,195,93,.12)}
 .btn{display:inline-flex;align-items:center;justify-content:center;font:700 13px var(--body);padding:11px 18px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);cursor:pointer}
 .btn-g{background:linear-gradient(135deg,var(--g1),var(--g2));color:#0a100e;border:0;box-shadow:0 14px 30px -16px rgba(149,195,93,.75)}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-.hero{padding:64px 0 40px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
-@media(max-width:900px){.hero{grid-template-columns:1fr}.nav a:not(.keep){display:none}}
+.hero{padding:48px 0 32px;display:grid;grid-template-columns:1.05fr 1fr;gap:24px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.nav a:not(.keep){display:none}.stage{min-height:320px!important}}
 .eyebrow{display:inline-flex;gap:8px;align-items:center;font:600 11px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--g2)}
 .eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--g2);box-shadow:0 0 12px var(--g2)}
-h1{font:700 clamp(32px,5vw,52px)/1.1 var(--display);margin:12px 0 14px;letter-spacing:-.02em;max-width:18ch}
+h1{font:700 clamp(30px,4.8vw,50px)/1.1 var(--display);margin:12px 0 14px;letter-spacing:-.02em;max-width:18ch}
 h1 em{font-style:normal;color:var(--g2)}
-.lede{color:var(--muted);font-size:17px;max-width:48ch;margin:0 0 22px}
+.lede{color:var(--muted);font-size:16.5px;max-width:46ch;margin:0 0 20px}
 .cta{display:flex;flex-wrap:wrap;gap:10px}
 .glass{background:var(--glass);border:1px solid rgba(255,255,255,.12);border-radius:24px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 24px 48px -28px rgba(0,0,0,.65);
   backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4)}
-.hero-vis{position:relative;min-height:300px;overflow:hidden;padding:20px}
-.hero-vis .orb{position:absolute;inset:16%;border-radius:50%;border:1px dashed rgba(149,195,93,.28)}
-.hero-vis .orb2{inset:28%}
-.hero-vis .blob{position:absolute;left:50%;top:46%;width:100px;height:100px;margin:-50px 0 0 -50px;border-radius:50%;
-  background:radial-gradient(32% 22% at 34% 22%,#fff,rgba(255,255,255,.3) 45%,transparent 70%),
-  radial-gradient(80% 55% at 50% 100%,rgba(71,116,75,.6),transparent 70%),rgba(71,116,75,.25);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 18px 36px -14px rgba(0,0,0,.7);
-  display:grid;place-items:center;animation:breath 6s ease-in-out infinite}
-.hero-vis .blob img{width:54px;height:54px;object-fit:contain}
-@keyframes breath{0%,100%{border-radius:50%}40%{border-radius:46% 54% 52% 48%}70%{border-radius:54% 46% 48% 52%}}
-.chips{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:200px}
+.stage{position:relative;min-height:380px;overflow:hidden;border-radius:28px}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.drop{position:absolute;left:0;top:0;border-radius:50%;will-change:transform;
+  background:
+    radial-gradient(32% 22% at 34% 22%,rgba(255,255,255,.95),rgba(255,255,255,.28) 48%,transparent 72%),
+    radial-gradient(80% 55% at 50% 100%,color-mix(in srgb,var(--c,#95C35D) 55%,transparent),transparent 70%),
+    radial-gradient(120% 120% at 28% 18%,rgba(255,255,255,.1),rgba(0,0,0,.18));
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.55),
+    inset 0 1.5px 1px rgba(255,255,255,.75),
+    inset 3px 2px 5px -2px rgba(71,116,75,.35),
+    inset -3px -2px 5px -2px rgba(149,195,93,.4),
+    0 16px 28px -14px rgba(0,0,0,.65),
+    0 4px 20px -8px color-mix(in srgb,var(--c,#95C35D) 50%,transparent);
+  backdrop-filter:saturate(1.7) brightness(1.1);-webkit-backdrop-filter:saturate(1.7) brightness(1.1);
+  cursor:grab;touch-action:none}
+.drop.core{cursor:pointer}
+.drop.held{cursor:grabbing}
+.stage-label{position:absolute;left:14px;bottom:12px;z-index:5;font:600 10px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .chip{font:600 10.5px var(--body);letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:rgba(0,0,0,.25)}
-.sec{padding:52px 0}
+.sec{padding:48px 0}
 .sec h2{font:700 clamp(26px,3.4vw,34px)/1.15 var(--display);margin:0 0 8px}
 .sec .sub{color:var(--muted);max-width:58ch;margin:0 0 24px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -79,29 +88,22 @@ h1 em{font-style:normal;color:var(--g2)}
 .card{padding:20px}
 .card .dot{width:10px;height:10px;border-radius:50%;background:var(--g2);box-shadow:0 0 12px var(--g2);margin-bottom:12px}
 .card h3{font:700 18px var(--display);margin:0 0 8px}
-.card p,.card li{color:var(--muted);font-size:14.5px;margin:0}
+.card p{color:var(--muted);font-size:14.5px;margin:0}
 .news{display:grid;gap:12px}
 .news article{padding:18px 20px;display:grid;gap:6px}
 .news .tag{font:600 11px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--g2)}
 .news h3{font:700 18px var(--display);margin:0}
 .news p{color:var(--muted);margin:0;font-size:14.5px}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:700px){.gallery{grid-template-columns:1fr}}
-.gallery figure{margin:0;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:#000}
-.gallery img{width:100%;height:180px;object-fit:cover;display:block;opacity:.92}
-.gallery figcaption{padding:10px 12px;font-size:12px;color:var(--dim)}
 .table{width:100%;border-collapse:collapse;font-size:14px}
 .table th,.table td{text-align:left;padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
 .table th{color:var(--g3);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
-.table td{color:var(--muted)}
-.table strong{color:var(--text)}
+.table td{color:var(--muted)}.table strong{color:var(--text)}
 .note{margin-top:14px;padding:12px 14px;border-radius:14px;border:1px dashed rgba(149,195,93,.35);color:var(--dim);font-size:13px}
 .links a{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);color:var(--muted)}
 .links a:hover{color:var(--text);background:rgba(149,195,93,.06)}
 .links a b{color:var(--text)}
 .foot{margin-top:40px;padding:28px 0 48px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;color:var(--dim);font-size:13px}
 .badge{display:inline-block;padding:7px 12px;border-radius:999px;background:rgba(149,195,93,.1);border:1px solid rgba(149,195,93,.28);color:var(--g3);font-size:12px}
-@media(prefers-reduced-motion:reduce){.hero-vis .blob{animation:none}}
 </style>
 </head>
 <body>
@@ -109,7 +111,7 @@ h1 em{font-style:normal;color:var(--g2)}
 <div class="shell">
 <header class="top">
   <a class="brand" href="/acoi/">
-    <img src="https://static.wixstatic.com/media/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png" width="48" height="48" alt="Logo ACOI">
+    <img src="assets/logo.svg" width="44" height="44" alt="ACOI">
     <div><b>ACOI</b><small>Asociación Colombiana de Inmunología</small></div>
   </a>
   <nav class="nav" aria-label="Principal">
@@ -118,7 +120,6 @@ h1 em{font-style:normal;color:var(--g2)}
     <a href="#eventos">Eventos</a>
     <a href="#asociacion">Asociación</a>
     <a href="#membresia" class="keep">Membresía</a>
-    <a href="#publicaciones">Publicaciones</a>
     <a href="#enlaces">Enlaces</a>
     <a class="btn btn-g keep" href="#membresia">Unirme</a>
   </nav>
@@ -127,113 +128,77 @@ h1 em{font-style:normal;color:var(--g2)}
 <main class="wrap">
 <section class="hero">
   <div>
-    <div class="eyebrow"><i></i> Versión actualizada · propuesta 2027</div>
-    <h1>La red científica de la <em>inmunología</em> en Colombia</h1>
-    <p class="lede">Sitio reconstruido a partir de inmunoacoi.com y del archivo de marca ACOI: noticias, eventos, membresía y comunidad — con la claridad visual y el rigor de diseño de Studio Brian Zuleta.</p>
+    <div class="eyebrow"><i></i> Propuesta 2027 · liquid glass</div>
+    <h1>La inmunología colombiana, en forma de <em>materia viva</em></h1>
+    <p class="lede">El imagotipo ACOI —células, red, defensa— materializado como gotas de liquid glass: física suave tipo Promii, colores del manual (#47744B · #95C35D).</p>
     <div class="cta">
       <a class="btn btn-g" href="#membresia">Convertirse en miembro</a>
-      <a class="btn" href="https://www.inmunoacoi.com/" target="_blank" rel="noopener">Ver sitio actual (Wix)</a>
+      <button class="btn" type="button" id="reformBtn">Rearmar el logo</button>
+    </div>
+    <div class="chips">
+      <span class="chip">Marca ACOI</span>
+      <span class="chip">Liquid glass</span>
+      <span class="chip">Arrastra las gotas</span>
     </div>
   </div>
-  <div class="glass hero-vis">
-    <div class="orb"></div><div class="orb orb2"></div>
-    <div class="blob"><img src="https://static.wixstatic.com/media/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png" alt=""></div>
-    <div class="chips">
-      <span class="chip">Marca 2023</span>
-      <span class="chip">#47744B</span>
-      <span class="chip">#95C35D</span>
-      <span class="chip">promii.co/acoi</span>
-    </div>
+  <div class="glass stage" id="stage" aria-label="Logo ACOI en liquid glass">
+    <canvas id="trail" aria-hidden="true"></canvas>
+    <div id="world"></div>
+    <div class="stage-label">Toca · arrastra · rearmar</div>
   </div>
 </section>
 
 <section class="sec" id="noticias">
   <h2>Noticias recientes</h2>
-  <p class="sub">Contenido publicado por ACOI en su canal oficial y sitio web.</p>
+  <p class="sub">Contenido publicado por ACOI.</p>
   <div class="news">
     <article class="glass">
       <span class="tag">Reconocimiento</span>
       <h3>Dra. Gloria Vásquez — Maestra de la Reumatología Panamericana</h3>
-      <p>Felicitamos a la Dra. Gloria Vásquez por el reconocimiento durante la inauguración del Congreso PANLAR 2025 en Ciudad de México. Un orgullo para ACOI.</p>
+      <p>Reconocimiento en el Congreso PANLAR 2025, Ciudad de México. Un orgullo para ACOI.</p>
     </article>
     <article class="glass">
       <span class="tag">Comunidad</span>
       <h3>Promociones académicas de miembros ACOI</h3>
-      <p>Luz Stella Rodríguez y Nelly Roa, miembros ACOI, promovidas a profesoras titulares en Medicina y Odontología en la Pontificia Universidad Javeriana.</p>
+      <p>Luz Stella Rodríguez y Nelly Roa, profesoras titulares en la Pontificia Universidad Javeriana.</p>
     </article>
   </div>
 </section>
 
 <section class="sec" id="eventos">
-  <h2>Eventos ACOI</h2>
-  <p class="sub">Convocatorias y encuentros comunicados por la asociación.</p>
+  <h2>Eventos</h2>
   <div class="grid2">
-    <article class="glass card">
-      <div class="dot"></div>
-      <h3>II Simposio Latinoamericano de Inmunología de Mucosas (LAMIG)</h3>
-      <p>Encuentro regional para avanzar investigación y colaboración en inmunología de mucosas. Información en <a href="https://lamig.co/" style="color:var(--g2)" target="_blank" rel="noopener">lamig.co</a>.</p>
-    </article>
-    <article class="glass card">
-      <div class="dot"></div>
-      <h3>XV Congreso ACAAI · VII Encuentro ACOI</h3>
-      <p>Ciencia y actualización conjunta con la Asociación Colombiana de Alergia, Asma e Inmunología. Detalle histórico: Pereira, Expofuturo (sep 2025).</p>
-    </article>
+    <article class="glass card"><div class="dot"></div><h3>II Simposio LAMIG</h3><p>Inmunología de mucosas. <a href="https://lamig.co/" style="color:var(--g2)" target="_blank" rel="noopener">lamig.co</a></p></article>
+    <article class="glass card"><div class="dot"></div><h3>Congreso ACAAI · Encuentro ACOI</h3><p>Referencia histórica: Pereira, Expofuturo (sep 2025).</p></article>
   </div>
-  <p class="note">Calendario 2026–2027: [VALIDAR CON ACOI] antes de publicar fechas nuevas.</p>
+  <p class="note">Calendario 2026–2027: [VALIDAR CON ACOI].</p>
 </section>
 
 <section class="sec" id="asociacion">
   <h2>La asociación</h2>
-  <p class="sub">Texto institucional basado en la página pública de inmunoacoi.com.</p>
   <div class="grid2">
     <div class="glass card">
-      <p>La Asociación Colombiana de Inmunología (ACOI) lleva más de una década de funcionamiento. Reúne profesionales del área de la salud dedicados a la academia e investigación en inmunología.</p>
-      <p style="margin-top:12px">De la ACOI hacen parte profesionales en bacteriología, biología, medicina, odontología y microbiología, además de estudiantes de pregrado y posgrado.</p>
-      <p style="margin-top:12px">ACOI hace parte de la Asociación Colombiana de Sociedades Científicas (ACSC). Pueden aplicar personas residentes en Colombia o en el exterior.</p>
+      <p>ACOI lleva más de una década reuniendo profesionales de la salud en inmunología: bacteriología, biología, medicina, odontología, microbiología y posgrado.</p>
+      <p style="margin-top:12px">Parte de la ACSC. Membresías: titular, adjunto, adherente.</p>
     </div>
     <div class="glass card">
-      <h3 style="margin-bottom:12px">Liderazgo (referencia 2024–2026)</h3>
-      <p><strong style="color:var(--text)">Presidente:</strong> Dr. John Mario González Escobar</p>
-      <p style="margin-top:8px">Junta referida en materiales del proyecto — [VALIDAR CON ACOI] composición vigente 2026.</p>
-      <p style="margin-top:14px">Contacto público: <a href="mailto:asistenteacoi@gmail.com" style="color:var(--g2)">asistenteacoi@gmail.com</a></p>
+      <h3 style="margin-bottom:10px">Presidencia 2024–2026</h3>
+      <p><strong style="color:var(--text)">Dr. John Mario González Escobar</strong></p>
+      <p style="margin-top:12px">Contacto: <a href="mailto:asistenteacoi@gmail.com" style="color:var(--g2)">asistenteacoi@gmail.com</a></p>
     </div>
   </div>
-</section>
-
-<section class="sec" id="marca">
-  <h2>Identidad visual</h2>
-  <p class="sub">Piezas del archivo de marca ACOI (Drive · uso digital y presentaciones).</p>
-  <div class="gallery">
-    <figure>
-      <img src="https://static.wixstatic.com/media/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/378652_e3aa8fe1fbe44a179fc8c1f04faa427b%7Emv2.png" alt="Logo ACOI" style="object-fit:contain;background:#0e1612;padding:24px;height:180px">
-      <figcaption>Logo oficial · uso digital</figcaption>
-    </figure>
-    <figure>
-      <img src="https://drive.google.com/uc?export=view&id=1c_CgJDCJ2X0kWlNN0qVQ1yagxmMY_K5y" alt="Pieza de marca ACOI" loading="lazy" onerror="this.parentElement.style.display='none'">
-      <figcaption>Pieza de presentación · archivo marca</figcaption>
-    </figure>
-    <figure>
-      <img src="https://drive.google.com/uc?export=view&id=1k1DqXxy9i86UyrsC6BwCKcwJxZRqlAb1" alt="Pieza de marca ACOI" loading="lazy" onerror="this.parentElement.style.display='none'">
-      <figcaption>Aplicación gráfica · slides ACOI</figcaption>
-    </figure>
-  </div>
-  <p class="note">Paleta manual 2023: verde oscuro #47744B · verde claro #95C35D · imagotipo circular.</p>
 </section>
 
 <section class="sec" id="membresia">
-  <h2>Convertirse en miembro</h2>
-  <p class="sub">Categorías y proceso publicados en inmunoacoi.com/convertirse-en-miembro.</p>
+  <h2>Membresía</h2>
+  <p class="sub">Según inmunoacoi.com/convertirse-en-miembro.</p>
   <div class="grid3">
-    <article class="glass card"><div class="dot"></div><h3>Titulares</h3><p>Profesionales con título y trabajo en inmunología o áreas afines, con posgrado (maestría y/o doctorado) o reconocimiento por aportes y publicaciones; admitidos por la Junta Directiva.</p></article>
-    <article class="glass card"><div class="dot"></div><h3>Adjuntos</h3><p>Estudiantes de posgrado y profesionales en inmunología que no cumplen requisitos de titular; admitidos por la Junta Directiva.</p></article>
-    <article class="glass card"><div class="dot"></div><h3>Adherentes</h3><p>Estudiantes de pregrado admitidos por la Junta Directiva. Presentan carta de recomendación de un miembro adjunto o titular.</p></article>
-  </div>
-  <div class="glass" style="padding:18px 20px;margin-top:14px">
-    <h3 style="font:700 17px var(--display);margin:0 0 10px">Cómo inscribirse</h3>
-    <p style="color:var(--muted);font-size:14.5px;margin:0">Solicitud escrita a la junta con motivaciones y hoja de vida. Aceptación por mayoría absoluta de la Junta Directiva. Contacto: <a href="mailto:asistenteacoi@gmail.com?subject=Inscripci%C3%B3n%20ACOI" style="color:var(--g2)">asistenteacoi@gmail.com</a></p>
+    <article class="glass card"><div class="dot"></div><h3>Titulares</h3><p>Profesionales con posgrado o reconocimiento; admitidos por la Junta.</p></article>
+    <article class="glass card"><div class="dot"></div><h3>Adjuntos</h3><p>Posgrado y profesionales que no cumplen requisitos de titular.</p></article>
+    <article class="glass card"><div class="dot"></div><h3>Adherentes</h3><p>Pregrado; carta de un titular o adjunto.</p></article>
   </div>
   <div class="glass" style="padding:18px 20px;margin-top:14px;overflow:auto">
-    <h3 style="font:700 17px var(--display);margin:0 0 10px">Cuota de afiliación (publicada 2025)</h3>
+    <h3 style="font:700 17px var(--display);margin:0 0 10px">Cuota publicada 2025</h3>
     <table class="table">
       <thead><tr><th>Categoría</th><th>Valor</th></tr></thead>
       <tbody>
@@ -243,63 +208,165 @@ h1 em{font-style:normal;color:var(--g2)}
         <tr><td><strong>Adherentes</strong></td><td>No pagan</td></tr>
       </tbody>
     </table>
-    <p style="color:var(--muted);font-size:13.5px;margin:12px 0 0">Consignación: cuenta de ahorros Davivienda <strong style="color:var(--text)">005170220361</strong>, a nombre de Asociación Colombiana de Inmunología (ACOI), NIT <strong style="color:var(--text)">900553220-1</strong>. Enviar copia del recibo a asistenteacoi@gmail.com.</p>
-    <p class="note">Valores del sitio oficial 2025. [VALIDAR CON ACOI] si hay actualización 2026/2027.</p>
-  </div>
-  <div class="glass card" style="margin-top:14px">
-    <h3>Beneficios publicados</h3>
-    <ul style="margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:14.5px">
-      <li>Registro gratuito al Congreso ACAAI–ACOI</li>
-      <li>Acceso a información de miembros para evaluadores y cooperaciones</li>
-      <li>Acceso a artículos de autoría de miembros ACOI</li>
-      <li>Blog de Inmunología para intercambio técnico</li>
-      <li>Descuentos en cursos ACOI</li>
-      <li>Participación en convocatorias y apoyos para publicaciones y eventos</li>
-    </ul>
-  </div>
-</section>
-
-<section class="sec" id="publicaciones">
-  <h2>Publicaciones</h2>
-  <p class="sub">Espacio equivalente a la sección de publicaciones del sitio actual.</p>
-  <div class="glass card">
-    <p>En el sitio Wix, las publicaciones de asociados se presentan con enlaces a revistas. En esta versión 2027 el bloque queda listo para cargar portadas y DOI cuando la junta envíe el listado actualizado.</p>
-    <p style="margin-top:12px"><a class="btn" href="https://www.inmunoacoi.com/s-projects-basic" target="_blank" rel="noopener">Ver publicaciones en el sitio actual</a></p>
+    <p style="color:var(--muted);font-size:13.5px;margin:12px 0 0">Davivienda <strong style="color:var(--text)">005170220361</strong> · ACOI · NIT <strong style="color:var(--text)">900553220-1</strong></p>
+    <p class="note">[VALIDAR CON ACOI] tarifas 2026/2027.</p>
   </div>
 </section>
 
 <section class="sec" id="enlaces">
-  <h2>Enlaces de interés</h2>
+  <h2>Enlaces</h2>
   <div class="glass links">
-    <a href="https://lamig.co/" target="_blank" rel="noopener"><span><b>LAMIG</b> — Inmunología de mucosas</span><span>→</span></a>
-    <a href="https://congresoacaai.com/" target="_blank" rel="noopener"><span><b>ACAAI</b> — Congreso y red de alergia</span><span>→</span></a>
-    <a href="https://www.inmunoacoi.com/" target="_blank" rel="noopener"><span><b>Sitio actual ACOI</b> — inmunoacoi.com</span><span>→</span></a>
-    <a href="https://x.com/inmunoacoi" target="_blank" rel="noopener"><span><b>X / Twitter</b> — @inmunoacoi</span><span>→</span></a>
-  </div>
-</section>
-
-<section class="sec" id="contacto">
-  <h2>Contacto</h2>
-  <div class="glass" style="padding:22px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center">
-    <div>
-      <div style="font:700 18px var(--display)">Asociación Colombiana de Inmunología</div>
-      <p style="color:var(--muted);margin:8px 0 0;font-size:14.5px">
-        Correo: <a href="mailto:asistenteacoi@gmail.com" style="color:var(--g2)">asistenteacoi@gmail.com</a><br>
-        Dominios del proyecto: inmunoacoi.com · inmunoacoi.co · (futuro acoi.co)
-      </p>
-    </div>
-    <a class="btn btn-g" href="mailto:asistenteacoi@gmail.com">Escribir a ACOI</a>
+    <a href="https://lamig.co/" target="_blank" rel="noopener"><span><b>LAMIG</b></span><span>→</span></a>
+    <a href="https://congresoacaai.com/" target="_blank" rel="noopener"><span><b>ACAAI</b></span><span>→</span></a>
+    <a href="https://www.inmunoacoi.com/" target="_blank" rel="noopener"><span><b>Sitio actual</b></span><span>→</span></a>
+    <a href="https://x.com/inmunoacoi" target="_blank" rel="noopener"><span><b>@inmunoacoi</b></span><span>→</span></a>
   </div>
 </section>
 
 <footer class="foot">
   <div>
-    <span class="badge">Preview no oficial · trabajo de campo Studio Brian Zuleta</span>
-    <div style="margin-top:10px">Clon actualizado de inmunoacoi.com + archivo gráfico ACOI · alojado en promii.co/acoi/</div>
+    <span class="badge">Preview · Studio Brian Zuleta</span>
+    <div style="margin-top:10px">Logo materializado en liquid glass · promii.co/acoi/</div>
   </div>
-  <div>Cuando el dominio del cliente esté listo, esta base se publica allí o se enlaza por CNAME.</div>
+  <div>Física inspirada en Promii · marca ACOI.</div>
 </footer>
 </main>
 </div>
+<script>
+(function(){
+  var stage=document.getElementById('stage'), world=document.getElementById('world'), trail=document.getElementById('trail');
+  var tx=trail.getContext('2d'), RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var W=0,H=0,bodies=[],held=null,run=false,last=0,cx=0,cy=0;
+  var G1='#47744B', G2='#95C35D', G3='#c8e6a0';
+  var FORM=[
+    {x:0,y:0,r:0.22,c:G1,core:1},
+    {x:-0.28,y:-0.42,r:0.09,c:G2},
+    {x:0,y:-0.48,r:0.09,c:G2},
+    {x:0.28,y:-0.42,r:0.09,c:G2},
+    {x:-0.48,y:0.12,r:0.12,c:G2},
+    {x:0.48,y:0.12,r:0.12,c:G2},
+    {x:-0.18,y:0.38,r:0.07,c:G3},
+    {x:0.18,y:0.38,r:0.07,c:G3}
+  ];
+  function size(){
+    var r=stage.getBoundingClientRect();
+    W=r.width; H=r.height; cx=W/2; cy=H*0.48;
+    var d=Math.min(devicePixelRatio||1,2);
+    trail.width=W*d; trail.height=H*d;
+    tx.setTransform(d,0,0,d,0,0);
+  }
+  function mk(o){
+    var el=document.createElement('div');
+    el.className='drop'+(o.core?' core':'');
+    el.style.setProperty('--c',o.c);
+    el.style.width=el.style.height=(o.R*2)+'px';
+    world.appendChild(el);
+    var b={el:el,x:o.x,y:o.y,vx:0,vy:0,r:o.R,homeX:o.hx,homeY:o.hy,c:o.c,core:!!o.core};
+    bind(b); bodies.push(b); return b;
+  }
+  function placeForm(){
+    var scale=Math.min(W,H)*0.42;
+    bodies.forEach(function(b){b.el.remove();}); bodies=[];
+    FORM.forEach(function(f){
+      var R=Math.max(14,f.r*scale*2);
+      var hx=cx+f.x*scale, hy=cy+f.y*scale;
+      var ang=Math.random()*Math.PI*2, dist=40+Math.random()*80;
+      mk({x:hx+Math.cos(ang)*dist,y:hy+Math.sin(ang)*dist,R:R,hx:hx,hy:hy,c:f.c,core:f.core});
+    });
+  }
+  function bind(b){
+    var el=b.el, down=null;
+    el.addEventListener('pointerdown',function(e){
+      if(e.button>0)return;
+      down={x:e.clientX,y:e.clientY,h:[]};
+      el.setPointerCapture(e.pointerId);
+    });
+    el.addEventListener('pointermove',function(e){
+      if(!down)return;
+      if(Math.hypot(e.clientX-down.x,e.clientY-down.y)>5){held=b;el.classList.add('held');}
+      if(held===b){
+        var R=stage.getBoundingClientRect();
+        b.x=e.clientX-R.left; b.y=e.clientY-R.top;
+        down.h.push({x:e.clientX,y:e.clientY,t:performance.now()});
+        if(down.h.length>5)down.h.shift(); wake();
+      }
+    });
+    function up(){
+      if(!down)return;
+      if(held===b){
+        var h=down.h;
+        if(h.length>1){var a=h[0],z=h[h.length-1],dt=Math.max((z.t-a.t)/1000,.01);b.vx=(z.x-a.x)/dt;b.vy=(z.y-a.y)/dt;}
+        held=null; el.classList.remove('held');
+      }
+      down=null;
+    }
+    el.addEventListener('pointerup',up);
+    el.addEventListener('pointercancel',function(){down=null;held=null;el.classList.remove('held');});
+  }
+  function step(dt){
+    var k=4.2, damp=1-Math.min(.92,.55*dt);
+    bodies.forEach(function(b){
+      if(b===held)return;
+      var ax=(b.homeX-b.x)*k, ay=(b.homeY-b.y)*k;
+      b.vx=(b.vx+ax*dt)*damp; b.vy=(b.vy+ay*dt)*damp;
+      b.x+=b.vx*dt; b.y+=b.vy*dt;
+      if(b.x<b.r){b.x=b.r;b.vx*=-.4} if(b.x>W-b.r){b.x=W-b.r;b.vx*=-.4}
+      if(b.y<b.r){b.y=b.r;b.vy*=-.4} if(b.y>H-b.r){b.y=H-b.r;b.vy*=-.4}
+    });
+    for(var i=0;i<bodies.length;i++)for(var j=i+1;j<bodies.length;j++){
+      var a=bodies[i],b=bodies[j],dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),min=a.r+b.r;
+      if(d>0&&d<min){
+        var nx=dx/d,ny=dy/d,ov=(min-d)/2;
+        if(a!==held){a.x-=nx*ov;a.y-=ny*ov} if(b!==held){b.x+=nx*ov;b.y+=ny*ov}
+        var rv=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;
+        if(rv<0){var J=-0.35*rv; if(a!==held){a.vx-=J*nx;a.vy-=J*ny} if(b!==held){b.vx+=J*nx;b.vy+=J*ny}}
+      }
+    }
+  }
+  function render(){
+    bodies.forEach(function(b){
+      var sp=Math.hypot(b.vx,b.vy),k=Math.min(sp/900,.18),a=Math.atan2(b.vy,b.vx)*57.3;
+      b.el.style.transform='translate3d('+(b.x-b.r).toFixed(1)+'px,'+(b.y-b.r).toFixed(1)+'px,0)'+
+        (k>.01?' rotate('+a.toFixed(1)+'deg) scale('+(1+k).toFixed(3)+','+(1-k*.6).toFixed(3)+') rotate('+(-a).toFixed(1)+'deg)':'');
+    });
+  }
+  function trails(){
+    tx.globalCompositeOperation='destination-out';
+    tx.fillStyle='rgba(0,0,0,.08)'; tx.fillRect(0,0,W,H);
+    tx.globalCompositeOperation='source-over';
+    bodies.forEach(function(b){
+      if(b.px==null){b.px=b.x;b.py=b.y;return}
+      tx.strokeStyle=b.c; tx.globalAlpha=.35; tx.lineWidth=2;
+      tx.beginPath(); tx.moveTo(b.px,b.py); tx.lineTo(b.x,b.y); tx.stroke();
+      tx.globalAlpha=1; b.px=b.x; b.py=b.y;
+    });
+  }
+  function loop(t){
+    var dt=Math.min((t-last)/1000,1/30); last=t;
+    if(document.hidden){run=false;return}
+    step(dt); render(); trails();
+    var moving=held||bodies.some(function(b){return Math.abs(b.vx)+Math.abs(b.vy)>4});
+    if(moving) requestAnimationFrame(loop); else run=false;
+  }
+  function wake(){if(!run&&!RM){run=true;last=performance.now();requestAnimationFrame(loop)}}
+  function reform(){
+    var scale=Math.min(W,H)*0.42;
+    bodies.forEach(function(b,i){
+      var f=FORM[i]; if(!f)return;
+      b.homeX=cx+f.x*scale; b.homeY=cy+f.y*scale;
+      b.vx+=(Math.random()-.5)*200; b.vy+=(Math.random()-.5)*200;
+    });
+    wake();
+  }
+  function boot(){
+    size(); placeForm(); render();
+    if(RM){bodies.forEach(function(b){b.x=b.homeX;b.y=b.homeY;b.vx=b.vy=0}); render()}
+    else {wake(); setTimeout(reform,400)}
+  }
+  document.getElementById('reformBtn').addEventListener('click',reform);
+  addEventListener('resize',function(){size(); reform();});
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
+})();
+</script>
 </body>
 </html>
