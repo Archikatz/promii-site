@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ACOI">
+  <g transform="translate(256 230)">
+    <circle r="180" fill="#47744B"/>
+    <circle cx="-48" cy="-110" r="22" fill="#95C35D"/>
+    <circle cx="0" cy="-125" r="22" fill="#95C35D"/>
+    <circle cx="48" cy="-110" r="22" fill="#95C35D"/>
+    <path d="M0 20 L0 115 M0 20 L-75 -35 M0 20 L75 -35" stroke="#ffffff" stroke-width="36" stroke-linecap="round" fill="none"/>
+    <circle cx="-95" cy="25" r="28" fill="#95C35D"/>
+    <circle cx="95" cy="25" r="28" fill="#95C35D"/>
+  </g>
+</svg>
