@@ -76,6 +76,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 24. **Universo editorial ArchiKatz:** `promii.co/editorial/` con el prefacio de Brian (manuscrito Vol. 1 en Drive), los Guardianes Elementales (haikus y lore reales), los 5 personajes del Vol. 2, los 10 capítulos, los recurrentes (Brian gemelo digital, Michi, Milo), webtoon, galería y el sello editorial con lista de espera (MailerLite interests=magazine). Lector de webtoon vertical `editorial/toon.html?ep=` alimentado por `editorial/episodes.json`; Episodio 0 "La Guardiana del Umbral" (10 viñetas con arte provisional en SVG y prompt por viñeta). Para poner arte real: generar la viñeta (filas WT-00-xx de la matriz de imágenes), guardar en `editorial/img/` y poner la ruta en `img` del panel. Galería: agregar imágenes a `editorial/gallery.json` ({img, title:{es,en}}).
 
+25. **Analítica por áreas en el panel:** `admin_summary` ahora agrupa por área del sitio (función `area_of(path)`: Portafolio, Bienvenida, Blog, Academy, Lab, Juegos, Studio, Editorial) con visitantes, vistas, tiempo, clics, partidas y formularios; páginas más vistas (artículos `?p=` y episodios `?ep=` por separado); juegos (partidas, jugadores, promedio, mejor y entradas al ranking); uso de herramientas (clics en Studio, editorial, juegos, Academy y bienvenida). El mapa de calor y el scroll quedan solo para el portafolio. Pendiente de decisión: si ArchiKatz Studio se abre al público con inicio de sesión y cuotas (requiere un proxy con las claves de Brian y control de costos) o sigue con la clave propia de cada usuario.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.

@@ -71,6 +71,7 @@ h2{font:600 15px var(--display);margin:0 0 4px;letter-spacing:-.005em}
 .kpi small{color:var(--dim);font-size:12px}
 .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:14px}
 .card{padding:20px;min-width:0}
+.tbl{overflow-x:auto}.tbl table{width:100%;border-collapse:collapse;font-size:13.5px}.tbl th{text-align:left;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}.tbl td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}.tbl td:not(:first-child),.tbl th:not(:first-child){text-align:right}
 .c12{grid-column:span 12}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}
 @media (max-width:980px){.c8,.c6,.c4{grid-column:span 12}}
 .chart{position:relative}
@@ -243,7 +244,11 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
     <div class="kpis" id="kpis"></div>
     <div class="grid">
       <section class="glass card c12"><h2>Visitantes por día</h2><p class="sub" id="dailySub"></p><div class="chart" id="daily"></div></section>
-      <section class="glass card c6"><h2>Tiempo por sección</h2><p class="sub">Segundos totales que la gente pasa viendo cada parte</p><div class="rows" id="sections"></div></section>
+      <section class="glass card c12"><h2>Áreas del sitio</h2><p class="sub">Cómo usan cada parte de promii.co: portafolio, bienvenida, blog, Academy, Lab, juegos, Studio y editorial</p><div class="tbl" id="areas"></div></section>
+      <section class="glass card c6"><h2>Páginas más vistas</h2><p class="sub">Vistas por página (incluye artículos, juegos y episodios)</p><div class="rows" id="pages"></div></section>
+      <section class="glass card c6"><h2>Juegos</h2><p class="sub">Partidas, jugadores y puntajes</p><div class="tbl" id="games"></div></section>
+      <section class="glass card c6"><h2>Uso de herramientas</h2><p class="sub">Qué tocan en Studio, el editorial, los juegos, Academy y la bienvenida</p><div class="rows" id="tools"></div></section>
+      <section class="glass card c6"><h2>Tiempo por sección del portafolio</h2><p class="sub">Segundos totales que la gente pasa viendo cada parte</p><div class="rows" id="sections"></div></section>
       <section class="glass card c6"><h2>Dónde hacen clic</h2><p class="sub">Elementos más tocados</p><div class="rows" id="clicks"></div></section>
       <section class="glass card c4"><h2>Hasta dónde bajan</h2><p class="sub">Sesiones por profundidad máxima de scroll</p><div class="rows" id="scroll"></div></section>
       <section class="glass card c4"><h2>De dónde llegan</h2><p class="sub">Sitio de origen</p><div class="rows" id="refs"></div></section>
@@ -255,7 +260,10 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
       <section class="glass card c12"><h2>Biblioteca</h2><p class="sub">Herramientas de diseño de la página</p>
         <div class="links">
           <a href="../lab/inventario.html"><b>Inventario de movimiento</b><small>Todas las animaciones y su revisión de estilo</small></a>
-          <a href="../lab/"><b>Motion Lab</b><small>13 demos reutilizables</small></a>
+          <a href="../lab/"><b>Motion Lab</b><small>14 demos reutilizables</small></a>
+          <a href="../studio/"><b>ArchiKatz Studio</b><small>Personajes, escenas y prompts</small></a>
+          <a href="../editorial/"><b>Universo editorial</b><small>Webtoon, galería y sello</small></a>
+          <a href="../games/"><b>Promii Games</b><small>5 juegos con ranking</small></a>
           <a href="https://supabase.com/dashboard" target="_blank" rel="noopener"><b>Supabase ↗</b><small>Base de datos y usuarios</small></a>
         </div></section>
     </div>
@@ -327,6 +335,11 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
     spots.forEach(([x, y, n]) => { for (let i = 0; i < n * (d / 30); i++) heat.push([x + (r() - .5) * 14, y + (r() - .5) * 3]); });
     return {
       visitors: vis, views, sessions: Math.round(vis * 1.15), avg_time: 104 + d, bounce: 38, daily,
+      areas: [['Portafolio', 1], ['Bienvenida', .44], ['Blog', .31], ['Juegos', .27], ['Academy', .18], ['Editorial', .12], ['Lab', .09], ['Studio', .06]].map(([a, f]) => ({ area: a, visitors: Math.round(vis * f), views: Math.round(vis * f * 1.6), secs: Math.round(vis * f * 70), clicks: Math.round(vis * f * 3), plays: a === 'Juegos' ? Math.round(vis * f * 2.4) : 0, forms: a === 'Portafolio' ? Math.round(vis * .03) : 0 })),
+      pages: [['/', 'Portafolio', 1], ['/home/', 'Bienvenida', .44], ['/bitacora/?p=como-construi-promii', 'Blog', .2], ['/games/orbita.html', 'Juegos', .12], ['/academy/', 'Academy', .18], ['/editorial/toon.html', 'Editorial', .08]].map(([p, a, f]) => ({ path: p, area: a, views: Math.round(vis * f * 1.5), visitors: Math.round(vis * f) })),
+      games: [['orbita', .1], ['ruta', .08], ['ducto', .06], ['torre', .05], ['choques', .03]].map(([g, f]) => ({ game: g, plays: Math.round(vis * f * 3), players: Math.round(vis * f), avg_score: Math.round(20 + r() * 200), best: Math.round(300 + r() * 900) })),
+      saved: [{ game: 'orbita', entries: 12, best: 940 }, { game: 'ruta', entries: 8, best: 1210 }],
+      tools: [['Studio', '▶ EJECUTAR ARCHIKATZ OS'], ['Editorial', 'Leer el webtoon →'], ['Juegos', 'Retar a alguien ↗'], ['Bienvenida', 'Aprender'], ['Academy', 'Avisarme']].map(([a, l], i) => ({ area: a, label: l, n: Math.round(vis * (.12 - i * .015)) })),
       sections: [['top', 1.0], ['proyectos', .82], ['experiencia', .61], ['servicios', .47], ['sobre', .35], ['cotizar', .26], ['contacto', .21], ['habilidades', .15], ['why', .12], ['formacion', .08]].map(([k, f]) => ({ section: k, views: Math.round(vis * f), secs: Math.round(vis * f * (14 + r() * 30)) })),
       clicks: [['Ver proyectos →', 'top', .31], ['Servicios y cotizador', 'top', .19], ['↗ behance.net · Behance', 'contacto', .12], ['Agentic BIM: Claude ↔ Revit', 'proyectos', .11], ['↗ linkedin.com · LinkedIn', 'contacto', .1], ['IA y sistemas', 'proyectos', .09], ['EN', 'top', .08], ['↗ wa.me · WhatsApp', 'contacto', .07], ['Retainer DOB 40 h', 'servicios', .06], ['Enviar mensaje', 'contacto', .04]].map(([label, section, f]) => ({ label, section, n: Math.round(vis * f) })),
       refs: [['directo', .42], ['linkedin.com', .27], ['google.com', .14], ['behance.net', .09], ['instagram.com', .05], ['github.com', .03]].map(([ref, f]) => ({ ref, n: Math.round(views * f) })),
@@ -402,13 +415,19 @@ footer{color:var(--dim);font-size:12px;padding-block:24px 40px}
       .map(k => `<div class="glass kpi"><span>${k[0]}</span><b>${k[1]}</b><small>${k[2]}</small></div>`).join('');
     $('dailySub').textContent = per.charAt(0).toUpperCase() + per.slice(1);
     line($('daily'), r.daily.length ? r.daily : [{ day: new Date().toISOString().slice(0, 10), visitors: 0, views: 0 }]);
+    const AR = r.areas || [], tb = (h, b) => `<table><thead><tr>${h.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${b}</tbody></table>`;
+    $('areas').innerHTML = AR.length ? tb(['Área', 'Visitantes', 'Vistas', 'Tiempo', 'Clics', 'Partidas', 'Formularios'], AR.map(a => `<tr><td><b>${esc(a.area)}</b></td><td>${fmtN(a.visitors)}</td><td>${fmtN(a.views)}</td><td>${fmtT(a.secs)}</td><td>${fmtN(a.clicks)}</td><td>${fmtN(a.plays)}</td><td>${fmtN(a.forms)}</td></tr>`).join('')) : '<p class="sub">Aún no hay datos.</p>';
+    rows($('pages'), r.pages || [], x => `${esc(x.path)}<span class="tag">${esc(x.area)}</span>`, x => x.views);
+    const GN = { torre: 'Torre de niveles', choques: 'Detección de choques', ducto: 'Ducto', orbita: 'Órbita', ruta: 'Ruta de obra' }, SV = {}; (r.saved || []).forEach(x => SV[x.game] = x);
+    $('games').innerHTML = (r.games || []).length ? tb(['Juego', 'Partidas', 'Jugadores', 'Promedio', 'Mejor', 'En ranking'], r.games.map(g => `<tr><td><b>${esc(GN[g.game] || g.game)}</b></td><td>${fmtN(g.plays)}</td><td>${fmtN(g.players)}</td><td>${g.avg_score}</td><td>${fmtN(g.best)}</td><td>${SV[g.game] ? fmtN(SV[g.game].entries) : 0}</td></tr>`).join('')) : '<p class="sub">Aún no hay partidas.</p>';
+    rows($('tools'), r.tools || [], x => `${esc(x.label)}<span class="tag">${esc(x.area)}</span>`, x => x.n);
     rows($('sections'), r.sections, s => esc(NAMES[s.section] || s.section), s => s.secs, fmtT);
     rows($('clicks'), r.clicks, c => `${esc(c.label)}<span class="tag">${esc(NAMES[c.section] || c.section || '')}</span>`, c => c.n);
     rows($('scroll'), r.scroll, s => s.b >= 100 ? 'Hasta el final' : `Hasta ${s.b}%`, s => s.n, fmtN, true);
     rows($('refs'), r.refs, x => esc(x.ref), x => x.n);
     rows($('devices'), r.devices, x => ({ desktop: 'Escritorio', mobile: 'Celular', tablet: 'Tableta' })[x.device] || esc(x.device), x => x.n);
     rows($('langs'), r.langs, x => ({ es: 'Español', en: 'Inglés' })[x.lang] || esc(x.lang || '—'), x => x.n);
-    const T = { pageview: 'Visita', click: 'Clic', form: 'Formulario' };
+    const T = { pageview: 'Visita', click: 'Clic', form: 'Formulario', game: 'Partida' };
     $('feed').innerHTML = r.recent.length ? r.recent.map(e => `<div><time>${new Date(e.ts).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', hour12: false })}</time><span class="t">${T[e.type] || e.type}</span><span class="l">${esc(e.label || NAMES[e.section] || 'promii.co')}</span><span class="d">${e.device === 'mobile' ? 'Celular' : e.device === 'tablet' ? 'Tableta' : 'PC'}</span></div>`).join('') : '<p class="sub">Aún no hay actividad.</p>';
     heat(r.heat);
   }

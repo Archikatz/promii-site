@@ -17,7 +17,7 @@
   var q = [];
 
   function ev(type, extra) {
-    var o = { vid: vid, sid: sid, type: type, path: location.pathname, lang: document.documentElement.lang || '', device: device,
+    var o = { vid: vid, sid: sid, type: type, path: (location.pathname + (function () { var q = new URLSearchParams(location.search), k = q.get('p') ? 'p' : q.get('ep') ? 'ep' : null; return k ? '?' + k + '=' + q.get(k) : ''; })()).slice(0, 200), lang: document.documentElement.lang || '', device: device,
       vw: innerWidth, vh: innerHeight, dh: document.documentElement.scrollHeight, ts: new Date().toISOString() };
     for (var k in extra) o[k] = extra[k];
     q.push(o); if (q.length >= 20) flush();
