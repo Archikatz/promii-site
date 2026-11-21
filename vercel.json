@@ -4,167 +4,96 @@
     {
       "source": "/admin/(.*)",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        }
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=300"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=300" }
       ]
     }
   ],
   "redirects": [
+    { "source": "/bitacora", "destination": "/blog/", "permanent": true },
+    { "source": "/bitacora/", "destination": "/blog/", "permanent": true },
+    { "source": "/bitacora/:path*", "destination": "/blog/:path*", "permanent": false },
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "admin.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "admin.promii.co" }],
       "destination": "/admin/",
       "permanent": false
     },
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "bitacora.promii.co"
-        }
-      ],
-      "destination": "https://promii.co/bitacora/",
+      "has": [{ "type": "host", "value": "bitacora.promii.co" }],
+      "destination": "https://promii.co/blog/",
       "permanent": false
     },
     {
       "source": "/:path+",
-      "has": [
-        {
-          "type": "host",
-          "value": "bitacora.promii.co"
-        }
-      ],
-      "destination": "https://promii.co/bitacora/:path+",
+      "has": [{ "type": "host", "value": "bitacora.promii.co" }],
+      "destination": "https://promii.co/blog/:path+",
       "permanent": false
     },
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "lab.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "lab.promii.co" }],
       "destination": "https://promii.co/lab/",
       "permanent": false
     },
     {
       "source": "/:path+",
-      "has": [
-        {
-          "type": "host",
-          "value": "lab.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "lab.promii.co" }],
       "destination": "https://promii.co/lab/:path+",
       "permanent": false
     },
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "academy.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "academy.promii.co" }],
       "destination": "https://promii.co/academy/",
       "permanent": false
     },
     {
       "source": "/:path+",
-      "has": [
-        {
-          "type": "host",
-          "value": "academy.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "academy.promii.co" }],
       "destination": "https://promii.co/academy/:path+",
       "permanent": false
     },
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "comunidad.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "comunidad.promii.co" }],
       "destination": "https://promii.co/#ecosistema",
       "permanent": false
     },
     {
       "source": "/:path+",
-      "has": [
-        {
-          "type": "host",
-          "value": "comunidad.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "comunidad.promii.co" }],
       "destination": "https://promii.co/#ecosistema",
       "permanent": false
     },
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "games.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "games.promii.co" }],
       "destination": "https://promii.co/games/",
       "permanent": false
     },
     {
       "source": "/:path+",
-      "has": [
-        {
-          "type": "host",
-          "value": "games.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "games.promii.co" }],
       "destination": "https://promii.co/games/:path+",
       "permanent": false
     },
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "home.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "home.promii.co" }],
       "destination": "https://promii.co/home/",
       "permanent": false
     },
     {
       "source": "/:path+",
-      "has": [
-        {
-          "type": "host",
-          "value": "home.promii.co"
-        }
-      ],
+      "has": [{ "type": "host", "value": "home.promii.co" }],
       "destination": "https://promii.co/home/",
       "permanent": false
     }
