@@ -108,12 +108,12 @@ alter table public.design_presets enable row level security;
 drop policy if exists "admin gestiona temas" on public.design_presets;
 create policy "admin gestiona temas" on public.design_presets for all to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));
 
--- Promii Games: ranking público (cualquiera agrega y lee; puntaje 1–500, nombre ≤ 20)
+-- Promii Games: ranking público (cualquiera agrega y lee; puntaje 1–100000, nombre ≤ 20)
 create table if not exists public.game_scores (
   id bigint generated always as identity primary key,
-  game text not null check (game in ('torre','choques')),
+  game text not null check (game in ('torre','choques','ducto','orbita','ruta')),
   name text not null check (char_length(btrim(name)) between 1 and 20),
-  score int not null check (score between 1 and 500),
+  score int not null check (score between 1 and 100000),
   created_at timestamptz not null default now()
 );
 create index if not exists game_scores_top_idx on public.game_scores (game, score desc, created_at);

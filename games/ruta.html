@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es" data-title-en="Site Run · Promii Games">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ruta de obra · Promii Games</title>
+<meta name="description" content="Maneja el camión mezclador por la ciudad: cambia de carril, esquiva conos y barreras y recoge cascos.">
+<link rel="canonical" href="https://promii.co/games/ruta.html">
+<meta property="og:title" content="Ruta de obra · Promii Games"><meta property="og:description" content="Maneja el camión mezclador por la ciudad: cambia de carril, esquiva conos y barreras y recoge cascos."><meta property="og:image" content="https://promii.co/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="games.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="stage glass" id="stage">
+    <canvas id="cv"></canvas>
+    <div class="hud"><span><span data-en="Score">Puntos</span> <b id="sc">0</b></span><span><span data-en="Hats">Cascos</span> <b id="ht">0</b></span><span><span data-en="Speed">Vel.</span> <b id="sp">40</b></span></div>
+    <div class="over" id="over"><div><div class="pg-chal" id="chal" hidden></div><h2 id="ot" data-en="Site Run">Ruta de obra</h2><p id="op" data-en="Drive the mixer truck to the site. Switch lanes to dodge cones, barriers and cars, and pick up hard hats.">Lleva el camión mezclador a la obra. Cambia de carril para esquivar conos, barreras y carros, y recoge cascos.</p><button class="btn" id="go" data-en="Start">Empezar</button><p class="pg-stats" id="pst"></p><div id="soc"></div></div></div>
+  </div>
+  <p class="help" data-en="Tap left or right, swipe, or use the arrow keys · Tap ? for the tutorial">Toca a la izquierda o derecha, desliza, o usa las flechas · Toca ? para el tutorial</p>
+</main>
+<script>
+var GAME="ruta",TITLE={"es": "Ruta de obra", "en": "Site Run"};
+(function(){
+ var cv=document.getElementById('cv'),x=cv.getContext('2d'),st=document.getElementById('stage'),over=document.getElementById('over');
+ var W,H,D=Math.min(devicePixelRatio||1,2),EN=function(){return document.documentElement.lang==='en';};
+ function size(){var r=st.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*D;cv.height=H*D;x.setTransform(D,0,0,D,0,0);}
+ size();
+ function grid(c,step){x.strokeStyle=c||'rgba(255,255,255,.045)';x.lineWidth=1;x.beginPath();for(var i=0;i<W;i+=step||24){x.moveTo(i+.5,0);x.lineTo(i+.5,H);}for(var j=0;j<H;j+=step||24){x.moveTo(0,j+.5);x.lineTo(W,j+.5);}x.stroke();}
+ function hud(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+ function finish(score,head,line){PG.gameOver({game:GAME,score:score,title:TITLE,head:head,line:line});}
+
+ var lane,lx,obs,hats,score,dist,hatN,speed,state='menu',last=0,spawnT=0,roadOff=0,side=[],crash=0;
+ function LW(){return Math.min(110,(W-40)/3);}
+ function laneX(i){return W/2+(i-1)*LW();}
+ function reset(){lane=1;lx=laneX(1);obs=[];hats=[];score=0;dist=0;hatN=0;speed=260;crash=0;hud('sc',0);hud('ht',0);hud('sp',40);}
+ for(var i=0;i<16;i++)side.push({y:i*90,l:Math.random(),r:Math.random()});
+ addEventListener('resize',function(){size();});
+ function move(d){if(state!=='play')return;lane=Math.max(0,Math.min(2,lane+d));if(navigator.vibrate)navigator.vibrate(6);}
+ addEventListener('keydown',function(e){if(e.target&&e.target.tagName==='INPUT')return;if(e.code==='ArrowLeft'||e.code==='KeyA'){e.preventDefault();move(-1);}if(e.code==='ArrowRight'||e.code==='KeyD'){e.preventDefault();move(1);}if(e.code==='Space'&&state!=='play'){e.preventDefault();start();}});
+ var sx;st.addEventListener('pointerdown',function(e){if(e.target.closest('.over,.pg-tut,.pg-help'))return;sx=e.clientX;});
+ st.addEventListener('pointerup',function(e){if(sx==null)return;var dx=e.clientX-sx,r=st.getBoundingClientRect();if(Math.abs(dx)>24)move(dx>0?1:-1);else move(e.clientX-r.left<W/2?-1:1);sx=null;});
+ function start(){reset();state='play';over.classList.add('hide');}
+ document.getElementById('go').addEventListener('click',function(e){e.stopPropagation();start();});
+ function spawn(){var kinds=['cone','barrier','car','car'],k=kinds[Math.floor(Math.random()*kinds.length)],l=Math.floor(Math.random()*3);
+  if(obs.some(function(o){return o.y<80;}))return;
+  var o={k:k,l:l,y:-60,h:k==='car'?64:k==='barrier'?22:26,v:k==='car'?.35:0,col:['#2f6bff','#b9bccb','#ff3b30','#22e0c8'][Math.floor(Math.random()*4)]};obs.push(o);
+  if(Math.random()<.5){var hl=(l+1+Math.floor(Math.random()*2))%3;hats.push({l:hl,y:-90});}
+  if(dist>400&&Math.random()<.3){var l2=(l+1+Math.floor(Math.random()*2))%3;obs.push({k:'cone',l:l2,y:-60,h:26,v:0});}}
+ function end(){state='over';crash=.6;if(navigator.vibrate)navigator.vibrate([30,30,60]);setTimeout(function(){finish(score,{es:score+' puntos',en:score+' points'},{es:'Recorriste '+Math.round(dist)+' m y recogiste '+hatN+' cascos.',en:'You drove '+Math.round(dist)+' m and picked up '+hatN+' hard hats.'});},700);}
+ function update(dt){var v=state==='play'?speed:speed*.3;roadOff=(roadOff+v*dt)%60;side.forEach(function(s){s.y+=v*dt;if(s.y>H+60){s.y-=16*90;s.l=Math.random();s.r=Math.random();}});
+  if(state!=='play')return;
+  speed=Math.min(620,speed+dt*7);dist+=speed*dt/10;score=Math.round(dist)+hatN*50;hud('sc',score);hud('sp',Math.round(speed/6.5));
+  lx+=(laneX(lane)-lx)*Math.min(1,dt*14);
+  spawnT-=dt;if(spawnT<=0){spawn();spawnT=Math.max(.45,1.1-speed/1400)+Math.random()*.4;}
+  var ty=H-110,tw=LW()*.42,th=78;
+  obs.forEach(function(o){o.y+=speed*(1-o.v)*dt;if(o.k==='car'&&!o.sw&&o.y>H*.2&&Math.random()<.004){o.sw=1;o.l=Math.max(0,Math.min(2,o.l+(Math.random()<.5?-1:1)));}o.x=o.x==null?laneX(o.l):o.x+(laneX(o.l)-o.x)*Math.min(1,dt*4);
+   var ow=o.k==='barrier'?LW()*.7:o.k==='car'?LW()*.42:LW()*.3;if(Math.abs(o.x-lx)<(ow+tw)/2-4&&o.y+o.h/2>ty-th/2+6&&o.y-o.h/2<ty+th/2-6)end();});
+  obs=obs.filter(function(o){return o.y<H+80;});
+  hats.forEach(function(h){h.y+=speed*dt;if(!h.d&&Math.abs(laneX(h.l)-lx)<tw&&Math.abs(h.y-ty)<th/2){h.d=1;hatN++;hud('ht',hatN);if(navigator.vibrate)navigator.vibrate(10);}});hats=hats.filter(function(h){return !h.d&&h.y<H+40;});}
+ function truck(px,py){var w=LW()*.42,h=78;x.save();x.translate(px,py);if(crash>0)x.rotate(Math.sin(performance.now()/40)*.08);
+  x.fillStyle='rgba(34,224,200,.1)';x.strokeStyle='#22e0c8';x.lineWidth=1.8;x.shadowColor='#22e0c8';x.shadowBlur=10;x.beginPath();x.roundRect(-w/2,-h/2,w,h,6);x.fill();x.stroke();x.shadowBlur=0;
+  x.strokeStyle='#f4f4f8';x.lineWidth=1.3;x.strokeRect(-w/2+4,-h/2+4,w-8,h*.22);x.beginPath();x.ellipse(0,h*.12,w*.38,h*.3,0,0,7);x.stroke();
+  var a=performance.now()/300;x.beginPath();for(var i=0;i<3;i++){var t=a+i*2.1;x.moveTo(Math.cos(t)*w*.32,h*.12+Math.sin(t)*h*.24);x.lineTo(-Math.cos(t)*w*.32,h*.12-Math.sin(t)*h*.24);}x.stroke();x.restore();}
+ function draw(){x.fillStyle='#0b0b12';x.fillRect(0,0,W,H);var rw=LW()*3,rl=W/2-rw/2;
+  x.strokeStyle='rgba(47,107,255,.35)';x.lineWidth=1;side.forEach(function(s){var w1=20+s.l*(rl-34),h1=40+s.l*40;x.strokeRect(rl-14-w1,s.y,w1,h1);x.strokeRect(rl-14-w1+6,s.y+6,w1-12,h1-12);var w2=20+s.r*(W-rl-rw-34),h2=40+s.r*40;x.strokeRect(rl+rw+14,s.y+30,w2,h2);});
+  x.fillStyle='rgba(255,255,255,.03)';x.fillRect(rl,0,rw,H);x.strokeStyle='rgba(244,244,248,.7)';x.lineWidth=2;x.beginPath();x.moveTo(rl,0);x.lineTo(rl,H);x.moveTo(rl+rw,0);x.lineTo(rl+rw,H);x.stroke();
+  x.strokeStyle='rgba(244,244,248,.35)';x.lineWidth=2;x.setLineDash([26,34]);x.lineDashOffset=-roadOff;x.beginPath();x.moveTo(rl+rw/3,0);x.lineTo(rl+rw/3,H);x.moveTo(rl+2*rw/3,0);x.lineTo(rl+2*rw/3,H);x.stroke();x.setLineDash([]);
+  if(lane==null)return;
+  hats.forEach(function(h){var hx=laneX(h.l);x.strokeStyle='#e8b23a';x.lineWidth=2;x.shadowColor='#e8b23a';x.shadowBlur=10;x.beginPath();x.arc(hx,h.y,12,Math.PI,0);x.lineTo(hx+16,h.y);x.lineTo(hx-16,h.y);x.closePath();x.stroke();x.shadowBlur=0;});
+  obs.forEach(function(o){var ox=o.x==null?laneX(o.l):o.x;x.lineWidth=1.8;
+   if(o.k==='cone'){x.strokeStyle='#ff8a3d';x.beginPath();x.moveTo(ox,o.y-13);x.lineTo(ox+11,o.y+12);x.lineTo(ox-11,o.y+12);x.closePath();x.stroke();x.beginPath();x.moveTo(ox-6,o.y+2);x.lineTo(ox+6,o.y+2);x.stroke();}
+   else if(o.k==='barrier'){var bw=LW()*.7;x.strokeStyle='#ff3b30';x.strokeRect(ox-bw/2,o.y-11,bw,22);x.save();x.beginPath();x.rect(ox-bw/2,o.y-11,bw,22);x.clip();x.lineWidth=5;x.strokeStyle='rgba(255,59,48,.55)';for(var i=-bw;i<bw;i+=16){x.beginPath();x.moveTo(ox+i,o.y+11);x.lineTo(ox+i+22,o.y-11);x.stroke();}x.restore();}
+   else {var cw=LW()*.42;x.strokeStyle=o.col;x.beginPath();x.roundRect(ox-cw/2,o.y-32,cw,64,9);x.stroke();x.strokeRect(ox-cw/2+5,o.y-18,cw-10,14);x.strokeRect(ox-cw/2+5,o.y+8,cw-10,10);}});
+  truck(lx,H-110);}
+ function loop(t){var dt=Math.min((t-(last||t))/1000,1/30);last=t;crash=Math.max(0,crash-dt);update(dt);draw();requestAnimationFrame(loop);}
+ reset();lane=null;requestAnimationFrame(loop);
+
+})();
+</script>
+<script src="/assets/site-shell.js" data-mode="full"></script>
+<script src="/analytics/config.js"></script>
+<script src="social.js"></script>
+<script>PG.intro("ruta");PG.helpButton("ruta",[{"ic": "<svg viewBox=\"0 0 120 90\" fill=\"none\" stroke=\"#f4f4f8\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"44\" y=\"26\" width=\"32\" height=\"50\" rx=\"6\" stroke=\"#22e0c8\"/><circle cx=\"60\" cy=\"58\" r=\"11\" stroke=\"#22e0c8\"/><path d=\"M30 20v60M90 20v60\" stroke=\"#8a8c9e\" stroke-dasharray=\"6 6\"/></svg>", "es": "Manejas un <b>camión mezclador</b> en una vía de 3 carriles. Toca el lado izquierdo o derecho (o desliza) para cambiar de carril.", "en": "You drive a <b>mixer truck</b> on a 3-lane road. Tap the left or right side (or swipe) to switch lanes."}, {"ic": "<svg viewBox=\"0 0 120 90\" fill=\"none\" stroke=\"#f4f4f8\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M30 70l10-26 10 26z\" stroke=\"#ff8a3d\"/><rect x=\"58\" y=\"50\" width=\"34\" height=\"14\" stroke=\"#ff3b30\"/><path d=\"M62 64l8-14M72 64l8-14M82 64l8-14\" stroke=\"#ff3b30\"/></svg>", "es": "Esquiva <b>conos</b>, <b>barreras</b> y otros <b>carros</b>. Un choque termina el viaje.", "en": "Dodge <b>cones</b>, <b>barriers</b> and other <b>cars</b>. One crash ends the run."}, {"ic": "<svg viewBox=\"0 0 120 90\" fill=\"none\" stroke=\"#f4f4f8\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M40 56a20 20 0 0 1 40 0z\" stroke=\"#e8b23a\"/><path d=\"M36 56h48\" stroke=\"#e8b23a\"/><path d=\"M60 36v-8\" stroke=\"#e8b23a\"/></svg>", "es": "Recoge <b>cascos</b> para sumar 50 puntos. La velocidad sube con la distancia.", "en": "Pick up <b>hard hats</b> for 50 points. Speed goes up with distance."}]);</script>
+<script src="/analytics/track.js" defer></script>
+</body>
+</html>

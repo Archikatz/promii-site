@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ArchiKatz Studio · Promii</title>
+<meta name="description" content="ArchiKatz Studio: herramienta para crear personajes, escenas y prompts del universo ArchiKatz y generar imágenes y video con Gemini, Higgsfield y Freepik usando tus propias claves.">
+<link rel="canonical" href="https://promii.co/studio/">
+<meta property="og:title" content="ArchiKatz Studio · Promii"><meta property="og:image" content="https://promii.co/assets/og.jpg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+:root{
+  --gold:#B8860B;--gold2:#D4A017;--green:#27ae60;--blue:#4a9eff;
+  --red:#c0392b;--purple:#9b59b6;--orange:#e67e22;
+  --bg:#050505;--bg2:#090909;--bg3:#0e0e0e;
+  --border:#181818;--border2:#222;--text:#aaa;--text2:#555;--white:#eee;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;font-size:11px;min-height:100vh;overflow-x:hidden;padding-bottom:60px;}
+button{font-family:'Space Mono',monospace;cursor:pointer;border:none;background:none;color:inherit;}
+textarea,input,select{font-family:'Space Mono',monospace;background:var(--bg3);color:var(--white);border:1px solid var(--border2);outline:none;padding:10px 12px;font-size:11px;width:100%;box-sizing:border-box;}
+textarea{resize:none;}
+textarea::placeholder,input::placeholder{color:var(--text2);}
+pre{white-space:pre-wrap;word-break:break-word;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.hdr{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:2px;}
+.logo small{font-family:'Space Mono',monospace;font-size:8px;color:var(--gold);letter-spacing:3px;display:block;margin-top:1px;}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot.g{background:var(--green);box-shadow:0 0 7px var(--green);}
+.dot.r{background:var(--red);}
+.dot.idle{background:#2a2a2a;}
+.dot.pulse{background:var(--gold);animation:pulse 1s infinite;}
+
+.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg2);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:11px 14px;font-size:9px;letter-spacing:2px;color:var(--text2);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold);}
+
+.pg{display:none;padding:14px;flex-direction:column;gap:13px;}
+.pg.on{display:flex;animation:fadeUp .2s ease;}
+
+.lbl{font-size:8px;letter-spacing:3px;color:var(--text2);margin-bottom:7px;text-transform:uppercase;}
+.lbl.g{color:var(--green);}.lbl.b{color:var(--blue);}.lbl.p{color:var(--purple);}.lbl.o{color:var(--orange);}
+
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+.mBtn{padding:9px 6px;background:var(--bg3);border:1px solid var(--border);text-align:left;transition:all .15s;}
+.mBtn.on{background:#1a1400;border-color:var(--gold);}
+.mBtn .mi{font-size:15px;margin-bottom:3px;}
+.mBtn .mn{font-size:9px;letter-spacing:1px;color:var(--text2);}
+.mBtn.on .mn{color:var(--gold);}
+.mBtn .ms{font-size:8px;color:#222;margin-top:1px;}
+
+.chips{display:flex;flex-wrap:wrap;gap:4px;}
+.chip{padding:4px 9px;font-size:9px;letter-spacing:1px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .15s;}
+.chip.og{border-color:var(--gold);background:#1a1400;color:var(--gold);}
+.chip.og2{border-color:var(--green);background:#0a1a0a;color:var(--green);}
+
+.runBtn{width:100%;padding:14px;font-size:11px;font-weight:700;letter-spacing:4px;transition:all .2s;border:1px solid var(--border);}
+.runBtn.rdy{background:var(--gold);color:#000;border-color:var(--gold);}
+.runBtn.idle{background:var(--bg3);color:#333;}
+.runBtn.busy{background:#111;color:#333;}
+
+.ideasBtn{padding:9px 14px;border:1px dashed #333;color:#555;font-size:9px;letter-spacing:2px;background:#0a0900;transition:all .2s;margin-top:6px;display:inline-block;}
+
+.cpyBtn{padding:5px 9px;font-size:8px;letter-spacing:2px;border:1px solid #222;background:#111;color:#555;transition:all .2s;cursor:pointer;white-space:nowrap;}
+.cpyBtn.ok{border-color:var(--green);background:#0a1a0a;color:var(--green);}
+
+.dlBtn{padding:7px 12px;font-size:9px;letter-spacing:2px;background:var(--green);color:#000;cursor:pointer;display:inline-flex;align-items:center;gap:5px;border:none;}
+.dlBtn:disabled{background:#1a3a1a;color:#333;cursor:not-allowed;}
+
+.pills{display:flex;gap:5px;flex-wrap:wrap;}
+.pill{padding:2px 9px;font-size:8px;}
+.pill.g{border:1px solid #B8860B33;background:#B8860B11;color:var(--gold);}
+.pill.gr{border:1px solid #27ae6033;background:#27ae6011;color:var(--green);}
+
+.blk{border:1px solid var(--border);}
+.blkH{padding:8px 12px;background:#0a0a0a;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;}
+.blkT{font-size:8px;letter-spacing:3px;flex-shrink:0;}
+.blkActs{display:flex;gap:5px;flex-wrap:wrap;}
+.blkB{padding:12px;}
+.blkB pre{font-size:10px;line-height:1.8;color:#999;}
+.promptPre{color:#ddd!important;background:#080d14;padding:10px;border:1px solid #0d1a2a;}
+.jsonPre{color:#7ecf7e!important;background:#080e08;padding:10px;border:1px solid #0d2a0d;font-size:9px!important;}
+
+.quote{background:#0d0a00;border-left:3px solid var(--gold);padding:12px 14px;}
+.quoteT{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold2);line-height:1.6;font-style:italic;}
+.quoteA{font-size:8px;color:#555;letter-spacing:2px;margin-top:5px;}
+
+.scnH{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0a0900;border:1px solid #2a2000;}
+.scnId{color:var(--gold);font-weight:700;letter-spacing:3px;font-size:13px;}
+
+/* MEDIA BOX */
+.mediaWrap{border:1px solid var(--border);overflow:hidden;}
+.mediaThumb{background:#080808;min-height:140px;display:flex;align-items:center;justify-content:center;position:relative;}
+.mediaThumb img,.mediaThumb video{width:100%;max-height:300px;object-fit:contain;display:block;}
+.mediaBadge{position:absolute;top:7px;left:7px;font-size:8px;letter-spacing:2px;padding:3px 7px;background:#000c;}
+.mediaBadge.im{border:1px solid var(--gold);color:var(--gold);}
+.mediaBadge.vi{border:1px solid var(--blue);color:var(--blue);}
+.mediaBadge.pr{border:1px solid #444;color:#444;}
+.mediaActs{padding:9px 10px;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid var(--border);background:#0a0a0a;}
+
+/* POST-PRODUCTION */
+.postH{padding:8px 12px;background:#080808;border-bottom:1px solid var(--border);font-size:8px;letter-spacing:3px;color:var(--orange);}
+.postGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:9px;}
+.postBtn{padding:8px 7px;background:var(--bg3);border:1px solid var(--border);text-align:left;cursor:pointer;transition:all .15s;}
+.postBtn:active{border-color:var(--orange);background:#1a0e00;}
+.postBtn .pi{font-size:13px;margin-bottom:2px;}
+.postBtn .pl{font-size:9px;color:var(--text2);letter-spacing:1px;}
+.postBtn .ps{font-size:8px;color:#2a2a2a;margin-top:1px;}
+.postBtn.busy{opacity:.5;cursor:not-allowed;}
+
+/* NEXT STEPS */
+.nxtH{padding:8px 12px;background:#0a0a0a;border-bottom:1px solid var(--border);font-size:8px;letter-spacing:3px;color:#555;}
+.nxtGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:9px;}
+.nxtBtn{padding:8px 7px;background:var(--bg3);border:1px solid var(--border);text-align:left;cursor:pointer;transition:all .15s;}
+.nxtBtn:active{border-color:var(--gold);background:#1a1400;}
+.nxtBtn .ni{font-size:13px;margin-bottom:2px;}
+.nxtBtn .nl{font-size:9px;color:var(--text2);letter-spacing:1px;}
+.nxtBtn .ns{font-size:8px;color:#2a2a2a;margin-top:1px;}
+
+/* SHARE */
+.shareRow{display:flex;gap:5px;flex-wrap:wrap;padding:9px 10px;}
+.sBtn{padding:7px 10px;font-size:9px;letter-spacing:1px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;gap:4px;cursor:pointer;}
+.sBtn:disabled{opacity:.25;cursor:not-allowed;}
+.sBtn.ig{border-color:#E1306C55;color:#E1306C;}
+.sBtn.tk{border-color:#69C9D055;color:#69C9D0;}
+.sBtn.tw{border-color:#1DA1F255;color:#1DA1F2;}
+.sBtn.wa{border-color:#25D36655;color:#25D366;}
+.sBtn.fp{border-color:#FF562855;color:#FF5628;}
+
+/* GALLERY */
+.galGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:14px;}
+.galCard{background:var(--bg3);border:1px solid var(--border);overflow:hidden;}
+.galThumb{height:85px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.galThumb img,.galThumb video{width:100%;height:85px;object-fit:cover;}
+.galOverlay{position:absolute;bottom:0;left:0;right:0;padding:4px 6px;background:linear-gradient(transparent,#000d);font-size:8px;letter-spacing:2px;}
+.galInfo{padding:7px 8px;}
+.galId{color:var(--gold);font-size:9px;letter-spacing:2px;font-weight:700;}
+.galSub{color:var(--text2);font-size:8px;margin-top:2px;}
+.galActs{display:flex;gap:3px;margin-top:5px;flex-wrap:wrap;}
+.galActs button{padding:3px 6px;font-size:8px;letter-spacing:1px;border:1px solid var(--border);color:var(--text2);background:var(--bg);}
+.galActs button.del{color:var(--red);border-color:#2a0000;}
+.galActs button.up{color:var(--orange);border-color:#2a1000;}
+
+/* HF */
+.hfStat{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--bg3);border:1px solid var(--border);}
+.hfMod{padding:8px 9px;background:var(--bg3);border:1px solid var(--border);text-align:left;cursor:pointer;transition:all .15s;}
+.hfMod.on{border-color:var(--blue);background:#080d14;}
+.hfMod .hm{font-size:9px;color:var(--text2);letter-spacing:1px;}
+.hfMod.on .hm{color:var(--blue);}
+.hfMod .ht{font-size:8px;color:#2a2a2a;margin-top:2px;}
+.hfRun{width:100%;padding:13px;font-size:10px;font-weight:700;letter-spacing:3px;transition:all .2s;}
+.hfRun.rdy{background:var(--blue);color:#000;border:none;}
+.hfRun.idle{background:var(--bg3);color:#333;border:1px solid var(--border);}
+.hfRun.busy{background:#0d1a2a;color:#4a9eff;border:1px solid #0d1a2a;}
+
+.pollWrap{padding:10px 12px;background:#080d14;border:1px solid #0d1a2a;}
+.pollBar{height:2px;background:var(--border);margin-top:7px;overflow:hidden;border-radius:1px;}
+.pollFill{height:100%;background:var(--blue);transition:width .5s ease;}
+
+/* SETTINGS */
+.apiGroup{border:1px solid var(--border);overflow:hidden;}
+.apiGroupH{padding:8px 12px;background:#0a0a0a;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.apiGroupB{padding:12px;display:flex;flex-direction:column;gap:9px;}
+.setLbl{font-size:8px;letter-spacing:3px;color:var(--text2);}
+.saveBtn{padding:11px;font-size:9px;font-weight:700;letter-spacing:3px;background:var(--green);color:#000;border:none;width:100%;cursor:pointer;}
+
+.err{padding:10px 12px;background:#100808;border:1px solid #2a0000;color:var(--red);font-size:10px;}
+.ok{padding:10px 12px;background:#081408;border:1px solid #0a2a0a;color:var(--green);font-size:10px;}
+hr{border:none;border-top:1px solid var(--border);}
+.spinner{width:13px;height:13px;border:2px solid #1a1a00;border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:5px;}
+.spB{width:12px;height:12px;border:2px solid #0d1a2a;border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:5px;}
+.expBtn{padding:8px 12px;font-size:9px;letter-spacing:2px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div><div class="logo">ARCHIKATZ<small>STUDIO v2.0</small></div></div>
+  <div style="display:flex;align-items:center;gap:7px;">
+    <span class="dot idle" id="mainDot"></span>
+    <span style="font-size:9px;color:#1a1a1a;letter-spacing:2px;" id="scnLbl">SCN-001</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="goTab('pipeline')">PIPELINE</div>
+  <div class="tab" onclick="goTab('gallery')">GALERÍA</div>
+  <div class="tab" onclick="goTab('higgsfield')">HIGGSFIELD</div>
+  <div class="tab" onclick="goTab('settings')">CONFIG</div>
+</div>
+
+<!-- ══════════ PIPELINE ══════════ -->
+<div id="pg-pipeline" class="pg on">
+  <div><div class="lbl">MODO</div><div class="g3" id="modeGrid"></div></div>
+  <div class="g2">
+    <div><div class="lbl">PERSONAJE</div><div class="chips" id="charChips"></div></div>
+    <div><div class="lbl g">CLASE ARQU.</div><div class="chips" id="archChips"></div></div>
+  </div>
+  <div>
+    <div class="lbl">SOLICITUD / IDEA</div>
+    <textarea id="ideaIn" rows="4" placeholder="Describe la escena o toca 💡 IDEAS DEL MES..."></textarea>
+    <button class="ideasBtn" onclick="fillIdeas()">💡 DAME IDEAS DEL MES</button>
+  </div>
+  <div><div class="lbl b">MOTOR IA</div><div class="g2" id="engineGrid"></div></div>
+  <div class="pills" id="ctxPills"></div>
+  <button class="runBtn idle" id="runBtn" onclick="runPipeline()">▶ EJECUTAR ARCHIKATZ OS</button>
+  <div id="errBox" class="err" style="display:none;"></div>
+  <div id="resultArea"></div>
+</div>
+
+<!-- ══════════ GALLERY ══════════ -->
+<div id="pg-gallery" class="pg">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="lbl" style="margin:0;">GENERACIONES</div>
+    <div style="display:flex;gap:5px;align-items:center;">
+      <button class="expBtn" onclick="exportCSV()">↓ CSV</button>
+      <button class="expBtn" onclick="exportJSON()">↓ JSON</button>
+      <span style="font-size:9px;color:#1a1a1a;" id="galCount">0</span>
+    </div>
+  </div>
+  <div id="galEmpty" style="text-align:center;padding:50px 20px;color:#1a1a1a;font-size:10px;letter-spacing:3px;">
+    SIN GENERACIONES AÚN
+  </div>
+  <div class="galGrid" id="galGrid"></div>
+</div>
+
+<!-- ══════════ HIGGSFIELD ══════════ -->
+<div id="pg-higgsfield" class="pg">
+  <div class="hfStat"><span class="dot idle" id="hfDot"></span><span style="font-size:9px;letter-spacing:2px;" id="hfTxt">NO CONECTADO</span></div>
+  <div>
+    <div class="lbl">API KEY HIGGSFIELD</div>
+    <input type="password" id="hfKeyIn" placeholder="Bearer token o KEY_ID:KEY_SECRET">
+    <button onclick="connectHF()" style="width:100%;margin-top:6px;padding:10px;font-size:9px;letter-spacing:3px;background:#080d14;border:1px solid var(--blue);color:var(--blue);cursor:pointer;">CONECTAR →</button>
+  </div>
+  <div><div class="lbl b">MODELO</div><div class="g2" id="hfModGrid"></div></div>
+  <div>
+    <div class="lbl">PROMPT</div>
+    <textarea id="hfPrompt" rows="5" placeholder="Se carga desde el pipeline automáticamente..."></textarea>
+    <button onclick="loadLP()" style="font-size:9px;color:var(--gold);letter-spacing:2px;margin-top:5px;padding:4px 0;cursor:pointer;">← CARGAR ÚLTIMO PROMPT</button>
+  </div>
+  <div class="g2">
+    <div><div class="lbl">DURACIÓN (s)</div><input type="number" id="hfDur" value="8" min="4" max="60"></div>
+    <div><div class="lbl">ASPECTO</div>
+      <select id="hfAsp">
+        <option value="16:9">16:9</option>
+        <option value="9:16">9:16</option>
+        <option value="1:1">1:1</option>
+      </select>
+    </div>
+  </div>
+  <button class="hfRun idle" id="hfRunBtn" onclick="runHF()">🎬 GENERAR EN HIGGSFIELD</button>
+  <div id="hfPoll" style="display:none;" class="pollWrap">
+    <div id="hfPollTxt" style="font-size:9px;letter-spacing:2px;"></div>
+    <div class="pollBar"><div class="pollFill" id="hfPollFill" style="width:0%"></div></div>
+    <div id="hfJobTxt" style="font-size:8px;color:#2a2a2a;margin-top:5px;"></div>
+  </div>
+  <div id="hfMediaOut" style="display:none;"></div>
+</div>
+
+<!-- ══════════ SETTINGS ══════════ -->
+<div id="pg-settings" class="pg">
+  <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);">Configuración de APIs</div>
+  <div style="font-size:9px;color:#2a2a2a;line-height:1.8;">Las keys se guardan permanentemente en localStorage de este browser. No necesitas volver a ingresarlas.</div>
+  <hr>
+
+  <!-- Gemini -->
+  <div class="apiGroup">
+    <div class="apiGroupH"><span class="dot idle" id="dotGem"></span><span style="font-size:9px;letter-spacing:2px;color:var(--blue);">GOOGLE AI STUDIO — GEMINI</span></div>
+    <div class="apiGroupB">
+      <div><div class="setLbl">API KEY</div><input type="password" id="gemIn" placeholder="AIza..."></div>
+      <div style="font-size:8px;color:#2a2a2a;">Motor del pipeline ArchiKatz OS (Gemini 1.5 Flash / Pro)</div>
+    </div>
+  </div>
+
+  <!-- Higgsfield -->
+  <div class="apiGroup">
+    <div class="apiGroupH"><span class="dot idle" id="dotHF"></span><span style="font-size:9px;letter-spacing:2px;color:var(--blue);">HIGGSFIELD</span></div>
+    <div class="apiGroupB">
+      <div><div class="setLbl">API KEY</div><input type="password" id="hfIn" placeholder="Bearer token..."></div>
+      <div style="font-size:8px;color:#2a2a2a;">Generación de video e imagen · Kling, Seedance, Soul 2, Nano Banana</div>
+    </div>
+  </div>
+
+  <!-- Freepik -->
+  <div class="apiGroup">
+    <div class="apiGroupH"><span class="dot idle" id="dotFP"></span><span style="font-size:9px;letter-spacing:2px;color:var(--orange);">FREEPIK</span></div>
+    <div class="apiGroupB">
+      <div><div class="setLbl">API KEY</div><input type="password" id="fpIn" placeholder="FPSX-..."></div>
+      <div style="font-size:8px;color:#2a2a2a;">Upscale · Generación de imágenes · Mystic v2</div>
+    </div>
+  </div>
+
+  <!-- Social note -->
+  <div class="apiGroup">
+    <div class="apiGroupH"><span class="dot idle"></span><span style="font-size:9px;letter-spacing:2px;color:#555;">REDES SOCIALES</span></div>
+    <div class="apiGroupB">
+      <div style="font-size:9px;color:#2a2a2a;line-height:1.9;">
+        Instagram y TikTok requieren apps aprobadas por Meta/ByteDance (proceso de semanas).<br><br>
+        El estudio usa el <strong style="color:var(--text2);">Web Share API nativo del iPhone</strong> — abre el selector de apps igual que cuando compartes desde Fotos. Funciona hoy sin aprobaciones.<br><br>
+        Para publicación automatizada futura: conecta <strong style="color:var(--text2);">Zapier o Make</strong> con tu cuenta de Instagram Business y Facebook Page.
+      </div>
+    </div>
+  </div>
+
+  <button class="saveBtn" onclick="saveAll()">✓ GUARDAR TODAS LAS KEYS</button>
+  <div id="savedMsg" style="display:none;text-align:center;font-size:9px;color:var(--green);letter-spacing:2px;padding:8px;">✓ GUARDADO PERMANENTEMENTE</div>
+  <hr>
+
+  <!-- Storage info -->
+  <div class="apiGroup">
+    <div class="apiGroupH"><span style="font-size:9px;letter-spacing:2px;color:#555;">ALMACENAMIENTO LOCAL</span></div>
+    <div class="apiGroupB">
+      <div style="font-size:9px;color:var(--text2);" id="storageInfo">Calculando...</div>
+      <button onclick="clearGallery()" style="padding:8px;font-size:9px;letter-spacing:2px;border:1px solid #2a0000;color:var(--red);background:none;cursor:pointer;margin-top:4px;">BORRAR GALERÍA</button>
+    </div>
+  </div>
+
+  <div style="font-size:8px;color:#1a1a1a;line-height:2.2;">ARCHIKATZ STUDIO v2.0 · Studio Brian Zuleta<br>"Habitando lo no construido" · Mayo 2026</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// PERSISTENT STATE — carga de localStorage
+// ═══════════════════════════════════════════
+const LS = {
+  get(k){ try{ return localStorage.getItem(k); }catch(_){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(_){} },
+  getObj(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(_){ return null; } },
+  setObj(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(_){} },
+};
+
+const S = {
+  mode:'', char:'', arch:'', engine:'gemini', hfModel:'kling3_0',
+  hfConnected: false,
+  // Keys — load from storage on init
+  gemKey: LS.get('ak_gem')||'',
+  hfKey:  LS.get('ak_hf')||'',
+  fpKey:  LS.get('ak_fp')||'',
+  sceneN: +(LS.get('ak_n')||1),
+  gallery: LS.getObj('ak_gal')||[],
+  lastPrompt:'', lastResult:null,
+  hfPollTimer:null,
+};
+
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const MODES=[
+  {c:'A',i:'🖼',l:'Hero Frame',s:'Solo imagen'},
+  {c:'B',i:'🎬',l:'Video Simple',s:'Start→fwd'},
+  {c:'C',i:'🎞',l:'Bookended',s:'Start+End'},
+  {c:'D',i:'🔗',l:'Chain',s:'Ext. clip'},
+  {c:'E',i:'🎭',l:'Multi-shot',s:'2-6 escenas'},
+  {c:'?',i:'💡',l:'Surprise',s:'Ideas del mes'},
+];
+const CHARS=['Brian','Adrian Voss','Cael Solaris','Elias Draven','Lucian Noir','Orion Hale','Michi','Milo'];
+const ARCHS=['Brutalismo','Neo-Faraónico','Ciberpunk Entropismo','No Euclidiano','Hibridación','Parametricismo'];
+const ENGINES=[
+  {id:'gemini',l:'Gemini 1.5 Flash',t:'Rápido · Google AI'},
+  {id:'gemini_pro',l:'Gemini 1.5 Pro',t:'Mayor calidad'},
+];
+const HF_MODELS=[
+  {id:'kling3_0',l:'Kling 3.0',t:'Movimiento humano'},
+  {id:'seedance_2_0',l:'Seedance 2.0',t:'Moda / producto'},
+  {id:'nano_banana_pro',l:'Nano Banana Pro',t:'Imagen 4K'},
+  {id:'soul_2',l:'Soul 2.0',t:'Consistencia ID'},
+];
+const CHAR_DATA={
+  'Adrian Voss':{arch:'El Protector / Arquitecto Oscuro',quote:'"Cada muro que construyo es una promesa. Every wall is a commitment."',pal:'Negro mate · acero oscuro · hormigón crudo'},
+  'Cael Solaris':{arch:'El Visionario / Luz y Orden',quote:'"La luz no ilumina el espacio. El espacio convoca la luz."',pal:'Blanco cegador · dorado solar · titanio pulido'},
+  'Elias Draven':{arch:'El Caos Controlado / Alquimista',quote:'"Destroy beautifully. El caos tiene su propia lógica."',pal:'Rojo plasma · negro volcánico · naranja fundido'},
+  'Lucian Noir':{arch:'La Sombra y el Poder',quote:'"Power is silence. El poder no necesita nombre. Solo presencia."',pal:'Negro profundo · plata espectral · índigo nocturno'},
+  'Orion Hale':{arch:'El Explorador Cósmico',quote:'"Space is the real luxury. El espacio es el verdadero lujo."',pal:'Azul profundo · plata estelar · violeta cósmico'},
+  'Brian':{arch:'El Gemelo Digital · Soul ID 66f12b1c',quote:'"Nací en el render. I was born in the rendering. I\'ll die in the building."',pal:'Techwear negro mate · visor reflectante · acero'},
+  'Michi':{arch:'La Guardiana / Gata Táctica',quote:'"El territorio no se declara. Se vigila."',pal:'Tabby atigrado · ojos verdes · collar táctico'},
+  'Milo':{arch:'El Recuerdo Eterno / Pomerania Blanco',quote:'"Algunos espacios no se construyen. Se recuerdan."',pal:'Blanco puro · luz cálida dorada · espacios abiertos'},
+};
+
+const SYS=`Eres ARCHIKATZ OS v4.0 — sistema de producción cinematográfica del universo ArchiKatz bajo el manifiesto "Habitando lo no construido".
+PIPELINE: Skill 6→Skill 4→Skill 2→Skill 1→Skill 3→Skill 5
+PERSONAJES Vol2: Adrian Voss (Protector/Arquitecto Oscuro), Cael Solaris (Visionario/Luz), Elias Draven (Caos Controlado), Lucian Noir (Sombra/Poder), Orion Hale (Explorador Cósmico)
+RECURRENTES: Brian (Soul ID:66f12b1c, techwear negro), Michi (gata tabby ojos verdes collar táctico), Milo (pomerania BLANCO)
+CLASES: Brutalismo|Neo-Faraónico|Ciberpunk Entropismo|No Euclidiano|Hibridación|Parametricismo
+MODELOS: Kling 3.0 (mov. humano)|Seedance 2.0 (moda)|Veo 3.1 (arquitectura)|Sora 2 (física imposible)|Gemini Omni Flash (mixto)
+SINTAXIS VEO 3.1: "Cinematic [Light] illuminating [Entorno]. Shot on [focal]mm with [Camera]. In the frame, [ADN+Vestuario] is [Acción] while [VFX]. Film grain, VFX-grade, 8k."
+SINTAXIS KLING 3.0: "[Shot] [Angle] shot on [focal]mm. Subject is [ADN+Vestuario]. [Acción]. Env: [Entorno] with [VFX]. [Light]. [Camera]. Cinematic, HDR."
+MES: Mayo 2026—Géminis/Cuarzo Rosa/Primavera.
+
+RESPONDE con estas secciones ##:
+## BRIEFING NARRATIVO
+Volumen/Colección/Personaje/Paleta/Architectural class/Topología/Narrativa
+## FRASE CÉLEBRE
+[Frase poderosa ES/EN del personaje o universo]
+## PROMPT FINAL
+[Prompt EN inglés, sintaxis nativa del modelo, mínimo 100 palabras]
+## PRÓXIMOS PASOS
+- [4 opciones concretas de continuación]
+## SKILL 5 — DATA LOG
+\`\`\`json
+{"timestamp":"","project_collection":"","scene_id":"","ai_model":"","camera_and_lens":"","soul_id_character":"","architectural_class":"","topology_and_space":"","dominant_material":"","vfx_dynamics":"","lighting_atmosphere":"","full_prompt":"","media_url":"","job_id":"","status":"Pending Render"}
+\`\`\`
+FILOSOFÍA: "Generar exactamente como se captura y filma en la realidad."`;
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+function init(){
+  renderModes(); renderChips(); renderEngines(); renderHFMods(); renderGallery();
+  updScnLbl(); updRunBtn(); loadSettingsUI(); updStorageInfo(); updApiDots();
+  document.getElementById('ideaIn').addEventListener('input', updRunBtn);
+  // Auto-connect if keys exist
+  if(S.hfKey){ S.hfConnected=true; setHFStatus(true); }
+}
+
+function loadSettingsUI(){
+  if(S.gemKey) document.getElementById('gemIn').value=S.gemKey;
+  if(S.hfKey){ document.getElementById('hfIn').value=S.hfKey; document.getElementById('hfKeyIn').value=S.hfKey; }
+  if(S.fpKey) document.getElementById('fpIn').value=S.fpKey;
+}
+function updApiDots(){
+  setDot('dotGem', S.gemKey?'g':'idle');
+  setDot('dotHF', S.hfKey?'g':'idle');
+  setDot('dotFP', S.fpKey?'g':'idle');
+  setDot('mainDot', (S.gemKey||S.hfKey)?'g':'idle');
+}
+function setDot(id,cls){ const el=document.getElementById(id); if(el) el.className=`dot ${cls}`; }
+
+// ═══════════════════════════════════════════
+// RENDER CONTROLS
+// ═══════════════════════════════════════════
+function renderModes(){
+  document.getElementById('modeGrid').innerHTML=MODES.map(m=>
+    `<button class="mBtn${S.mode===m.c?' on':''}" onclick="tog('mode','${m.c}')">
+      <div class="mi">${m.i}</div><div class="mn">${m.l}</div><div class="ms">${m.s}</div>
+    </button>`).join('');
+}
+function renderChips(){
+  document.getElementById('charChips').innerHTML=CHARS.map(c=>
+    `<button class="chip${S.char===c?' og':''}" onclick="tog('char','${c}')">${c}</button>`).join('');
+  document.getElementById('archChips').innerHTML=ARCHS.map(a=>
+    `<button class="chip${S.arch===a?' og2':''}" onclick="tog('arch','${a}')">${a}</button>`).join('');
+}
+function renderEngines(){
+  document.getElementById('engineGrid').innerHTML=ENGINES.map(e=>
+    `<button class="hfMod${S.engine===e.id?' on':''}" onclick="S.engine='${e.id}';renderEngines()">
+      <div class="hm">${e.l}</div><div class="ht">${e.t}</div></button>`).join('');
+}
+function renderHFMods(){
+  document.getElementById('hfModGrid').innerHTML=HF_MODELS.map(m=>
+    `<button class="hfMod${S.hfModel===m.id?' on':''}" onclick="S.hfModel='${m.id}';renderHFMods()">
+      <div class="hm">${m.l}</div><div class="ht">${m.t}</div></button>`).join('');
+}
+function tog(k,v){ S[k]=S[k]===v?'':v; renderModes(); renderChips(); updPills(); updRunBtn(); }
+function updPills(){
+  document.getElementById('ctxPills').innerHTML=[
+    S.mode&&`<span class="pill g">Modo ${S.mode}</span>`,
+    S.char&&`<span class="pill g">👤 ${S.char}</span>`,
+    S.arch&&`<span class="pill gr">🏛 ${S.arch}</span>`,
+  ].filter(Boolean).join('');
+}
+function updRunBtn(){
+  const ok=document.getElementById('ideaIn').value.trim().length>0;
+  const btn=document.getElementById('runBtn');
+  btn.className=`runBtn ${ok?'rdy':'idle'}`;
+}
+function updScnLbl(){ document.getElementById('scnLbl').textContent=`SCN-${String(S.sceneN).padStart(3,'0')}`; }
+function fillIdeas(){
+  document.getElementById('ideaIn').value='Dame 3 ideas cinematográficas para mayo 2026 (Géminis/Cuarzo Rosa). Cada una con: personaje, colección, modo, modelo sugerido y prompt seed listo para el universo ArchiKatz.';
+  updRunBtn();
+}
+function loadLP(){ if(S.lastPrompt) document.getElementById('hfPrompt').value=S.lastPrompt; }
+
+// ═══════════════════════════════════════════
+// PIPELINE — GEMINI
+// ═══════════════════════════════════════════
+async function runPipeline(){
+  const idea=document.getElementById('ideaIn').value.trim();
+  if(!idea) return;
+  if(!S.gemKey){ showErr('Configura tu Gemini API key en CONFIG.'); return; }
+
+  const sceneId=`SCN-${String(S.sceneN).padStart(3,'0')}`;
+  const btn=document.getElementById('runBtn');
+  btn.className='runBtn busy';
+  btn.innerHTML='<span class="spinner"></span>EJECUTANDO...';
+  hideErr(); document.getElementById('resultArea').innerHTML='';
+
+  const ctx=[
+    S.mode&&`MODO: ${MODES.find(m=>m.c===S.mode)?.l}`,
+    S.char&&`PERSONAJE: ${S.char}`,
+    S.arch&&`CLASE: ${S.arch}`,
+    `SCENE ID: ${sceneId}`,
+    `TS: ${new Date().toISOString()}`,
+    `\nSOLICITUD: ${idea}`,
+  ].filter(Boolean).join('\n');
+
+  const model=S.engine==='gemini_pro'?'gemini-1.5-pro-latest':'gemini-1.5-flash-latest';
+  try{
+    const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${S.gemKey}`,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system_instruction:{parts:[{text:SYS}]},
+        contents:[{parts:[{text:ctx}]}],
+        generationConfig:{temperature:0.85,maxOutputTokens:2500},
+      }),
+    });
+    const data=await res.json();
+    if(data.error) throw new Error(data.error.message);
+    const text=data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if(!text) throw new Error('Respuesta vacía. Verifica tu API key.');
+
+    const entry={
+      id:sceneId, ts:new Date().toISOString(),
+      mode:S.mode, char:S.char, arch:S.arch, idea, raw:text,
+      briefing:xSec(text,'BRIEFING NARRATIVO'),
+      quote:xSec(text,'FRASE CÉLEBRE'),
+      promptFinal:xSec(text,'PROMPT FINAL'),
+      json:xJSON(text),
+      type:S.mode==='A'?'image':'video',
+      mediaUrl:'', thumb:'', jobId:'',
+    };
+    S.lastResult=entry; S.lastPrompt=entry.promptFinal||'';
+    S.gallery.unshift(entry); S.sceneN++;
+    saveGallery(); updScnLbl(); renderGallery();
+    renderResult(entry);
+    if(entry.promptFinal) document.getElementById('hfPrompt').value=entry.promptFinal;
+  }catch(e){ showErr(e.message); }
+  finally{
+    const ok=document.getElementById('ideaIn').value.trim().length>0;
+    btn.className=`runBtn ${ok?'rdy':'idle'}`;
+    btn.textContent='▶ EJECUTAR ARCHIKATZ OS';
+  }
+}
+
+// ═══════════════════════════════════════════
+// RENDER RESULT
+// ═══════════════════════════════════════════
+function renderResult(entry){
+  const cd=CHAR_DATA[entry.char]||null;
+  const ra=document.getElementById('resultArea');
+  const hasMedia=!!entry.mediaUrl;
+  let h='';
+
+  // Scene header
+  h+=`<div class="scnH"><span class="scnId">${entry.id}</span>
+    <span style="font-size:9px;color:#2a2a2a;">${entry.char||'—'} · ${entry.mode||'?'}</span></div>`;
+
+  // Media preview
+  h+=`<div class="mediaWrap"><div class="mediaThumb" id="mThumb_${entry.id}">`;
+  if(hasMedia){
+    const isV=entry.mediaUrl.match(/\.(mp4|webm|mov)/i);
+    h+=isV
+      ?`<video src="${entry.mediaUrl}" controls playsinline></video><span class="mediaBadge vi">VIDEO</span>`
+      :`<img src="${entry.mediaUrl}" alt="${entry.id}"><span class="mediaBadge im">IMAGEN</span>`;
+  } else {
+    h+=`<div style="text-align:center;color:#1a1a1a;padding:25px;">
+      <div style="font-size:26px;margin-bottom:6px;">⬡</div>
+      <div style="font-size:8px;letter-spacing:2px;">SIN MEDIA</div>
+      <div style="font-size:8px;color:#111;margin-top:3px;">Genera en Higgsfield →</div>
+    </div><span class="mediaBadge pr">PENDING</span>`;
+  }
+  h+=`</div>
+    <div class="mediaActs">
+      ${hasMedia?`<button class="dlBtn" onclick="dlMedia('${entry.mediaUrl}','${entry.id}')">⬇ DESCARGAR</button>
+        <button class="cpyBtn" onclick="cpyTxt('${entry.mediaUrl}',this)">COPIAR URL</button>`
+      :`<button onclick="goHF()" style="padding:7px 12px;font-size:9px;letter-spacing:2px;border:1px solid var(--blue);color:var(--blue);background:#080d14;cursor:pointer;">→ GENERAR EN HIGGSFIELD</button>`}
+    </div></div>`;
+
+  // Post-production (show always, disabled if no media)
+  h+=`<div class="blk">
+    <div class="postH">⚙ POST-PRODUCCIÓN</div>
+    <div class="postGrid">
+      <button class="postBtn${!hasMedia?' busy':''}" onclick="${hasMedia?`upscaleFP('${entry.mediaUrl}','${entry.id}')`:''}" ${!hasMedia?'disabled':''}>
+        <div class="pi">🔍</div><div class="pl">Upscale 4x</div><div class="ps">Freepik · requiere imagen</div>
+      </button>
+      <button class="postBtn${!hasMedia?' busy':''}" onclick="${hasMedia?`upscaleHF('${entry.mediaUrl}','${entry.id}')`:''}" ${!hasMedia?'disabled':''}>
+        <div class="pi">✨</div><div class="pl">Enhance HF</div><div class="ps">Higgsfield · mejora calidad</div>
+      </button>
+      <button class="postBtn${!hasMedia?' busy':''}" onclick="${hasMedia?`genVariant('${entry.id}')`:''}" ${!hasMedia?'disabled':''}>
+        <div class="pi">🔄</div><div class="pl">Variante</div><div class="ps">Misma escena · diferente ángulo</div>
+      </button>
+      <button class="postBtn" onclick="extendClip('${entry.id}')">
+        <div class="pi">🔗</div><div class="pl">Extender clip</div><div class="ps">Chain → Modo D</div>
+      </button>
+    </div></div>`;
+
+  // Character profile
+  if(cd) h+=`<div class="blk"><div class="blkH">
+    <span class="blkT" style="color:var(--purple);">👤 ${(entry.char||'').toUpperCase()}</span></div>
+    <div class="blkB" style="display:flex;flex-direction:column;gap:4px;">
+      <div style="font-size:9px;color:var(--text2);">${cd.arch}</div>
+      <div style="font-size:9px;color:#2a2a2a;">Paleta: ${cd.pal}</div>
+    </div></div>`;
+
+  // Quote
+  const q=entry.quote||(cd&&cd.quote)||'"Habitando lo no construido."';
+  h+=`<div class="quote"><div class="quoteT">${q}</div>
+    <div class="quoteA">— ${entry.char||'ArchiKatz'} · Habitando lo no construido</div></div>`;
+
+  // Briefing
+  if(entry.briefing) h+=mkBlk('BRIEFING NARRATIVO','var(--gold)',entry.briefing,
+    `<button class="cpyBtn" onclick="cpyEsc(\`${esc(entry.briefing)}\`,this)">COPIAR</button>`);
+
+  // Prompt
+  if(entry.promptFinal) h+=`<div class="blk"><div class="blkH">
+    <span class="blkT" style="color:var(--blue);">PROMPT FINAL</span>
+    <div class="blkActs">
+      <button class="cpyBtn" onclick="cpyEsc(\`${esc(entry.promptFinal)}\`,this)">COPIAR</button>
+      <button class="cpyBtn" style="color:var(--blue);border-color:#0d1a2a;" onclick="sendToHF('${esc(entry.promptFinal)}')">→ HF</button>
+    </div></div>
+    <div class="blkB"><pre class="promptPre">${entry.promptFinal}</pre></div></div>`;
+
+  // JSON
+  if(entry.json) h+=`<div class="blk"><div class="blkH">
+    <span class="blkT" style="color:var(--green);">SKILL 5 — DATA LOG</span>
+    <button class="cpyBtn" onclick="cpyEsc(\`${esc(entry.json)}\`,this)">COPIAR JSON</button>
+    </div><div class="blkB"><pre class="jsonPre">${entry.json}</pre></div></div>`;
+
+  // Next steps
+  if(entry.mode==='A'||entry.type==='image'){
+    h+=`<div class="blk"><div class="nxtH">🖼 IMAGEN CREADA — ¿QUÉ SIGUE?</div>
+    <div class="nxtGrid">
+      <button class="nxtBtn" onclick="quickNext('B')"><div class="ni">🎬</div><div class="nl">Video Simple</div><div class="ns">Animar adelante</div></button>
+      <button class="nxtBtn" onclick="quickNext('C')"><div class="ni">🎞</div><div class="nl">Bookended</div><div class="ns">Start+End frame</div></button>
+      <button class="nxtBtn" onclick="quickNext('E')"><div class="ni">🎭</div><div class="nl">Multi-shot</div><div class="ns">2-6 escenas</div></button>
+      <button class="nxtBtn" onclick="goHF()"><div class="ni">⚡</div><div class="nl">Generar ahora</div><div class="ns">→ Higgsfield</div></button>
+    </div></div>`;
+  }
+
+  // Share
+  const shareText=encodeURIComponent(`${q}\n\n#archikatz #architecture #aiart #brutalism #habitandolonoconstruido`);
+  h+=`<div class="blk"><div class="blkH">
+    <span class="blkT" style="color:#444;">COMPARTIR</span>
+    ${!hasMedia?'<span style="font-size:8px;color:#2a2a2a;">Genera la imagen primero para compartirla</span>':''}
+    </div>
+    <div class="shareRow">
+      <button class="sBtn ig" ${!hasMedia?'disabled':''} onclick="shareNative('${entry.mediaUrl}','${shareText}','Instagram')">📸 Instagram</button>
+      <button class="sBtn tk" ${!hasMedia?'disabled':''} onclick="shareTK('${entry.mediaUrl}','${shareText}')">🎵 TikTok</button>
+      <button class="sBtn tw" onclick="window.open('https://twitter.com/intent/tweet?text=${shareText}','_blank')">🐦 X</button>
+      <button class="sBtn wa" onclick="window.open('https://wa.me/?text=${shareText}','_blank')">💬 WhatsApp</button>
+      <button class="sBtn" onclick="cpyTxt(decodeURIComponent('${shareText}'),this)" style="color:var(--text2);">📋 Texto</button>
+    </div></div>`;
+
+  h+=`<button onclick="newScene()" style="width:100%;padding:11px;background:none;border:1px solid var(--border);color:#333;font-size:9px;letter-spacing:3px;cursor:pointer;">+ NUEVA ESCENA</button>`;
+
+  ra.innerHTML=h;
+  ra.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function mkBlk(title,color,content,action=''){
+  return `<div class="blk"><div class="blkH"><span class="blkT" style="color:${color};">${title}</span>${action}</div>
+    <div class="blkB"><pre>${content}</pre></div></div>`;
+}
+
+// ═══════════════════════════════════════════
+// HIGGSFIELD — GENERATE + POLL
+// ═══════════════════════════════════════════
+function connectHF(){
+  const k=document.getElementById('hfKeyIn').value.trim();
+  if(!k) return;
+  S.hfKey=k; S.hfConnected=true;
+  LS.set('ak_hf',k);
+  setHFStatus(true);
+  // sync to settings
+  document.getElementById('hfIn').value=k;
+  updApiDots();
+}
+function setHFStatus(ok){
+  document.getElementById('hfDot').className=`dot ${ok?'g':'r'}`;
+  document.getElementById('hfTxt').textContent=ok?'HIGGSFIELD — CONECTADO':'ERROR DE CONEXIÓN';
+  document.getElementById('hfRunBtn').className=`hfRun ${ok?'rdy':'idle'}`;
+}
+
+async function runHF(){
+  const prompt=document.getElementById('hfPrompt').value.trim();
+  if(!prompt){alert('Escribe o carga un prompt primero.');return;}
+  const key=S.hfKey||document.getElementById('hfKeyIn').value.trim();
+  if(!key){alert('Conecta tu Higgsfield API key primero.');return;}
+
+  const btn=document.getElementById('hfRunBtn');
+  btn.className='hfRun busy'; btn.innerHTML='<span class="spB"></span>ENVIANDO...';
+  document.getElementById('hfPoll').style.display='none';
+  document.getElementById('hfMediaOut').style.display='none';
+
+  const modelMap={kling3_0:'kling3_0',seedance_2_0:'seedance_2_0',nano_banana_pro:'nano_banana_pro',soul_2:'soul_2'};
+  try{
+    const res=await fetch('https://api.higgsfield.ai/v1/generate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
+      body:JSON.stringify({
+        model:modelMap[S.hfModel]||S.hfModel,
+        prompt,
+        duration:+document.getElementById('hfDur').value,
+        aspect_ratio:document.getElementById('hfAsp').value,
+      }),
+    });
+    const data=await res.json();
+    const jobId=data.job_id||data.id||data.request_id;
+    if(!jobId) throw new Error('No job ID: '+JSON.stringify(data).substring(0,200));
+
+    document.getElementById('hfJobTxt').textContent=`Job ID: ${jobId}`;
+    if(S.lastResult){ S.lastResult.jobId=jobId; updGalEntry(S.lastResult); }
+    startPoll(jobId,key);
+  }catch(e){
+    showHFMedia(`<div class="err">Error Higgsfield: ${e.message}</div>`);
+    btn.className=`hfRun ${S.hfConnected?'rdy':'idle'}`;
+    btn.textContent='🎬 GENERAR EN HIGGSFIELD';
+  }
+}
+
+function startPoll(jobId,key){
+  const btn=document.getElementById('hfRunBtn');
+  const poll=document.getElementById('hfPoll');
+  const pollTxt=document.getElementById('hfPollTxt');
+  const fill=document.getElementById('hfPollFill');
+  poll.style.display='block'; fill.style.width='0%';
+  let secs=0; const max=150;
+  clearInterval(S.hfPollTimer);
+  S.hfPollTimer=setInterval(async()=>{
+    secs+=3; fill.style.width=Math.min(secs/max*100,94)+'%';
+    pollTxt.innerHTML=`<span class="spB"></span>PROCESANDO... ${secs}s`;
+    try{
+      const r=await fetch(`https://api.higgsfield.ai/v1/jobs/${jobId}`,{headers:{'Authorization':`Bearer ${key}`}});
+      const d=await r.json();
+      const st=(d.status||'').toUpperCase();
+      if(st==='COMPLETED'||d.output?.media_url||d.media_url){
+        clearInterval(S.hfPollTimer);
+        fill.style.width='100%';
+        poll.style.display='none';
+        const url=d.output?.media_url?.[0]||d.output?.media_url||d.media_url||d.url||'';
+        onMediaReady(url,jobId);
+        btn.className='hfRun rdy'; btn.textContent='🎬 GENERAR EN HIGGSFIELD';
+      } else if(st==='FAILED'||st==='ERROR'){
+        clearInterval(S.hfPollTimer);
+        pollTxt.textContent='✗ FALLÓ — '+JSON.stringify(d.error||d).substring(0,100);
+        btn.className='hfRun rdy'; btn.textContent='🎬 GENERAR EN HIGGSFIELD';
+      }
+    }catch(_){}
+    if(secs>=max){
+      clearInterval(S.hfPollTimer);
+      pollTxt.textContent=`Timeout. Job ID: ${jobId} — verifica en higgsfield.ai`;
+      btn.className='hfRun rdy'; btn.textContent='🎬 GENERAR EN HIGGSFIELD';
+    }
+  },3000);
+}
+
+function onMediaReady(url,jobId){
+  // Save to gallery entry + thumbnail
+  if(S.lastResult){
+    S.lastResult.mediaUrl=url; S.lastResult.jobId=jobId;
+    // Save thumbnail as base64 for offline gallery
+    if(url) saveThumbnail(url, S.lastResult.id);
+    updGalEntry(S.lastResult);
+    renderResult(S.lastResult);
+  }
+  const isV=url.match(/\.(mp4|webm|mov)/i);
+  showHFMedia(`
+    <div class="blk"><div class="blkH">
+      <span class="blkT" style="color:var(--green);">✓ MEDIA LISTA</span>
+      <div class="blkActs">
+        <button class="dlBtn" onclick="dlMedia('${url}','hf_${jobId}')">⬇ DESCARGAR</button>
+        <button class="cpyBtn" onclick="cpyTxt('${url}',this)">COPIAR URL</button>
+      </div></div>
+      <div style="background:#080808;">
+        ${isV?`<video src="${url}" controls playsinline style="width:100%;max-height:280px;"></video>`
+              :`<img src="${url}" style="width:100%;max-height:280px;object-fit:contain;">`}
+      </div>
+      <div class="mediaActs">
+        ${S.fpKey?`<button onclick="upscaleFP('${url}','hf')" style="padding:7px 12px;font-size:9px;letter-spacing:2px;border:1px solid var(--orange);color:var(--orange);background:none;cursor:pointer;">🔍 UPSCALE 4x (Freepik)</button>`:''}
+        <button onclick="shareNative('${url}','','Compartir')" style="padding:7px 12px;font-size:9px;letter-spacing:2px;border:1px solid var(--green);color:var(--green);background:none;cursor:pointer;">↗ COMPARTIR</button>
+      </div></div>`);
+}
+function showHFMedia(html){
+  const box=document.getElementById('hfMediaOut');
+  box.innerHTML=html; box.style.display='block';
+  box.scrollIntoView({behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════
+// POST-PRODUCTION
+// ═══════════════════════════════════════════
+async function upscaleFP(imgUrl, entryId){
+  if(!S.fpKey){ alert('Configura tu Freepik API key en CONFIG.'); return; }
+  alert('Enviando a Freepik Upscale... (esto puede tardar 30-60s)\nEl resultado aparecerá en la galería.');
+  try{
+    const res=await fetch('https://api.freepik.com/v1/ai/image-upscaler',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-freepik-api-key':S.fpKey},
+      body:JSON.stringify({image:imgUrl,scale:4}),
+    });
+    const data=await res.json();
+    const upUrl=data.data?.base64?`data:image/jpeg;base64,${data.data.base64}`:data.output_url||data.url||'';
+    if(upUrl){
+      const idx=S.gallery.findIndex(e=>e.id===entryId);
+      if(idx>=0){ S.gallery[idx].upscaledUrl=upUrl; saveGallery(); renderGallery(); }
+      alert('✓ Upscale listo. Descarga disponible en la galería.');
+    } else { alert('Error: '+JSON.stringify(data).substring(0,200)); }
+  }catch(e){ alert('Error Freepik: '+e.message); }
+}
+
+async function upscaleHF(imgUrl, entryId){
+  if(!S.hfKey){ alert('Conecta Higgsfield primero.'); return; }
+  alert('Enviando a Higgsfield Enhance... El resultado actualizará la galería.');
+  try{
+    const res=await fetch('https://api.higgsfield.ai/v1/enhance',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${S.hfKey}`},
+      body:JSON.stringify({image_url:imgUrl,type:'upscale'}),
+    });
+    const data=await res.json();
+    const url=data.output_url||data.url||data.result_url||'';
+    if(url){
+      const idx=S.gallery.findIndex(e=>e.id===entryId);
+      if(idx>=0){ S.gallery[idx].upscaledUrl=url; saveGallery(); renderGallery(); }
+    }
+  }catch(e){ alert('Error HF Enhance: '+e.message); }
+}
+
+function genVariant(entryId){
+  const e=S.gallery.find(x=>x.id===entryId);
+  if(!e||!e.promptFinal) return;
+  document.getElementById('ideaIn').value=`VARIANTE de ${entryId}: Misma escena, mismo personaje y vestuario, pero cambia el ángulo de cámara y la dinámica de luz. Prompt base: ${e.promptFinal.substring(0,120)}...`;
+  if(e.mode) S.mode=e.mode;
+  if(e.char) S.char=e.char;
+  if(e.arch) S.arch=e.arch;
+  renderModes(); renderChips(); updPills(); updRunBtn();
+  goTab('pipeline');
+}
+
+function extendClip(entryId){
+  const e=S.gallery.find(x=>x.id===entryId);
+  S.mode='D';
+  document.getElementById('ideaIn').value=`Modo D Chain — Extensión del clip ${entryId}. Continúa desde el último frame manteniendo el mismo personaje, vestuario y clase arquitectónica. ${e?.mediaUrl?'Media URL: '+e.mediaUrl:''}`;
+  if(e?.char) S.char=e.char;
+  if(e?.arch) S.arch=e.arch;
+  renderModes(); renderChips(); updPills(); updRunBtn();
+  goTab('pipeline');
+}
+
+// ═══════════════════════════════════════════
+// THUMBNAIL — guardar miniatura local
+// ═══════════════════════════════════════════
+function saveThumbnail(url, entryId){
+  // Canvas thumbnail 200x150 — para galería offline
+  const img=new Image();
+  img.crossOrigin='anonymous';
+  img.onload=()=>{
+    try{
+      const c=document.createElement('canvas');
+      c.width=200; c.height=150;
+      const ctx=c.getContext('2d');
+      ctx.drawImage(img,0,0,200,150);
+      const thumb=c.toDataURL('image/jpeg',0.6);
+      const idx=S.gallery.findIndex(e=>e.id===entryId);
+      if(idx>=0){ S.gallery[idx].thumb=thumb; saveGallery(); renderGallery(); }
+    }catch(_){}
+  };
+  img.src=url;
+}
+
+// ═══════════════════════════════════════════
+// GALLERY
+// ═══════════════════════════════════════════
+function renderGallery(){
+  const grid=document.getElementById('galGrid');
+  const empty=document.getElementById('galEmpty');
+  const count=document.getElementById('galCount');
+  count.textContent=`${S.gallery.length} escenas`;
+  if(!S.gallery.length){ empty.style.display='block'; grid.innerHTML=''; return; }
+  empty.style.display='none';
+  const mI={A:'🖼',B:'🎬',C:'🎞',D:'🔗',E:'🎭','?':'💡'};
+  grid.innerHTML=S.gallery.map((e,i)=>{
+    const thumbSrc=e.thumb||e.mediaUrl||'';
+    const hasM=!!e.mediaUrl;
+    const hasUp=!!e.upscaledUrl;
+    let thumb=thumbSrc
+      ?`<img src="${thumbSrc}" style="width:100%;height:85px;object-fit:cover;">`
+      :`<div style="height:85px;background:linear-gradient(135deg,${gc(e.arch)});display:flex;align-items:center;justify-content:center;font-size:20px;">${mI[e.mode]||'⬡'}</div>`;
+    return `<div class="galCard" onclick="viewScene(${i})">
+      <div class="galThumb">${thumb}
+        ${hasM?`<span class="galOverlay" style="color:var(--green);">✓ MEDIA</span>`:''}
+      </div>
+      <div class="galInfo">
+        <div class="galId">${e.id}</div>
+        <div class="galSub">${e.char||'—'}</div>
+        <div class="galSub" style="color:#1a1a1a;">${e.arch||'—'}</div>
+        <div class="galActs" onclick="event.stopPropagation()">
+          ${hasM?`<button onclick="dlMedia('${e.mediaUrl}','${e.id}')">⬇</button>`:''}
+          ${hasUp?`<button onclick="dlMedia('${e.upscaledUrl}','${e.id}_4x')" class="up">4x</button>`:''}
+          ${e.promptFinal?`<button onclick="cpyEsc(\`${esc(e.promptFinal)}\`,this)">PROMPT</button>`:''}
+          ${hasM&&S.fpKey?`<button class="up" onclick="event.stopPropagation();upscaleFP('${e.mediaUrl}','${e.id}')">UPSCALE</button>`:''}
+          <button class="del" onclick="event.stopPropagation();delScene(${i})">✕</button>
+        </div>
+      </div></div>`;
+  }).join('');
+}
+function gc(a){ const g={'Brutalismo':'#1a1400,#0a0a0a','Neo-Faraónico':'#1a0a00,#0a0a0a','Ciberpunk Entropismo':'#001a1a,#0a0a0a','No Euclidiano':'#0a001a,#0a0a0a','Hibridación':'#001a00,#0a0a0a','Parametricismo':'#001a1a,#0a0a0a'}; return g[a]||'#1a1a1a,#0a0a0a'; }
+function viewScene(i){ const e=S.gallery[i]; S.lastResult=e; S.lastPrompt=e.promptFinal||''; goTab('pipeline'); renderResult(e); }
+function delScene(i){ if(confirm('¿Eliminar?')){ S.gallery.splice(i,1); saveGallery(); renderGallery(); } }
+function updGalEntry(entry){ const i=S.gallery.findIndex(e=>e.id===entry.id); if(i>=0){ S.gallery[i]=entry; saveGallery(); renderGallery(); } }
+function saveGallery(){ LS.setObj('ak_gal',S.gallery.slice(0,100)); LS.set('ak_n',S.sceneN); updStorageInfo(); }
+
+// ═══════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════
+function exportCSV(){
+  const hdr=['scene_id','timestamp','mode','char','arch','ai_model','media_url','upscaled_url','job_id','status'];
+  const rows=S.gallery.map(e=>{
+    let j={};try{j=JSON.parse(e.json||'{}')}catch(_){}
+    return[e.id,e.ts,e.mode,e.char,e.arch,j.ai_model||'',e.mediaUrl||'',e.upscaledUrl||'',e.jobId||'',j.status||'Pending'].join(',');
+  });
+  dlText([hdr.join(','),...rows].join('\n'),'archikatz_gallery.csv','text/csv');
+}
+function exportJSON(){ dlText(JSON.stringify(S.gallery.map(e=>{const{thumb:_,...rest}=e;return rest;}),null,2),'archikatz_gallery.json','application/json'); }
+function dlText(c,n,t){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([c],{type:t})); a.download=n; a.click(); }
+
+// ═══════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════
+function saveAll(){
+  const gk=document.getElementById('gemIn').value.trim();
+  const hk=document.getElementById('hfIn').value.trim();
+  const fk=document.getElementById('fpIn').value.trim();
+  if(gk){ S.gemKey=gk; LS.set('ak_gem',gk); }
+  if(hk){ S.hfKey=hk; LS.set('ak_hf',hk); document.getElementById('hfKeyIn').value=hk; S.hfConnected=true; setHFStatus(true); }
+  if(fk){ S.fpKey=fk; LS.set('ak_fp',fk); }
+  updApiDots();
+  const m=document.getElementById('savedMsg'); m.style.display='block';
+  setTimeout(()=>m.style.display='none',2500);
+}
+function clearGallery(){ if(confirm('¿Borrar toda la galería? No se puede deshacer.')){ S.gallery=[]; S.sceneN=1; saveGallery(); updScnLbl(); renderGallery(); } }
+function updStorageInfo(){
+  try{
+    let total=0;
+    for(let k in localStorage){ if(k.startsWith('ak_')){ total+=localStorage[k].length; } }
+    const kb=(total/1024).toFixed(1);
+    const items=S.gallery.length;
+    const withThumb=S.gallery.filter(e=>e.thumb).length;
+    document.getElementById('storageInfo').textContent=`${items} escenas · ${withThumb} con miniatura local · ${kb} KB usados`;
+  }catch(_){}
+}
+
+// ═══════════════════════════════════════════
+// DOWNLOAD & SHARE
+// ═══════════════════════════════════════════
+async function dlMedia(url,name){
+  try{
+    const res=await fetch(url);
+    const blob=await res.blob();
+    const ext=(url.split('.').pop().split('?')[0]||'jpg').substring(0,4);
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=`archikatz_${name}.${ext}`;
+    a.click();
+  }catch(e){ window.open(url,'_blank'); }
+}
+
+async function shareNative(url, text, platform){
+  const decodedText=decodeURIComponent(text);
+  if(navigator.share){
+    try{
+      if(url){
+        const res=await fetch(url);
+        const blob=await res.blob();
+        const isV=blob.type.includes('video');
+        const file=new File([blob],`archikatz.${isV?'mp4':'jpg'}`,{type:blob.type});
+        if(navigator.canShare&&navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],text:decodedText});
+          return;
+        }
+      }
+      await navigator.share({text:decodedText,url:'https://higgsfield.ai'});
+    }catch(e){ if(e.name!=='AbortError') fallbackShare(url,text); }
+  } else { fallbackShare(url,text); }
+}
+
+async function shareTK(url, text){
+  if(url) await dlMedia(url,'tiktok');
+  navigator.clipboard.writeText(decodeURIComponent(text));
+  alert('✓ Video descargado + texto copiado.\nAbre TikTok → + → sube el video descargado.');
+}
+
+function fallbackShare(url,text){
+  if(url) dlMedia(url,'share');
+  navigator.clipboard.writeText(decodeURIComponent(text));
+  alert('✓ Archivo descargado + texto copiado.\nAbre la app y pega el texto al compartir.');
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION & HELPERS
+// ═══════════════════════════════════════════
+function goTab(name){
+  ['pipeline','gallery','higgsfield','settings'].forEach(t=>{
+    document.getElementById(`pg-${t}`).className=`pg${t===name?' on':''}`;
+  });
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    t.className=`tab${['pipeline','gallery','higgsfield','settings'][i]===name?' on':''}`;
+  });
+}
+function goHF(){ if(S.lastPrompt) document.getElementById('hfPrompt').value=S.lastPrompt; goTab('higgsfield'); }
+function quickNext(mode){
+  S.mode=mode;
+  const d={B:'Video Simple: anima el Hero Frame generado. Mismo personaje, vestuario idéntico.',C:'Bookended: genera el End Frame final. Mismo personaje, vestuario idéntico. Define qué ocurre al final.',E:'Multi-shot: expande la escena en 2-6 tomas encadenadas. Mismo personaje por toda la secuencia.'};
+  document.getElementById('ideaIn').value=d[mode]||`Continúa en Modo ${mode}`;
+  renderModes(); updPills(); updRunBtn(); goTab('pipeline');
+  document.getElementById('ideaIn').scrollIntoView({behavior:'smooth'});
+}
+function sendToHF(prompt){ document.getElementById('hfPrompt').value=prompt; goTab('higgsfield'); }
+function newScene(){
+  document.getElementById('ideaIn').value=''; document.getElementById('resultArea').innerHTML='';
+  S.mode='';S.char='';S.arch=''; renderModes();renderChips();updPills();updRunBtn();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function xSec(t,h){ const m=t.match(new RegExp(`##\\s*${h}[^\\n]*\\n([\\s\\S]*?)(?=\\n##|$)`,'i')); return m?m[1].trim():null; }
+function xJSON(t){ const m=t.match(/```json([\s\S]*?)```/); return m?m[1].trim():null; }
+function esc(s){ return(s||'').replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$'); }
+function cpyEsc(text,btn){ navigator.clipboard.writeText(text); if(btn){const o=btn.textContent;btn.textContent='✓';btn.className='cpyBtn ok';setTimeout(()=>{btn.textContent=o;btn.className='cpyBtn';},1500);} }
+function cpyTxt(text,btn){ navigator.clipboard.writeText(text); if(btn){const o=btn.textContent;btn.textContent='✓';btn.className='cpyBtn ok';setTimeout(()=>{btn.textContent=o;btn.className='cpyBtn';},1500);} }
+function showErr(msg){ const b=document.getElementById('errBox'); b.textContent='⚠ '+msg; b.style.display='block'; }
+function hideErr(){ document.getElementById('errBox').style.display='none'; }
+
+init();
+</script>
+<script src="/assets/site-shell.js" data-mode="mini" data-back="/home/" data-back-es="← Mapa" data-back-en="← Map"></script>
+<script src="/analytics/config.js"></script>
+<script src="/analytics/track.js" defer></script>
+</body>
+</html>

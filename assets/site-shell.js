@@ -16,7 +16,7 @@
       { k: 'blog', t: { es: 'Blog', en: 'Blog' }, href: '/bitacora/', d: { es: 'Casos y procesos contados de principio a fin: cómo lo hice.', en: 'Cases and processes told start to finish: how I did it.' } },
       { k: 'academy', t: { es: 'Academy', en: 'Academy' }, href: '/academy/', d: { es: '26 guías paso a paso: Revit con IA, permisos NYC, obra, ventas B2B.', en: '26 step-by-step guides: Revit with AI, NYC permits, construction, B2B sales.' } },
       { k: 'lab', t: { es: 'Lab', en: 'Lab' }, href: '/lab/', d: { es: 'Motion Lab: 14 demos de animación y física que usa este sitio.', en: 'Motion Lab: 14 animation and physics demos used on this site.' } },
-      { k: 'games', t: { es: 'Juegos', en: 'Games' }, href: '/games/', d: { es: 'Juegos web de arquitectura. Guarda tu récord y reta a otros.', en: 'Architecture web games. Save your best and challenge others.' }, sub: 'games' },
+      { k: 'games', t: { es: 'Juegos', en: 'Games' }, href: '/games/', d: { es: '5 juegos de arquitectura con tutorial, ranking y retos.', en: '5 architecture games with tutorial, leaderboard and challenges.' }, sub: 'games' },
       { k: 'contact', t: { es: 'Contacto', en: 'Contact' }, href: '/#contacto', d: { es: 'Escríbeme o arma una cotización. hi@promii.co', en: 'Write to me or build a quote. hi@promii.co' } }
     ],
     /* Mapa completo: grupos → destinos. st: "live" (activo) o "soon" (próximamente). */
@@ -42,6 +42,10 @@
         { t: { es: 'Juegos', en: 'Games' }, d: { es: 'Juegos web de arquitectura', en: 'Architecture web games' }, href: '/games/', st: 'live' },
         { t: { es: 'Torre de niveles', en: 'Level Tower' }, d: { es: 'Apila losas sin perder el aplomo', en: 'Stack slabs and keep it plumb' }, href: '/games/torre.html', st: 'live' },
         { t: { es: 'Detección de choques', en: 'Clash Detection' }, d: { es: 'Encuentra las interferencias', en: 'Find the clashes' }, href: '/games/choques.html', st: 'live' },
+        { t: { es: 'Ducto', en: 'Duct Run' }, d: { es: 'La serpiente de los constructores', en: 'The builders\' snake game' }, href: '/games/ducto.html', st: 'live' },
+        { t: { es: 'Órbita', en: 'Orbit' }, d: { es: 'Naves contra drones de plano', en: 'Ships against blueprint drones' }, href: '/games/orbita.html', st: 'live' },
+        { t: { es: 'Ruta de obra', en: 'Site Run' }, d: { es: 'Camión mezclador en la ciudad', en: 'Mixer truck through the city' }, href: '/games/ruta.html', st: 'live' },
+        { t: { es: 'ArchiKatz Studio', en: 'ArchiKatz Studio' }, d: { es: 'Crea personajes, escenas y prompts del universo ArchiKatz', en: 'Create ArchiKatz characters, scenes and prompts' }, href: '/studio/', st: 'live' },
         { t: { es: 'ArchiKatz', en: 'ArchiKatz' }, d: { es: 'Arte, tienda y editorial', en: 'Art, shop and publishing' }, href: '/#ecosistema', st: 'soon' },
         { t: { es: 'Comunidad', en: 'Community' }, d: { es: 'Arquitectos y creadores con IA', en: 'Architects and creators using AI' }, href: '/#ecosistema', st: 'soon' }
       ] }
@@ -161,14 +165,14 @@
       return '<div class="pm-pop wide' + right + '"><p>' + esc(L(n.d)) + '</p>' + its.map(function (x) { return '<a href="' + x.href + '">' + esc(L(x.t)) + '<small>' + esc(L(x.d)) + '</small></a>'; }).join('') + '</div>';
     }
     if (n.sub === 'games') {
-      return '<div class="pm-pop' + right + '"><p>' + esc(L(n.d)) + '</p>' + SITE.map[3].items.slice(1, 3).map(function (x) { return '<a href="' + x.href + '">' + esc(L(x.t)) + '<small>' + esc(L(x.d)) + '</small></a>'; }).join('') + '</div>';
+      return '<div class="pm-pop' + right + '"><p>' + esc(L(n.d)) + '</p>' + SITE.map[3].items.slice(1, 6).map(function (x) { return '<a href="' + x.href + '">' + esc(L(x.t)) + '<small>' + esc(L(x.d)) + '</small></a>'; }).join('') + '</div>';
     }
     return '<div class="pm-pop' + right + '"><p>' + esc(L(n.d)) + '</p></div>';
   }
   function drawChrome() {
     if (mode === 'mini') {
       if (!mini) { mini = document.createElement('div'); mini.className = 'pm-mini'; document.body.appendChild(mini); }
-      mini.innerHTML = '<a href="/lab/">' + L(SITE.ui.back) + '</a><a href="/">promii.co</a><a href="/home/">' + (lang === 'en' ? 'Map' : 'Mapa') + '</a>';
+      var bk = me && me.dataset.back; mini.innerHTML = bk ? '<a href="' + bk + '">' + (lang === 'en' ? me.dataset.backEn : me.dataset.backEs) + '</a><a href="/">promii.co</a>' : '<a href="/lab/">' + L(SITE.ui.back) + '</a><a href="/">promii.co</a><a href="/home/">' + (lang === 'en' ? 'Map' : 'Mapa') + '</a>';
       return;
     }
     if (mode === 'full' || mode === 'nav') {
