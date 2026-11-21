@@ -16,7 +16,7 @@
   <div class="stage glass" id="stage">
     <canvas id="cv"></canvas>
     <div class="hud"><span><span data-en="Level">Nivel</span> <b id="lv">0</b></span><span><span data-en="Best">Récord</span> <b id="best">0</b></span></div>
-    <div class="over" id="over"><div><h2 id="ot" data-en="Level Tower">Torre de niveles</h2><p id="op" data-en="Tap the screen (or press space) to drop each slab. What overhangs falls off. A perfect fit keeps the width.">Toca la pantalla (o la barra espaciadora) para soltar cada losa. Lo que sobresale se cae. Un encaje perfecto mantiene el ancho.</p><button class="btn" id="go" data-en="Start">Empezar</button></div></div>
+    <div class="over" id="over"><div><div class="pg-chal" id="chal" hidden></div><h2 id="ot" data-en="Level Tower">Torre de niveles</h2><p id="op" data-en="Tap the screen (or press space) to drop each slab. What overhangs falls off. A perfect fit keeps the width.">Toca la pantalla (o la barra espaciadora) para soltar cada losa. Lo que sobresale se cae. Un encaje perfecto mantiene el ancho.</p><button class="btn" id="go" data-en="Start">Empezar</button><p class="pg-stats" id="pst"></p><div id="soc"></div></div></div>
   </div>
   <p class="help" data-en="Tap anywhere on the board · Space bar on a computer">Toca en cualquier parte del tablero · Barra espaciadora en el computador</p>
 </main>
@@ -35,14 +35,14 @@
   else{var cx=mov.x<top.x?mov.x:r,cw=mov.w-ov;fall.push({x:cx,y:yOf(stack.length),w:cw,vy:0,vx:(mov.x<top.x?-1:1)*60,a:0,va:(mov.x<top.x?-1:1)*2});}
   stack.push({x:l,w:ov,c:stack.length});score++;lv.textContent=score;camT=Math.max(0,(stack.length-6)*SH);spawn();}
  function yOf(i){return H-60-i*SH;}
- function end(){state='over';if(score>best){best=score;try{localStorage.setItem('pg-best-torre',best);}catch(e){}bestEl.textContent=best;}
+ function end(){state='over';var R=window.PG?PG.record('torre',score):null;if(score>best){best=score;try{localStorage.setItem('pg-best-torre',best);}catch(e){}bestEl.textContent=best;}
   try{window.promiiEvent&&promiiEvent('game',{label:'torre',value:score});}catch(e){}
   setTimeout(function(){var E=document.documentElement.lang==='en',ot=document.getElementById('ot'),op=document.getElementById('op'),go=document.getElementById('go');[ot,op,go].forEach(function(n){n.removeAttribute('data-en');n.removeAttribute('data-es');});
-   ot.textContent=E?score+(score===1?' level':' levels'):score+(score===1?' nivel':' niveles');op.textContent=score>=best&&score>0?(E?'New record! The tower held '+score+' slabs.':'¡Nuevo récord! La torre aguantó '+score+' losas.'):(E?'Best: '+best+'. Every perfect fit keeps the slab width.':'Récord: '+best+'. Cada encaje perfecto mantiene el ancho de la losa.');go.textContent=E?'Again':'Otra vez';over.classList.remove('hide');},700);}
+   ot.textContent=E?score+(score===1?' level':' levels'):score+(score===1?' nivel':' niveles');op.textContent=score>=best&&score>0?(E?'New record! The tower held '+score+' slabs.':'¡Nuevo récord! La torre aguantó '+score+' losas.'):(E?'Best: '+best+'. Every perfect fit keeps the slab width.':'Récord: '+best+'. Cada encaje perfecto mantiene el ancho de la losa.');go.textContent=E?'Again':'Otra vez';var c=window.PG&&PG.challenge(),ps=document.getElementById('pst');ps.textContent=R?((E?'Games played: ':'Partidas: ')+R.stats.plays+(E?' · Best: ':' · Récord: ')+R.stats.best):'';if(c){var ch=document.getElementById('chal');ch.hidden=false;ch.textContent=score>c.score?(E?'You beat the challenge! ✓':'¡Superaste el reto! ✓'):(E?'Challenge: beat ':'Reto: supera ')+c.score;}if(window.PG&&score>0)PG.renderOver(document.getElementById('soc'),'torre',score,E?'Level Tower':'Torre de niveles');over.classList.remove('hide');},700);}
  function start(){reset();state='play';over.classList.add('hide');}
  document.getElementById('go').addEventListener('click',function(e){e.stopPropagation();start();});
  st.addEventListener('pointerdown',function(e){if(e.target.closest('.over'))return;drop();});
- addEventListener('keydown',function(e){if(e.code==='Space'){e.preventDefault();if(state==='play')drop();else start();}});
+ addEventListener('keydown',function(e){if(e.target&&e.target.tagName==='INPUT')return;if(e.code==='Space'){e.preventDefault();if(state==='play')drop();else start();}});
  function grid(){x.strokeStyle='rgba(255,255,255,.05)';x.lineWidth=1;x.beginPath();for(var i=0;i<W;i+=28){x.moveTo(i+.5,0);x.lineTo(i+.5,H);}for(var j=(H+cam)%28;j<H;j+=28){x.moveTo(0,j+.5);x.lineTo(W,j+.5);}x.stroke();}
  function slab(s,y,col,dash){x.save();x.setLineDash(dash||[]);x.strokeStyle=col;x.lineWidth=1.6;x.fillStyle='rgba(255,255,255,.035)';x.fillRect(s.x,y,s.w,SH-4);x.strokeRect(s.x+.5,y+.5,s.w-1,SH-5);x.restore();}
  function draw(){x.clearRect(0,0,W,H);grid();if(!stack){return;}
@@ -62,6 +62,8 @@
 </script>
 <script src="/assets/site-shell.js" data-mode="full"></script>
 <script src="/analytics/config.js"></script>
+<script src="social.js"></script>
+<script>(function(){var E=document.documentElement.lang==='en',c=PG.challenge(),s=PG.stats('torre'),el=document.getElementById('chal'),ps=document.getElementById('pst');if(c){el.hidden=false;el.textContent=(c.from||(E?'Someone':'Alguien'))+(E?' challenges you: beat ':' te reta: supera ')+c.score;}if(s.plays)ps.textContent=(E?'Games played: ':'Partidas: ')+s.plays+(E?' · Best: ':' · Récord: ')+s.best;})();</script>
 <script src="/analytics/track.js" defer></script>
 </body>
 </html>

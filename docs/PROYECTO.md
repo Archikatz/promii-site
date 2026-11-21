@@ -70,6 +70,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 21. **Sitio bilingüe y encabezado completo en todas las páginas:** `assets/site-shell.js` v2 con idioma ES/EN (guardado en `promii-lang`, compartido con el portafolio), modo claro/oscuro, botón de mapa (gota) y menú con secciones del portafolio; traducción por atributos `data-en`. Blog (antes "Log" en inglés) con los 5 artículos traducidos (`bitacora/posts/en/`), Academy (generador `academy/build.py`), Juegos y Home en ES/EN. La home ahora tiene encabezado y un mapa completo visible bajo las gotas; las gotas se pausan al salir de pantalla. Lupa del iPhone nítida (CSS `zoom` en vez de escalar un bitmap) y la gota sigue el scroll más rápido. El Lab conserva su contenido solo en español (barra y pie bilingües).
 
+22. **Menú único, home más cuidada y juegos sociales:** el portafolio usa el mismo menú que todas las páginas (`site-shell.js` en modo `nav` sobre `<nav data-shell>`): Portafolio · Blog · Academy · Lab · Juegos · Contacto, con panel al pasar el mouse que describe cada opción (Portafolio y Juegos con sus secciones), botón de mapa (gota), botón de panel admin (candado → admin.promii.co), ES/EN y tema. Home: palabra promii con brillo metálico animado, eco en línea, cota de plano y gotas de vidrio como puntos de las íes; gotas más nítidas (sin desenfoque, brillo especular y sombra de color). Juegos: progreso local (partidas y récord), ranking Top 10 en Supabase (`game_scores`), retos por enlace (`?reto=&de=`) que se comparten con el menú del teléfono.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.

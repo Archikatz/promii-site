@@ -22,7 +22,8 @@ html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 var(--bo
   radial-gradient(38% 30% at 86% 84%,rgba(255,59,48,.26),transparent 70%),
   radial-gradient(30% 26% at 82% 18%,rgba(34,224,200,.16),transparent 70%),
   radial-gradient(34% 28% at 14% 86%,rgba(232,178,58,.14),transparent 70%),var(--bg)}
-.bg::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.2px);background-size:26px 26px;mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 100%);-webkit-mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 100%)}
+.bg::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(0,0,0,.55) 100%)}
+.bg::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.3px);background-size:104px 104px,104px 104px,26px 26px;mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 100%);-webkit-mask:radial-gradient(70% 60% at 50% 50%,#000 30%,transparent 100%)}
 .ring{position:absolute;left:50%;top:50%;width:min(84vw,84vh,520px);aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:1px dashed rgba(255,255,255,.08);pointer-events:none;transition:opacity .8s}
 .ring.r2{width:min(56vw,56vh,340px)}
 body:not(.open) .ring{opacity:0}
@@ -34,17 +35,33 @@ body:not(.open) .ring{opacity:0}
 .pill:hover{background:rgba(255,255,255,.12)}
 .bottom{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 16px calc(18px + env(safe-area-inset-bottom));z-index:20}
 /* Titular */
-.hello{position:absolute;left:0;right:0;top:calc(50% + min(26vw,120px));text-align:center;pointer-events:none;transition:opacity .6s,transform .8s cubic-bezier(.2,.7,.2,1)}
-.hello h1{font:700 clamp(42px,9vw,84px)/.9 var(--display);letter-spacing:-.06em;margin:0}
+.hello{position:absolute;left:0;right:0;top:calc(50% + min(24vw,110px));text-align:center;pointer-events:none;transition:opacity .6s,transform .8s cubic-bezier(.2,.7,.2,1)}
+.hello h1{position:relative;display:inline-block;font:700 clamp(68px,15vw,148px)/.86 var(--display);letter-spacing:-.075em;margin:0;padding:0 .06em}
+.wm-t{position:relative;background:linear-gradient(100deg,#9aa6e8 0%,#ffffff 22%,#e9ecff 38%,#ffffff 46%,#aab3ee 60%,#ffffff 78%,#c6ccf5 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 7s ease-in-out infinite;filter:drop-shadow(0 14px 34px rgba(47,107,255,.35)) drop-shadow(0 2px 0 rgba(0,0,0,.4))}
+.wm-o{position:absolute;inset:0;padding:0 .06em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);transform:translate(.045em,.05em);pointer-events:none}
+.wm-ii{position:relative;display:inline-block}
+.wm-ii i{position:absolute;left:58%;top:.14em;width:.17em;height:.17em;margin-left:-.085em;border-radius:50%;background:radial-gradient(35% 28% at 34% 26%,#fff,rgba(255,255,255,.4) 45%,transparent 75%),radial-gradient(80% 70% at 50% 100%,var(--dc),transparent 70%),rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.6),0 6px 16px -4px var(--dc);animation:bob 3.6s ease-in-out infinite}
+.wm-ii+.wm-ii i{animation-delay:-1.8s}
+.wm-dim{display:flex;align-items:center;gap:10px;justify-content:center;margin:14px auto 0;width:min(70%,420px);font:600 10px var(--body);letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.wm-dim::before,.wm-dim::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(47,107,255,.7),rgba(47,107,255,.2));border-left:1px solid rgba(47,107,255,.9);border-right:1px solid rgba(47,107,255,.9);height:7px;background-size:100% 1px;background-repeat:no-repeat;background-position:center}
+@keyframes sheen{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+@media (max-width:560px){.hello{top:calc(50% + 84px)!important}.hello h1{font-size:clamp(56px,16vw,90px)}.hello p{font-size:12.5px;margin-top:8px}.bottom .pill{font-size:12.5px;padding:8px 12px}.bottom{gap:6px}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-.05em)}}
+body.open .wm-t,body.open .wm-ii i{animation-play-state:paused}
 .hello p{margin:12px 0 0;color:var(--muted);font-size:14px;letter-spacing:.04em}
 body.open .hello{opacity:0;transform:translateY(20px)}
 /* Gotas de vidrio líquido */
 .drop{position:absolute;left:0;top:0;border-radius:50%;will-change:transform;cursor:grab;touch-action:none;-webkit-tap-highlight-color:transparent;display:grid;place-items:center;text-align:center;
-  background:radial-gradient(42% 26% at 34% 20%,rgba(255,255,255,.42),transparent 70%),radial-gradient(70% 70% at 70% 82%,color-mix(in srgb,var(--c,#fff) 26%,transparent),transparent 70%),rgba(255,255,255,.035);
-  box-shadow:inset 0 0 0 .7px rgba(255,255,255,.6),inset 3px 2px 5px -1px rgba(255,90,130,.38),inset -3px -2px 5px -1px rgba(70,180,255,.4),inset 0 -16px 24px -16px rgba(255,255,255,.45),inset 0 10px 20px -12px rgba(0,0,0,.3),0 18px 36px -18px rgba(0,0,0,.6),0 0 30px -10px var(--c,transparent);
-  backdrop-filter:blur(3px) saturate(1.7) brightness(1.08);-webkit-backdrop-filter:blur(3px) saturate(1.7) brightness(1.08)}
+  background:
+   radial-gradient(30% 16% at 33% 17%,rgba(255,255,255,.95),rgba(255,255,255,.35) 45%,transparent 72%),
+   radial-gradient(14% 8% at 70% 84%,rgba(255,255,255,.55),transparent 75%),
+   radial-gradient(75% 60% at 50% 100%,color-mix(in srgb,var(--c,#fff) 42%,transparent),transparent 70%),
+   radial-gradient(120% 120% at 30% 20%,rgba(255,255,255,.08),rgba(255,255,255,.02) 50%,rgba(0,0,0,.18) 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),inset 0 1.5px 1px rgba(255,255,255,.85),inset 4px 3px 6px -2px rgba(255,90,130,.45),inset -4px -3px 6px -2px rgba(70,180,255,.5),inset 0 -18px 26px -18px color-mix(in srgb,var(--c,#fff) 80%,white),inset 0 12px 22px -14px rgba(0,0,0,.35),0 26px 40px -22px rgba(0,0,0,.85),0 6px 30px -12px color-mix(in srgb,var(--c,#fff) 70%,transparent);
+  backdrop-filter:saturate(1.9) brightness(1.15) contrast(1.06);-webkit-backdrop-filter:saturate(1.9) brightness(1.15) contrast(1.06)}
+.drop::after{content:"";position:absolute;left:12%;right:12%;bottom:-18%;height:22%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--c,#fff) 45%,transparent),transparent);filter:blur(6px);opacity:.55;pointer-events:none}
 .drop.held{cursor:grabbing}
-.drop span{font:600 clamp(11px,1.5vw,13px)/1.15 var(--display);letter-spacing:-.005em;padding:0 10px;color:var(--text);text-shadow:0 1px 8px rgba(0,0,0,.6);pointer-events:none}
+.drop span{font:600 clamp(11.5px,1.5vw,13.5px)/1.12 var(--display);letter-spacing:-.01em;padding:0 10px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.55),0 0 14px rgba(0,0,0,.35);pointer-events:none;-webkit-font-smoothing:antialiased}
 .drop small{display:block;font:500 9.5px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:3px}
 .core{width:min(34vw,150px);height:min(34vw,150px);animation:breath 6s ease-in-out infinite}
 .core::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:1px solid rgba(255,255,255,.14);animation:pulse 2.6s cubic-bezier(.2,.7,.2,1) infinite}
@@ -85,14 +102,14 @@ body.open .core::after{display:none}
 .mg h3{display:flex;align-items:center;gap:10px;font:700 19px var(--display);margin:0 0 8px}.mg h3 i{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
 .mg .it{padding:9px 10px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-@media (prefers-reduced-motion:reduce){.core,.core::after{animation:none}}
+@media (prefers-reduced-motion:reduce){.core,.core::after,.wm-t,.wm-ii i{animation:none}}
 </style>
 </head>
 <body>
 <section class="hero" id="hero" aria-label="Caminos" data-en-label="Paths">
 <div class="bg" aria-hidden="true"></div>
 <div class="ring" aria-hidden="true"></div><div class="ring r2" aria-hidden="true"></div>
-<div class="hello" id="hello"><h1>promii</h1><p data-en="Tap the drop and choose your path">Toca la gota y escoge tu camino</p></div>
+<div class="hello" id="hello"><h1 aria-label="promii"><span class="wm-o" aria-hidden="true">promii</span><span class="wm-t">prom<span class="wm-ii">ı<i style="--dc:#2f6bff"></i></span><span class="wm-ii">ı<i style="--dc:#ff3b30"></i></span></span></h1><div class="wm-dim" aria-hidden="true">A-00 · promii.co</div><p data-en="Tap the drop and choose your path">Toca la gota y escoge tu camino</p></div>
 <canvas id="trail" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
 <div id="world" aria-label="Caminos"></div>
 <div class="bottom"><a class="pill" href="/" data-en="Enter the portfolio →">Entrar al portafolio →</a><button class="pill" id="mapBtn" type="button" data-en="Full map ↓">Mapa completo ↓</button><button class="pill" id="physBtn" type="button" aria-expanded="false" data-en="Physics">Física</button></div>

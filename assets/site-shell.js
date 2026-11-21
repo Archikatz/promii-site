@@ -12,12 +12,12 @@
 (function () {
   var SITE = window.PROMII_SITE = {
     nav: [
-      { k: 'portfolio', t: { es: 'Portafolio', en: 'Portfolio' }, href: '/' },
-      { k: 'blog', t: { es: 'Blog', en: 'Blog' }, href: '/bitacora/' },
-      { k: 'academy', t: { es: 'Academy', en: 'Academy' }, href: '/academy/' },
-      { k: 'lab', t: { es: 'Lab', en: 'Lab' }, href: '/lab/' },
-      { k: 'games', t: { es: 'Juegos', en: 'Games' }, href: '/games/' },
-      { k: 'contact', t: { es: 'Contacto', en: 'Contact' }, href: '/#contacto' }
+      { k: 'portfolio', t: { es: 'Portafolio', en: 'Portfolio' }, href: '/', d: { es: 'Mi trabajo como arquitecto BIM y los servicios de Promii.', en: 'My work as a BIM architect and Promii services.' }, sub: 'portfolio' },
+      { k: 'blog', t: { es: 'Blog', en: 'Blog' }, href: '/bitacora/', d: { es: 'Casos y procesos contados de principio a fin: cómo lo hice.', en: 'Cases and processes told start to finish: how I did it.' } },
+      { k: 'academy', t: { es: 'Academy', en: 'Academy' }, href: '/academy/', d: { es: '26 guías paso a paso: Revit con IA, permisos NYC, obra, ventas B2B.', en: '26 step-by-step guides: Revit with AI, NYC permits, construction, B2B sales.' } },
+      { k: 'lab', t: { es: 'Lab', en: 'Lab' }, href: '/lab/', d: { es: 'Motion Lab: 14 demos de animación y física que usa este sitio.', en: 'Motion Lab: 14 animation and physics demos used on this site.' } },
+      { k: 'games', t: { es: 'Juegos', en: 'Games' }, href: '/games/', d: { es: 'Juegos web de arquitectura. Guarda tu récord y reta a otros.', en: 'Architecture web games. Save your best and challenge others.' }, sub: 'games' },
+      { k: 'contact', t: { es: 'Contacto', en: 'Contact' }, href: '/#contacto', d: { es: 'Escríbeme o arma una cotización. hi@promii.co', en: 'Write to me or build a quote. hi@promii.co' } }
     ],
     /* Mapa completo: grupos → destinos. st: "live" (activo) o "soon" (próximamente). */
     map: [
@@ -56,7 +56,8 @@
       menu: { es: 'Menú', en: 'Menu' }, map: { es: 'Mapa del sitio', en: 'Site map' }, explore: { es: 'Explorar', en: 'Explore' },
       learn: { es: 'Aprender', en: 'Learn' }, social: { es: 'Redes', en: 'Social' },
       tag: { es: 'Arquitectura, BIM y sistemas de IA. Promii / Studio Brian Zuleta.', en: 'Architecture, BIM and AI systems. Promii / Studio Brian Zuleta.' },
-      theme: { es: 'Modo claro / oscuro', en: 'Light / dark mode' }, back: { es: '← Lab', en: '← Lab' }
+      theme: { es: 'Modo claro / oscuro', en: 'Light / dark mode' }, back: { es: '← Lab', en: '← Lab' },
+      admin: { es: 'Panel de administración', en: 'Admin console' }, lang: { es: 'Idioma', en: 'Language' }
     }
   };
 
@@ -97,7 +98,8 @@
   if (mode === 'data') { window.addEventListener('DOMContentLoaded', applyLang); return; }
 
   var path = location.pathname.replace(/index\.html$/, '');
-  function cur(h) { if (h === '/' || h.charAt(1) === '#') return path === '/'; return path.indexOf(h) === 0; }
+  var adopt = mode === 'nav' ? document.querySelector('nav[data-shell]') : null;
+  function cur(h) { if (h.indexOf('#') >= 0) return false; if (h === '/') return path === '/'; return path.indexOf(h) === 0; }
 
   var css = '' +
     '.pm-nav{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));z-index:50;margin:10px auto 0;width:min(1120px,calc(100% - 24px));display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 7px 7px 16px;border-radius:999px;' +
@@ -115,14 +117,27 @@
     '.pm-ic svg{width:16px;height:16px}' +
     '.pm-menu{display:none;align-items:center;gap:8px;border:0;cursor:pointer;font:600 13px "Inter",system-ui,sans-serif;color:var(--text,#f4f4f8);background:var(--glass2,rgba(255,255,255,.08));padding:9px 13px;border-radius:999px}' +
     '.pm-menu b{display:grid;gap:3px}.pm-menu b i{display:block;width:14px;height:1.6px;border-radius:2px;background:currentColor;transition:transform .35s cubic-bezier(.2,.7,.2,1)}' +
-    '.pm-nav.open .pm-menu b i:first-child{transform:translateY(2.3px) rotate(45deg)}.pm-nav.open .pm-menu b i:last-child{transform:translateY(-2.3px) rotate(-45deg)}' +
-    '.pm-drop{position:absolute;left:0;right:0;top:calc(100% + 8px);display:grid;gap:2px;padding:10px;border-radius:24px;max-height:calc(100svh - 90px);overflow:auto;background:color-mix(in srgb,var(--bg,#08080c) 88%,transparent);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid var(--brd,var(--glass-brd,rgba(255,255,255,.13)));box-shadow:0 24px 50px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top right;pointer-events:none;transition:opacity .3s,transform .45s cubic-bezier(.2,.7,.2,1)}' +
-    '.pm-nav.open .pm-drop{opacity:1;transform:none;pointer-events:auto}' +
+    '.pm-open .pm-menu b i:first-child{transform:translateY(2.3px) rotate(45deg)}.pm-open .pm-menu b i:last-child{transform:translateY(-2.3px) rotate(-45deg)}' +
+    '.pm-inner{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%}' +
+    '.pm-item{position:relative}' +
+    '.pm-pop{position:absolute;left:50%;top:calc(100% + 12px);translate:-50% 0;width:290px;padding:14px;border-radius:20px;background:color-mix(in srgb,var(--bg,#08080c) 97%,transparent);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid var(--brd,var(--glass-brd,rgba(255,255,255,.14)));box-shadow:0 24px 50px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(-6px) scale(.98);pointer-events:none;transition:opacity .22s,transform .35s cubic-bezier(.2,.7,.2,1);z-index:60;text-align:left}' +
+    '.pm-pop::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}' +
+    '.pm-item:hover .pm-pop,.pm-item:focus-within .pm-pop{opacity:1;transform:none;pointer-events:auto;transition-delay:.08s}' +
+    '.pm-pop p{margin:0 0 6px;font:500 13px/1.45 "Inter",system-ui,sans-serif;color:var(--muted,#a6a6bc);white-space:normal}' +
+    '.pm-pop a{display:block;padding:7px 10px;border-radius:12px;text-decoration:none;color:var(--text,#f4f4f8);font:600 13.5px "Inter",system-ui,sans-serif;white-space:normal}' +
+    '.pm-pop a small{display:block;font:500 12px/1.35 "Inter",system-ui,sans-serif;color:var(--dim,#6e6e86);margin-top:1px}' +
+    '.pm-pop a:hover{background:var(--glass2,rgba(255,255,255,.08))}' +
+    '.pm-pop.wide{width:420px;display:grid;grid-template-columns:1fr 1fr;gap:2px}.pm-pop.wide p{grid-column:1/-1}' +
+    '.pm-pop.right{left:auto;right:-10px;translate:none}' +
+    '.pm-drop{position:absolute;left:0;right:0;top:calc(100% + 8px);display:grid;gap:2px;padding:10px;border-radius:24px;max-height:calc(100svh - 90px);overflow:auto;background:color-mix(in srgb,var(--bg,#08080c) 97%,transparent);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid var(--brd,var(--glass-brd,rgba(255,255,255,.13)));box-shadow:0 24px 50px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top right;pointer-events:none;transition:opacity .3s,transform .45s cubic-bezier(.2,.7,.2,1)}' +
+    '.pm-open .pm-drop{opacity:1;transform:none;pointer-events:auto}' +
     '.pm-drop a{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--text,#f4f4f8);font:600 17px "Space Grotesk",system-ui,sans-serif;padding:11px 14px;border-radius:16px}' +
     '.pm-drop a[aria-current]{background:var(--glass2,rgba(255,255,255,.08))}.pm-drop a span{font:500 12px "Inter",system-ui,sans-serif;color:var(--dim,#6e6e86)}' +
     '.pm-drop .pm-sub{font:600 10.5px "Inter",system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--dim,#6e6e86);padding:10px 14px 2px}' +
     '.pm-drop .pm-small{font:500 14.5px "Inter",system-ui,sans-serif;padding:8px 14px}' +
-    '@media (max-width:980px){.pm-links{display:none}.pm-menu{display:flex}}' +
+    '@media (max-width:1060px){.pm-links{display:none}.pm-menu{display:flex}}' +
+    '@media (max-width:520px){.pm-ctl .pm-hide-s{display:none}}' +
+    'nav[data-shell] .pm-brand{font-size:13px}nav[data-shell] .pm-inner{padding:0 8px 0 20px;height:56px}@media (max-width:760px){nav[data-shell] .pm-inner{padding-left:16px;height:52px}}' +
     '@media (max-width:440px){.pm-brand span{display:none}.pm-nav{padding-left:12px}}' +
     '.pm-foot{margin:56px auto 0;width:min(1120px,calc(100% - 32px));padding:28px 0 calc(34px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line,rgba(255,255,255,.1));display:grid;grid-template-columns:1.3fr repeat(3,1fr);gap:24px;font:14px/1.6 "Inter",system-ui,sans-serif;color:var(--muted,#a6a6bc)}' +
     '.pm-foot h4{margin:0 0 8px;font:600 11px "Inter",system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--dim,#6e6e86)}' +
@@ -138,29 +153,44 @@
   var DROP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3.4 4.2 6 7.4 6 10.6A6 6 0 0 1 6 13.6C6 10.4 8.6 7.2 12 3z"/><circle cx="9.8" cy="12.6" r="1.2" fill="currentColor" stroke="none"/></svg>';
 
   var nav, foot, mini;
+  var LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+  function pop(n, i) {
+    var right = i >= SITE.nav.length - 2 ? ' right' : '';
+    if (n.sub === 'portfolio') {
+      var its = SITE.map[0].items.slice(0, 4).concat(SITE.map[1].items);
+      return '<div class="pm-pop wide' + right + '"><p>' + esc(L(n.d)) + '</p>' + its.map(function (x) { return '<a href="' + x.href + '">' + esc(L(x.t)) + '<small>' + esc(L(x.d)) + '</small></a>'; }).join('') + '</div>';
+    }
+    if (n.sub === 'games') {
+      return '<div class="pm-pop' + right + '"><p>' + esc(L(n.d)) + '</p>' + SITE.map[3].items.slice(1, 3).map(function (x) { return '<a href="' + x.href + '">' + esc(L(x.t)) + '<small>' + esc(L(x.d)) + '</small></a>'; }).join('') + '</div>';
+    }
+    return '<div class="pm-pop' + right + '"><p>' + esc(L(n.d)) + '</p></div>';
+  }
   function drawChrome() {
     if (mode === 'mini') {
       if (!mini) { mini = document.createElement('div'); mini.className = 'pm-mini'; document.body.appendChild(mini); }
       mini.innerHTML = '<a href="/lab/">' + L(SITE.ui.back) + '</a><a href="/">promii.co</a><a href="/home/">' + (lang === 'en' ? 'Map' : 'Mapa') + '</a>';
       return;
     }
-    if (mode === 'full') {
-      var open = nav && nav.classList.contains('open');
-      if (!nav) { nav = document.createElement('nav'); nav.className = 'pm-nav'; document.body.insertBefore(nav, document.body.firstChild); }
+    if (mode === 'full' || mode === 'nav') {
+      var open = nav && nav.classList.contains('pm-open');
+      if (!nav) { if (adopt) nav = adopt; else { nav = document.createElement('nav'); nav.className = 'pm-nav'; document.body.insertBefore(nav, document.body.firstChild); } }
       nav.setAttribute('aria-label', lang === 'en' ? 'Site navigation' : 'Navegación del sitio');
-      var links = SITE.nav.map(function (n) { return '<a href="' + n.href + '"' + (cur(n.href) ? ' aria-current="page"' : '') + '>' + esc(L(n.t)) + '</a>'; }).join('');
+      var links = SITE.nav.map(function (n, i) { return '<div class="pm-item"><a href="' + n.href + '"' + (cur(n.href) ? ' aria-current="page"' : '') + '>' + esc(L(n.t)) + '</a>' + pop(n, i) + '</div>'; }).join('');
       var drop = SITE.nav.map(function (n) { return '<a href="' + n.href + '"' + (cur(n.href) ? ' aria-current="page"' : '') + '>' + esc(L(n.t)) + '<span>→</span></a>'; }).join('') +
         '<a href="/home/"' + (cur('/home/') ? ' aria-current="page"' : '') + '>' + esc(L(SITE.ui.map)) + '<span>→</span></a>' +
         '<div class="pm-sub">' + (lang === 'en' ? 'Portfolio sections' : 'Secciones del portafolio') + '</div>' +
-        SITE.map[0].items.slice(0, 4).concat(SITE.map[1].items.slice(0, 2)).map(function (i) { return '<a class="pm-small" href="' + i.href + '">' + esc(L(i.t)) + '</a>'; }).join('');
-      nav.innerHTML = '<a class="pm-brand" href="/"><i></i><span>Brian Zuleta</span></a><div class="pm-links">' + links + '</div>' +
+        SITE.map[0].items.slice(0, 4).concat(SITE.map[1].items.slice(0, 2)).map(function (i) { return '<a class="pm-small" href="' + i.href + '">' + esc(L(i.t)) + '</a>'; }).join('') +
+        '<a class="pm-small" href="https://admin.promii.co">' + esc(L(SITE.ui.admin)) + ' ↗</a>';
+      nav.innerHTML = (adopt ? '<div class="pm-inner">' : '') + '<a class="pm-brand" href="/"><i></i><span>Brian Zuleta</span></a><div class="pm-links">' + links + '</div>' +
         '<div class="pm-ctl"><a class="pm-ic" href="/home/" title="' + esc(L(SITE.ui.map)) + '" aria-label="' + esc(L(SITE.ui.map)) + '">' + DROP + '</a>' +
+        '<a class="pm-ic pm-hide-s" href="https://admin.promii.co" title="' + esc(L(SITE.ui.admin)) + '" aria-label="' + esc(L(SITE.ui.admin)) + '">' + LOCK + '</a>' +
         '<div class="pm-lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="es"' + (lang === 'es' ? ' class="on"' : '') + '>ES</button><button type="button" data-l="en"' + (lang === 'en' ? ' class="on"' : '') + '>EN</button></div>' +
         (darkOnly ? '' : '<button class="pm-ic pm-theme" type="button" title="' + esc(L(SITE.ui.theme)) + '" aria-label="' + esc(L(SITE.ui.theme)) + '">' + (theme() === 'light' ? '☀️' : '🌙') + '</button>') +
         '<button class="pm-menu" type="button" aria-expanded="false" aria-controls="pm-drop">' + esc(L(SITE.ui.menu)) + '<b><i></i><i></i></b></button></div>' +
-        '<div class="pm-drop" id="pm-drop">' + drop + '</div>';
+        '<div class="pm-drop" id="pm-drop">' + drop + '</div>' + (adopt ? '</div>' : '');
       if (open) toggle(true);
     }
+    if (mode === 'nav') return;
     if (!foot) { foot = document.createElement('footer'); foot.className = 'pm-foot'; document.body.appendChild(foot); }
     var cols = [
       [L(SITE.ui.explore), SITE.nav.concat([{ t: SITE.ui.map, href: '/home/' }])],
@@ -170,14 +200,14 @@
     foot.innerHTML = '<div><a class="pm-brand" href="/"><i></i>Brian Zuleta</a><p>' + esc(L(SITE.ui.tag)) + '</p><small>© ' + new Date().getFullYear() + ' Brian Zuleta · promii.co</small></div>' +
       cols.map(function (c) { return '<div><h4>' + c[0] + '</h4>' + c[1].map(function (n) { return '<a href="' + n.href + '"' + (n.ext ? ' target="_blank" rel="noopener"' : '') + '>' + esc(L(n.t)) + '</a>'; }).join('') + '</div>'; }).join('');
   }
-  function toggle(o) { if (!nav) return; nav.classList.toggle('open', o); var b = nav.querySelector('.pm-menu'); if (b) b.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+  function toggle(o) { if (!nav) return; nav.classList.toggle('pm-open', o); var b = nav.querySelector('.pm-menu'); if (b) b.setAttribute('aria-expanded', o ? 'true' : 'false'); }
   drawChrome();
   document.addEventListener('click', function (e) {
     var t = e.target;
     if (!nav || !t.closest) return;
     var lb = t.closest('.pm-lang button'); if (lb) { setLang(lb.getAttribute('data-l')); return; }
     if (t.closest('.pm-theme')) { toggleTheme(); return; }
-    if (t.closest('.pm-menu')) { e.stopPropagation(); toggle(!nav.classList.contains('open')); return; }
+    if (t.closest('.pm-menu')) { e.stopPropagation(); toggle(!nav.classList.contains('pm-open')); return; }
     if (!nav.contains(t)) toggle(false);
   });
   addEventListener('keydown', function (e) { if (e.key === 'Escape') toggle(false); });

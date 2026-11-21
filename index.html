@@ -307,23 +307,7 @@ svg.ic{stroke:var(--text);filter:none}
 <symbol id="s-mail" viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4 7.3V17h16V7.3zM5.3 7 12 11l6.7-4z"/></symbol>
 </defs></svg>
 
-<nav><div class="wrap row">
-  <a href="#top" class="brand"><span class="dot"></span> Brian Zuleta<span class="dim hidem" style="font-weight:400">/ Promii</span></a>
-  <div class="navlinks">
-    <a href="#sobre" class="hidem" data-i="nav_about">Sobre mí</a>
-    <a href="#experiencia" class="hidem" data-i="nav_exp">Experiencia</a>
-    <a href="#proyectos" class="hidem" data-i="nav_proj">Proyectos</a>
-    <a href="#servicios" class="hidem" data-i="nav_services">Servicios</a>
-    <a href="#casos" class="hidem" data-i="nav_cases">Casos</a>
-    <a href="bitacora/" class="hidem" data-i="nav_blog">Blog</a>
-    <a href="academy/" class="hidem">Academy</a>
-    <a href="#ecosistema" class="hidem" data-i="nav_eco">Ecosistema</a>
-    <a href="#contacto" class="hidem" data-i="nav_brief">Contacto</a>
-    <a href="home/" class="iconbtn mapbtn" title="Mapa del sitio / Site map" aria-label="Mapa del sitio"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3c3.4 4.2 6 7.4 6 10.6A6 6 0 0 1 6 13.6C6 10.4 8.6 7.2 12 3z"/><circle cx="9.8" cy="12.6" r="1.2" fill="currentColor" stroke="none"/></svg></a>
-    <div class="toggle"><button id="langES" class="on" onclick="setLang('es')">ES</button><button id="langEN" onclick="setLang('en')">EN</button></div>
-    <button class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="Modo claro / oscuro">🌙</button>
-  </div>
-</div></nav>
+<nav data-shell aria-label="Navegación del sitio"></nav>
 
 <header class="hero" id="top">
   <canvas id="fx"></canvas>
@@ -767,7 +751,7 @@ let lang="es",market="us",cart=[],_io;
 function activeSVC(){return market==='us'?SVC_US:SVC_LATAM;}
 function fromPrice(s){return s.base>0?s.base:(s.per>0?s.per:0);}
 function money(n){return market==='us'?'$'+n.toLocaleString('en-US'):'COP $'+n.toLocaleString('es-CO');}
-function setLang(l){lang=l;try{localStorage.setItem('promii-lang',l);}catch(e){}document.getElementById('langES').classList.toggle('on',l==='es');document.getElementById('langEN').classList.toggle('on',l==='en');document.documentElement.lang=l;render();}
+function setLang(l){lang=l;try{localStorage.setItem('promii-lang',l);}catch(e){}var _e=document.getElementById('langES');if(_e){_e.classList.toggle('on',l==='es');document.getElementById('langEN').classList.toggle('on',l==='en');}if(window.PROMII_SITE&&PROMII_SITE.lang&&PROMII_SITE.lang()!==l)PROMII_SITE.setLang(l);document.documentElement.lang=l;render();}
 function setMarket(m){if(m===market)return;market=m;cart=[];document.getElementById('mkA').classList.toggle('on',m==='us');document.getElementById('mkB').classList.toggle('on',m==='latam');render();}
 function toggleTheme(){var h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeBtn').textContent=d?'☀️':'🌙';try{localStorage.setItem('promii-theme',d?'light':'dark');}catch(e){}}
 (function(){try{var t=localStorage.getItem('promii-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}var b=document.getElementById('themeBtn');if(b)b.textContent=document.documentElement.getAttribute('data-theme')==='light'?'☀️':'🌙';})();
@@ -1735,6 +1719,8 @@ html[data-off~="drop"] #drop{display:none}
 })();
 </script>
 <script>try{var _l=new URLSearchParams(location.search).get("lang")||localStorage.getItem("promii-lang");if((_l==="en"||_l==="es")&&_l!==lang&&typeof setLang==="function")setLang(_l);}catch(e){}</script>
+<script src="/assets/site-shell.js" data-mode="nav"></script>
+<script>addEventListener("promii:lang",function(e){if(typeof setLang==="function"&&lang!==e.detail)setLang(e.detail);});</script>
 <script src="analytics/config.js" defer></script>
 <script src="analytics/track.js" defer></script>
 </body>
