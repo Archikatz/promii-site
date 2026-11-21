@@ -45,6 +45,7 @@
         { t: { es: 'Ducto', en: 'Duct Run' }, d: { es: 'La serpiente de los constructores', en: 'The builders\' snake game' }, href: '/games/ducto.html', st: 'live' },
         { t: { es: 'Órbita', en: 'Orbit' }, d: { es: 'Naves contra drones de plano', en: 'Ships against blueprint drones' }, href: '/games/orbita.html', st: 'live' },
         { t: { es: 'Ruta de obra', en: 'Site Run' }, d: { es: 'Camión mezclador en la ciudad', en: 'Mixer truck through the city' }, href: '/games/ruta.html', st: 'live' },
+        { t: { es: 'Universo ArchiKatz', en: 'ArchiKatz Universe' }, d: { es: 'Historia, personajes, webtoon y sello editorial', en: 'Story, characters, webtoon and imprint' }, href: '/editorial/', st: 'live' },
         { t: { es: 'ArchiKatz Studio', en: 'ArchiKatz Studio' }, d: { es: 'Crea personajes, escenas y prompts del universo ArchiKatz', en: 'Create ArchiKatz characters, scenes and prompts' }, href: '/studio/', st: 'live' },
         { t: { es: 'ArchiKatz', en: 'ArchiKatz' }, d: { es: 'Arte, tienda y editorial', en: 'Art, shop and publishing' }, href: '/#ecosistema', st: 'soon' },
         { t: { es: 'Comunidad', en: 'Community' }, d: { es: 'Arquitectos y creadores con IA', en: 'Architects and creators using AI' }, href: '/#ecosistema', st: 'soon' }

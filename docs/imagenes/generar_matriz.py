@@ -34,7 +34,7 @@ def add(id_, pri, marca, grupo, plat, pieza, size, rel, gen, safe, tool, estilo,
     w, h = size.split('×')
     plat_slug = plat.split('/')[0].strip().lower().replace(' ', '').replace('.', '')
     fname = f"{id_}_{plat_slug}_{pieza.lower().replace(' ', '-').replace('/', '-').replace('·','').replace('—','')[:28].strip('-')}_{w}x{h}_v1.png".replace('--','-')
-    folder = {'Identidad':'01_Logos','Perfiles':'02_Perfiles','LinkedIn':'03_LinkedIn','YouTube':'04_YouTube','Instagram':'05_Instagram','TikTok':'06_TikTok_Facebook_X','Facebook':'06_TikTok_Facebook_X','X':'06_TikTok_Facebook_X','Pinterest':'07_Pinterest_Behance','Behance':'07_Pinterest_Behance','Web':'08_Web','Email':'09_Email','Tienda':'10_ArchiKatz_Tienda'}[grupo]
+    folder = {'Identidad':'01_Logos','Perfiles':'02_Perfiles','LinkedIn':'03_LinkedIn','YouTube':'04_YouTube','Instagram':'05_Instagram','TikTok':'06_TikTok_Facebook_X','Facebook':'06_TikTok_Facebook_X','X':'06_TikTok_Facebook_X','Pinterest':'07_Pinterest_Behance','Behance':'07_Pinterest_Behance','Web':'08_Web','Email':'09_Email','Tienda':'10_ArchiKatz_Tienda','Editorial':'11_Editorial_Webtoon'}[grupo]
     fname = _na(fname)
     rows.append([id_, pri, "Por generar", marca, grupo, plat, pieza, size, rel, gen, safe, tool, estilo, desc, full, neg, texto, ref, paleta, fname, folder, notas])
 
@@ -287,6 +287,17 @@ add("AK-02","Baja","ArchiKatz","Tienda","Shopify ArchiKatz","Banner colección E
  "Banner de la colección Elemental Guardians (Vol. 1).",
  "A panoramic lineup of four elemental guardians side by side: a volcanic fire goddess in ruby flames, a luminous sapphire mermaid with glowing water ribbons, a colossal emerald golem, and a translucent quartz air elemental, epic fantasy concept art, cinematic lighting.",
  texto="Elemental Guardians",paleta=P_AK,notas="Basado en los prompts literales del Vol. 1.")
+
+# ================= 11. EDITORIAL / WEBTOON (desde editorial/episodes.json) =================
+import json as _json, pathlib as _pl
+_ep = _pl.Path(__file__).resolve().parent.parent.parent / 'editorial' / 'episodes.json'
+if _ep.exists():
+    for e in _json.loads(_ep.read_text()):
+        for k, pnl in enumerate(e['panels']):
+            if not pnl.get('prompt'): continue
+            add(f"WT-{e['n']:02d}-{k+1:02d}", "Media", "ArchiKatz", "Editorial", "promii.co/editorial (webtoon)", f"Episodio {e['n']} · viñeta {k+1}", "1200×1560", "10:13", "3:4", "Dejar libre el tercio superior (texto de narración) o el inferior (globo de diálogo)", NB, "ArchiKatz",
+                f"Viñeta {k+1} del episodio '{e['title']['es']}'. Al generarla, guárdala en editorial/img/ y pon su ruta en \"img\" del panel en editorial/episodes.json.",
+                pnl['prompt'], texto=(pnl.get('speaker','') + ': ' if pnl.get('speaker') else '') + pnl['es'], paleta=P_AK, notas="Mismo estilo en todas las viñetas del episodio; Michi siempre gata atigrada de ojos verdes y collar táctico.")
 
 # ---------- Libro ----------
 wb = Workbook()
