@@ -69,6 +69,13 @@
     ".bottom{display:none!important}",
     "body.open .hello{opacity:0;transform:translateY(18px) scale(.97);pointer-events:none;transition:opacity .55s,transform .7s cubic-bezier(.2,.7,.2,1)}",
     "@keyframes wmBreath{0%,100%{border-radius:22% 28% 24% 26%/28% 22% 30% 24%}40%{border-radius:26% 22% 28% 24%/24% 28% 22% 30%}70%{border-radius:24% 26% 22% 28%/30% 24% 28% 22%}}",
+    "body.open .wm-letter{animation:wmExplode .7s cubic-bezier(.2,.8,.2,1) forwards!important;pointer-events:none}",
+    "body.open .wm-letter:nth-child(1){--ox:-120px;--oy:-40px}",
+    "body.open .wm-letter:nth-child(2){--ox:-50px;--oy:-90px}",
+    "body.open .wm-letter:nth-child(4){--ox:50px;--oy:-90px}",
+    "body.open .wm-letter:nth-child(5){--ox:110px;--oy:-30px}",
+    "body.open .wm-letter:nth-child(6){--ox:150px;--oy:40px}",
+    "@keyframes wmExplode{0%{transform:translate(0,0) scale(1);opacity:1}60%{transform:translate(var(--ox),var(--oy)) scale(1.08);opacity:.7}100%{transform:translate(calc(var(--ox)*1.2),calc(var(--oy)*1.2)) scale(.4);opacity:0}}",
     "@media (prefers-reduced-motion:reduce){.wm-letter,body:not(.open) .core{animation:none!important}}"
   ].join("");
 
@@ -147,7 +154,7 @@
       var dock = document.createElement("div");
       dock.className = "dock";
       dock.setAttribute("role", "navigation");
-      dock.setAttribute("aria-label", "Accesos rápidos");
+      dock.setAttribute("aria-label", "Accesos r\u00e1pidos");
       while (bottom.firstChild) dock.appendChild(bottom.firstChild);
       bottom.parentNode.insertBefore(dock, bottom);
       var link = dock.querySelector("a.pill");
@@ -167,6 +174,7 @@
     buildWordmark();
     stickLoop();
     addEventListener("resize", placeCoreAsO);
+    addEventListener("promii:reassemble", function () { setTimeout(stickLoop, 30); });
 
     var mo = new MutationObserver(function () {
       if (!document.body.classList.contains("open")) stickLoop();
