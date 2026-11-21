@@ -80,6 +80,8 @@ Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code, 
 
 26. **Studio con dos modos y cierre de la sesión (21-nov-2026):** ArchiKatz Studio muestra el modo A activo (claves propias del usuario) y el modo B como próximamente (inicio de sesión con cupo mensual). README con la estructura completa y sección 6 de este archivo reescrita con el estado actual y los pasos siguientes.
 
+27. **Home con todo el ecosistema:** el mapa del sitio (`PROMII_SITE.map` en `assets/site-shell.js`) pasa a 5 caminos: Contratar a Brian, Trabajar con Promii (incluye Comunidad, próximamente), Aprender (Blog, Academy, Lab), Jugar (portal y los 5 juegos) y Universo ArchiKatz (editorial, webtoon, Studio, tienda próximamente). En home.promii.co cada camino es una gota y hay accesos directos (`sat: 1`) a Proyectos, Servicios, Blog, Órbita y Webtoon. El mapa visible debajo lista todos los destinos.
+
 ## 5. Fuentes de contenido usadas
 
 - Drive: `Brian_Zuleta_CV_Arquitecto_de_Diseno_BIM_2026.pdf` (18-nov-2026) para KBM, años y proyectos.

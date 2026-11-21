@@ -24,31 +24,34 @@
       { g: { es: 'Contratar a Brian', en: 'Hire Brian' }, c: '#2f6bff', items: [
         { t: { es: 'Sobre mí', en: 'About' }, d: { es: 'Arquitecto, BIM e IA entre Nueva York y Bogotá', en: 'Architect, BIM and AI between New York and Bogotá' }, href: '/#sobre', st: 'live' },
         { t: { es: 'Experiencia', en: 'Experience' }, d: { es: 'Cargos, obras y resultados', en: 'Roles, projects and results' }, href: '/#experiencia', st: 'live' },
-        { t: { es: 'Proyectos', en: 'Projects' }, d: { es: 'Planos que se dibujan solos', en: 'Drawings that draw themselves' }, href: '/#proyectos', st: 'live' },
+        { t: { es: 'Proyectos', en: 'Projects' }, d: { es: 'Planos que se dibujan solos', en: 'Drawings that draw themselves' }, href: '/#proyectos', st: 'live', sat: 1 },
         { t: { es: 'Casos', en: 'Case studies' }, d: { es: 'Sistemas contados como productos', en: 'Systems told as products' }, href: '/#casos', st: 'live' },
         { t: { es: 'Hoja de vida', en: 'Résumé' }, d: { es: 'CV en español e inglés', en: 'CV in English and Spanish' }, href: '/#sobre', st: 'live' }
       ] },
       { g: { es: 'Trabajar con Promii', en: 'Work with Promii' }, c: '#ff3b30', items: [
-        { t: { es: 'Servicios', en: 'Services' }, d: { es: 'Arquitectura, BIM e IA productizados', en: 'Productized architecture, BIM and AI' }, href: '/#servicios', st: 'live' },
+        { t: { es: 'Servicios', en: 'Services' }, d: { es: 'Arquitectura, BIM e IA productizados', en: 'Productized architecture, BIM and AI' }, href: '/#servicios', st: 'live', sat: 1 },
         { t: { es: 'Cotizar', en: 'Get a quote' }, d: { es: 'Arma tu paquete', en: 'Build your package' }, href: '/#cotizar', st: 'live' },
-        { t: { es: 'Contacto', en: 'Contact' }, d: { es: 'Escríbeme', en: 'Write to me' }, href: '/#contacto', st: 'live' }
+        { t: { es: 'Contacto', en: 'Contact' }, d: { es: 'Escríbeme', en: 'Write to me' }, href: '/#contacto', st: 'live' },
+        { t: { es: 'Comunidad', en: 'Community' }, d: { es: 'Arquitectos y creadores con IA', en: 'Architects and creators using AI' }, href: '/#ecosistema', st: 'soon' }
       ] },
       { g: { es: 'Aprender', en: 'Learn' }, c: '#e8b23a', items: [
-        { t: { es: 'Blog', en: 'Blog' }, d: { es: 'Bitácora: cómo lo hice, casos y procesos', en: 'How I built it: cases and processes' }, href: '/bitacora/', st: 'live' },
+        { t: { es: 'Blog', en: 'Blog' }, d: { es: 'Bitácora: cómo lo hice, casos y procesos', en: 'How I built it: cases and processes' }, href: '/bitacora/', st: 'live', sat: 1 },
         { t: { es: 'Academy', en: 'Academy' }, d: { es: 'Guías y playbooks paso a paso', en: 'Step-by-step guides and playbooks' }, href: '/academy/', st: 'live' },
         { t: { es: 'Motion Lab', en: 'Motion Lab' }, d: { es: '14 demos de animación', en: '14 animation demos' }, href: '/lab/', st: 'live' }
       ] },
-      { g: { es: 'Jugar y crear', en: 'Play and create' }, c: '#22e0c8', items: [
-        { t: { es: 'Juegos', en: 'Games' }, d: { es: 'Juegos web de arquitectura', en: 'Architecture web games' }, href: '/games/', st: 'live' },
+      { g: { es: 'Jugar', en: 'Play' }, c: '#22e0c8', items: [
+        { t: { es: 'Juegos', en: 'Games' }, d: { es: '5 juegos de arquitectura con ranking y retos', en: '5 architecture games with leaderboards and challenges' }, href: '/games/', st: 'live' },
         { t: { es: 'Torre de niveles', en: 'Level Tower' }, d: { es: 'Apila losas sin perder el aplomo', en: 'Stack slabs and keep it plumb' }, href: '/games/torre.html', st: 'live' },
         { t: { es: 'Detección de choques', en: 'Clash Detection' }, d: { es: 'Encuentra las interferencias', en: 'Find the clashes' }, href: '/games/choques.html', st: 'live' },
         { t: { es: 'Ducto', en: 'Duct Run' }, d: { es: 'La serpiente de los constructores', en: 'The builders\' snake game' }, href: '/games/ducto.html', st: 'live' },
-        { t: { es: 'Órbita', en: 'Orbit' }, d: { es: 'Naves contra drones de plano', en: 'Ships against blueprint drones' }, href: '/games/orbita.html', st: 'live' },
-        { t: { es: 'Ruta de obra', en: 'Site Run' }, d: { es: 'Camión mezclador en la ciudad', en: 'Mixer truck through the city' }, href: '/games/ruta.html', st: 'live' },
-        { t: { es: 'Universo ArchiKatz', en: 'ArchiKatz Universe' }, d: { es: 'Historia, personajes, webtoon y sello editorial', en: 'Story, characters, webtoon and imprint' }, href: '/editorial/', st: 'live' },
-        { t: { es: 'ArchiKatz Studio', en: 'ArchiKatz Studio' }, d: { es: 'Crea personajes, escenas y prompts del universo ArchiKatz', en: 'Create ArchiKatz characters, scenes and prompts' }, href: '/studio/', st: 'live' },
-        { t: { es: 'ArchiKatz', en: 'ArchiKatz' }, d: { es: 'Arte, tienda y editorial', en: 'Art, shop and publishing' }, href: '/#ecosistema', st: 'soon' },
-        { t: { es: 'Comunidad', en: 'Community' }, d: { es: 'Arquitectos y creadores con IA', en: 'Architects and creators using AI' }, href: '/#ecosistema', st: 'soon' }
+        { t: { es: 'Órbita', en: 'Orbit' }, d: { es: 'Naves contra drones de plano', en: 'Ships against blueprint drones' }, href: '/games/orbita.html', st: 'live', sat: 1 },
+        { t: { es: 'Ruta de obra', en: 'Site Run' }, d: { es: 'Camión mezclador en la ciudad', en: 'Mixer truck through the city' }, href: '/games/ruta.html', st: 'live' }
+      ] },
+      { g: { es: 'Universo ArchiKatz', en: 'ArchiKatz Universe' }, c: '#9b6dff', items: [
+        { t: { es: 'Universo editorial', en: 'Editorial universe' }, d: { es: 'Historia, personajes y sello editorial', en: 'Story, characters and imprint' }, href: '/editorial/', st: 'live' },
+        { t: { es: 'Webtoon', en: 'Webtoon' }, d: { es: 'Episodio 0 · La Guardiana del Umbral', en: 'Episode 0 · The Guardian of the Threshold' }, href: '/editorial/toon.html?ep=ep00-la-guardiana-del-umbral', st: 'live', sat: 1 },
+        { t: { es: 'ArchiKatz Studio', en: 'ArchiKatz Studio' }, d: { es: 'Crea personajes, escenas y prompts', en: 'Create characters, scenes and prompts' }, href: '/studio/', st: 'live' },
+        { t: { es: 'Tienda ArchiKatz', en: 'ArchiKatz shop' }, d: { es: 'Prints, desk mats y techwear', en: 'Prints, desk mats and techwear' }, href: '/#ecosistema', st: 'soon' }
       ] }
     ],
     social: [
@@ -199,7 +202,7 @@
     if (!foot) { foot = document.createElement('footer'); foot.className = 'pm-foot'; document.body.appendChild(foot); }
     var cols = [
       [L(SITE.ui.explore), SITE.nav.concat([{ t: SITE.ui.map, href: '/home/' }])],
-      [L(SITE.ui.learn), [SITE.map[2].items[0], SITE.map[2].items[1], SITE.map[2].items[2], SITE.map[3].items[0]]],
+      [L(SITE.ui.learn), [SITE.map[2].items[0], SITE.map[2].items[1], SITE.map[2].items[2], SITE.map[3].items[0], SITE.map[4].items[0], SITE.map[4].items[2]]],
       [L(SITE.ui.social), SITE.social.map(function (s) { return { t: s[0], href: s[1], ext: 1 }; })]
     ];
     foot.innerHTML = '<div><a class="pm-brand" href="/"><i></i>Brian Zuleta</a><p>' + esc(L(SITE.ui.tag)) + '</p><small>© ' + new Date().getFullYear() + ' Brian Zuleta · promii.co</small></div>' +
