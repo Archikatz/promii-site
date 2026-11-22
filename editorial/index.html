@@ -1,1 +1,35 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Universo ArchiKatz · Cargando…</title>
+<link rel="canonical" href="https://promii.co/editorial/">
+<style>body{margin:0;background:#08080c;color:#f4f4f8;font:16px Inter,system-ui;display:grid;place-items:center;min-height:100vh}a{color:#2f6bff}</style>
+</head>
+<body>
+<p id="s">Cargando Editorial…</p>
+<script>
+(async function(){
+  try {
+    var r = await fetch('https://cdn.jsdelivr.net/gh/Archikatz/promii-site@edda11305c9ff98ebcfe2e591462fe36fe727bdd/editorial/index.html');
+    if(!r.ok) throw 0;
+    var html = await r.text();
+    html = html.replace('href="../bitacora/?p=archikatz-editorial"', 'href="/blog/?p=archikatz-editorial"');
+    if (html.indexOf('class="dir"') === -1) {
+      var nav = '<nav class="dir" aria-label="Índice del sello" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 28px">'+
+        '<a href="#mundo" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Vol. 1 · Mito</a>'+
+        '<a href="#personajes" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Vol. 2 · Personajes</a>'+
+        '<a href="#webtoon" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Webtoon</a>'+
+        '<a href="#sello" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Sello</a>'+
+        '<a href="/blog/" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Blog AEC →</a></nav>';
+      html = html.replace('</header>', '</header>' + nav);
+    }
+    document.open(); document.write(html); document.close();
+  } catch(e) {
+    document.getElementById('s').innerHTML = 'No se pudo cargar. <a href="/">Volver</a>';
+  }
+})();
+</script>
+</body>
+</html>
