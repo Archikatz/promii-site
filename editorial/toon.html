@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Webtoon ArchiKatz</title>
 <meta name="description" content="Webtoon de ArchiKatz: historias verticales del universo Habitando lo no construido.">
-<meta property="og:title" content="Webtoon ArchiKatz"><meta property="og:image" content="https://promii.co/bitacora/img/editorial.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="ak.css">
 <style>
@@ -18,52 +18,74 @@
 .panel svg,.panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .panel.in svg{animation:ak-breathe 6s ease-in-out infinite}
 @keyframes ak-breathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}
-.panel.in[data-scene="glass"] svg,
-.panel.in[data-scene="canvas"] svg{animation:ak-glass 5s ease-in-out infinite}
+.panel.in[data-scene="glass"] svg,.panel.in[data-scene="canvas"] svg{animation:ak-glass 5s ease-in-out infinite}
 @keyframes ak-glass{0%,100%{filter:brightness(1) saturate(1)}50%{filter:brightness(1.12) saturate(1.15)}}
 .panel.in[data-scene="ink"] svg{animation:ak-ink 7s ease-in-out infinite}
 @keyframes ak-ink{0%,100%{filter:contrast(1)}50%{filter:contrast(1.08)}}
-.panel.in[data-scene="fractal"] svg,
-.panel.in[data-scene="psyche"] svg{animation:ak-spin 18s linear infinite}
+.panel.in[data-scene="fractal"] svg,.panel.in[data-scene="psyche"] svg{animation:ak-spin 18s linear infinite}
 @keyframes ak-spin{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(12deg)}}
-@media (prefers-reduced-motion:reduce){
-  .panel,.panel.in svg{animation:none!important;transition:none!important}
-}
-.narr{position:absolute;left:14px;right:14px;top:14px;padding:12px 14px;background:rgba(242,239,230,.94);color:#141218;font:500 15px/1.5 var(--body);border-left:4px solid var(--a);box-shadow:0 10px 24px -12px rgba(0,0,0,.7);backdrop-filter:blur(8px)}
-.bubble{position:absolute;left:18px;right:46px;bottom:20px;padding:14px 16px;background:rgba(247,245,239,.96);color:#121014;border-radius:20px;font:600 16px/1.4 var(--display);box-shadow:0 14px 30px -14px rgba(0,0,0,.8);backdrop-filter:blur(10px)}
+@media (prefers-reduced-motion:reduce){.panel,.panel.in svg{animation:none!important;transition:none!important}}
+.narr{position:absolute;left:14px;right:14px;top:14px;padding:12px 14px;background:rgba(242,239,230,.94);color:#141218;font:500 15px/1.5 var(--body,Inter,system-ui);border-left:4px solid var(--a);box-shadow:0 10px 24px -12px rgba(0,0,0,.7);backdrop-filter:blur(8px)}
+.bubble{position:absolute;left:18px;right:46px;bottom:20px;padding:14px 16px;background:rgba(247,245,239,.96);color:#121014;border-radius:20px;font:600 16px/1.4 var(--display,"Space Grotesk",system-ui);box-shadow:0 14px 30px -14px rgba(0,0,0,.8);backdrop-filter:blur(10px)}
 .bubble::after{content:"";position:absolute;left:34px;top:-12px;border:12px solid transparent;border-bottom-color:#f7f5ef;border-top:0}
-.bubble small{display:block;font:700 10.5px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--a);margin-bottom:4px;filter:brightness(.7)}
-.sfx{position:absolute;left:0;right:0;top:38%;text-align:center;font:700 clamp(40px,12vw,64px)/1 var(--display);letter-spacing:.04em;color:var(--a);text-shadow:0 0 24px var(--a),0 4px 0 #000;transform:rotate(-6deg)}
+.bubble small{display:block;font:700 10.5px var(--body,Inter,system-ui);letter-spacing:.18em;text-transform:uppercase;color:var(--a);margin-bottom:4px;filter:brightness(.7)}
+.sfx{position:absolute;left:0;right:0;top:38%;text-align:center;font:700 clamp(40px,12vw,64px)/1 var(--display,"Space Grotesk",system-ui);letter-spacing:.04em;color:var(--a);text-shadow:0 0 24px var(--a),0 4px 0 #000;transform:rotate(-6deg)}
 .endbar{padding:26px max(16px,env(safe-area-inset-left)) 0;text-align:center}
 .endbar .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
 .nav-eps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.nav-eps a{font:600 12px var(--body);padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none}
+.nav-eps a{font:600 12px var(--body,Inter,system-ui);padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none}
 .nav-eps a.on{color:#f4f4f8;border-color:rgba(34,224,200,.4)}
+.muted{color:#a6a6bc}
 </style>
 </head>
 <body>
-<main class="reader" id="app"><p class="muted" style="padding:0 16px">…</p></main>
+<main class="reader" id="app"><p class="muted" style="padding:0 16px">Cargando…</p></main>
 <script src="scenes.js"></script>
 <script src="/assets/site-shell.js" data-mode="full" data-dark-only></script>
 <script>
+window.AK_EPISODES_FALLBACK=null;
 (function(){
- var L=PROMII_SITE.L,EN=function(){return document.documentElement.lang==='en';},slug=new URLSearchParams(location.search).get('ep'),EPS=null,app=document.getElementById('app');
- function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
- function draw(){
-  var i=EPS.findIndex(function(e){return e.slug===slug;});if(i<0)i=0;var e=EPS[i];slug=e.slug;
-  document.title=L(e.title)+' · Webtoon ArchiKatz';
-  var nav=EPS.map(function(x){return '<a href="?ep='+x.slug+'" class="'+(x.slug===e.slug?'on':'')+'">'+esc(L(x.title)).slice(0,28)+'</a>';}).join('');
-  app.innerHTML='<div class="head"><a class="chip a" href="./#webtoon" style="text-decoration:none">← '+(EN()?'Universe':'Universo')+'</a><h1>'+esc(L(e.title))+'</h1><p class="muted" style="margin:0">'+(e.book?(EN()?'Special book':'Libro especial'):((EN()?'Episode ':'Episodio ')+e.n))+' · '+esc(L(e.summary))+'</p><div class="nav-eps">'+nav+'</div></div>'+
-   e.panels.map(function(p,k){var t=esc(EN()?p.en:p.es),o='<figure class="panel" data-scene="'+esc(p.scene)+'" style="--a:'+p.accent+'">'+(p.img?'<img src="'+p.img+'" alt="" loading="lazy">':AK_SCENE(p.scene,p.accent,k+11));
-    if(p.kind==='narr')o+='<div class="narr">'+t+'</div>';else if(p.kind==='dialog')o+='<div class="bubble"><small>'+esc(p.speaker||'')+'</small>'+t+'</div>';else if(p.kind==='sfx')o+='<div class="sfx">'+t+'</div>';
-    return o+'</figure>';}).join('')+
-   '<div class="endbar"><span class="eyebrow" style="justify-content:center">'+(EN()?'End of episode':'Fin del episodio')+'</span><div class="row"><a class="btn" href="./#sello">'+(EN()?'Get the next one':'Recibir el siguiente')+'</a><button class="btn ghost" id="shareEp">'+(EN()?'Share':'Compartir')+' ↗</button><a class="btn ghost" href="./">'+(EN()?'Universe':'Universo')+'</a></div></div>';
-  var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.12});
-  app.querySelectorAll('.panel').forEach(function(p){io.observe(p);});
-  setTimeout(function(){app.querySelectorAll('.panel').forEach(function(p){var r=p.getBoundingClientRect();if(r.top<innerHeight)p.classList.add('in');});},50);
-  document.getElementById('shareEp').onclick=function(){var u=location.href,t='ArchiKatz · '+L(e.title);if(navigator.share)navigator.share({title:t,url:u}).catch(function(){});else window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank','noopener');};
- }
- fetch('episodes.json').then(function(r){return r.json();}).then(function(d){EPS=d;draw();addEventListener('promii:lang',draw);}).catch(function(){app.innerHTML='<p class="muted" style="padding:0 16px">'+(EN()?'The episode could not be loaded.':'No se pudo cargar el episodio.')+'</p>';});
+  if(!window.PROMII_SITE){window.PROMII_SITE={L:function(x){if(!x)return'';if(typeof x==='string')return x;return x.es||x.en||'';}};}
+  var L=function(x){return PROMII_SITE.L(x);};
+  var EN=function(){return document.documentElement.lang==='en';};
+  var slug=new URLSearchParams(location.search).get('ep')||'ep00-la-guardiana-del-umbral';
+  var EPS=null, app=document.getElementById('app');
+  function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function draw(){
+    if(!EPS||!EPS.length){app.innerHTML='<p class="muted" style="padding:0 16px">'+(EN()?'No episodes found.':'No hay episodios.')+'</p>';return;}
+    var i=EPS.findIndex(function(e){return e.slug===slug;});if(i<0)i=0;var e=EPS[i];slug=e.slug;
+    document.title=L(e.title)+' · Webtoon ArchiKatz';
+    var nav=EPS.map(function(x){return '<a href="?ep='+encodeURIComponent(x.slug)+'" class="'+(x.slug===e.slug?'on':'')+'">'+esc(L(x.title)).slice(0,28)+'</a>';}).join('');
+    var panels=e.panels.map(function(p,k){
+      var t=esc(EN()?p.en:p.es);
+      var scene=(typeof AK_SCENE==='function')?AK_SCENE(p.scene,p.accent,k+11):'';
+      var o='<figure class="panel" data-scene="'+esc(p.scene)+'" style="--a:'+esc(p.accent)+'">'+(p.img?'<img src="'+esc(p.img)+'" alt="" loading="lazy">':scene);
+      if(p.kind==='narr')o+='<div class="narr">'+t+'</div>';
+      else if(p.kind==='dialog')o+='<div class="bubble"><small>'+esc(p.speaker||'')+'</small>'+t+'</div>';
+      else if(p.kind==='sfx')o+='<div class="sfx">'+t+'</div>';
+      return o+'</figure>';
+    }).join('');
+    app.innerHTML='<div class="head"><a class="chip a" href="./" style="text-decoration:none">← '+(EN()?'Universe':'Universo')+'</a><h1>'+esc(L(e.title))+'</h1><p class="muted" style="margin:0">'+(e.book?(EN()?'Special book':'Libro especial'):((EN()?'Episode ':'Episodio ')+e.n))+' · '+esc(L(e.summary))+'</p><div class="nav-eps">'+nav+'</div></div>'+panels+'<div class="endbar"><span class="eyebrow" style="justify-content:center">'+(EN()?'End of episode':'Fin del episodio')+'</span><div class="row"><a class="btn" href="./#sello">'+(EN()?'Get the next one':'Recibir el siguiente')+'</a><button class="btn ghost" id="shareEp">'+(EN()?'Share':'Compartir')+' ↗</button><a class="btn ghost" href="./">'+(EN()?'Universe':'Universo')+'</a></div></div>';
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.12});
+    app.querySelectorAll('.panel').forEach(function(p){io.observe(p);});
+    setTimeout(function(){app.querySelectorAll('.panel').forEach(function(p){var r=p.getBoundingClientRect();if(r.top<innerHeight)p.classList.add('in');});},50);
+    var sh=document.getElementById('shareEp');
+    if(sh)sh.onclick=function(){var u=location.href,t='ArchiKatz · '+L(e.title);if(navigator.share)navigator.share({title:t,url:u}).catch(function(){});else window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank','noopener');};
+  }
+  function use(data){EPS=data;draw();try{addEventListener('promii:lang',draw);}catch(e){}}
+  var candidates=['/editorial/episodes.json','episodes.json','./episodes.json'];
+  var tried=0;
+  function tryNext(){
+    if(tried>=candidates.length){
+      fetch('/editorial/episodes.json').then(function(r){return r.json();}).then(use).catch(function(){
+        app.innerHTML='<p class="muted" style="padding:0 16px">'+(EN()?'Could not load episode.':'No se pudo cargar el episodio.')+' <a href="/editorial/">← Hub</a></p>';
+      });
+      return;
+    }
+    var url=candidates[tried++];
+    fetch(url,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(use).catch(tryNext);
+  }
+  tryNext();
 })();
 </script>
 <script src="/analytics/config.js"></script>
