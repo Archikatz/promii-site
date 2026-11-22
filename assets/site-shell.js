@@ -14,6 +14,7 @@
     nav: [
       { k: 'portfolio', t: { es: 'Portafolio', en: 'Portfolio' }, href: '/', d: { es: 'Mi trabajo como arquitecto BIM y los servicios de Promii.', en: 'My work as a BIM architect and Promii services.' }, sub: 'portfolio' },
       { k: 'blog', t: { es: 'Blog', en: 'Blog' }, href: '/blog/', d: { es: 'Hub AEC Tech: BIM, IA, normativa y sistemas. Bitácora & Insights.', en: 'AEC Tech hub: BIM, AI, code compliance and systems. Bitácora & Insights.' } },
+      { k: 'editorial', t: { es: 'Editorial', en: 'Editorial' }, href: '/editorial/', d: { es: 'Sello ArchiKatz: universo, webtoon y diseño editorial.', en: 'ArchiKatz imprint: universe, webtoon and editorial design.' } },
       { k: 'academy', t: { es: 'Academy', en: 'Academy' }, href: '/academy/', d: { es: '26 guías paso a paso: Revit con IA, permisos NYC, obra, ventas B2B.', en: '26 step-by-step guides: Revit with AI, NYC permits, construction, B2B sales.' } },
       { k: 'lab', t: { es: 'Lab', en: 'Lab' }, href: '/lab/', d: { es: 'Motion Lab: 14 demos de animación y física que usa este sitio.', en: 'Motion Lab: 14 animation and physics demos used on this site.' } },
       { k: 'games', t: { es: 'Juegos', en: 'Games' }, href: '/games/', d: { es: '5 juegos de arquitectura con tutorial, ranking y retos.', en: '5 architecture games with tutorial, leaderboard and challenges.' }, sub: 'games' },
@@ -31,9 +32,9 @@
       ]},
       { g: { es: 'Leer y aprender', en: 'Read and learn' }, c: '#ff3b30', items: [
         { t: { es: 'Blog', en: 'Blog' }, d: { es: 'Hub AEC Tech: BIM, IA, normativa y sistemas', en: 'AEC Tech hub: BIM, AI, code compliance and systems' }, href: '/blog/', st: 'live', sat: 1 },
+        { t: { es: 'Editorial', en: 'Editorial' }, d: { es: 'ArchiKatz universo', en: 'ArchiKatz universe' }, href: '/editorial/', st: 'live', sat: 1 },
         { t: { es: 'Academy', en: 'Academy' }, d: { es: 'Guías paso a paso', en: 'Step-by-step guides' }, href: '/academy/', st: 'live' },
-        { t: { es: 'Lab', en: 'Lab' }, d: { es: 'Motion y física del sitio', en: 'Site motion and physics' }, href: '/lab/', st: 'live' },
-        { t: { es: 'Editorial', en: 'Editorial' }, d: { es: 'ArchiKatz universo', en: 'ArchiKatz universe' }, href: '/editorial/', st: 'live' }
+        { t: { es: 'Lab', en: 'Lab' }, d: { es: 'Motion y física del sitio', en: 'Site motion and physics' }, href: '/lab/', st: 'live' }
       ]},
       { g: { es: 'Jugar y crear', en: 'Play and create' }, c: '#34c759', items: [
         { t: { es: 'Juegos', en: 'Games' }, d: { es: '5 juegos de arquitectura', en: '5 architecture games' }, href: '/games/', st: 'live' },
@@ -69,7 +70,7 @@
   })();
   function theme() { try { return localStorage.getItem('promii-theme') || 'dark'; } catch (e) { return 'dark'; } }
   function L(o) { if (!o) return ''; if (typeof o === 'string') return o; return (lang === 'en' ? (o.en || o.es) : (o.es || o.en)) || ''; }
-  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function esc(s) { return String(s).replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"'); }
   function setLang(l) {
     lang = l === 'en' ? 'en' : 'es';
     try { localStorage.setItem('promii-lang', lang); } catch (e) {}
@@ -100,7 +101,7 @@
     if (mode === 'data') return;
     if (mode === 'mini') {
       if (!nav) { nav = document.createElement('div'); nav.className = 'pm-mini'; document.body.appendChild(nav); }
-      nav.innerHTML = '<a href="/">Promii</a><a href="/blog/">Blog</a><a href="/home/">Map</a>';
+      nav.innerHTML = '<a href="/">Promii</a><a href="/blog/">Blog</a><a href="/editorial/">Editorial</a><a href="/home/">Map</a>';
       return;
     }
     if (!nav) {
@@ -131,7 +132,7 @@
     if (!foot) { foot = document.createElement('footer'); foot.className = 'pm-foot'; document.body.appendChild(foot); }
     foot.innerHTML = '<div><a class="pm-brand" href="/"><i></i>Brian Zuleta</a><p>' + esc(L(SITE.ui.tag)) + '</p><small>© ' + new Date().getFullYear() + ' Brian Zuleta · promii.co</small></div>' +
       '<div><h4>' + esc(L(SITE.ui.explore)) + '</h4>' + SITE.nav.map(function (n) { return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>'; }).join('') + '</div>' +
-      '<div><h4>' + esc(L(SITE.ui.learn)) + '</h4><a href="/blog/">Blog</a><a href="/academy/">Academy</a><a href="/lab/">Lab</a><a href="/acoi/">ACOI</a></div>' +
+      '<div><h4>' + esc(L(SITE.ui.learn)) + '</h4><a href="/blog/">Blog</a><a href="/editorial/">Editorial</a><a href="/academy/">Academy</a><a href="/lab/">Lab</a><a href="/acoi/">ACOI</a></div>' +
       '<div><h4>' + esc(L(SITE.ui.social)) + '</h4>' + SITE.social.map(function (s) { return '<a href="' + s[1] + '" target="_blank" rel="noopener">' + s[0] + '</a>'; }).join('') + '</div>';
   }
   function toggle(o) { if (!nav) return; nav.classList.toggle('pm-open', o); }
