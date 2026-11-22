@@ -9,6 +9,12 @@
       ]
     },
     {
+      "source": "/acoi/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    },
+    {
       "source": "/assets/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=300" }
@@ -19,83 +25,54 @@
     { "source": "/bitacora", "destination": "/blog/", "permanent": true },
     { "source": "/bitacora/", "destination": "/blog/", "permanent": true },
     { "source": "/bitacora/:path*", "destination": "/blog/:path*", "permanent": false },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "admin.promii.co" }],
-      "destination": "/admin/",
-      "permanent": false
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "bitacora.promii.co" }],
-      "destination": "https://promii.co/blog/",
-      "permanent": false
-    },
-    {
-      "source": "/:path+",
-      "has": [{ "type": "host", "value": "bitacora.promii.co" }],
-      "destination": "https://promii.co/blog/:path+",
-      "permanent": false
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "lab.promii.co" }],
-      "destination": "https://promii.co/lab/",
-      "permanent": false
-    },
-    {
-      "source": "/:path+",
-      "has": [{ "type": "host", "value": "lab.promii.co" }],
-      "destination": "https://promii.co/lab/:path+",
-      "permanent": false
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "academy.promii.co" }],
-      "destination": "https://promii.co/academy/",
-      "permanent": false
-    },
-    {
-      "source": "/:path+",
-      "has": [{ "type": "host", "value": "academy.promii.co" }],
-      "destination": "https://promii.co/academy/:path+",
-      "permanent": false
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "comunidad.promii.co" }],
-      "destination": "https://promii.co/#ecosistema",
-      "permanent": false
-    },
-    {
-      "source": "/:path+",
-      "has": [{ "type": "host", "value": "comunidad.promii.co" }],
-      "destination": "https://promii.co/#ecosistema",
-      "permanent": false
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "games.promii.co" }],
-      "destination": "https://promii.co/games/",
-      "permanent": false
-    },
-    {
-      "source": "/:path+",
-      "has": [{ "type": "host", "value": "games.promii.co" }],
-      "destination": "https://promii.co/games/:path+",
-      "permanent": false
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "home.promii.co" }],
-      "destination": "https://promii.co/home/",
-      "permanent": false
-    },
-    {
-      "source": "/:path+",
-      "has": [{ "type": "host", "value": "home.promii.co" }],
-      "destination": "https://promii.co/home/",
-      "permanent": false
-    }
+
+    { "source": "/", "has": [{ "type": "host", "value": "acoi.promii.co" }], "destination": "/acoi/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "acoi.promii.co" }], "destination": "/acoi/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "blog.promii.co" }], "destination": "/blog/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "blog.promii.co" }], "destination": "/blog/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "bitacora.promii.co" }], "destination": "/blog/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "bitacora.promii.co" }], "destination": "/blog/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "editorial.promii.co" }], "destination": "/editorial/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "editorial.promii.co" }], "destination": "/editorial/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "archikatz.promii.co" }], "destination": "/editorial/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "archikatz.promii.co" }], "destination": "/editorial/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "architecture.promii.co" }], "destination": "/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "architecture.promii.co" }], "destination": "/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "aec.promii.co" }], "destination": "/blog/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "aec.promii.co" }], "destination": "/blog/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "academy.promii.co" }], "destination": "/academy/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "academy.promii.co" }], "destination": "/academy/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "lab.promii.co" }], "destination": "/lab/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "lab.promii.co" }], "destination": "/lab/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "games.promii.co" }], "destination": "/games/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "games.promii.co" }], "destination": "/games/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "home.promii.co" }], "destination": "/home/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "home.promii.co" }], "destination": "/home/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "comunidad.promii.co" }], "destination": "https://promii.co/#ecosistema", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "promii.promii.co" }], "destination": "/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "promii.promii.co" }], "destination": "/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "music.promii.co" }], "destination": "/lab/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "music.promii.co" }], "destination": "/lab/:path+", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "shop.promii.co" }], "destination": "/", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "app.promii.co" }], "destination": "/home/", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "app.promii.co" }], "destination": "/home/:path+", "permanent": false }
   ]
 }
