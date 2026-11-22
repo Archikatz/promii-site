@@ -31,16 +31,27 @@
     { "source": "/", "has": [{ "type": "host", "value": "community.promii.co" }], "destination": "https://promii.co/#ecosistema", "permanent": false }
   ],
   "rewrites": [
-    { "source": "/:path*", "has": [{ "type": "host", "value": "editorial.promii.co" }], "destination": "/editorial/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "archikatz.promii.co" }], "destination": "/editorial/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "blog.promii.co" }], "destination": "/blog/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "acoi.promii.co" }], "destination": "/acoi/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "academy.promii.co" }], "destination": "/academy/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "lab.promii.co" }], "destination": "/lab/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "games.promii.co" }], "destination": "/games/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "home.promii.co" }], "destination": "/home/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "app.promii.co" }], "destination": "/home/:path*" },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "music.promii.co" }], "destination": "/lab/:path*" }
+    { "source": "/", "has": [{ "type": "host", "value": "editorial.promii.co" }], "destination": "/editorial/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "editorial.promii.co" }], "destination": "/editorial/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "archikatz.promii.co" }], "destination": "/editorial/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "archikatz.promii.co" }], "destination": "/editorial/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "blog.promii.co" }], "destination": "/blog/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "blog.promii.co" }], "destination": "/blog/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "acoi.promii.co" }], "destination": "/acoi/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "acoi.promii.co" }], "destination": "/acoi/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "academy.promii.co" }], "destination": "/academy/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "academy.promii.co" }], "destination": "/academy/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "lab.promii.co" }], "destination": "/lab/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "lab.promii.co" }], "destination": "/lab/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "games.promii.co" }], "destination": "/games/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "games.promii.co" }], "destination": "/games/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "home.promii.co" }], "destination": "/home/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "home.promii.co" }], "destination": "/home/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "app.promii.co" }], "destination": "/home/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "app.promii.co" }], "destination": "/home/:path+" },
+    { "source": "/", "has": [{ "type": "host", "value": "music.promii.co" }], "destination": "/lab/index.html" },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "music.promii.co" }], "destination": "/lab/:path+" }
   ]
 }
