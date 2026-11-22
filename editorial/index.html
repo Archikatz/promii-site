@@ -1,35 +1,176 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="dark" data-title-en="ArchiKatz Universe · Inhabiting the unbuilt">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Universo ArchiKatz · Cargando…</title>
+<title>Universo ArchiKatz · Habitando lo no construido</title>
+<meta name="description" content="Universo editorial ArchiKatz: lore, personajes, webtoons, Fractalia, Psicodelia. Gráfica en SVG puro — liquid glass, tinta china, fractal.">
+<meta property="og:title" content="Universo ArchiKatz">
+<meta property="og:description" content="Habitando lo no construido: historia, personajes, webtoons y arte de ArchiKatz.">
+<meta property="og:image" content="https://promii.co/editorial/">
 <link rel="canonical" href="https://promii.co/editorial/">
-<style>body{margin:0;background:#08080c;color:#f4f4f8;font:16px Inter,system-ui;display:grid;place-items:center;min-height:100vh}a{color:#2f6bff}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ak.css">
+<style>
+:root{--text:#f4f4f8;--muted:#a6a6bc;--brd:rgba(255,255,255,.12);--glass:rgba(255,255,255,.05);--a:#22e0c8;--body:Inter,system-ui,sans-serif;--display:"Space Grotesk",system-ui,sans-serif}
+body{margin:0;background:#08080c;color:var(--text);font:16px/1.55 var(--body)}
+main{max-width:960px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 80px}
+.dir{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 28px}
+.dir a{font:600 12px var(--body);letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:999px;border:1px solid var(--brd);background:var(--glass);color:var(--muted);backdrop-filter:blur(12px);text-decoration:none}
+.dir a:hover{color:var(--text);border-color:rgba(34,224,200,.4);box-shadow:0 0 20px -8px rgba(34,224,200,.5)}
+.hero{display:grid;gap:24px;margin-bottom:36px}
+@media(min-width:820px){.hero{grid-template-columns:1.1fr .9fr;align-items:center}}
+.hero h1{font:700 clamp(36px,7vw,56px)/1.05 var(--display);margin:8px 0 12px}
+.hero p{color:var(--muted);max-width:42ch}
+.eyebrow{font:700 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--a)}
+.catalog{margin:40px 0 48px}
+.catalog .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.catalog .card{display:flex;flex-direction:column;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);overflow:hidden;text-decoration:none;color:inherit;backdrop-filter:blur(12px);transition:border-color .25s,transform .25s}
+.catalog .card:hover{border-color:rgba(34,224,200,.35);transform:translateY(-3px)}
+.catalog .thumb{aspect-ratio:16/10;background:#0a0a10;position:relative}
+.catalog .thumb svg{width:100%;height:100%;display:block}
+.catalog .meta{padding:14px 16px 18px}
+.catalog .tag{font:700 10px var(--body);letter-spacing:.14em;text-transform:uppercase;color:#22e0c8}
+.catalog h3{margin:6px 0 6px;font:700 18px var(--display)}
+.catalog p{margin:0;font:400 13px/1.45 var(--body);color:#a6a6bc}
+section{margin:48px 0}
+.sec-head h2{font:700 clamp(24px,4vw,34px) var(--display);margin:6px 0 8px}
+.sec-head p{color:var(--muted)}
+.phases{display:grid;gap:12px}
+@media(min-width:700px){.phases{grid-template-columns:1fr 1fr}}
+.phase{padding:16px;border-radius:14px;border:1px solid var(--brd);background:var(--glass);backdrop-filter:blur(10px)}
+.phase h3{margin:0 0 6px;font:700 15px var(--display)}
+.phase p{margin:0;color:var(--muted);font-size:14px}
+.art{border-radius:16px;overflow:hidden;border:1px solid var(--brd);min-height:280px;background:#0a0a12}
+.art svg{width:100%;height:100%;min-height:280px;display:block}
+footer.site{margin-top:60px;padding-top:24px;border-top:1px solid var(--brd);color:var(--muted);font-size:13px}
+a.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid var(--brd);color:var(--muted);text-decoration:none;font:600 12px var(--body)}
+a.chip:hover{color:var(--text)}
+</style>
 </head>
 <body>
-<p id="s">Cargando Editorial…</p>
+<main>
+<header class="hero">
+  <div>
+    <span class="eyebrow">ArchiKatz Editorial</span>
+    <h1 data-en="Inhabiting the unbuilt">Habitando lo no construido</h1>
+    <p data-en="Narrative universe, webtoons and special books — pure code graphics: liquid glass, Chinese ink, fractal Fibonacci.">Universo narrativo, webtoons y libros especiales. Gráfica en código puro: liquid glass, tinta china, fractal Fibonacci.</p>
+    <p style="margin-top:14px"><a class="chip" href="/blog/">Blog AEC →</a> <a class="chip" href="/">Promii</a></p>
+  </div>
+  <div class="art" id="hero-art"></div>
+</header>
+
+<nav class="dir" aria-label="Índice del sello">
+  <a href="#catalogo" data-en="Catalog">Catálogo</a>
+  <a href="#mundo" data-en="Vol. 1 · Myth">Vol. 1 · Mito</a>
+  <a href="#personajes" data-en="Vol. 2 · Characters">Vol. 2 · Personajes</a>
+  <a href="#webtoon" data-en="Webtoon">Webtoon</a>
+  <a href="#sello" data-en="Imprint">Sello</a>
+  <a href="/blog/" data-en="AEC Blog →">Blog AEC →</a>
+</nav>
+
+<section id="catalogo" class="catalog">
+  <div class="sec-head">
+    <span class="eyebrow">Catálogo · Catalog</span>
+    <h2 data-en="Publications">Publicaciones</h2>
+    <p class="muted" data-en="Webtoons and special books rendered in pure SVG.">Webtoons y libros especiales en SVG puro — sin imágenes externas.</p>
+  </div>
+  <div class="cards">
+    <a class="card" href="toon.html?ep=ep00-la-guardiana-del-umbral">
+      <div class="thumb" id="th-ep0"></div>
+      <div class="meta">
+        <span class="tag">Webtoon · Ep. 0</span>
+        <h3 data-en="The Guardian of the Threshold">La Guardiana del Umbral</h3>
+        <p data-en="Michi watches the edge where the drawing ends and the neon begins.">Michi vigila el borde donde el plano termina y empieza el neón.</p>
+      </div>
+    </a>
+    <a class="card" href="toon.html?ep=libro-fractalia">
+      <div class="thumb" id="th-frac"></div>
+      <div class="meta">
+        <span class="tag">Libro · 8 caps</span>
+        <h3>Fractalia</h3>
+        <p data-en="Fixed vs reflowable. Fibonacci. Form that holds meaning.">Diseño fijo vs refluible. Fibonacci. La forma que sostiene el sentido.</p>
+      </div>
+    </a>
+    <a class="card" href="toon.html?ep=libro-psicodelia">
+      <div class="thumb" id="th-psi"></div>
+      <div class="meta">
+        <span class="tag">Libro · 8 caps</span>
+        <h3>Psicodelia</h3>
+        <p data-en="The creator's flow. Second person. Awakening.">El flujo del creador. Segunda persona. El despertar.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section id="mundo">
+  <div class="sec-head">
+    <span class="eyebrow">Vol. 1</span>
+    <h2 data-en="Myth of the threshold">Mito del umbral</h2>
+    <p data-en="Every city begins as a drawing. Above the last floor, another city begins — the one nobody drew.">Toda ciudad empieza como un plano. Arriba del último piso empieza otra ciudad: la que nadie dibujó.</p>
+  </div>
+  <div class="phases">
+    <div class="phase"><h3 data-en="The plan">El plano</h3><p data-en="Lines, dimensions, tolerances. What can be built.">Líneas, cotas, tolerancias. Lo que se puede construir.</p></div>
+    <div class="phase"><h3 data-en="The neon">El neón</h3><p data-en="Where the drawing ends, geometry becomes light.">Donde el plano termina, la geometría se vuelve luz.</p></div>
+    <div class="phase"><h3 data-en="The guardian">La guardiana</h3><p data-en="Michi holds what is not built — weight without concrete.">Michi sostiene lo no construido: peso sin concreto.</p></div>
+    <div class="phase"><h3 data-en="The architect">El arquitecto</h3><p data-en="Someone draws a floor that should not exist.">Alguien dibuja un piso que no debería existir.</p></div>
+  </div>
+</section>
+
+<section id="personajes">
+  <div class="sec-head">
+    <span class="eyebrow">Vol. 2</span>
+    <h2 data-en="Characters">Personajes</h2>
+  </div>
+  <div class="phases">
+    <div class="phase"><h3>Michi</h3><p data-en="Tabby cat, green eyes, tactical collar. Guardian of the Threshold.">Gata atigrada, ojos verdes, collar táctico. Guardiana del Umbral.</p></div>
+    <div class="phase"><h3 data-en="The Architect">El Arquitecto</h3><p data-en="Techwear, black helmet, lines of light. Tests the upward city.">Techwear, casco negro, líneas de luz. Prueba la ciudad hacia arriba.</p></div>
+    <div class="phase"><h3 data-en="Adrian Voss / Cael">Adrian Voss · Cael</h3><p data-en="Narrative threads of the wider ArchiKatz lore (Tomo I).">Hilos narrativos del lore amplio ArchiKatz (Tomo I).</p></div>
+  </div>
+</section>
+
+<section id="webtoon">
+  <div class="sec-head">
+    <span class="eyebrow">Webtoon</span>
+    <h2 data-en="Vertical reading">Lectura vertical</h2>
+    <p data-en="Scroll panels with code-drawn atmospheres. No external images required.">Paneles en scroll con atmósferas dibujadas en código. Sin imágenes externas.</p>
+  </div>
+  <p><a class="chip" href="toon.html?ep=ep00-la-guardiana-del-umbral">Ep. 0 →</a>
+     <a class="chip" href="toon.html?ep=libro-fractalia">Fractalia →</a>
+     <a class="chip" href="toon.html?ep=libro-psicodelia">Psicodelia →</a></p>
+</section>
+
+<section id="sello">
+  <div class="sec-head">
+    <span class="eyebrow">Sello</span>
+    <h2 data-en="Imprint">Sello editorial</h2>
+    <p data-en="ArchiKatz is the editorial arm of Promii: media, lore, and technical magazine energy under one glass language.">ArchiKatz es el brazo editorial de Promii: media, lore y energía de revista técnica bajo un mismo lenguaje de vidrio.</p>
+  </div>
+</section>
+
+<footer class="site">
+  <p>ArchiKatz · Promii · <span data-en="Inhabiting the unbuilt">Habitando lo no construido</span></p>
+  <p><a href="/">promii.co</a> · <a href="/blog/">blog</a> · <a href="https://github.com/Archikatz/promii-site">repo</a></p>
+</footer>
+</main>
+<script src="scenes.js"></script>
+<script src="/assets/site-shell.js" data-mode="full" data-dark-only></script>
 <script>
-(async function(){
-  try {
-    var r = await fetch('https://cdn.jsdelivr.net/gh/Archikatz/promii-site@edda11305c9ff98ebcfe2e591462fe36fe727bdd/editorial/index.html');
-    if(!r.ok) throw 0;
-    var html = await r.text();
-    html = html.replace('href="../bitacora/?p=archikatz-editorial"', 'href="/blog/?p=archikatz-editorial"');
-    if (html.indexOf('class="dir"') === -1) {
-      var nav = '<nav class="dir" aria-label="Índice del sello" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 28px">'+
-        '<a href="#mundo" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Vol. 1 · Mito</a>'+
-        '<a href="#personajes" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Vol. 2 · Personajes</a>'+
-        '<a href="#webtoon" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Webtoon</a>'+
-        '<a href="#sello" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Sello</a>'+
-        '<a href="/blog/" style="font:600 12px system-ui;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none">Blog AEC →</a></nav>';
-      html = html.replace('</header>', '</header>' + nav);
-    }
-    document.open(); document.write(html); document.close();
-  } catch(e) {
-    document.getElementById('s').innerHTML = 'No se pudo cargar. <a href="/">Volver</a>';
+(function(){
+  function paint(id, scene, accent, seed){
+    var el = document.getElementById(id);
+    if(!el || typeof AK_SCENE !== 'function') return;
+    el.innerHTML = AK_SCENE(scene, accent, seed);
   }
+  paint('hero-art','city','#4f9bff',2);
+  paint('th-ep0','city','#4f9bff',3);
+  paint('th-frac','fractal','#9b6dff',7);
+  paint('th-psi','psyche','#ff3da6',11);
 })();
 </script>
+<script src="/analytics/config.js"></script>
+<script src="/analytics/track.js" defer></script>
 </body>
 </html>
