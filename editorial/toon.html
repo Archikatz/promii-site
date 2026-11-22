@@ -16,14 +16,29 @@
 .panel{position:relative;aspect-ratio:400/520;margin:0 0 6px;overflow:hidden;background:#07070c;opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
 .panel.in{opacity:1;transform:none}
 .panel svg,.panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.narr{position:absolute;left:14px;right:14px;top:14px;padding:12px 14px;background:rgba(242,239,230,.94);color:#141218;font:500 15px/1.5 var(--body);border-left:4px solid var(--a);box-shadow:0 10px 24px -12px rgba(0,0,0,.7)}
-.bubble{position:absolute;left:18px;right:46px;bottom:20px;padding:14px 16px;background:#f7f5ef;color:#121014;border-radius:20px;font:600 16px/1.4 var(--display);box-shadow:0 14px 30px -14px rgba(0,0,0,.8)}
+.panel.in svg{animation:ak-breathe 6s ease-in-out infinite}
+@keyframes ak-breathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}
+.panel.in[data-scene="glass"] svg,
+.panel.in[data-scene="canvas"] svg{animation:ak-glass 5s ease-in-out infinite}
+@keyframes ak-glass{0%,100%{filter:brightness(1) saturate(1)}50%{filter:brightness(1.12) saturate(1.15)}}
+.panel.in[data-scene="ink"] svg{animation:ak-ink 7s ease-in-out infinite}
+@keyframes ak-ink{0%,100%{filter:contrast(1)}50%{filter:contrast(1.08)}}
+.panel.in[data-scene="fractal"] svg,
+.panel.in[data-scene="psyche"] svg{animation:ak-spin 18s linear infinite}
+@keyframes ak-spin{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(12deg)}}
+@media (prefers-reduced-motion:reduce){
+  .panel,.panel.in svg{animation:none!important;transition:none!important}
+}
+.narr{position:absolute;left:14px;right:14px;top:14px;padding:12px 14px;background:rgba(242,239,230,.94);color:#141218;font:500 15px/1.5 var(--body);border-left:4px solid var(--a);box-shadow:0 10px 24px -12px rgba(0,0,0,.7);backdrop-filter:blur(8px)}
+.bubble{position:absolute;left:18px;right:46px;bottom:20px;padding:14px 16px;background:rgba(247,245,239,.96);color:#121014;border-radius:20px;font:600 16px/1.4 var(--display);box-shadow:0 14px 30px -14px rgba(0,0,0,.8);backdrop-filter:blur(10px)}
 .bubble::after{content:"";position:absolute;left:34px;top:-12px;border:12px solid transparent;border-bottom-color:#f7f5ef;border-top:0}
 .bubble small{display:block;font:700 10.5px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--a);margin-bottom:4px;filter:brightness(.7)}
 .sfx{position:absolute;left:0;right:0;top:38%;text-align:center;font:700 clamp(40px,12vw,64px)/1 var(--display);letter-spacing:.04em;color:var(--a);text-shadow:0 0 24px var(--a),0 4px 0 #000;transform:rotate(-6deg)}
 .endbar{padding:26px max(16px,env(safe-area-inset-left)) 0;text-align:center}
 .endbar .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
-.prompt{display:none}
+.nav-eps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.nav-eps a{font:600 12px var(--body);padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#a6a6bc;text-decoration:none}
+.nav-eps a.on{color:#f4f4f8;border-color:rgba(34,224,200,.4)}
 </style>
 </head>
 <body>
@@ -35,14 +50,15 @@
  var L=PROMII_SITE.L,EN=function(){return document.documentElement.lang==='en';},slug=new URLSearchParams(location.search).get('ep'),EPS=null,app=document.getElementById('app');
  function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
  function draw(){
-  var i=EPS.findIndex(function(e){return e.slug===slug;});if(i<0)i=0;var e=EPS[i];
+  var i=EPS.findIndex(function(e){return e.slug===slug;});if(i<0)i=0;var e=EPS[i];slug=e.slug;
   document.title=L(e.title)+' · Webtoon ArchiKatz';
-  app.innerHTML='<div class="head"><a class="chip a" href="./#webtoon" style="text-decoration:none">← '+(EN()?'Universe':'Universo')+'</a><h1>'+esc(L(e.title))+'</h1><p class="muted" style="margin:0">'+(EN()?'Episode ':'Episodio ')+e.n+' · '+esc(L(e.summary))+'</p></div>'+
-   e.panels.map(function(p,k){var t=esc(EN()?p.en:p.es),o='<figure class="panel" style="--a:'+p.accent+'">'+(p.img?'<img src="'+p.img+'" alt="" loading="lazy">':AK_SCENE(p.scene,p.accent,k+11));
+  var nav=EPS.map(function(x){return '<a href="?ep='+x.slug+'" class="'+(x.slug===e.slug?'on':'')+'">'+esc(L(x.title)).slice(0,28)+'</a>';}).join('');
+  app.innerHTML='<div class="head"><a class="chip a" href="./#webtoon" style="text-decoration:none">← '+(EN()?'Universe':'Universo')+'</a><h1>'+esc(L(e.title))+'</h1><p class="muted" style="margin:0">'+(e.book?(EN()?'Special book':'Libro especial'):((EN()?'Episode ':'Episodio ')+e.n))+' · '+esc(L(e.summary))+'</p><div class="nav-eps">'+nav+'</div></div>'+
+   e.panels.map(function(p,k){var t=esc(EN()?p.en:p.es),o='<figure class="panel" data-scene="'+esc(p.scene)+'" style="--a:'+p.accent+'">'+(p.img?'<img src="'+p.img+'" alt="" loading="lazy">':AK_SCENE(p.scene,p.accent,k+11));
     if(p.kind==='narr')o+='<div class="narr">'+t+'</div>';else if(p.kind==='dialog')o+='<div class="bubble"><small>'+esc(p.speaker||'')+'</small>'+t+'</div>';else if(p.kind==='sfx')o+='<div class="sfx">'+t+'</div>';
     return o+'</figure>';}).join('')+
    '<div class="endbar"><span class="eyebrow" style="justify-content:center">'+(EN()?'End of episode':'Fin del episodio')+'</span><div class="row"><a class="btn" href="./#sello">'+(EN()?'Get the next one':'Recibir el siguiente')+'</a><button class="btn ghost" id="shareEp">'+(EN()?'Share':'Compartir')+' ↗</button><a class="btn ghost" href="./">'+(EN()?'Universe':'Universo')+'</a></div></div>';
-  var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.15});
+  var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.12});
   app.querySelectorAll('.panel').forEach(function(p){io.observe(p);});
   setTimeout(function(){app.querySelectorAll('.panel').forEach(function(p){var r=p.getBoundingClientRect();if(r.top<innerHeight)p.classList.add('in');});},50);
   document.getElementById('shareEp').onclick=function(){var u=location.href,t='ArchiKatz · '+L(e.title);if(navigator.share)navigator.share({title:t,url:u}).catch(function(){});else window.open('https://wa.me/?text='+encodeURIComponent(t+' '+u),'_blank','noopener');};
