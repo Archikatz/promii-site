@@ -1,17 +1,27 @@
 # Proyecto promii.co: historia, decisiones y lo que sigue
 
-> Actualizado 22-nov-2026 (Grok / team ARCHIKATZ). Ver también §6b al final y Drive `LOG_promii_web_2026-11-22.md`.
+Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code) y actualizaciones **21–22 nov 2026** (Grok / team ARCHIKATZ). Sirve para retomar desde cualquier cuenta de Claude u otra IA.
 
 ## 1. Quién y qué
 
 - **Dueño:** Brian Zuleta, arquitecto matriculado (CPNAA), especialista BIM, Bogotá. Inglés C1. Contacto público: hi@promii.co.
-- **Marcas:** Promii · Studio Brian Zuleta · ArchiKatz.
-- **Regla:** Promii independiente de MSI en la web.
+- **Marcas:** Promii (empresa-producto: servicios productizados de arquitectura, BIM e IA) · Studio Brian Zuleta (práctica de arquitectura) · ArchiKatz (IP creativa: arte, editorial, tienda).
+- **Regla de Notion:** Promii es independiente de MSI. No mezclar assets ni mencionar MSI en la web de Promii.
 - **Sitio:** promii.co (GitHub Pages apex + Vercel subdominios, repo `Archikatz/promii-site`).
 
-## 6. Estado (resumen)
+## 2–5. (ver historial de commits 20–21 nov)
 
-Publicado: portafolio, home física, blog, academy, lab, games, studio, editorial webtoon, panel analytics, subdominios.
+Decisiones: Supabase analytics, MailerLite, Motion+, Liquid Glass + Tinta china, Bitácora/Academy/Games/Studio/Editorial, subdominios, matriz de imágenes.
+
+## 6. Estado actual
+
+Publicado y verificado: portafolio, home física, blog, academy, lab, games, studio, editorial webtoon, panel analytics, 12 subdominios en team ARCHIKATZ.
+
+**Brian (manual):** generar imágenes matriz Drive; aprobar textos webtoon; recomprar brianzuleta.co (20-dic-2026); LinkedIn; presupuesto Studio modo B.
+
+**Siguiente técnico:** Ep.1 webtoon; instalar imágenes; Studio modo B; QA fps; ranking server-side.
+
+---
 
 ## 6b · Migración Vercel ARCHIKATZ + Editorial SVG (2026-11-22)
 
@@ -24,8 +34,8 @@ Publicado: portafolio, home física, blog, academy, lab, games, studio, editoria
 - `toon.html` animado + nav entre episodios.
 - `episodes.json`: Ep.0 + Fractalia 8 caps + Psicodelia 8 caps (manuscrito Drive + matriz Fibonacci).
 
-**Log Drive:** `LOG_promii_web_2026-11-22.md` — ID `1SkbnWzK23NtmNHCQYNpK_PnCpx6pe3BI` (inventario docs leídos/pendientes).
+**Log Drive:** `LOG_promii_web_2026-11-22.md` — ID `1SkbnWzK23NtmNHCQYNpK_PnCpx6pe3BI` (inventario docs leídos/pendientes + IDs estables).
 
 **Pendiente corto:** Ep.1 lore Tomo I; CTAs Shopify/MailerLite; QA multi-dispositivo; imágenes cuando existan.
 
-> Nota: el historial completo de sesiones 20–21 nov permanece en el historial de commits y en el LOG de Drive. Este archivo se condensó en la migración para no perder el hilo operativo.
+> Historial detallado de la sesión 20–21 nov: commits en `main` y documentos en Drive. No borrar el LOG.
