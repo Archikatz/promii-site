@@ -7,14 +7,14 @@
     "date": "2026-11-21",
     "cover": { "scene": "city", "accent": "#4f9bff" },
     "panels": [
-      { "scene": "blueprint", "accent": "#4f9bff", "kind": "narr", "es": "Toda ciudad empieza como un plano. Líneas blancas, cotas, tolerancias.", "en": "Every city begins as a drawing. White lines, dimensions, tolerances." },
-      { "scene": "city", "accent": "#9b6dff", "kind": "narr", "es": "Arriba del último piso empieza otra ciudad. La que nadie dibujó.", "en": "Above the top floor another city begins. The one nobody drew." },
-      { "scene": "eyes", "accent": "#22e0c8", "kind": "narr", "es": "Ahí vive Michi. Guardiana del Umbral.", "en": "Michi lives there. Guardian of the Threshold." },
+      { "scene": "blueprint", "accent": "#4f9bff", "kind": "narr", "es": "Toda ciudad empieza como un plano. Líneas blancas, cotas, tolerancias. Lo que se puede construir.", "en": "Every city begins as a drawing. White lines, dimensions, tolerances. What can be built." },
+      { "scene": "city", "accent": "#9b6dff", "kind": "narr", "es": "Arriba del último piso, donde el plano termina, empieza otra ciudad. La que nadie dibujó.", "en": "Above the top floor, where the drawing ends, another city begins. The one nobody drew." },
+      { "scene": "eyes", "accent": "#22e0c8", "kind": "narr", "es": "Ahí vive Michi. Gata atigrada, ojos verdes, collar táctico. La Guardiana del Umbral.", "en": "Michi lives there. Tabby cat, green eyes, tactical collar. Guardian of the Threshold." },
       { "scene": "screens", "accent": "#4f9bff", "kind": "sfx", "es": "BIP · BIP · BIP", "en": "BEEP · BEEP · BEEP" },
       { "scene": "eyes", "accent": "#ff3b30", "kind": "dialog", "speaker": "Michi", "es": "Alguien está dibujando un piso que no debería existir.", "en": "Someone is drawing a floor that shouldn't exist." },
-      { "scene": "figure", "accent": "#d4af37", "kind": "narr", "es": "Una silueta en techwear traza líneas de luz. El arquitecto.", "en": "A silhouette in techwear traces lines of light. The architect." },
-      { "scene": "figure", "accent": "#d4af37", "kind": "dialog", "speaker": "Brian", "es": "Solo estoy probando qué pasa si la ciudad crece hacia arriba.", "en": "I'm just testing what happens if the city grows upward." },
-      { "scene": "eyes", "accent": "#22e0c8", "kind": "dialog", "speaker": "Michi", "es": "Lo que no se construye también tiene peso.", "en": "What isn't built has weight too." },
+      { "scene": "figure", "accent": "#d4af37", "kind": "narr", "es": "En la terraza, una silueta en techwear oscuro traza líneas de luz en el aire. El arquitecto.", "en": "On the rooftop, a silhouette in dark techwear traces lines of light in the air. The architect." },
+      { "scene": "figure", "accent": "#d4af37", "kind": "dialog", "speaker": "Brian", "es": "Tranquila, Michi. Solo estoy probando qué pasa si la ciudad sigue creciendo hacia arriba.", "en": "Easy, Michi. I'm just testing what happens if the city keeps growing upward." },
+      { "scene": "eyes", "accent": "#22e0c8", "kind": "dialog", "speaker": "Michi", "es": "Lo que no se construye también tiene peso. Y alguien tiene que sostenerlo.", "en": "What isn't built has weight too. And someone has to hold it up." },
       { "scene": "city", "accent": "#d4af37", "kind": "narr", "es": "Esa noche el plano creció un piso. Y el umbral, un poco más.", "en": "That night the drawing grew one floor. And the threshold, a little more." },
       { "scene": "end", "accent": "#9b6dff", "kind": "narr", "es": "Continuará · Habitando lo no construido", "en": "To be continued · Inhabiting the unbuilt" }
     ]
@@ -24,18 +24,18 @@
     "n": "F",
     "book": "fractalia",
     "title": { "es": "Fractalia · Diseño fijo vs. refluible", "en": "Fractalia · Fixed vs. reflowable" },
-    "summary": { "es": "Publicación especial: Fibonacci, vectores y el control milimétrico del lienzo.", "en": "Special issue: Fibonacci, vectors and millimetric control of the canvas." },
+    "summary": { "es": "Ocho capítulos · Fibonacci · forma que sostiene el sentido.", "en": "Eight chapters · Fibonacci · form that holds meaning." },
     "date": "2026-11-22",
     "cover": { "scene": "fractal", "accent": "#9b6dff" },
     "panels": [
-      { "scene": "canvas", "accent": "#9b6dff", "kind": "narr", "es": "El lienzo no es vacío. Es extensión de tu arquitectura cognitiva.", "en": "The canvas is not empty. It is an extension of your cognitive architecture." },
-      { "scene": "fractal", "accent": "#9b6dff", "kind": "narr", "es": "Fractalia: cada decisión de formato es una rama. Fijo o refluible.", "en": "Fractalia: every format decision is a branch. Fixed or reflowable." },
-      { "scene": "blueprint", "accent": "#4f9bff", "kind": "narr", "es": "Sendero fijo: cómics, arte, control total de píxeles. No habita el Kindle eInk.", "en": "Fixed path: comics, art, total pixel control. Will not live on Kindle eInk." },
-      { "scene": "glass", "accent": "#22e0c8", "kind": "narr", "es": "Sendero refluible: texto como agua. Compatibilidad absoluta.", "en": "Reflowable path: text like water. Absolute compatibility." },
-      { "scene": "fractal", "accent": "#d4af37", "kind": "narr", "es": "La obra sigue Fibonacci: 1, 1, 2, 3, 5, 8, 13, 21.", "en": "The work follows Fibonacci: 1, 1, 2, 3, 5, 8, 13, 21." },
-      { "scene": "ink", "accent": "#e8e0d0", "kind": "narr", "es": "Capítulos tempranos: procesamiento ascendente. Luego evaluación. Luego coda.", "en": "Early chapters: bottom-up processing. Then evaluation. Then coda." },
-      { "scene": "psyche", "accent": "#9b6dff", "kind": "narr", "es": "En el acmé (13) mantienes, interpretas, profundizas. Ratio > 9:1.", "en": "At the acme (13) you maintain, interpret, deepen. Ratio > 9:1." },
-      { "scene": "end", "accent": "#9b6dff", "kind": "narr", "es": "Fractalia: cómo la forma sostiene el sentido.", "en": "Fractalia: how form holds meaning." }
+      { "scene": "canvas", "accent": "#9b6dff", "kind": "narr", "es": "Capítulo 1 · El lienzo infinito. Abres el documento y el blanco no es vacío: es extensión de tu arquitectura cognitiva. Generas; no esperas inspiración externa.", "en": "Chapter 1 · The infinite canvas. You open the document and white is not empty: an extension of your cognitive architecture. You generate; you do not wait for external inspiration." },
+      { "scene": "fractal", "accent": "#9b6dff", "kind": "narr", "es": "Capítulo 2 · Infancia de la palabra. Procesamiento ascendente: construyes el relato peldaño a peldaño. Episodios, complicaciones, referentes cada tres cláusulas.", "en": "Chapter 2 · Childhood of the word. Bottom-up processing: you build the story step by step. Episodes, complications, a new referent every three clauses." },
+      { "scene": "ink", "accent": "#e8e0d0", "kind": "narr", "es": "Capítulo 3 · La trampa de la genericidad. Prompts vagos producen el promedio matemático. Tú dictas hex, anti-patrones, specs. La IA deja de inventar y ejecuta.", "en": "Chapter 3 · The trap of genericity. Vague prompts yield mathematical average. You dictate hex, anti-patterns, specs. AI stops inventing and executes." },
+      { "scene": "blueprint", "accent": "#4f9bff", "kind": "narr", "es": "Capítulo 4 · Psicodelia en la línea de tiempo. Servidor MCP, polling, ExtendScript. Gestionas pistas como un narrador mantiene personajes.", "en": "Chapter 4 · Psicodelia on the timeline. MCP server, polling, ExtendScript. You manage tracks the way a narrator keeps characters." },
+      { "scene": "glass", "accent": "#22e0c8", "kind": "narr", "es": "Capítulo 5 · Fractalia de formatos. Sendero fijo: cómics, arte, dobles páginas, control de píxeles. Sendero refluible: texto como agua, cualquier cristal.", "en": "Chapter 5 · Fractalia of formats. Fixed path: comics, art, spreads, pixel control. Reflowable path: text like water, any glass." },
+      { "scene": "figure", "accent": "#d4af37", "kind": "narr", "es": "Capítulo 6 · Madurez del narrador. Procesamiento descendente. Evalúas estados mentales. Mantención referencial experta: más de nueve menciones por referente.", "en": "Chapter 6 · Narrator maturity. Top-down processing. You evaluate mental states. Expert referential maintenance: more than nine mentions per referent." },
+      { "scene": "psyche", "accent": "#9b6dff", "kind": "narr", "es": "Capítulo 7 · Acmé (Fibonacci 13). Casi no introduces información nueva. Profundizas. Cohesión supraoracional. La luz (Relight) sigue la evaluación.", "en": "Chapter 7 · Acme (Fibonacci 13). You barely introduce new information. You deepen. Supra-sentential cohesion. Light (Relight) follows evaluation." },
+      { "scene": "end", "accent": "#9b6dff", "kind": "narr", "es": "Capítulo 8 · Resolución y coda. Reflexión que generaliza. EPUB3 y KF8. El manuscrito es estructura, no solo datos. Fractalia: la forma sostiene el sentido.", "en": "Chapter 8 · Resolution and coda. Reflection that generalizes. EPUB3 and KF8. The manuscript is structure, not only data. Fractalia: form holds meaning." }
     ]
   },
   {
@@ -43,18 +43,18 @@
     "n": "P",
     "book": "psicodelia",
     "title": { "es": "Psicodelia · El flujo del creador", "en": "Psicodelia · The creator's flow" },
-    "summary": { "es": "Publicación especial: InDesign, MCP, segunda persona y el despertar del especialista.", "en": "Special issue: InDesign, MCP, second person, and the specialist's awakening." },
+    "summary": { "es": "Ocho capítulos · segunda persona · el creador despierta.", "en": "Eight chapters · second person · the creator awakens." },
     "date": "2026-11-22",
     "cover": { "scene": "psyche", "accent": "#ff3da6" },
     "panels": [
-      { "scene": "canvas", "accent": "#ff3da6", "kind": "narr", "es": "Abres InDesign. El blanco ya no es vacío: es tu sistema nervioso digital.", "en": "You open InDesign. White is no longer empty: it is your digital nervous system." },
-      { "scene": "screens", "accent": "#4f9bff", "kind": "narr", "es": "Instalas en local lo no verificado. El panel se ancla; el flujo se vuelve uno.", "en": "You install locally what is unverified. The panel docks; flow becomes one." },
-      { "scene": "glass", "accent": "#22e0c8", "kind": "narr", "es": "Vectores editables en la página activa. Sin viajes de ida y vuelta.", "en": "Editable vectors on the active page. No round trips." },
-      { "scene": "ink", "accent": "#e8e0d0", "kind": "narr", "es": "La trampa de la genericidad. Tú dictas hex, anti-patrones, specs.", "en": "The trap of genericity. You dictate hex, anti-patterns, specs." },
-      { "scene": "psyche", "accent": "#ff3da6", "kind": "narr", "es": "Psicodelia en la timeline: Premiere, MCP, 278 herramientas.", "en": "Psicodelia on the timeline: Premiere, MCP, 278 tools." },
-      { "scene": "figure", "accent": "#d4af37", "kind": "narr", "es": "Hacia los 30: procesamiento descendente. Evalúas estados mentales.", "en": "Toward thirty: top-down processing. You evaluate mental states." },
-      { "scene": "fractal", "accent": "#9b6dff", "kind": "narr", "es": "SVG limpio, recoloración, escala. Transformas materia visual.", "en": "Clean SVG, recolor, scale. You transform visual matter." },
-      { "scene": "end", "accent": "#ff3da6", "kind": "narr", "es": "EPUB3, KF8. El manuscrito está listo. El creador ha despertado.", "en": "EPUB3, KF8. The manuscript is ready. The creator has awakened." }
+      { "scene": "canvas", "accent": "#ff3da6", "kind": "narr", "es": "Capítulo 1 · Despertar en el lienzo. InDesign. Plugin local no verificado. Confías en el código del creador. El flujo se vuelve uno.", "en": "Chapter 1 · Awakening on the canvas. InDesign. Unverified local plugin. You trust the creator's code. Flow becomes one." },
+      { "scene": "screens", "accent": "#4f9bff", "kind": "narr", "es": "Capítulo 2 · Vectores en la página activa. Sin viajes de ida y vuelta. Cada activo vinculado, listo para preimpresión. Ritmo intacto.", "en": "Chapter 2 · Vectors on the active page. No round trips. Every asset linked, ready for prepress. Rhythm intact." },
+      { "scene": "ink", "accent": "#e8e0d0", "kind": "narr", "es": "Capítulo 3 · Rebelión contra lo vago. “Moderno y limpio” es invitación a la nada. Specs comparables. Decisiones primero en el diseño.", "en": "Chapter 3 · Rebellion against the vague. “Modern and clean” invites nothing. Comparable specs. Design decisions first." },
+      { "scene": "psyche", "accent": "#ff3da6", "kind": "narr", "es": "Capítulo 4 · Psicodelia operativa. Premiere, MCP, 278 herramientas. Node escribe ExtendScript; el panel hace polling y devuelve JSON.", "en": "Chapter 4 · Operational psicodelia. Premiere, MCP, 278 tools. Node writes ExtendScript; the panel polls and returns JSON." },
+      { "scene": "fractal", "accent": "#9b6dff", "kind": "narr", "es": "Capítulo 5 · Encrucijada de formatos. Fijo para el impacto visual; refluible para la novela. Fractalia de destinos editoriales.", "en": "Chapter 5 · Format crossroads. Fixed for visual impact; reflowable for the novel. Fractalia of editorial destinies." },
+      { "scene": "figure", "accent": "#d4af37", "kind": "narr", "es": "Capítulo 6 · Hacia los treinta. Ya no eres esclavo del evento: evalúas. Specs complejos en lugar de prompts simples.", "en": "Chapter 6 · Toward thirty. You are no longer a slave to the event: you evaluate. Complex specs instead of simple prompts." },
+      { "scene": "glass", "accent": "#22e0c8", "kind": "narr", "es": "Capítulo 7 · Flujo del especialista. Raster a SVG editable. Relight, skin, mockups. Transformas materia visual sin salir del layout.", "en": "Chapter 7 · Specialist flow. Raster to editable SVG. Relight, skin, mockups. You transform visual matter without leaving the layout." },
+      { "scene": "end", "accent": "#ff3da6", "kind": "narr", "es": "Capítulo 8 · Validación final. EPUB3, KF8, respaldo de por vida. Has dejado de ser operario. El creador ha despertado.", "en": "Chapter 8 · Final validation. EPUB3, KF8, lifetime backing. You are no longer an operator. The creator has awakened." }
     ]
   }
 ]
