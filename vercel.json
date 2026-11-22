@@ -32,8 +32,8 @@
     { "source": "/", "has": [{ "type": "host", "value": "blog.promii.co" }], "destination": "/blog/", "permanent": false },
     { "source": "/:path+", "has": [{ "type": "host", "value": "blog.promii.co" }], "destination": "/blog/:path+", "permanent": false },
 
-    { "source": "/", "has": [{ "type": "host", "value": "bitacora.promii.co" }], "destination": "/blog/", "permanent": false },
-    { "source": "/:path+", "has": [{ "type": "host", "value": "bitacora.promii.co" }], "destination": "/blog/:path+", "permanent": false },
+    { "source": "/", "has": [{ "type": "host", "value": "bitacora.promii.co" }], "destination": "/blog/", "permanent": true },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "bitacora.promii.co" }], "destination": "/blog/:path+", "permanent": true },
 
     { "source": "/", "has": [{ "type": "host", "value": "editorial.promii.co" }], "destination": "/editorial/", "permanent": false },
     { "source": "/:path+", "has": [{ "type": "host", "value": "editorial.promii.co" }], "destination": "/editorial/:path+", "permanent": false },
@@ -62,7 +62,10 @@
     { "source": "/", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/", "permanent": false },
     { "source": "/:path+", "has": [{ "type": "host", "value": "admin.promii.co" }], "destination": "/admin/:path+", "permanent": false },
 
-    { "source": "/", "has": [{ "type": "host", "value": "comunidad.promii.co" }], "destination": "https://promii.co/#ecosistema", "permanent": false },
+    { "source": "/", "has": [{ "type": "host", "value": "community.promii.co" }], "destination": "/#ecosistema", "permanent": false },
+    { "source": "/:path+", "has": [{ "type": "host", "value": "community.promii.co" }], "destination": "/#ecosistema", "permanent": false },
+
+    { "source": "/", "has": [{ "type": "host", "value": "comunidad.promii.co" }], "destination": "https://community.promii.co/", "permanent": true },
 
     { "source": "/", "has": [{ "type": "host", "value": "promii.promii.co" }], "destination": "/", "permanent": false },
     { "source": "/:path+", "has": [{ "type": "host", "value": "promii.promii.co" }], "destination": "/:path+", "permanent": false },
