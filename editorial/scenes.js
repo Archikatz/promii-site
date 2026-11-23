@@ -26,76 +26,65 @@ window.AK_SCENE = function (kind, accent, seed) {
   function tower(x, w, h, lit) {
     var y = 520 - h, o = '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h +
       '" fill="#0c0c14" stroke="' + (lit ? a : 'rgba(255,255,255,.16)') + '" stroke-width="1.1"/>';
-    for (var yy = y + 10; yy < 510; yy += 15)
-      for (var xx = x + 5; xx < x + w - 5; xx += 11)
-        if (r() < .3) o += '<rect x="' + xx + '" y="' + yy + '" width="4" height="6" fill="' +
-          (r() < .5 ? a : '#efe9dc') + '" opacity="' + (.2 + r() * .55) + '"/>';
+    for (var yy = y + 10; yy < 520; yy += 14) {
+      for (var xx = x + 6; xx < x + w - 6; xx += 10)
+        o += '<rect x="' + xx + '" y="' + yy + '" width="5" height="7" fill="' + (lit && r() > .55 ? a : 'rgba(255,255,255,.08)') + '" opacity=".7"/>';
+    }
     return o;
   }
-
   function inkStroke(x1, y1, x2, y2, w) {
-    var mx = (x1 + x2) / 2 + (r() - .5) * 40, my = (y1 + y2) / 2 + (r() - .5) * 30;
-    return '<path d="M' + x1 + ' ' + y1 + 'Q' + mx + ' ' + my + ' ' + x2 + ' ' + y2 +
-      '" fill="none" stroke="' + a + '" stroke-width="' + w + '" stroke-linecap="round" opacity="' + (.35 + r() * .5) +
-      '" filter="url(#ink' + id + ')"/>';
+    return '<path d="M' + x1 + ' ' + y1 + ' Q' + ((x1+x2)/2 + (r()-.5)*40) + ' ' + ((y1+y2)/2 + (r()-.5)*40) +
+      ' ' + x2 + ' ' + y2 + '" fill="none" stroke="' + a + '" stroke-width="' + w + '" stroke-linecap="round" opacity=".55" filter="url(#ink' + id + ')"/>';
   }
-
   function glassBlob(cx, cy, rx, ry) {
     return '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry +
-      '" fill="' + a + '" opacity=".12" filter="url(#blur' + id + ')"/>' +
-      '<ellipse cx="' + (cx - rx * .25) + '" cy="' + (cy - ry * .3) + '" rx="' + (rx * .35) + '" ry="' + (ry * .25) +
-      '" fill="#fff" opacity=".18"/>' +
-      '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + rx + '" ry="' + ry +
-      '" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.2"/>';
+      '" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.28)" stroke-width="1.2"/>' +
+      '<ellipse cx="' + (cx - rx*0.25) + '" cy="' + (cy - ry*0.3) + '" rx="' + (rx*0.35) + '" ry="' + (ry*0.25) +
+      '" fill="rgba(255,255,255,.15)"/>';
   }
-
   function fractalBranch(x, y, ang, len, depth) {
     if (depth <= 0 || len < 4) return '';
     var x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len;
-    var o = '<path d="M' + x + ' ' + y + 'L' + x2 + ' ' + y2 + '" stroke="' + a +
-      '" stroke-width="' + Math.max(.4, depth * .45) + '" opacity="' + (.25 + depth * .08) + '" fill="none"/>';
-    var spread = 0.45 + r() * 0.25;
-    o += fractalBranch(x2, y2, ang - spread, len * 0.68, depth - 1);
-    o += fractalBranch(x2, y2, ang + spread, len * 0.68, depth - 1);
-    if (r() < .35) o += fractalBranch(x2, y2, ang, len * 0.55, depth - 1);
+    var o = '<line x1="' + x + '" y1="' + y + '" x2="' + x2 + '" y2="' + y2 +
+      '" stroke="' + a + '" stroke-width="' + Math.max(.4, depth * .45) + '" opacity="' + (.25 + depth * .08) + '"/>';
+    o += fractalBranch(x2, y2, ang - 0.5 - r()*0.3, len * 0.72, depth - 1);
+    o += fractalBranch(x2, y2, ang + 0.5 + r()*0.3, len * 0.72, depth - 1);
     return o;
   }
-
   function fibDots() {
-    var fib = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55], o = '';
-    for (var i = 0; i < fib.length; i++) {
-      var ang = i * 2.399963, rad = 12 + fib[i] * 3.2;
-      var x = 200 + Math.cos(ang) * rad, y = 260 + Math.sin(ang) * rad;
-      o += '<circle cx="' + x + '" cy="' + y + '" r="' + (1.2 + i * .35) + '" fill="' + a + '" opacity="' + (.3 + i * .05) + '"/>';
+    var o = '', phi = 1.618, ang = 0, rad = 8;
+    for (var i = 0; i < 48; i++) {
+      ang += Math.PI * 2 / (phi * phi); rad += 2.2;
+      o += '<circle cx="' + (200 + Math.cos(ang)*rad) + '" cy="' + (260 + Math.sin(ang)*rad) +
+        '" r="' + (1 + (i%5===0?2:0)) + '" fill="' + a + '" opacity=".35"/>';
     }
     return o;
   }
 
   if (kind === 'blueprint') {
-    for (var i = 0; i < 400; i += 25) g += '<path d="M' + i + ' 0V520" stroke="rgba(79,155,255,.1)"/>';
-    for (var j = 0; j < 520; j += 25) g += '<path d="M0 ' + j + 'H400" stroke="rgba(79,155,255,.1)"/>';
-    g += '<g stroke="#f2efe6" stroke-width="1.3" fill="none"><rect x="70" y="160" width="90" height="300"/><rect x="180" y="100" width="70" height="360"/><rect x="270" y="220" width="70" height="240"/><path d="M70 470h270"/></g>';
-    g += '<path d="M180 100h70" stroke="' + a + '" stroke-width="3"/>';
-    g += glassBlob(200, 90, 40, 18);
-  } else if (kind === 'city' || kind === 'figure' || kind === 'end') {
-    var x = -10; while (x < 400) { var w = 28 + r() * 52; g += tower(x, w, 110 + r() * 270, r() < .22); x += w + 4; }
-    g += '<rect x="150" y="80" width="100" height="440" fill="#0c0c14" stroke="' + a + '" stroke-width="1.5"/>';
-    for (var k = 0; k < 6; k++) g += '<path d="M150 ' + (80 + k * 14) + 'h100" stroke="' + a + '" opacity="' + (.85 - k * .12) + '"/>';
-    for (var d = 0; d < 50; d++) g += '<path d="M' + (r() * 400) + ' ' + (r() * 520) + 'l-2 10" stroke="rgba(255,255,255,.15)"/>';
+    for (var i = 0; i < 12; i++) g += '<path d="M0 ' + (40+i*40) + 'h400" stroke="rgba(255,255,255,.06)"/>';
+    for (var j = 0; j < 10; j++) g += '<path d="M' + (40+j*40) + ' 0v520" stroke="rgba(255,255,255,.06)"/>';
+    g += '<rect x="80" y="120" width="240" height="280" fill="none" stroke="' + a + '" stroke-width="1.4"/>';
+    g += '<path d="M80 200h240M160 120v280" stroke="' + a + '" opacity=".5"/>';
+  } else if (kind === 'city' || kind === 'figure' || kind === 'end' || kind === 'neon') {
+    for (var u = 0; u < 7; u++) g += tower(20 + u * 52, 36 + r() * 20, 80 + r() * 200, u === 3);
+    g += '<path d="M0 500 Q200 460 400 500" fill="none" stroke="' + a + '" opacity=".3"/>';
     if (kind === 'figure') {
-      g += '<g fill="#050508" stroke="' + a + '" stroke-width="1.2"><path d="M200 330c-14 0-22 12-22 26v70h44v-70c0-14-8-26-22-26z"/><circle cx="200" cy="312" r="16"/></g>';
-      g += '<path d="M214 350l60-40 40 10" stroke="' + a + '" stroke-width="2.2" fill="none"/>';
+      g += '<circle cx="200" cy="220" r="28" fill="none" stroke="' + a + '" stroke-width="1.5"/>';
+      g += '<path d="M200 250v80M170 290h60M180 330l20 60M220 330l-20 60" stroke="' + a + '" stroke-width="1.5" fill="none"/>';
     }
     if (kind === 'end') {
-      g += '<circle cx="200" cy="200" r="70" fill="none" stroke="' + a + '"/><circle cx="200" cy="200" r="100" fill="none" stroke="' + a + '" opacity=".45"/>';
-      g += fibDots();
+      g += '<text x="200" y="250" text-anchor="middle" fill="' + a + '" font-family="serif" font-size="18" opacity=".8">· · ·</text>';
+    }
+    if (kind === 'neon') {
+      g += '<path d="M40 180 H360" stroke="' + a + '" stroke-width="3" opacity=".6"/>';
+      g += '<path d="M60 220 H340" stroke="' + a + '" stroke-width="1.5" opacity=".35"/>';
     }
   } else if (kind === 'eyes') {
-    g += '<path d="M60 520c0-120 40-190 140-190s140 70 140 190z" fill="#0c0c14" stroke="rgba(255,255,255,.14)"/>';
-    g += '<g fill="' + a + '"><ellipse cx="160" cy="400" rx="22" ry="14"/><ellipse cx="240" cy="400" rx="22" ry="14"/></g>';
-    g += '<g fill="#050508"><ellipse cx="160" cy="400" rx="5" ry="13"/><ellipse cx="240" cy="400" rx="5" ry="13"/></g>';
-    g += '<path d="M130 470h140" stroke="#22e0c8" stroke-width="5" stroke-linecap="round"/>';
-    g += glassBlob(200, 120, 55, 28);
+    g += glassBlob(140, 240, 50, 28);
+    g += glassBlob(260, 240, 50, 28);
+    g += '<circle cx="140" cy="240" r="12" fill="' + a + '"/><circle cx="260" cy="240" r="12" fill="' + a + '"/>';
+    g += '<circle cx="144" cy="236" r="4" fill="#fff" opacity=".7"/><circle cx="264" cy="236" r="4" fill="#fff" opacity=".7"/>';
   } else if (kind === 'screens') {
     for (var m = 0; m < 5; m++) {
       var sx = 30 + r() * 250, sy = 40 + m * 90;
@@ -132,6 +121,8 @@ window.AK_SCENE = function (kind, accent, seed) {
     g += '<rect x="55" y="75" width="290" height="370" fill="#0a0a10" stroke="' + a + '" stroke-width=".8" opacity=".8"/>';
     for (var c = 0; c < 20; c++) g += '<circle cx="' + (70 + r() * 260) + '" cy="' + (90 + r() * 340) + '" r="' + (1 + r() * 3) + '" fill="' + a + '" opacity=".4"/>';
     g += glassBlob(200, 200, 60, 35);
+  } else {
+    for (var u2 = 0; u2 < 7; u2++) g += tower(20 + u2 * 52, 36 + r() * 20, 80 + r() * 200, u2 === 3);
   }
 
   return '<svg viewBox="0 0 400 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' + bg + g + '</svg>';
