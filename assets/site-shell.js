@@ -4,17 +4,17 @@
   var SITE = window.PROMII_SITE = {
     nav: [
       { k: 'portfolio', t: { es: 'Portafolio', en: 'Portfolio' }, href: '/', d: { es: 'Arquitecto BIM, IA y servicios Promii.', en: 'BIM architect, AI and Promii services.' } },
+      { k: 'about', t: { es: 'About', en: 'About' }, href: '/about/', d: { es: 'Especialidades y perfil público.', en: 'Specialties and public profile.' } },
       { k: 'blog', t: { es: 'Blog', en: 'Blog' }, href: '/blog/', d: { es: 'Hub AEC Tech: BIM, IA, normativa y sistemas.', en: 'AEC Tech hub: BIM, AI, code and systems.' } },
       { k: 'editorial', t: { es: 'Editorial', en: 'Editorial' }, href: '/editorial/', d: { es: 'Sello ArchiKatz: universo y webtoon.', en: 'ArchiKatz imprint: universe and webtoon.' } },
       { k: 'academy', t: { es: 'Academy', en: 'Academy' }, href: '/academy/', d: { es: 'Guías paso a paso AEC e IA.', en: 'Step-by-step AEC and AI guides.' } },
       { k: 'lab', t: { es: 'Lab', en: 'Lab' }, href: '/lab/', d: { es: 'Motion Lab y física del sitio.', en: 'Motion Lab and site physics.' } },
-      { k: 'games', t: { es: 'Juegos', en: 'Games' }, href: '/games/', d: { es: 'Juegos de arquitectura.', en: 'Architecture games.' } },
-      { k: 'contact', t: { es: 'Contacto', en: 'Contact' }, href: '/#contacto', d: { es: 'hi@promii.co — CV y WhatsApp bajo solicitud.', en: 'hi@promii.co — CV and WhatsApp on request.' } }
+      { k: 'arcade', t: { es: 'Arcade', en: 'Arcade' }, href: '/arcade/', d: { es: 'Arcade de arquitectura.', en: 'Architecture arcade.' } },
+      { k: 'contact', t: { es: 'Contacto', en: 'Contact' }, href: '/#contacto', d: { es: 'hi@promii.co — CV bajo solicitud.', en: 'hi@promii.co — CV on request.' } }
     ],
     map: [
       { g: { es: 'Contratar a Brian', en: 'Hire Brian' }, c: '#2f6bff', items: [
-        { t: { es: 'Sobre mí', en: 'About' }, href: '/#sobre', st: 'live' },
-        { t: { es: 'Especialidades', en: 'Specialties' }, href: '/#experiencia', st: 'live' },
+        { t: { es: 'About', en: 'About' }, href: '/about/', st: 'live' },
         { t: { es: 'Proyectos', en: 'Projects' }, href: '/#proyectos', st: 'live' },
         { t: { es: 'Servicios', en: 'Services' }, href: '/#servicios', st: 'live' },
         { t: { es: 'Contacto / CV', en: 'Contact / CV' }, href: '/#contacto', st: 'live' }
@@ -26,7 +26,7 @@
         { t: { es: 'Lab', en: 'Lab' }, href: '/lab/', st: 'live' }
       ]},
       { g: { es: 'Jugar y crear', en: 'Play and create' }, c: '#34c759', items: [
-        { t: { es: 'Juegos', en: 'Games' }, href: '/games/', st: 'live' },
+        { t: { es: 'Arcade', en: 'Arcade' }, href: '/arcade/', st: 'live' },
         { t: { es: 'Studio', en: 'Studio' }, href: '/studio/', st: 'live' },
         { t: { es: 'Home / mapa', en: 'Home / map' }, href: '/home/', st: 'live' }
       ]},
@@ -96,7 +96,7 @@
     if (mode === 'data') return;
     if (mode === 'mini') {
       if (!nav) { nav = document.createElement('div'); nav.className = 'pm-mini'; document.body.appendChild(nav); }
-      nav.innerHTML = '<a href="/">Promii</a><a href="/blog/">Blog</a><a href="/editorial/">Editorial</a><a href="/home/">Map</a>';
+      nav.innerHTML = '<a href="/">Promii</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/arcade/">Arcade</a>';
       return;
     }
     if (!nav) {
@@ -114,7 +114,7 @@
       var on = path === n.href || (n.href.length > 1 && path.indexOf(n.href) === 0);
       return '<a href="' + n.href + '" class="' + (on ? 'on' : '') + '">' + esc(L(n.t)) + '</a>';
     }).join('');
-    var drop = SITE.nav.map(function (n) {
+    var dropMenu = SITE.nav.map(function (n) {
       return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>';
     }).join('') + '<a href="/acoi/">ACOI</a><a href="/home/">' + esc(L(SITE.ui.map)) + '</a><a href="/privacy/">' + esc(L(SITE.ui.privacy)) + '</a>';
     nav.innerHTML = '<a class="pm-brand" href="/"><i></i>Brian Zuleta</a><nav class="pm-nav">' + links + '</nav>' +
@@ -122,12 +122,12 @@
       '<div class="pm-lang" role="group"><button type="button" data-l="es"' + (lang === 'es' ? ' class="on"' : '') + '>ES</button><button type="button" data-l="en"' + (lang === 'en' ? ' class="on"' : '') + '>EN</button></div>' +
       (darkOnly ? '' : '<button class="pm-ic pm-theme" type="button">' + (theme() === 'light' ? '☀️' : '🌙') + '</button>') +
       '<button class="pm-menu" type="button" aria-expanded="false">' + esc(L(SITE.ui.menu)) + '</button></div>' +
-      '<div class="pm-drop" id="pm-drop">' + drop + '</div>';
+      '<div class="pm-drop" id="pm-drop">' + dropMenu + '</div>';
     if (mode === 'nav') return;
     if (!foot) { foot = document.createElement('footer'); foot.className = 'pm-foot'; document.body.appendChild(foot); }
     foot.innerHTML = '<div><a class="pm-brand" href="/"><i></i>Brian Zuleta</a><p>' + esc(L(SITE.ui.tag)) + '</p><small>© ' + new Date().getFullYear() + ' Brian Zuleta · promii.co</small><p style="margin-top:10px"><a href="/privacy/">' + esc(L(SITE.ui.privacy)) + '</a> · <a href="/#contacto">' + esc(L(SITE.ui.cv)) + '</a></p></div>' +
       '<div><h4>' + esc(L(SITE.ui.explore)) + '</h4>' + SITE.nav.map(function (n) { return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>'; }).join('') + '</div>' +
-      '<div><h4>' + esc(L(SITE.ui.learn)) + '</h4><a href="/blog/">Blog</a><a href="/editorial/">Editorial</a><a href="/academy/">Academy</a><a href="/lab/">Lab</a><a href="/acoi/">ACOI</a></div>' +
+      '<div><h4>' + esc(L(SITE.ui.learn)) + '</h4><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/editorial/">Editorial</a><a href="/academy/">Academy</a><a href="/lab/">Lab</a><a href="/arcade/">Arcade</a><a href="/acoi/">ACOI</a></div>' +
       '<div><h4>' + esc(L(SITE.ui.social)) + '</h4>' + SITE.social.map(function (s) { return '<a href="' + s[1] + '" target="_blank" rel="noopener">' + s[0] + '</a>'; }).join('') + '</div>';
   }
   function toggle(o) { if (!nav) return; nav.classList.toggle('pm-open', o); }
