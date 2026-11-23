@@ -35,7 +35,6 @@
     { key: 'toast',    group: 'Avisos',     name: 'Aviso de redes de arte',      where: 'Abajo a la izquierda' }
   ];
   var STYLES = { glass: 'Liquid Glass', ink: 'Tinta china', gem: 'Obsidiana' };
-  /* Física y forma: [min, max, paso, valor por defecto, nombre, unidad, grupo] */
   var PARAMS = {
     radius:     [8, 40, 1, 20, 'Radio de esquinas', 'px', 'Forma'],
     smooth:     [1, 2.6, .1, 1.7, 'Suavizado continuo (squircle)', '', 'Forma'],
@@ -51,7 +50,6 @@
   };
   var PDEF = {}; Object.keys(PARAMS).forEach(function (k) { PDEF[k] = PARAMS[k][3]; });
   var DEFAULT = { style: 'glass', accent: '#ff3b30', off: [], p: PDEF };
-  /* Curva CSS linear() a partir de un muelle (rigidez k, amortiguación z) */
   function springLinear(k, z) {
     var x = 0, v = 0, dt = 1 / 240, pts = [0], t = 0, rest = 0, c = 2 * Math.sqrt(k) * z;
     while (t < 3) { v += (k * (1 - x) - c * v) * dt; x += v * dt; t += dt; pts.push(x); if (Math.abs(1 - x) < .001 && Math.abs(v) < .01) { if (++rest > 30) break; } else rest = 0; }
@@ -59,7 +57,6 @@
     return { css: 'linear(' + out.join(',') + ')', dur: Math.max(.35, Math.min(1.6, t)) };
   }
   var C = window.PROMII_ANALYTICS_BOOT || { url: 'https://lcahlrunxtgbghxauwoy.supabase.co', key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjYWhscnVueHRnYmdoeGF1d295Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUxODAzOTYsImV4cCI6MjExMDc1NjM5Nn0.gJ3wl9R9BjIpafbxJco2Wcl4kM24_s36liSy5t-M1A4' };
-
   function norm(c) {
     c = c || {};
     var p = {}, cp = c.p || {};
@@ -94,7 +91,6 @@
   var cached = null; try { cached = JSON.parse(localStorage.getItem('pm_cfg') || 'null'); } catch (e) {}
   var forced = urlOverrides(cached || DEFAULT);
   apply(forced || cached || DEFAULT);
-
   function load() {
     if (forced || !C.url || !window.fetch) return Promise.resolve(window.PROMII_CFG);
     return fetch(C.url + '/rest/v1/site_config?select=data&id=eq.1', { headers: { apikey: C.key, Authorization: 'Bearer ' + C.key } })
@@ -104,4 +100,24 @@
   }
   window.PromiiConfig = { REGISTRY: REGISTRY, STYLES: STYLES, PARAMS: PARAMS, springLinear: springLinear, DEFAULT: DEFAULT, apply: apply, norm: norm, load: load, isOn: function (k) { return (window.PROMII_CFG.off || []).indexOf(k) < 0; } };
   load();
+})();
+
+/* Privacy-first public profile (2026-11-23)
+   Softens phone / WhatsApp and architecture IG on the public site. Full CV on request. */
+(function () {
+  function scrub() {
+    try {
+      document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach(function (a) {
+        a.setAttribute('href', '/#contacto');
+        a.setAttribute('title', 'Contact / request WhatsApp');
+      });
+      document.querySelectorAll('a[href*="studiobrianzuleta"]').forEach(function (a) {
+        a.href = a.href.replace(/studiobrianzuleta/g, 'bz.promii');
+      });
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scrub);
+  else scrub();
+  setTimeout(scrub, 600);
+  setTimeout(scrub, 2000);
 })();
