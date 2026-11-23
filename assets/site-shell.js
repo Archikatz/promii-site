@@ -35,7 +35,7 @@
       ]}
     ],
     social: [
-      ['LinkedIn', 'https://www.linkedin.com/in/brianzuleta/'],
+      ['LinkedIn', 'https://www.linkedin.com/in/bczuleta/'],
       ['Instagram · Architecture', 'https://www.instagram.com/bz.promii/'],
       ['Instagram · ArchiKatz', 'https://www.instagram.com/archikatz/'],
       ['Behance', 'https://www.behance.net/brianzuleta'],
@@ -78,7 +78,7 @@
     return (lang === 'en' ? (o.en || o.es) : (o.es || o.en)) || '';
   }
   function esc(s) {
-    return String(s).replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
   function applyTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
