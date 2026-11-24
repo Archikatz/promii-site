@@ -20,8 +20,10 @@ h1{font:700 clamp(30px,5.5vw,46px)/1.1 "Playfair Display",serif;margin:8px 0}
 .ch{margin:56px 0;padding-top:12px;border-top:1px solid var(--line)}
 .ch h2{font:700 22px "Playfair Display",serif;margin:12px 0 14px}
 .art{margin:12px 0 18px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#05050a;aspect-ratio:16/10;position:relative;box-shadow:0 20px 50px -24px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.12)}
-.art::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 40%,transparent 60%,rgba(255,255,255,.03));border-radius:20px}
-.art svg{display:block;width:100%;height:100%}
+.art::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 40%,transparent 60%,rgba(255,255,255,.03));border-radius:20px;z-index:1}
+.art svg,.art-canvas{display:block;width:100%;height:100%}
+.art-live{position:absolute;inset:0;width:100%;height:100%}
+.art-canvas{border-radius:20px}
 .body{white-space:pre-wrap}
 footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
 #ak-drop{position:fixed;z-index:80;width:56px;height:56px;border-radius:50%;cursor:grab;touch-action:none;will-change:transform;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.72),rgba(255,255,255,.18) 38%,rgba(47,107,255,.28) 70%,rgba(212,175,55,.2));border:1px solid rgba(255,255,255,.35);box-shadow:0 12px 32px -10px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.55), 0 0 28px rgba(79,155,255,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
