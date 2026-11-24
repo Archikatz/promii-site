@@ -1,4 +1,4 @@
-/* ArchiKatz Editorial — WebGL chapter scenes (Three.js) */
+/* ArchiKatz Editorial — WebGL scenes (Three.js) + mobile + pointer */
 window.AK_BOOK_ART = function (book, n, accent) {
   var a = accent || (book === 'psicodelia' ? '#c9a0ff' : '#d4af37');
   return '<div class="art-live" data-book="' + book + '" data-n="' + n + '" data-accent="' + a + '"></div>';
@@ -7,7 +7,7 @@ window.AK_BOOK_ART = function (book, n, accent) {
 window.AK_MOUNT_ART = function (root) {
   if (!root) root = document;
   if (typeof THREE === 'undefined') {
-    console.warn('[AK] THREE.js missing — no WebGL scenes');
+    console.warn('[AK] THREE.js missing');
     return;
   }
   root.querySelectorAll('.art-live:not([data-mounted])').forEach(function (el) {
@@ -20,92 +20,110 @@ function hexInt(h) {
   return parseInt(String(h).replace('#', ''), 16);
 }
 
+function isMobile() {
+  return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
+}
+
 function mountGL(el) {
   var book = el.getAttribute('data-book');
   var n = +el.getAttribute('data-n');
   var accent = el.getAttribute('data-accent') || '#d4af37';
   var color = hexInt(accent);
   var isP = book === 'psicodelia';
+  var mobile = isMobile();
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x050508, 0.045);
+  scene.fog = new THREE.FogExp2(0x050508, mobile ? 0.055 : 0.04);
 
   var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.set(0, 0.4, 6.5);
+  camera.position.set(0, 0.35, mobile ? 7.2 : 6.5);
 
-  var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+  var renderer = new THREE.WebGLRenderer({
+    antialias: !mobile,
+    alpha: true,
+    powerPreference: mobile ? 'low-power' : 'high-performance'
+  });
   renderer.setClearColor(0x050508, 1);
-  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.setPixelRatio(Math.min(mobile ? 1.5 : 2, window.devicePixelRatio || 1));
   renderer.domElement.className = 'art-canvas';
+  renderer.domElement.style.touchAction = 'none';
   el.appendChild(renderer.domElement);
 
-  scene.add(new THREE.AmbientLight(0x404050, 0.55));
-  var key = new THREE.PointLight(color, 1.4, 20);
+  scene.add(new THREE.AmbientLight(0x404050, 0.5));
+  var key = new THREE.PointLight(color, 1.5, 22);
   key.position.set(2, 3, 4);
   scene.add(key);
-  var rim = new THREE.PointLight(0xffffff, 0.35, 16);
+  var rim = new THREE.PointLight(0xffffff, 0.4, 16);
   rim.position.set(-3, -1, 2);
   scene.add(rim);
+  // soft glow light (fake bloom)
+  var glow = new THREE.PointLight(color, 0.8, 12);
+  glow.position.set(0, 0.5, 2);
+  scene.add(glow);
 
   var group = new THREE.Group();
   scene.add(group);
-  var particles, pGeo, pVel;
+  var particles, pVel;
   var clock = new THREE.Clock();
   var running = false, raf = 0;
+  var ptr = { x: 0, y: 0, tx: 0, ty: 0 };
 
   function makeParticles(count, spread, size) {
-    pGeo = new THREE.BufferGeometry();
+    if (mobile) { count = Math.floor(count * 0.45); size *= 1.25; }
+    var pGeo = new THREE.BufferGeometry();
     var pos = new Float32Array(count * 3);
     pVel = new Float32Array(count * 3);
     for (var i = 0; i < count; i++) {
       pos[i*3] = (Math.random()-0.5) * spread;
       pos[i*3+1] = (Math.random()-0.5) * spread;
       pos[i*3+2] = (Math.random()-0.5) * spread;
-      pVel[i*3] = (Math.random()-0.5) * 0.01;
-      pVel[i*3+1] = (Math.random()-0.5) * 0.01;
-      pVel[i*3+2] = (Math.random()-0.5) * 0.01;
+      pVel[i*3] = (Math.random()-0.5) * 0.012;
+      pVel[i*3+1] = (Math.random()-0.5) * 0.012;
+      pVel[i*3+2] = (Math.random()-0.5) * 0.012;
     }
     pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    var mat = new THREE.PointsMaterial({
-      color: color, size: size, transparent: true, opacity: 0.75,
+    particles = new THREE.Points(pGeo, new THREE.PointsMaterial({
+      color: color, size: size, transparent: true, opacity: 0.8,
       depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
-    });
-    particles = new THREE.Points(pGeo, mat);
+    }));
     scene.add(particles);
   }
 
   function glassSphere(r, y) {
-    var geo = new THREE.SphereGeometry(r, 48, 48);
+    var segs = mobile ? 24 : 48;
     var mat = new THREE.MeshPhysicalMaterial({
-      color: color, metalness: 0.1, roughness: 0.12,
-      transmission: 0.72, thickness: 1.2, transparent: true,
-      opacity: 0.9, clearcoat: 1, clearcoatRoughness: 0.1
+      color: color, metalness: 0.08, roughness: 0.1,
+      transmission: mobile ? 0.55 : 0.75, thickness: 1.1,
+      transparent: true, opacity: 0.92,
+      clearcoat: 1, clearcoatRoughness: 0.08
     });
-    var m = new THREE.Mesh(geo, mat);
+    var m = new THREE.Mesh(new THREE.SphereGeometry(r, segs, segs), mat);
     m.position.y = y || 0;
     group.add(m);
-    var shell = new THREE.Mesh(
-      new THREE.SphereGeometry(r * 1.08, 32, 32),
-      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.06 })
+    // additive halo (glow)
+    var halo = new THREE.Mesh(
+      new THREE.SphereGeometry(r * 1.35, 16, 16),
+      new THREE.MeshBasicMaterial({
+        color: color, transparent: true, opacity: 0.12,
+        blending: THREE.AdditiveBlending, depthWrite: false
+      })
     );
-    shell.position.copy(m.position);
-    group.add(shell);
+    halo.position.copy(m.position);
+    group.add(halo);
     return m;
   }
 
   if (!isP && n === 1) {
     makeParticles(400, 10, 0.04);
-    var beam = new THREE.Mesh(
+    group.add(new THREE.Mesh(
       new THREE.CylinderGeometry(0.05, 0.45, 12, 16, 1, true),
-      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.35, side: THREE.DoubleSide })
-    );
-    group.add(beam);
-    var core = new THREE.Mesh(
+      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.35, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })
+    ));
+    group.add(new THREE.Mesh(
       new THREE.CylinderGeometry(0.02, 0.02, 12, 8),
-      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 })
-    );
-    group.add(core);
+      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 })
+    ));
     glassSphere(0.35, 3.2);
     camera.position.set(0, 0, 8);
   } else if (!isP && n === 2) {
@@ -116,23 +134,20 @@ function mountGL(el) {
     scene.add(grid);
   } else if (!isP && n === 3) {
     makeParticles(180, 7, 0.03);
-    var box = new THREE.LineSegments(
+    group.add(new THREE.LineSegments(
       new THREE.EdgesGeometry(new THREE.BoxGeometry(2.2, 2.2, 2.2)),
       new THREE.LineBasicMaterial({ color: color })
-    );
-    group.add(box);
-    var box2 = new THREE.Mesh(
+    ));
+    group.add(new THREE.Mesh(
       new THREE.BoxGeometry(2.2, 2.2, 2.2),
       new THREE.MeshStandardMaterial({ color: color, transparent: true, opacity: 0.12, metalness: 0.4, roughness: 0.3 })
-    );
-    group.add(box2);
+    ));
   } else if (!isP && n === 4) {
     makeParticles(200, 8, 0.03);
-    var torus = new THREE.Mesh(
+    group.add(new THREE.Mesh(
       new THREE.TorusGeometry(1.2, 0.28, 16, 48),
       new THREE.MeshStandardMaterial({ color: color, metalness: 0.7, roughness: 0.25 })
-    );
-    group.add(torus);
+    ));
     for (var i = 0; i < 12; i++) {
       var ang = (i / 12) * Math.PI * 2;
       var tooth = new THREE.Mesh(
@@ -151,7 +166,9 @@ function mountGL(el) {
         new THREE.BoxGeometry(0.55, 0.55, 0.08),
         new THREE.MeshStandardMaterial({
           color: (i === 3 && j === 2) ? 0xff3b30 : color,
-          metalness: 0.3, roughness: 0.4, transparent: true, opacity: 0.55
+          metalness: 0.3, roughness: 0.4, transparent: true, opacity: 0.55,
+          emissive: (i === 3 && j === 2) ? 0xff3b30 : 0x000000,
+          emissiveIntensity: (i === 3 && j === 2) ? 0.6 : 0
         })
       );
       cell.position.set((i - 2.5) * 0.7, (j - 1.5) * 0.7, 0);
@@ -159,31 +176,28 @@ function mountGL(el) {
     }
   } else if (!isP && n === 6) {
     makeParticles(220, 8, 0.03);
-    var frame = new THREE.LineSegments(
+    group.add(new THREE.LineSegments(
       new THREE.EdgesGeometry(new THREE.PlaneGeometry(6, 4)),
       new THREE.LineBasicMaterial({ color: color })
-    );
-    group.add(frame);
+    ));
     glassSphere(0.7, 0);
   } else if (!isP && n === 7) {
     makeParticles(160, 7, 0.03);
-    var shell = new THREE.Mesh(
+    group.add(new THREE.Mesh(
       new THREE.BoxGeometry(3, 2.2, 1.5),
       new THREE.MeshStandardMaterial({ color: color, wireframe: true, transparent: true, opacity: 0.5 })
-    );
-    group.add(shell);
-    var crack = new THREE.Mesh(
+    ));
+    group.add(new THREE.Mesh(
       new THREE.TetrahedronGeometry(0.6, 0),
-      new THREE.MeshStandardMaterial({ color: 0xff3b30, emissive: 0xff3b30, emissiveIntensity: 0.5 })
-    );
-    group.add(crack);
+      new THREE.MeshStandardMaterial({ color: 0xff3b30, emissive: 0xff3b30, emissiveIntensity: 0.7 })
+    ));
   } else if (!isP && n === 8) {
     makeParticles(500, 12, 0.035);
     glassSphere(0.5, 0);
     for (var k = 1; k <= 4; k++) {
       var ring = new THREE.Mesh(
         new THREE.TorusGeometry(k * 0.7, 0.02, 8, 64),
-        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.45 - k * 0.07 })
+        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.45 - k * 0.07, blending: THREE.AdditiveBlending })
       );
       ring.rotation.x = Math.PI / 2;
       group.add(ring);
@@ -191,7 +205,7 @@ function mountGL(el) {
   } else if (isP && n === 1) {
     makeParticles(600, 14, 0.045);
     glassSphere(1.0, 0);
-    scene.fog.density = 0.03;
+    scene.fog.density = 0.028;
   } else if (isP && n === 2) {
     makeParticles(300, 9, 0.03);
     glassSphere(0.9, 1.2);
@@ -205,11 +219,10 @@ function mountGL(el) {
   } else if (isP && n === 3) {
     makeParticles(350, 8, 0.03);
     glassSphere(1.0, 0);
-    var fogBall = new THREE.Mesh(
+    group.add(new THREE.Mesh(
       new THREE.SphereGeometry(2.2, 32, 32),
       new THREE.MeshBasicMaterial({ color: 0x1a1020, transparent: true, opacity: 0.35 })
-    );
-    group.add(fogBall);
+    ));
   } else if (isP && n === 4) {
     makeParticles(200, 8, 0.03);
     for (var i = 0; i < 5; i++) {
@@ -244,7 +257,7 @@ function mountGL(el) {
     var h1 = glassSphere(0.7, 0.3); h1.position.x = -0.4;
     var h2 = glassSphere(0.7, 0.3); h2.position.x = 0.4;
     var tip = new THREE.Mesh(
-      new THREE.ConeGeometry(0.9, 1.4, 24),
+      new THREE.ConeGeometry(0.9, 1.4, mobile ? 16 : 24),
       new THREE.MeshPhysicalMaterial({ color: color, metalness: 0.1, roughness: 0.2, transparent: true, opacity: 0.7, transmission: 0.5 })
     );
     tip.position.y = -0.7; tip.rotation.z = Math.PI;
@@ -252,24 +265,33 @@ function mountGL(el) {
   } else {
     makeParticles(450, 11, 0.04);
     glassSphere(0.45, 1.5);
-    var beam2 = new THREE.Mesh(
+    group.add(new THREE.Mesh(
       new THREE.CylinderGeometry(0.04, 0.3, 10, 12, 1, true),
-      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.3, side: THREE.DoubleSide })
-    );
-    group.add(beam2);
+      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.3, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })
+    ));
   }
+
+  function onPtr(e) {
+    var r = el.getBoundingClientRect();
+    var cx = (e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX)) - r.left;
+    var cy = (e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0].clientY)) - r.top;
+    ptr.tx = (cx / r.width) * 2 - 1;
+    ptr.ty = -((cy / r.height) * 2 - 1);
+  }
+  el.addEventListener('pointermove', onPtr, { passive: true });
+  el.addEventListener('touchmove', onPtr, { passive: true });
 
   function resize() {
     var r = el.getBoundingClientRect();
-    var w = Math.max(320, Math.floor(r.width));
-    var h = Math.max(180, Math.floor(r.height));
+    var w = Math.max(280, Math.floor(r.width));
+    var h = Math.max(160, Math.floor(r.height));
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h, false);
   }
 
   function tickParticles() {
-    if (!particles) return;
+    if (!particles || !pVel) return;
     var pos = particles.geometry.attributes.position.array;
     for (var i = 0; i < pos.length; i += 3) {
       pos[i] += pVel[i]; pos[i+1] += pVel[i+1]; pos[i+2] += pVel[i+2];
@@ -284,9 +306,15 @@ function mountGL(el) {
     if (!running) return;
     var t = clock.getElapsedTime();
     if (!reduced) {
-      group.rotation.y = t * 0.25;
-      group.rotation.x = Math.sin(t * 0.35) * 0.15;
-      key.intensity = 1.2 + Math.sin(t * 2) * 0.25;
+      ptr.x += (ptr.tx - ptr.x) * 0.06;
+      ptr.y += (ptr.ty - ptr.y) * 0.06;
+      group.rotation.y = t * 0.22 + ptr.x * 0.45;
+      group.rotation.x = Math.sin(t * 0.35) * 0.12 + ptr.y * 0.3;
+      camera.position.x = ptr.x * 0.35;
+      camera.position.y = 0.35 + ptr.y * 0.2;
+      camera.lookAt(0, 0, 0);
+      key.intensity = 1.25 + Math.sin(t * 2) * 0.3;
+      glow.intensity = 0.6 + Math.sin(t * 1.7) * 0.35;
       tickParticles();
       if (particles) particles.rotation.y = t * 0.05;
     }
@@ -308,7 +336,7 @@ function mountGL(el) {
         cancelAnimationFrame(raf);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.1 });
   io.observe(el);
   resize();
   renderer.render(scene, camera);
