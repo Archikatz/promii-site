@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>13. ILLUSION FINDER | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+  :root {
+    --bg: #08080C;
+    --panel: rgba(244, 244, 248, 0.06);
+    --border: rgba(244, 244, 248, 0.16);
+    --text: #F4F4F8;
+    --muted: rgba(244, 244, 248, 0.55);
+    --cyan: #22E0C8;
+    --crimson: #FF3B30;
+    --blue: #2F6BFF;
+  }
+  * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+  body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%;
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden; touch-action: none;
+  }
+  .glass-hud {
+    position: fixed; top: 14px; left: 14px; right: 14px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 18px; border-radius: 16px;
+    background: var(--panel); border: 1px solid var(--border);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    z-index: 20; pointer-events: auto;
+  }
+  .brand-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    letter-spacing: 2px; font-size: 14px; text-transform: uppercase;
+  }
+  .brand-sub { font-size: 10px; color: var(--cyan); letter-spacing: 2px; display: block; }
+  .hud-stats { display: flex; gap: 18px; align-items: center; font-size: 13px; letter-spacing: 1px; }
+  .btn-glass {
+    background: rgba(244,244,248,0.08); border: 1px solid var(--border);
+    color: var(--text); padding: 6px 12px; border-radius: 10px;
+    cursor: pointer; font-size: 12px; letter-spacing: 1px; transition: 0.2s;
+  }
+  .btn-glass:hover { border-color: var(--cyan); color: var(--cyan); }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .plates { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; margin-top: 40px; }
+  .plate {
+    display: grid; grid-template-columns: repeat(4, 54px); gap: 8px;
+    padding: 16px; border-radius: 18px; background: var(--panel); border: 1px solid var(--border);
+  }
+  .cell {
+    width: 54px; height: 54px; border-radius: 10px; border: 1px solid rgba(244,244,248,0.2);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+</style>
+  <link rel="stylesheet" href="../assets/promii-glass.css">
+</head>
+<body>
+<div class="glass-hud">
+  <div><span class="brand-title">13 · ILLUSION FINDER</span><span class="brand-sub">CURATORIAL AUDIT · CLICK THE ANOMALY</span></div>
+  <div class="hud-stats">
+    <a class="btn-glass btn-back-hub" href="../index.html">◂ HUB</a>
+    <span>AUDITED: <strong id="score">0</strong></span>
+    <button class="btn-glass" onclick="Synth.toggleMute(this)">AUDIO: ON</button>
+  </div>
+</div>
+<div class="plates">
+  <div class="plate" id="leftPlate"></div>
+  <div class="plate" id="rightPlate"></div>
+</div>
+<script src="../assets/promii-core.js"></script>
+<script>
+let peak = PeakStore.get('13');
+let score = 0, anomalyIdx = 0;
+
+function newAudit() {
+  const base = Array.from({ length: 16 }, () => Math.random() > 0.5 ? '#22E0C8' : '#F4F4F8');
+  anomalyIdx = Math.floor(Math.random() * 16);
+  const right = [...base];
+  right[anomalyIdx] = '#FF3B30';
+
+  ['leftPlate', 'rightPlate'].forEach((id, side) => {
+    const el = document.getElementById(id); el.innerHTML = '';
+    const arr = side === 0 ? base : right;
+    arr.forEach((col, i) => {
+      const d = document.createElement('div'); d.className = 'cell';
+      d.innerHTML = `<div style="width:20px;height:20px;border:2px solid ${col};transform:rotate(${(i*45)%90}deg)"></div>`;
+      d.onclick = () => {
+        Synth.init();
+        if (i === anomalyIdx) {
+          score++; document.getElementById('score').textContent = score;
+          PeakStore.set('13', score);
+          Synth.note(6, 0.25); newAudit();
+        } else {
+          Synth.noise(0.15, 0.12);
+        }
+      };
+      el.appendChild(d);
+    });
+  });
+}
+newAudit();
+</script>
+</body>
+</html>
