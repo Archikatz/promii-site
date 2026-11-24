@@ -1,57 +1,108 @@
-<!doctype html>
-<html lang="es" data-title-en="Promii Arcade · Architecture web games">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<script>try{var t=localStorage.getItem('promii-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Promii Arcade · Arcade de arquitectura</title>
-<meta name="description" content="Arcade web de arquitectura y construcción: Torre, Choques, Ducto, Órbita, Ruta. Tutorial, ranking y retos. Claro y oscuro.">
-<link rel="canonical" href="https://promii.co/arcade/">
-<meta property="og:title" content="Promii Arcade"><meta property="og:description" content="Arcade web de arquitectura y construcción."><meta property="og:image" content="https://promii.co/assets/og.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="games.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Promii Arcade · 18 Protocols</title>
+<meta name="description" content="Promii Arcade — Dreamy Vector Glass collection. 18 kinetic architecture games.">
+<link rel="canonical" href="https://promii.co/games/">
+<link rel="stylesheet" href="assets/promii-glass.css">
 <style>
-header{padding-block:56px 26px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.g{display:grid;overflow:hidden;text-decoration:none;color:var(--text);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-.g:hover{transform:translateY(-4px)}
-.g svg{width:100%;height:auto;display:block;background:#0b0b12;border-bottom:1px solid var(--line)}
-.g .c{padding:18px 20px 20px;display:grid;gap:6px}
-.g b{font:700 22px var(--display);letter-spacing:-.01em}.g span{color:var(--muted);font-size:14.5px}
-.g em{font:600 14px var(--display);font-style:normal;color:var(--neon);margin-top:4px}
-.g.soon{opacity:.65;pointer-events:none}
-.best{font:500 12.5px var(--body);color:var(--dim)}
+body{margin:0;background:#08080C;color:#F4F4F8;font:15px/1.5 Inter,system-ui,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 100px;position:relative;z-index:1}
+h1{font:700 34px Inter,system-ui;margin:8px 0;letter-spacing:-.02em}
+.sub{color:rgba(244,244,248,.6);max-width:48ch}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.filters button{border:1px solid rgba(244,244,248,.18);background:rgba(255,255,255,.06);color:#F4F4F8;border-radius:999px;padding:8px 12px;font:600 11px Inter;cursor:pointer}
+.filters button.on{background:linear-gradient(135deg,#22E0C8,#2F6BFF);color:#041018;border:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.card{display:block;padding:16px;border-radius:16px;border:1px solid rgba(244,244,248,.14);background:rgba(12,12,18,.75);text-decoration:none;color:inherit;cursor:pointer;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);border-color:#22E0C8}
+.card b{display:block;font:700 15px Inter;margin-bottom:6px}
+.card span{color:rgba(244,244,248,.62);font-size:13px}
+.card i{display:block;margin-top:10px;font:600 12px Inter;font-style:normal;color:#22E0C8}
+.peak{float:right;font:600 11px Inter;color:#E8B23A}
+#theater{display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.82)}
+#theater.on{display:block}
+#theater iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#08080C}
+#close{position:fixed;top:12px;left:12px;z-index:60;border:0;border-radius:999px;padding:10px 14px;font:700 12px Inter;background:#F4F4F8;color:#08080C;cursor:pointer}
 </style>
 </head>
 <body>
-<main class="wrap">
-<header>
-  <span class="eyebrow">Promii Arcade</span>
-  <h1 data-en="Architecture games for a spare moment">Juegos de arquitectura para un rato libre</h1>
-  <p class="lead" data-en="Lightweight web games, no downloads. Tutorial, progress, leaderboard and challenges. Switch light/dark from the top bar.">Juegos web ligeros, sin descargas. Tutorial, progreso, ranking y retos. Cambia claro/oscuro desde la barra superior.</p>
-</header>
-<div class="grid">
-  <a class="g glass" href="torre.html">
-    <svg viewBox="0 0 320 180" fill="none" stroke="#f4f4f8" stroke-width="1.6"><g opacity=".08" stroke="#fff"><path d="M0 30h320M0 60h320M0 90h320M0 120h320M0 150h320M40 0v180M80 0v180M120 0v180M160 0v180M200 0v180M240 0v180M280 0v180"/></g><rect x="110" y="140" width="100" height="18"/><rect x="114" y="122" width="94" height="18"/><rect x="120" y="104" width="86" height="18"/><rect x="124" y="86" width="80" height="18" stroke="#22e0c8"/><rect x="170" y="52" width="80" height="18" stroke="#ff3b30" stroke-dasharray="4 4"/><path d="M60 158h200" stroke-width="2.4"/></svg>
-    <div class="c"><b data-en="Level Tower">Torre de niveles</b><span data-en="Drop each slab at the right moment.">Suelta cada losa en el momento justo.</span><span class="best" data-best="torre"></span><em data-en="Play →">Jugar →</em></div></a>
-  <a class="g glass" href="choques.html">
-    <svg viewBox="0 0 320 180" fill="none" stroke-width="2"><rect width="320" height="180" fill="#0b0b12"/><g stroke="#8a8c9e"><path d="M0 50h320M0 120h320"/></g><g stroke="#ff3b30"><path d="M40 0v80l60 40v60M220 0v180"/></g><g stroke="#2f6bff" opacity=".8"><path d="M0 90h130l50-40h140"/></g><g stroke="#22e0c8" stroke-width="1.6"><circle cx="40" cy="50" r="10"/><circle cx="220" cy="120" r="10"/></g></svg>
-    <div class="c"><b data-en="Clash Detection">Detección de choques</b><span data-en="Tap clashes before time runs out.">Toca los choques antes de que se acabe el tiempo.</span><span class="best" data-best="choques"></span><em data-en="Play →">Jugar →</em></div></a>
-  <a class="g glass" href="ducto.html">
-    <svg viewBox="0 0 320 180" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect width="320" height="180" fill="#0b0b12"/><path d="M40 150V90h80V60h80" stroke="#2f6bff" stroke-width="14"/><path d="M40 150V90h80V60h80" stroke="#9db8ff" stroke-width="3"/><rect x="232" y="48" width="22" height="22" stroke="#22e0c8" stroke-width="2"/></svg>
-    <div class="c"><b data-en="Duct Run">Ducto</b><span data-en="Route the duct, connect outlets, avoid columns.">Lleva el ducto, conecta salidas, esquiva columnas.</span><span class="best" data-best="ducto"></span><em data-en="Play →">Jugar →</em></div></a>
-  <a class="g glass" href="orbita.html">
-    <svg viewBox="0 0 320 180" fill="none"><rect width="320" height="180" fill="#07070c"/><path d="M160 150c-8-12-14-22-14-30a14 14 0 0 1 28 0c0 8-6 18-14 30z" transform="rotate(180 160 132)" stroke="#22e0c8" stroke-width="2"/></svg>
-    <div class="c"><b data-en="Orbit">Órbita</b><span data-en="Defend the city wave after wave.">Defiende la ciudad oleada tras oleada.</span><span class="best" data-best="orbita"></span><em data-en="Play →">Jugar →</em></div></a>
-  <a class="g glass" href="ruta.html">
-    <svg viewBox="0 0 320 180" fill="none"><rect width="320" height="180" fill="#0b0b12"/><path d="M100 0v180M220 0v180" stroke="#f4f4f8" stroke-width="2"/><rect x="146" y="108" width="28" height="54" rx="5" stroke="#22e0c8" stroke-width="2"/></svg>
-    <div class="c"><b data-en="Site Run">Ruta de obra</b><span data-en="Drive the mixer: lanes, cones, hard hats.">Maneja el mixer: carriles, conos, cascos.</span><span class="best" data-best="ruta"></span><em data-en="Play →">Jugar →</em></div></a>
+<div class="wrap">
+  <p style="font:600 11px Inter;letter-spacing:.14em;text-transform:uppercase;color:#22E0C8">Promii Arcade</p>
+  <h1>18 Protocols</h1>
+  <p class="sub">Dreamy Vector Glass · ArchiKatz kinetic instruments. Play in theater or open standalone.</p>
+  <div class="filters" id="filters">
+    <button class="on" data-c="ALL">ALL (18)</button>
+    <button data-c="Skill & Physics">SKILL (6)</button>
+    <button data-c="Strategy & Sims">STRATEGY (4)</button>
+    <button data-c="Arcade & Party">PARTY (5)</button>
+    <button data-c="Originals & BIM">BIM (3)</button>
+  </div>
+  <div class="grid" id="grid"></div>
 </div>
-</main>
-<script>document.querySelectorAll('[data-best]').forEach(function(e){try{var v=localStorage.getItem('pg-best-'+e.dataset.best);if(v){e.textContent='Tu récord: '+v;e.setAttribute('data-en','Your best: '+v);}}catch(x){}});</script>
-<script src="/assets/site-shell.js" data-mode="full"></script>
-<script src="/analytics/config.js"></script>
-<script src="/analytics/track.js" defer></script>
+<div id="theater"><button id="close" type="button">◂ HUB</button><iframe id="frame" title="game"></iframe></div>
+<script src="assets/promii-core.js"></script>
+<script>
+const protocols = [
+  {id:'01',file:'games/01_duet_glass.html',cat:'Skill & Physics',title:'01. DUET GLASS',desc:'Orbit twin glass droplets past monoliths.'},
+  {id:'02',file:'games/02_resonance_keys.html',cat:'Skill & Physics',title:'02. RESONANCE KEYS',desc:'Four-lane harmonic codex.'},
+  {id:'03',file:'games/03_glass_collapse.html',cat:'Skill & Physics',title:'03. GLASS COLLAPSE',desc:'Ballistic demolition with gravity.'},
+  {id:'04',file:'games/04_aether_drift.html',cat:'Skill & Physics',title:'04. AETHER DRIFT',desc:'Droplet swarm through misty arches.'},
+  {id:'05',file:'games/05_archi_arcana.html',cat:'Skill & Physics',title:'05. ARCHI-ARCANA',desc:'Tilt plates, synthesize thresholds.'},
+  {id:'06',file:'games/06_monolith_relic.html',cat:'Skill & Physics',title:'06. MONOLITH RELIC',desc:'Route beams through prisms.'},
+  {id:'07',file:'games/07_liquid_harvest.html',cat:'Strategy & Sims',title:'07. LIQUID HARVEST',desc:'Farm data crystals and lumens.'},
+  {id:'08',file:'games/08_kinetic_kitchen.html',cat:'Strategy & Sims',title:'08. KINETIC KITCHEN',desc:'Photon synthesis lab.'},
+  {id:'09',file:'games/09_the_archivist.html',cat:'Strategy & Sims',title:'09. THE ARCHIVIST',desc:'Sort magnetic archive volumes.'},
+  {id:'10',file:'games/10_abyss_maze.html',cat:'Strategy & Sims',title:'10. ABYSS MAZE',desc:'Inertia packet navigation.'},
+  {id:'11',file:'games/11_prism_racer.html',cat:'Arcade & Party',title:'11. PRISM RACER',desc:'Fiber-optic tunnel racer.'},
+  {id:'12',file:'games/12_void_flyer.html',cat:'Arcade & Party',title:'12. VOID FLYER',desc:'360° vector flight defense.'},
+  {id:'13',file:'games/13_illusion_finder.html',cat:'Arcade & Party',title:'13. ILLUSION FINDER',desc:'Spot the plate anomaly.'},
+  {id:'14',file:'games/14_anomaly_hunt.html',cat:'Arcade & Party',title:'14. ANOMALY HUNT',desc:'Pass-and-play deduction.'},
+  {id:'15',file:'games/15_chronicle_delver.html',cat:'Arcade & Party',title:'15. CHRONICLE DELVER',desc:'Explore server ruins.'},
+  {id:'16',file:'games/16_slab_tower.html',cat:'Originals & BIM',title:'16. SLAB TOWER',desc:'Stack BIM slabs with balance.'},
+  {id:'17',file:'games/17_clash_matrix.html',cat:'Originals & BIM',title:'17. CLASH MATRIX',desc:'Clear MEP clashes in time.'},
+  {id:'18',file:'games/18_droplet_gravity.html',cat:'Originals & BIM',title:'18. DROPLET GRAVITY',desc:'N-body droplet gravity.'}
+];
+let cat='ALL';
+const grid=document.getElementById('grid');
+function peaks(){try{return PeakStore.getAll()}catch(e){return {}}}
+function render(){
+  const p=peaks();
+  grid.innerHTML='';
+  protocols.forEach(g=>{
+    if(cat!=='ALL'&&g.cat!==cat) return;
+    const el=document.createElement('a');
+    el.className='card';
+    el.href=g.file;
+    el.innerHTML=(p[g.id]?`<span class="peak">PEAK ${p[g.id]}</span>`:'')+`<b>${g.title}</b><span>${g.desc}</span><i>PLAY →</i>`;
+    el.onclick=e=>{e.preventDefault();openGame(g.file)};
+    grid.appendChild(el);
+  });
+}
+function openGame(src){
+  document.getElementById('frame').src=src;
+  document.getElementById('theater').classList.add('on');
+  try{HypnoSynth.unlock()}catch(e){}
+}
+document.getElementById('close').onclick=()=>{
+  document.getElementById('theater').classList.remove('on');
+  document.getElementById('frame').src='about:blank';
+  render();
+};
+document.getElementById('filters').onclick=e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  cat=b.dataset.c; [...document.getElementById('filters').children].forEach(x=>x.classList.toggle('on',x===b)); render();
+};
+window.addEventListener('message',ev=>{ if(ev.data&&ev.data.type==='promii-peak') render(); });
+render();
+const q=new URLSearchParams(location.search);
+if(q.get('protocol')){
+  const g=protocols.find(x=>x.id===q.get('protocol'));
+  if(g) openGame(g.file);
+}
+</script>
+<script src="/assets/site-shell.js"></script>
 </body>
 </html>
