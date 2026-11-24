@@ -1,6 +1,6 @@
 # Proyecto promii.co: historia, decisiones y lo que sigue
 
-Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code) y actualizaciones **21–22 nov 2026** (Grok / team ARCHIKATZ). Sirve para retomar desde cualquier cuenta de Claude u otra IA.
+Respaldo de la sesión de trabajo del **20 de noviembre de 2026** (Claude Code) y actualizaciones **21–24 nov 2026** (Grok / team ARCHIKATZ). Sirve para retomar desde cualquier cuenta de Claude u otra IA.
 
 ## 1. Quién y qué
 
@@ -15,27 +15,28 @@ Decisiones: Supabase analytics, MailerLite, Motion+, Liquid Glass + Tinta china,
 
 ## 6. Estado actual
 
-Publicado y verificado: portafolio, home física, blog, academy, lab, games, studio, editorial webtoon, panel analytics, 12 subdominios en team ARCHIKATZ.
+Publicado y verificado: portafolio, home física, blog, academy, lab, games, studio, editorial (libros Fractalia/Psicodelia WebGL), panel analytics, subdominios.
 
-**Brian (manual):** generar imágenes matriz Drive; aprobar textos webtoon; recomprar brianzuleta.co (20-dic-2026); LinkedIn; presupuesto Studio modo B.
+**Brian (manual):** generar imágenes matriz Drive; aprobar textos; LinkedIn; presupuesto Studio modo B.
 
-**Siguiente técnico:** Ep.1 webtoon; instalar imágenes; Studio modo B; QA fps; ranking server-side.
+**Siguiente técnico:** QA multi-dispositivo; CTAs; ranking; episodios lore cuando se activen.
 
 ---
 
-## 6b · Migración Vercel ARCHIKATZ + Editorial SVG (2026-11-22)
+## 6b · Migración Vercel ARCHIKATZ + Editorial (2026-11-22…24)
 
-**Team:** ARCHIKATZ · proyecto `promii-site` · CNAME `81765d83896ebb5f.vercel-dns-017.com`  
-**Dominios verificados:** blog, acoi, editorial, community, archikatz, aec, home, admin, lab, bitacora, academy, games.
+Editorial: hub, `libro.html` + manuscritos PDF, arte WebGL por capítulo, tema claro/oscuro, FAB liquid glass.
 
-**Editorial hecho:**
-- Hub `editorial/index.html` con catálogo SVG (Ep0, Fractalia, Psicodelia), índice glass, mito/personajes/webtoon/sello.
-- Motor `scenes.js`: blueprint, city, figure, eyes, screens, fractal, ink, glass, psyche, canvas.
-- `toon.html` animado + nav entre episodios.
-- `episodes.json`: Ep.0 + Fractalia 8 caps + Psicodelia 8 caps (manuscrito Drive + matriz Fibonacci).
+---
 
-**Log Drive:** `LOG_promii_web_2026-11-22.md` — ID `1SkbnWzK23NtmNHCQYNpK_PnCpx6pe3BI` (inventario docs leídos/pendientes + IDs estables).
+## 6c · Seed futuro · Cubo y geometría sagrada (2026-11-24)
 
-**Pendiente corto:** Ep.1 lore Tomo I; CTAs Shopify/MailerLite; QA multi-dispositivo; imágenes cuando existan.
+**No implementar ahora.** Brian pidió dejar anotado para un capítulo posterior.
 
-> Historial detallado de la sesión 20–21 nov: commits en `main` y documentos en Drive. No borrar el LOG.
+- Nota completa: [`docs/NOTA-CUBO-GEOMETRIA-SAGRADA.md`](./NOTA-CUBO-GEOMETRIA-SAGRADA.md)
+- Enlace narrativo: Fractalia (orden / medida / grilla) ↔ símbolo del cubo (Tierra, límite, módulo, BIM bounding box) ↔ posible puente a Psicodelia (aristas que se disuelven).
+- Cuando se reactive: decidir si es cap. extra Tomo I, Ep. lore o pieza standalone; reutilizar escena cubo WebGL (`n===3`) y variantes net / Metatrón.
+
+---
+
+> Historial detallado: commits en `main` y documentos en Drive. No borrar el LOG ni esta nota seed.
