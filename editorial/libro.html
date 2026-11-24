@@ -44,12 +44,13 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:v
   <ol class="toc" id="toc"></ol>
   <div id="chapters"></div>
   <footer>
-    <p>Texto íntegro del manuscrito · Sello ArchiKatz · 2026 · <a href="./" style="color:inherit">Editorial</a> · <a href="proceso-creador.html" style="color:inherit">Making-of</a></p>
+    <p>Texto íntegro del manuscrito · Sello Archikatz · 2026 · <a href="./" style="color:inherit">Editorial</a> · <a href="proceso-creador.html" style="color:inherit">Making-of</a></p>
   </footer>
 </main>
 <script src="scenes.js"></script>
 <script src="/assets/site-shell.js" data-mode="full"></script>
-<script src="libros-data.js"></script>
+<script src="libros-fractalia.js"></script>
+<script src="libros-psicodelia.js"></script>
 <script>
 (function(){
   var ART_F = {1:['canvas','#d4af37'],2:['blueprint','#4f9bff'],3:['fractal','#d4af37'],4:['city','#4f9bff'],5:['screens','#d4af37'],6:['figure','#c9a227'],7:['neon','#ff3b30'],8:['end','#d4af37']};
@@ -60,7 +61,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:v
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
   function draw(){
     var pack = (window.ARCHIKATZ_LIBROS||{})[q];
-    if(!pack){ document.getElementById('chapters').innerHTML='<p>Libro no encontrado.</p>'; return; }
+    if(!pack){ document.getElementById('chapters').innerHTML='<p>Libro no encontrado. Espera a que carguen los datos.</p>'; return; }
     document.title = pack.title + ' · ArchiKatz Editorial';
     document.getElementById('title').textContent = pack.title;
     document.getElementById('subtitle').textContent = pack.subtitle;
