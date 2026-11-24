@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>16 · Slab Tower | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--blue:#2F6BFF;--crimson:#FF3B30;--gold:#E8B23A;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);letter-spacing:.14em;margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px/1.45 Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">16 · Slab Tower<small>BIM STACK</small></div>
+  <div class="stats">
+    <a class="btn btn-back-hub" href="../index.html">◂ HUB</a>
+    <span>SCORE <strong id="sc">0</strong></span>
+    <span>BEST <strong id="best">0</strong></span>
+    <button class="btn" id="mute" type="button">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> Tap or Space to drop each slab. Align with the stack. Miss and the tower resets.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(() => {
+  const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
+  let W,H,dpr,score=0;
+  const scEl=document.getElementById('sc'), bestEl=document.getElementById('best');
+  try{bestEl.textContent=PeakStore.get('16')||0}catch(e){}
+  document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function addScore(n){
+    score+=n; scEl.textContent=score;
+    try{PeakStore.set('16',score);bestEl.textContent=PeakStore.get('16')}catch(e){}
+  }
+  let slabs=[], cur=null, state='drop', t=0;
+  const baseY=()=>H*0.88;
+  function newSlab(){
+    const w=Math.max(40, 120-slabs.length*3);
+    cur={x:W*0.2,y:80,w,h:18,vx:2.2+slabs.length*0.05,dir:1,placed:false};
+    state='move';
+  }
+  function place(){
+    if(!cur||state!=='move') return;
+    try{Synth.init()}catch(e){}
+    const prev=slabs[slabs.length-1];
+    let x=cur.x, w=cur.w;
+    if(prev){
+      const left=Math.max(prev.x, cur.x);
+      const right=Math.min(prev.x+prev.w, cur.x+cur.w);
+      w=right-left;
+      if(w<12){
+        try{Synth.noise(.2,.14)}catch(e){}
+        state='fail';
+        setTimeout(()=>{slabs=[];score=0;scEl.textContent=0;newSlab()},900);
+        return;
+      }
+      x=left; cur.w=w; cur.x=x;
+    }
+    slabs.push({x:cur.x,y:0,w:cur.w,h:cur.h});
+    let y=baseY();
+    for(let i=slabs.length-1;i>=0;i--){y-=slabs[i].h+2; slabs[i].y=y}
+    addScore(10+slabs.length*2);
+    try{Synth.note(Math.min(7,slabs.length),.12)}catch(e){}
+    cur=null; state='drop';
+    setTimeout(newSlab, 250);
+  }
+  function frame(){
+    requestAnimationFrame(frame); t+=1/60;
+    ctx.fillStyle='rgba(5,5,10,.28)'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(244,244,248,.06)'; ctx.fillRect(0,baseY(),W,H-baseY());
+    ctx.strokeStyle='rgba(34,224,200,.25)'; ctx.beginPath(); ctx.moveTo(0,baseY()); ctx.lineTo(W,baseY()); ctx.stroke();
+    slabs.forEach((s)=>{
+      const g=ctx.createLinearGradient(s.x,s.y,s.x,s.y+s.h);
+      g.addColorStop(0,'rgba(34,224,200,.35)'); g.addColorStop(1,'rgba(47,107,255,.2)');
+      ctx.fillStyle=g; ctx.strokeStyle='rgba(244,244,248,.25)';
+      ctx.fillRect(s.x,s.y,s.w,s.h); ctx.strokeRect(s.x,s.y,s.w,s.h);
+    });
+    if(cur && state==='move'){
+      cur.x+=cur.vx*cur.dir;
+      if(cur.x<20||cur.x+cur.w>W-20) cur.dir*=-1;
+      const g=ctx.createLinearGradient(cur.x,cur.y,cur.x,cur.y+cur.h);
+      g.addColorStop(0,'rgba(255,255,255,.5)'); g.addColorStop(1,'rgba(34,224,200,.4)');
+      ctx.fillStyle=g; ctx.strokeStyle='rgba(34,224,200,.6)';
+      ctx.fillRect(cur.x,cur.y,cur.w,cur.h); ctx.strokeRect(cur.x,cur.y,cur.w,cur.h);
+      const gy=slabs.length?slabs[slabs.length-1].y-cur.h-2:baseY()-cur.h-2;
+      ctx.strokeStyle='rgba(34,224,200,.2)'; ctx.setLineDash([4,4]);
+      ctx.strokeRect(cur.x,gy,cur.w,cur.h); ctx.setLineDash([]);
+    }
+  }
+  function trigger(){ if(state==='move') place(); }
+  canvas.addEventListener('pointerdown', trigger);
+  addEventListener('keydown',e=>{ if(e.code==='Space'||e.key==='Enter') trigger(); });
+  addEventListener('resize', resize);
+  resize(); newSlab(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
