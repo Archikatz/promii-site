@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>03 · GLASS COLLAPSE | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--blue:#2F6BFF;--crimson:#FF3B30;--gold:#E8B23A;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);letter-spacing:.14em;margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px/1.45 Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">03 · Glass Collapse<small>BALLISTIC DEMOLITION</small></div>
+  <div class="stats">
+    <a class="btn btn-back-hub" href="../index.html">◂ HUB</a>
+    <span>SCORE <strong id="sc">0</strong></span>
+    <span>BEST <strong id="best">0</strong></span>
+    <button class="btn" id="mute" type="button">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> Pull back to aim, release to fling the glass orb. Shatter beams and cores. Gravity is live — chain collapses for bonus.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(() => {
+  const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
+  let W,H,dpr,score=0;
+  const scEl=document.getElementById('sc'), bestEl=document.getElementById('best');
+  try{bestEl.textContent=PeakStore.get('03')||0}catch(e){}
+  document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+  const G=0.22;
+  let ball=null, aiming=false, aim={x:0,y:0}, origin={x:0,y:0};
+  let beams=[], shards=[], cores=[];
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    origin={x:W*.18,y:H*.72};
+  }
+  function resetLevel(){
+    beams=[]; cores=[]; shards=[];
+    for(let i=0;i<6;i++){
+      const x=W*.35+i*Math.min(70,W*.08);
+      beams.push({x,y:H*.35+Math.sin(i)*30,w:12,h:90+Math.random()*50,hp:2,vx:0,vy:0,falling:false,rot:0,rv:0});
+    }
+    for(let i=0;i<3;i++) cores.push({x:W*.45+i*80,y:H*.28,r:14,hp:1});
+    ball=null;
+  }
+  function fling(dx,dy){
+    const power=Math.min(18, Math.hypot(dx,dy)*.12);
+    const ang=Math.atan2(dy,dx);
+    ball={x:origin.x,y:origin.y,vx:Math.cos(ang)*power,vy:Math.sin(ang)*power,r:11,live:true};
+    try{Synth.note(2,.12)}catch(e){}
+  }
+  function shatter(x,y,n,hue){
+    try{Synth.shatter(.2,.14)}catch(e){}
+    for(let i=0;i<n;i++) shards.push({
+      x,y,vx:(Math.random()-.5)*8,vy:(Math.random()-.5)*8-2,
+      life:1,r:2+Math.random()*3,hue
+    });
+  }
+  function drawOrb(x,y,r){
+    const g=ctx.createRadialGradient(x-r*.3,y-r*.3,1,x,y,r);
+    g.addColorStop(0,'rgba(255,255,255,.7)');
+    g.addColorStop(.4,'rgba(34,224,200,.55)');
+    g.addColorStop(1,'rgba(34,224,200,0)');
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+  }
+  function frame(){
+    requestAnimationFrame(frame);
+    ctx.fillStyle='rgba(5,5,10,.3)'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(244,244,248,.06)'; ctx.fillRect(0,H*.88,W,H*.12);
+    ctx.strokeStyle='rgba(34,224,200,.2)'; ctx.beginPath(); ctx.moveTo(0,H*.88); ctx.lineTo(W,H*.88); ctx.stroke();
+    beams.forEach(b=>{
+      if(b.falling){ b.vy+=G; b.y+=b.vy; b.x+=b.vx; b.rot+=b.rv; }
+      ctx.save(); ctx.translate(b.x,b.y); ctx.rotate(b.rot);
+      ctx.fillStyle=b.hp>1?'rgba(180,200,220,.35)':'rgba(34,224,200,.25)';
+      ctx.strokeStyle='rgba(244,244,248,.25)';
+      ctx.fillRect(-b.w/2,-b.h/2,b.w,b.h); ctx.strokeRect(-b.w/2,-b.h/2,b.w,b.h);
+      ctx.restore();
+    });
+    cores.forEach(c=>{
+      if(c.hp<=0) return;
+      const g=ctx.createRadialGradient(c.x,c.y,2,c.x,c.y,c.r);
+      g.addColorStop(0,'rgba(255,59,48,.8)'); g.addColorStop(1,'rgba(255,59,48,0)');
+      ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      ctx.strokeStyle='rgba(255,59,48,.6)'; ctx.stroke();
+    });
+    if(ball && ball.live){
+      ball.vy+=G; ball.x+=ball.vx; ball.y+=ball.vy; ball.vx*=.998;
+      drawOrb(ball.x,ball.y,ball.r);
+      beams.forEach(b=>{
+        if(b.hp<=0) return;
+        if(Math.abs(ball.x-b.x)<b.w/2+ball.r && Math.abs(ball.y-b.y)<b.h/2+ball.r){
+          b.hp--; ball.vx*=-0.4; ball.vy*=-0.35;
+          if(b.hp<=0){ b.falling=true; b.vx=(Math.random()-.5)*2; b.rv=(Math.random()-.5)*.1; score+=50; shatter(b.x,b.y,10,180); }
+          else { score+=15; shatter(ball.x,ball.y,4,180); }
+          scEl.textContent=score;
+        }
+      });
+      cores.forEach(c=>{
+        if(c.hp<=0) return;
+        if(Math.hypot(ball.x-c.x,ball.y-c.y)<c.r+ball.r){
+          c.hp=0; score+=100; scEl.textContent=score; shatter(c.x,c.y,16,0);
+          beams.forEach(b=>{ if(Math.hypot(b.x-c.x,b.y-c.y)<120){ b.falling=true; b.hp=0; b.vx=(Math.random()-.5)*3; }});
+        }
+      });
+      if(ball.y>H*.88-ball.r){ ball.y=H*.88-ball.r; ball.vy*=-0.45; ball.vx*=0.85; if(Math.abs(ball.vy)<0.6) ball.live=false; }
+      if(ball.x<0||ball.x>W) ball.vx*=-1;
+    } else if(!aiming){
+      drawOrb(origin.x,origin.y,11);
+    }
+    if(aiming){
+      drawOrb(origin.x,origin.y,11);
+      ctx.beginPath(); ctx.moveTo(origin.x,origin.y); ctx.lineTo(aim.x,aim.y);
+      ctx.strokeStyle='rgba(34,224,200,.5)'; ctx.setLineDash([6,6]); ctx.stroke(); ctx.setLineDash([]);
+      let px=origin.x, py=origin.y, dx=(origin.x-aim.x)*.12, dy=(origin.y-aim.y)*.12;
+      for(let i=0;i<12;i++){ dy+=G; px+=dx; py+=dy; dx*=.998;
+        ctx.beginPath();ctx.arc(px,py,2,0,Math.PI*2);ctx.fillStyle=`rgba(34,224,200,${1-i/12})`;ctx.fill();
+      }
+    }
+    shards=shards.filter(s=>s.life>0);
+    shards.forEach(s=>{ s.x+=s.vx; s.y+=s.vy; s.vy+=.15; s.life-=.025;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*s.life,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${s.hue},80%,60%,${s.life})`;ctx.fill();
+    });
+    if(cores.every(c=>c.hp<=0) && beams.every(b=>b.hp<=0||b.falling)){
+      try{PeakStore.set('03',score);bestEl.textContent=PeakStore.get('03')}catch(e){}
+      setTimeout(()=>{score=0;scEl.textContent=0;resetLevel()},800);
+    }
+  }
+  canvas.addEventListener('pointerdown',e=>{
+    if(ball&&ball.live) return;
+    aiming=true; aim={x:e.clientX,y:e.clientY}; try{Synth.init()}catch(err){}
+  });
+  canvas.addEventListener('pointermove',e=>{ if(aiming) aim={x:e.clientX,y:e.clientY}; });
+  canvas.addEventListener('pointerup',e=>{
+    if(!aiming) return; aiming=false;
+    fling(origin.x-e.clientX, origin.y-e.clientY);
+  });
+  addEventListener('resize',()=>{resize();resetLevel()});
+  resize(); resetLevel(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
