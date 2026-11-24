@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>17 · Clash Matrix | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--blue:#2F6BFF;--crimson:#FF3B30;--gold:#E8B23A;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);letter-spacing:.14em;margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px/1.45 Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">17 · Clash Matrix<small>MEP COORDINATION</small></div>
+  <div class="stats">
+    <a class="btn btn-back-hub" href="../index.html">◂ HUB</a>
+    <span>SCORE <strong id="sc">0</strong></span>
+    <span>BEST <strong id="best">0</strong></span>
+    <button class="btn" id="mute" type="button">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> Tap red clash cells before time runs out. Clear the grid for bonus.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(() => {
+  const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
+  let W,H,dpr,score=0;
+  const scEl=document.getElementById('sc'), bestEl=document.getElementById('best');
+  try{bestEl.textContent=PeakStore.get('17')||0}catch(e){}
+  document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function addScore(n){
+    score+=n; scEl.textContent=score;
+    try{PeakStore.set('17',score);bestEl.textContent=PeakStore.get('17')}catch(e){}
+  }
+  let cells=[], t=0, timeLeft=30, started=false;
+  const cols=6, rows=5;
+  function seed(){
+    cells=[];
+    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+      cells.push({c,r, clash:Math.random()<0.28, cleared:false, pulse:Math.random()*Math.PI*2});
+    }
+    timeLeft=30; score=0; scEl.textContent=0; started=true;
+  }
+  function cellRect(cell){
+    const pad=12, top=70, bw=(W-pad*2)/cols, bh=(H-top-80)/rows;
+    return {x:pad+cell.c*bw+4, y:top+cell.r*bh+4, w:bw-8, h:bh-8};
+  }
+  function frame(){
+    requestAnimationFrame(frame); t+=1/60;
+    if(started) timeLeft=Math.max(0,timeLeft-1/60);
+    ctx.fillStyle='rgba(5,5,10,.3)'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(244,244,248,.5)'; ctx.font='600 13px Inter'; ctx.textAlign='left';
+    ctx.fillText('TIME '+timeLeft.toFixed(1)+'s', 16, 56);
+    cells.forEach(cell=>{
+      const rc=cellRect(cell); cell.pulse+=0.05;
+      if(cell.cleared){
+        ctx.strokeStyle='rgba(34,224,200,.2)'; ctx.strokeRect(rc.x,rc.y,rc.w,rc.h);
+        return;
+      }
+      if(cell.clash){
+        const a=0.35+Math.sin(cell.pulse)*0.2;
+        ctx.fillStyle=`rgba(255,59,48,${a})`;
+        ctx.fillRect(rc.x,rc.y,rc.w,rc.h);
+        ctx.strokeStyle='rgba(255,59,48,.7)';
+      } else {
+        ctx.fillStyle='rgba(255,255,255,.04)';
+        ctx.fillRect(rc.x,rc.y,rc.w,rc.h);
+        ctx.strokeStyle='rgba(244,244,248,.12)';
+      }
+      ctx.strokeRect(rc.x,rc.y,rc.w,rc.h);
+    });
+    const left=cells.filter(c=>c.clash&&!c.cleared).length;
+    if(started && (left===0 || timeLeft<=0)){
+      started=false;
+      if(left===0){ addScore(50); try{Synth.note(7,.2)}catch(e){} }
+      else try{Synth.noise(.2,.12)}catch(e){}
+      setTimeout(seed, 1200);
+    }
+  }
+  canvas.addEventListener('pointerdown',e=>{
+    try{Synth.init()}catch(err){}
+    if(!started) return;
+    cells.forEach(cell=>{
+      if(cell.cleared||!cell.clash) return;
+      const rc=cellRect(cell);
+      if(e.clientX>=rc.x&&e.clientX<=rc.x+rc.w&&e.clientY>=rc.y&&e.clientY<=rc.y+rc.h){
+        cell.cleared=true; addScore(15); try{Synth.note(4,.1)}catch(err){}
+      }
+    });
+  });
+  addEventListener('resize', resize);
+  resize(); seed(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

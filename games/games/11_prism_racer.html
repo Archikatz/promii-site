@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>11 · Prism Racer | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--blue:#2F6BFF;--crimson:#FF3B30;--gold:#E8B23A;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);letter-spacing:.14em;margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px/1.45 Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">11 · Prism Racer<small>FIBER TUNNEL</small></div>
+  <div class="stats">
+    <a class="btn btn-back-hub" href="../index.html">◂ HUB</a>
+    <span>SCORE <strong id="sc">0</strong></span>
+    <span>BEST <strong id="best">0</strong></span>
+    <button class="btn" id="mute" type="button">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> A/D or tap left/right. Grab cyan gates, avoid crimson barriers.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(() => {
+  const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
+  let W,H,dpr,score=0;
+  const scEl=document.getElementById('sc'), bestEl=document.getElementById('best');
+  try{bestEl.textContent=PeakStore.get('11')||0}catch(e){}
+  document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function addScore(n){
+    score+=n; scEl.textContent=score;
+    try{PeakStore.set('11',score);bestEl.textContent=PeakStore.get('11')}catch(e){}
+  }
+  let x=0.5, obstacles=[], t=0, speed=4, alive=true;
+  function frame(){
+    requestAnimationFrame(frame); if(!alive) return;
+    t+=1/60; speed=4+t*0.05;
+    ctx.fillStyle='rgba(5,5,10,.35)'; ctx.fillRect(0,0,W,H);
+    const cx=W/2, pathW=W*0.45;
+    ctx.strokeStyle='rgba(34,224,200,.2)'; ctx.lineWidth=2;
+    for(let i=0;i<12;i++){
+      const z=(t*speed*20+i*60)%(H+60);
+      const s=0.3+z/H*0.7;
+      ctx.strokeRect(cx-pathW*s/2, z, pathW*s, 4);
+    }
+    const sx=cx+(x-0.5)*pathW*0.7, sy=H*0.75;
+    const g=ctx.createRadialGradient(sx,sy,2,sx,sy,16);
+    g.addColorStop(0,'rgba(255,255,255,.7)'); g.addColorStop(1,'rgba(34,224,200,0)');
+    ctx.beginPath();ctx.arc(sx,sy,14,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    if(Math.random()<0.04) obstacles.push({x:Math.random(), y:-20, bad:Math.random()<0.55});
+    obstacles=obstacles.filter(o=>o.y<H+30);
+    obstacles.forEach(o=>{
+      o.y+=speed*2.5;
+      const ox=cx+(o.x-0.5)*pathW*0.7;
+      ctx.beginPath();ctx.arc(ox,o.y,10,0,Math.PI*2);
+      ctx.fillStyle=o.bad?'rgba(255,59,48,.5)':'rgba(34,224,200,.45)'; ctx.fill();
+      if(Math.hypot(ox-sx,o.y-sy)<20){
+        if(o.bad){ alive=false; try{Synth.noise(.2,.15)}catch(e){}; setTimeout(()=>{alive=true;score=0;scEl.textContent=0;obstacles=[];t=0},1000); }
+        else { addScore(10); o.y=H+40; try{Synth.note(5,.1)}catch(e){} }
+      }
+    });
+    if(Math.floor(t*10)%10===0) addScore(1);
+  }
+  let left=false,right=false;
+  addEventListener('keydown',e=>{ if(e.key==='a'||e.key==='ArrowLeft')left=true; if(e.key==='d'||e.key==='ArrowRight')right=true; });
+  addEventListener('keyup',e=>{ if(e.key==='a'||e.key==='ArrowLeft')left=false; if(e.key==='d'||e.key==='ArrowRight')right=false; });
+  canvas.addEventListener('pointerdown',e=>{ try{Synth.init()}catch(err){}; if(e.clientX<W/2)left=true; else right=true; });
+  canvas.addEventListener('pointerup',()=>{left=false;right=false});
+  setInterval(()=>{ if(left)x=Math.max(0,x-0.04); if(right)x=Math.min(1,x+0.04); },16);
+  addEventListener('resize', resize);
+  resize(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
