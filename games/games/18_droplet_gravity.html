@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>18 · DROPLET GRAVITY | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--blue:#2F6BFF;--crimson:#FF3B30;--gold:#E8B23A;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);letter-spacing:.14em;margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px/1.45 Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">18 · Droplet Gravity<small>N-BODY LIQUID</small></div>
+  <div class="stats">
+    <a class="btn btn-back-hub" href="../index.html">◂ HUB</a>
+    <span>RESONANCE <strong id="sc">0</strong></span>
+    <span>BEST <strong id="best">0</strong></span>
+    <button class="btn" id="mute" type="button">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> Drag to pull mass and steer the swarm. Harvest cyan resonance nodes. Avoid total collapse into a single black core.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(() => {
+  const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
+  let W,H,dpr,score=0, bodies=[], nodes=[], pull=null;
+  const scEl=document.getElementById('sc'), bestEl=document.getElementById('best');
+  try{bestEl.textContent=PeakStore.get('18')||0}catch(e){}
+  document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function seed(){
+    bodies=[];
+    for(let i=0;i<14;i++) bodies.push({
+      x:W*.3+Math.random()*W*.4, y:H*.3+Math.random()*H*.4,
+      vx:(Math.random()-.5)*.6, vy:(Math.random()-.5)*.6,
+      m: .8+Math.random()*1.4, r:0
+    });
+    nodes=[];
+    for(let i=0;i<5;i++) nodes.push({x:Math.random()*W,y:Math.random()*H,r:6,life:1});
+  }
+  function drawDrop(b){
+    b.r = 6 + b.m*5;
+    const g=ctx.createRadialGradient(b.x-b.r*.3,b.y-b.r*.35,1,b.x,b.y,b.r);
+    g.addColorStop(0,'rgba(255,255,255,.55)');
+    g.addColorStop(.4,'rgba(34,224,200,.45)');
+    g.addColorStop(1,'rgba(34,224,200,0)');
+    ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+    ctx.strokeStyle='rgba(34,224,200,.35)';ctx.stroke();
+  }
+  function frame(){
+    requestAnimationFrame(frame);
+    ctx.fillStyle='rgba(5,5,10,.22)'; ctx.fillRect(0,0,W,H);
+    const G=0.035;
+    for(let i=0;i<bodies.length;i++){
+      for(let j=i+1;j<bodies.length;j++){
+        const a=bodies[i], b=bodies[j];
+        let dx=b.x-a.x, dy=b.y-a.y, dist=Math.hypot(dx,dy)+.01;
+        if(dist < a.r+b.r){
+          const nx=dx/dist, ny=dy/dist;
+          const overlap=a.r+b.r-dist;
+          a.x-=nx*overlap*.5; a.y-=ny*overlap*.5;
+          b.x+=nx*overlap*.5; b.y+=ny*overlap*.5;
+          a.vx*=.98; a.vy*=.98; b.vx*=.98; b.vy*=.98;
+        } else {
+          const f=G*a.m*b.m/(dist*dist);
+          const fx=f*dx/dist, fy=f*dy/dist;
+          a.vx+=fx/a.m; a.vy+=fy/a.m;
+          b.vx-=fx/b.m; b.vy-=fy/b.m;
+        }
+      }
+    }
+    if(pull){
+      bodies.forEach(b=>{
+        const dx=pull.x-b.x, dy=pull.y-b.y, d=Math.hypot(dx,dy)+.01;
+        b.vx+=dx/d*.08; b.vy+=dy/d*.08;
+      });
+      ctx.beginPath();ctx.arc(pull.x,pull.y,28,0,Math.PI*2);
+      ctx.strokeStyle='rgba(47,107,255,.35)';ctx.stroke();
+    }
+    bodies.forEach(b=>{
+      b.vx*=.995; b.vy*=.995;
+      b.x+=b.vx; b.y+=b.vy;
+      if(b.x<10||b.x>W-10) b.vx*=-0.9;
+      if(b.y<10||b.y>H-10) b.vy*=-0.9;
+      drawDrop(b);
+    });
+    nodes.forEach(n=>{
+      n.life+=0.01;
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r+Math.sin(n.life)*2,0,Math.PI*2);
+      ctx.fillStyle='rgba(232,178,58,.35)';ctx.fill();
+      ctx.strokeStyle='rgba(232,178,58,.6)';ctx.stroke();
+      bodies.forEach(b=>{
+        if(Math.hypot(b.x-n.x,b.y-n.y)<b.r+n.r+4){
+          score+=10; scEl.textContent=score;
+          n.x=Math.random()*W; n.y=Math.random()*H;
+          try{Synth.note(5,.1)}catch(e){}
+          try{PeakStore.set('18',score);bestEl.textContent=PeakStore.get('18')}catch(e){}
+        }
+      });
+    });
+    let cx=0,cy=0,m=0;
+    bodies.forEach(b=>{cx+=b.x*b.m;cy+=b.y*b.m;m+=b.m});
+    cx/=m; cy/=m;
+    let clustered=bodies.filter(b=>Math.hypot(b.x-cx,b.y-cy)<40).length;
+    if(clustered>bodies.length*.75){
+      ctx.fillStyle='rgba(255,59,48,.08)'; ctx.fillRect(0,0,W,H);
+      if(Math.random()<.02){ score=Math.max(0,score-5); scEl.textContent=score; try{Synth.noise(.15,.1)}catch(e){} }
+    }
+  }
+  canvas.addEventListener('pointerdown',e=>{ pull={x:e.clientX,y:e.clientY}; try{Synth.init()}catch(err){} });
+  canvas.addEventListener('pointermove',e=>{ if(pull) pull={x:e.clientX,y:e.clientY}; });
+  canvas.addEventListener('pointerup',()=> pull=null);
+  addEventListener('resize',()=>{resize();seed()});
+  resize(); seed(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
