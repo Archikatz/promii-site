@@ -1,5 +1,5 @@
 /* Promii · chrome común (nav, idioma ES/EN, tema claro/oscuro, pie).
-   Barra siempre glass oscuro cristalino (texto blanco) para contraste en modo claro y oscuro. */
+   Barra glass oscuro; FAB gota que despliega opciones. */
 (function () {
   var SITE = window.PROMII_SITE = {
     nav: [
@@ -78,7 +78,7 @@
     return (lang === 'en' ? (o.en || o.es) : (o.es || o.en)) || '';
   }
   function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(s).replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
   }
   function applyTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
@@ -193,4 +193,55 @@
   });
   window.PROMII_SET_LANG = setLang;
   window.PROMII_SET_THEME = applyTheme;
+
+  /* Floating drop menu: expands options; contracts on second tap or scroll */
+  (function dropMenu(){
+    if (mode === 'data' || mode === 'mini') return;
+    var open = false;
+    var el = document.createElement('div');
+    el.id = 'pm-drop-fab';
+    el.innerHTML =
+      '<button type="button" class="pm-fab-core" id="pm-fab-core" aria-expanded="false" title="Menu" aria-label="Menu">'+
+      '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3s6 7 6 11a6 6 0 1 1-12 0c0-4 6-11 6-11z"/></svg></button>'+
+      '<div class="pm-fab-opts" id="pm-fab-opts" hidden>'+
+      '<a href="/">Portafolio</a><a href="/editorial/">Editorial</a><a href="/editorial/manuscrito.html">Manuscrito</a>'+
+      '<a href="/arcade/">Arcade</a><a href="/about/">About</a><a href="/#contacto">Contacto</a></div>';
+    document.body.appendChild(el);
+    if (!document.getElementById('pm-fab-css')) {
+      var st = document.createElement('style');
+      st.id = 'pm-fab-css';
+      st.textContent =
+        '#pm-drop-fab{position:fixed;right:18px;bottom:22px;z-index:60;display:flex;flex-direction:column-reverse;align-items:flex-end;gap:10px}'+
+        '.pm-fab-core{width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.25);'+
+        'background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.55),rgba(255,255,255,.12) 42%,rgba(47,107,255,.35));'+
+        'backdrop-filter:blur(12px);color:#fff;cursor:pointer;box-shadow:0 12px 28px -10px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.4);'+
+        'display:grid;place-items:center;transition:transform .25s cubic-bezier(.2,.8,.2,1)}'+
+        '.pm-fab-core:hover{transform:scale(1.06)}'+
+        '.pm-fab-opts{display:flex;flex-direction:column;gap:8px;align-items:flex-end}'+
+        '.pm-fab-opts a{font:600 12px Inter,system-ui;padding:8px 14px;border-radius:999px;text-decoration:none;color:#f4f4f8;'+
+        'background:rgba(8,8,14,.9);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);'+
+        'box-shadow:0 8px 20px -12px #000;opacity:0;transform:translateY(8px);animation:pmFabIn .28s ease forwards}'+
+        '.pm-fab-opts a:nth-child(1){animation-delay:.02s}.pm-fab-opts a:nth-child(2){animation-delay:.05s}'+
+        '.pm-fab-opts a:nth-child(3){animation-delay:.08s}.pm-fab-opts a:nth-child(4){animation-delay:.11s}'+
+        '.pm-fab-opts a:nth-child(5){animation-delay:.14s}.pm-fab-opts a:nth-child(6){animation-delay:.17s}'+
+        '@keyframes pmFabIn{to{opacity:1;transform:none}}'+
+        '@media(prefers-reduced-motion:reduce){.pm-fab-opts a{animation:none;opacity:1;transform:none}}';
+      document.head.appendChild(st);
+    }
+    var core = document.getElementById('pm-fab-core');
+    var opts = document.getElementById('pm-fab-opts');
+    function setOpen(v){
+      open = !!v;
+      opts.hidden = !open;
+      core.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    core.addEventListener('click', function(e){ e.stopPropagation(); setOpen(!open); });
+    document.addEventListener('click', function(e){ if(open && !el.contains(e.target)) setOpen(false); });
+    var scrollT;
+    addEventListener('scroll', function(){
+      if(!open) return;
+      clearTimeout(scrollT);
+      scrollT = setTimeout(function(){ setOpen(false); }, 80);
+    }, {passive:true});
+  })();
 })();
