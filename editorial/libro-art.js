@@ -1,4 +1,4 @@
-/* ArchiKatz Editorial — WebGL scenes (Three.js) + mobile + pointer */
+/* ArchiKatz Editorial — WebGL scenes + mobile + pointer + light/dark */
 window.AK_BOOK_ART = function (book, n, accent) {
   var a = accent || (book === 'psicodelia' ? '#c9a0ff' : '#d4af37');
   return '<div class="art-live" data-book="' + book + '" data-n="' + n + '" data-accent="' + a + '"></div>';
@@ -24,6 +24,10 @@ function isMobile() {
   return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
 }
 
+function isLightTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'light';
+}
+
 function mountGL(el) {
   var book = el.getAttribute('data-book');
   var n = +el.getAttribute('data-n');
@@ -34,8 +38,6 @@ function mountGL(el) {
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x050508, mobile ? 0.055 : 0.04);
-
   var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
   camera.position.set(0, 0.35, mobile ? 7.2 : 6.5);
 
@@ -44,27 +46,45 @@ function mountGL(el) {
     alpha: true,
     powerPreference: mobile ? 'low-power' : 'high-performance'
   });
-  renderer.setClearColor(0x050508, 1);
   renderer.setPixelRatio(Math.min(mobile ? 1.5 : 2, window.devicePixelRatio || 1));
   renderer.domElement.className = 'art-canvas';
   renderer.domElement.style.touchAction = 'none';
   el.appendChild(renderer.domElement);
 
-  scene.add(new THREE.AmbientLight(0x404050, 0.5));
+  var amb = new THREE.AmbientLight(0x404050, 0.5);
+  scene.add(amb);
   var key = new THREE.PointLight(color, 1.5, 22);
   key.position.set(2, 3, 4);
   scene.add(key);
   var rim = new THREE.PointLight(0xffffff, 0.4, 16);
   rim.position.set(-3, -1, 2);
   scene.add(rim);
-  // soft glow light (fake bloom)
   var glow = new THREE.PointLight(color, 0.8, 12);
   glow.position.set(0, 0.5, 2);
   scene.add(glow);
 
+  var particles = null, pVel = null;
+
+  function applyThemeColors() {
+    var light = isLightTheme();
+    var bg = light ? 0xe8e2d6 : 0x050508;
+    var fogCol = light ? 0xe8e2d6 : 0x050508;
+    var fogDen = light ? (mobile ? 0.03 : 0.022) : (mobile ? 0.055 : 0.04);
+    scene.fog = new THREE.FogExp2(fogCol, fogDen);
+    renderer.setClearColor(bg, 1);
+    amb.color.setHex(light ? 0xf0ebe3 : 0x404050);
+    amb.intensity = light ? 0.9 : 0.5;
+    key.intensity = light ? 2.0 : 1.5;
+    rim.color.setHex(light ? 0xfff8f0 : 0xffffff);
+    rim.intensity = light ? 0.6 : 0.4;
+    glow.intensity = light ? 1.2 : 0.8;
+    if (particles && particles.material) {
+      particles.material.opacity = light ? 0.95 : 0.8;
+    }
+  }
+
   var group = new THREE.Group();
   scene.add(group);
-  var particles, pVel;
   var clock = new THREE.Clock();
   var running = false, raf = 0;
   var ptr = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -84,7 +104,7 @@ function mountGL(el) {
     }
     pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     particles = new THREE.Points(pGeo, new THREE.PointsMaterial({
-      color: color, size: size, transparent: true, opacity: 0.8,
+      color: color, size: size, transparent: true, opacity: 0.85,
       depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true
     }));
     scene.add(particles);
@@ -101,11 +121,10 @@ function mountGL(el) {
     var m = new THREE.Mesh(new THREE.SphereGeometry(r, segs, segs), mat);
     m.position.y = y || 0;
     group.add(m);
-    // additive halo (glow)
     var halo = new THREE.Mesh(
       new THREE.SphereGeometry(r * 1.35, 16, 16),
       new THREE.MeshBasicMaterial({
-        color: color, transparent: true, opacity: 0.12,
+        color: color, transparent: true, opacity: 0.14,
         blending: THREE.AdditiveBlending, depthWrite: false
       })
     );
@@ -118,18 +137,18 @@ function mountGL(el) {
     makeParticles(400, 10, 0.04);
     group.add(new THREE.Mesh(
       new THREE.CylinderGeometry(0.05, 0.45, 12, 16, 1, true),
-      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.35, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })
+      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.4, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })
     ));
     group.add(new THREE.Mesh(
       new THREE.CylinderGeometry(0.02, 0.02, 12, 8),
-      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.75 })
+      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 })
     ));
     glassSphere(0.35, 3.2);
     camera.position.set(0, 0, 8);
   } else if (!isP && n === 2) {
     makeParticles(250, 8, 0.03);
     glassSphere(1.1, 0);
-    var grid = new THREE.GridHelper(10, 20, color, 0x222233);
+    var grid = new THREE.GridHelper(10, 20, color, isLightTheme() ? 0xbbb5a8 : 0x222233);
     grid.position.y = -1.4;
     scene.add(grid);
   } else if (!isP && n === 3) {
@@ -140,7 +159,7 @@ function mountGL(el) {
     ));
     group.add(new THREE.Mesh(
       new THREE.BoxGeometry(2.2, 2.2, 2.2),
-      new THREE.MeshStandardMaterial({ color: color, transparent: true, opacity: 0.12, metalness: 0.4, roughness: 0.3 })
+      new THREE.MeshStandardMaterial({ color: color, transparent: true, opacity: 0.14, metalness: 0.4, roughness: 0.3 })
     ));
   } else if (!isP && n === 4) {
     makeParticles(200, 8, 0.03);
@@ -166,7 +185,7 @@ function mountGL(el) {
         new THREE.BoxGeometry(0.55, 0.55, 0.08),
         new THREE.MeshStandardMaterial({
           color: (i === 3 && j === 2) ? 0xff3b30 : color,
-          metalness: 0.3, roughness: 0.4, transparent: true, opacity: 0.55,
+          metalness: 0.3, roughness: 0.4, transparent: true, opacity: 0.6,
           emissive: (i === 3 && j === 2) ? 0xff3b30 : 0x000000,
           emissiveIntensity: (i === 3 && j === 2) ? 0.6 : 0
         })
@@ -185,7 +204,7 @@ function mountGL(el) {
     makeParticles(160, 7, 0.03);
     group.add(new THREE.Mesh(
       new THREE.BoxGeometry(3, 2.2, 1.5),
-      new THREE.MeshStandardMaterial({ color: color, wireframe: true, transparent: true, opacity: 0.5 })
+      new THREE.MeshStandardMaterial({ color: color, wireframe: true, transparent: true, opacity: 0.55 })
     ));
     group.add(new THREE.Mesh(
       new THREE.TetrahedronGeometry(0.6, 0),
@@ -197,7 +216,7 @@ function mountGL(el) {
     for (var k = 1; k <= 4; k++) {
       var ring = new THREE.Mesh(
         new THREE.TorusGeometry(k * 0.7, 0.02, 8, 64),
-        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.45 - k * 0.07, blending: THREE.AdditiveBlending })
+        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.5 - k * 0.07, blending: THREE.AdditiveBlending })
       );
       ring.rotation.x = Math.PI / 2;
       group.add(ring);
@@ -205,13 +224,12 @@ function mountGL(el) {
   } else if (isP && n === 1) {
     makeParticles(600, 14, 0.045);
     glassSphere(1.0, 0);
-    scene.fog.density = 0.028;
   } else if (isP && n === 2) {
     makeParticles(300, 9, 0.03);
     glassSphere(0.9, 1.2);
     var ground = new THREE.Mesh(
       new THREE.CircleGeometry(3, 48),
-      new THREE.MeshStandardMaterial({ color: color, transparent: true, opacity: 0.2, metalness: 0.2, roughness: 0.8 })
+      new THREE.MeshStandardMaterial({ color: color, transparent: true, opacity: 0.25, metalness: 0.2, roughness: 0.8 })
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -1.5;
@@ -221,14 +239,14 @@ function mountGL(el) {
     glassSphere(1.0, 0);
     group.add(new THREE.Mesh(
       new THREE.SphereGeometry(2.2, 32, 32),
-      new THREE.MeshBasicMaterial({ color: 0x1a1020, transparent: true, opacity: 0.35 })
+      new THREE.MeshBasicMaterial({ color: isLightTheme() ? 0xc4b8d0 : 0x1a1020, transparent: true, opacity: 0.35 })
     ));
   } else if (isP && n === 4) {
     makeParticles(200, 8, 0.03);
     for (var i = 0; i < 5; i++) {
       var sq = new THREE.LineSegments(
         new THREE.EdgesGeometry(new THREE.PlaneGeometry(1.2 + i * 0.55, 1.2 + i * 0.55)),
-        new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.55 - i * 0.08 })
+        new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.6 - i * 0.08 })
       );
       sq.position.z = -i * 0.3;
       group.add(sq);
@@ -238,7 +256,7 @@ function mountGL(el) {
     for (var i = 0; i < 8; i++) {
       var ring = new THREE.Mesh(
         new THREE.TorusGeometry(0.3 + i * 0.35, 0.015, 8, 48),
-        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.5 - i * 0.04 })
+        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.55 - i * 0.04 })
       );
       ring.rotation.x = Math.PI / 2;
       ring.position.y = 2 - i * 0.55;
@@ -248,7 +266,7 @@ function mountGL(el) {
   } else if (isP && n === 6) {
     makeParticles(180, 6, 0.03);
     glassSphere(0.8, 0);
-    var wallL = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4, 4), new THREE.MeshStandardMaterial({ color: color, transparent: true, opacity: 0.25 }));
+    var wallL = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4, 4), new THREE.MeshStandardMaterial({ color: color, transparent: true, opacity: 0.3 }));
     wallL.position.x = -2.2;
     var wallR = wallL.clone(); wallR.position.x = 2.2;
     group.add(wallL); group.add(wallR);
@@ -258,7 +276,7 @@ function mountGL(el) {
     var h2 = glassSphere(0.7, 0.3); h2.position.x = 0.4;
     var tip = new THREE.Mesh(
       new THREE.ConeGeometry(0.9, 1.4, mobile ? 16 : 24),
-      new THREE.MeshPhysicalMaterial({ color: color, metalness: 0.1, roughness: 0.2, transparent: true, opacity: 0.7, transmission: 0.5 })
+      new THREE.MeshPhysicalMaterial({ color: color, metalness: 0.1, roughness: 0.2, transparent: true, opacity: 0.75, transmission: 0.5 })
     );
     tip.position.y = -0.7; tip.rotation.z = Math.PI;
     group.add(tip);
@@ -267,7 +285,7 @@ function mountGL(el) {
     glassSphere(0.45, 1.5);
     group.add(new THREE.Mesh(
       new THREE.CylinderGeometry(0.04, 0.3, 10, 12, 1, true),
-      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.3, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })
+      new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.35, side: THREE.DoubleSide, blending: THREE.AdditiveBlending })
     ));
   }
 
@@ -313,14 +331,22 @@ function mountGL(el) {
       camera.position.x = ptr.x * 0.35;
       camera.position.y = 0.35 + ptr.y * 0.2;
       camera.lookAt(0, 0, 0);
-      key.intensity = 1.25 + Math.sin(t * 2) * 0.3;
-      glow.intensity = 0.6 + Math.sin(t * 1.7) * 0.35;
+      key.intensity = (isLightTheme() ? 1.7 : 1.25) + Math.sin(t * 2) * 0.3;
+      glow.intensity = (isLightTheme() ? 1.0 : 0.6) + Math.sin(t * 1.7) * 0.35;
       tickParticles();
       if (particles) particles.rotation.y = t * 0.05;
     }
     renderer.render(scene, camera);
     raf = requestAnimationFrame(frame);
   }
+
+  applyThemeColors();
+  try {
+    document.addEventListener('promii:theme', function () { applyThemeColors(); if (!running) renderer.render(scene, camera); });
+  } catch (e) {}
+  try {
+    new MutationObserver(function () { applyThemeColors(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  } catch (e) {}
 
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
