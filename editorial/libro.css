@@ -36,3 +36,19 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:v
 #ak-drop-menu a:nth-child(1){animation-delay:.02s}#ak-drop-menu a:nth-child(2){animation-delay:.05s}#ak-drop-menu a:nth-child(3){animation-delay:.08s}#ak-drop-menu a:nth-child(4){animation-delay:.11s}
 @keyframes akIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){#ak-drop{display:none}.field{display:none}#ak-drop-menu a{animation:none}}
+html[data-theme="light"] .art{
+  border-color:rgba(0,0,0,.12);
+  background:#e8e2d6;
+  box-shadow:0 16px 40px -20px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.6);
+}
+html[data-theme="light"] .art::after{
+  background:linear-gradient(135deg,rgba(255,255,255,.35),transparent 42%,transparent 60%,rgba(0,0,0,.04));
+}
+html[data-theme="light"] .chip.on{
+  box-shadow:0 8px 24px -8px rgba(180,140,40,.45);
+}
+html[data-theme="light"] #ak-drop{
+  background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.85),rgba(255,255,255,.35) 40%,rgba(47,107,255,.22) 72%,rgba(212,175,55,.18));
+  border-color:rgba(0,0,0,.12);
+  box-shadow:0 12px 28px -10px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.8);
+}
