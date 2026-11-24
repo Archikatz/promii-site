@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es" data-theme="dark" data-title-en="Making-of · Creator manuscript (process)">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem('promii-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Making-of · Manuscrito del Creador · ArchiKatz</title>
+<meta name="description" content="Artículo de proceso: InDesign, Magnific, MCP. No es el libro narrativo Fractalia/Psicodelia.">
+<link rel="canonical" href="https://promii.co/editorial/proceso-creador.html">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0c0c10;color:#f2efe6;font:17px/1.65 Inter,system-ui}
+.wrap{max-width:720px;margin:0 auto;padding:28px 18px 100px}
+.k{font:600 11px Inter;letter-spacing:.14em;text-transform:uppercase;color:#c9a227}
+h1{font:700 32px "Playfair Display",serif}
+.note{padding:14px 16px;border-radius:12px;border:1px solid rgba(201,162,39,.4);background:rgba(201,162,39,.08);margin:16px 0;font-size:14.5px}
+a.chip{display:inline-flex;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:inherit;text-decoration:none;font:600 12px Inter;margin:4px 4px 0 0}
+.ch{margin:40px 0;border-top:1px solid rgba(255,255,255,.1);padding-top:12px}
+.ch h2{font:700 22px "Playfair Display",serif}
+.body{white-space:pre-wrap;color:#ddd}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <p class="k">Artículo de apoyo · no es el libro narrativo</p>
+  <h1>Manuscrito del Creador</h1>
+  <p class="note">Esto es el <strong>making-of</strong> del flujo de producción (InDesign, Magnific, MCP, EPUB). Los libros de ficción están en <a href="libro.html?libro=fractalia" style="color:#c9a227">Fractalia</a> y <a href="libro.html?libro=psicodelia" style="color:#c9a227">Psicodelia</a>.</p>
+  <div>
+    <a class="chip" href="libro.html?libro=fractalia">→ Fractalia</a>
+    <a class="chip" href="libro.html?libro=psicodelia">→ Psicodelia</a>
+    <a class="chip" href="./">Editorial</a>
+  </div>
+  <div id="chapters"></div>
+</main>
+<script src="/assets/site-shell.js" data-mode="full"></script>
+<script src="book-data.js"></script>
+<script>
+(function(){
+  function EN(){return document.documentElement.lang==='en'}
+  function L(o){if(!o)return'';if(typeof o==='string')return o;return EN()?(o.en||o.es):(o.es||o.en)}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  if(!window.BOOK)return;
+  document.getElementById('chapters').innerHTML=BOOK.map(function(c){
+    return '<article class="ch"><p class="k">Cap. '+c.n+'</p><h2>'+esc(L(c.title))+'</h2><div class="body">'+esc(EN()?c.en:c.es)+'</div></article>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

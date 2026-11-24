@@ -5,51 +5,54 @@
 <script>try{var t=localStorage.getItem("promii-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Editorial · Fractalia & Psicodelia · ArchiKatz</title>
-<meta name="description" content="Sello editorial ArchiKatz. Manuscrito completo Fractalia y Psicodelia. Webtoon Guardiana del Umbral.">
+<meta name="description" content="Tomo I Geometría Sagrada: Fractalia y Psicodelia. Libros íntegros en segunda persona. ArchiKatz Editorial.">
 <link rel="canonical" href="https://promii.co/editorial/">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#0c0c10;color:#f2efe6;font:16px/1.5 Inter,system-ui}
-.wrap{max-width:900px;margin:0 auto;padding:32px 16px 80px}
-.k{font:600 11px Inter;letter-spacing:.16em;text-transform:uppercase;color:#c9a227}
+body{margin:0;background:#0a0a0f;color:#f2efe6;font:16px/1.5 Inter,system-ui}
+.wrap{max-width:920px;margin:0 auto;padding:32px 16px 90px}
+.k{font:600 11px Inter;letter-spacing:.16em;text-transform:uppercase;color:#d4af37}
 h1{font:700 clamp(30px,5vw,48px)/1.1 "Playfair Display",serif}
-.lede{color:#9a9688;max-width:48ch}
-.hero{display:block;margin:28px 0;padding:28px;border-radius:20px;border:1px solid rgba(201,162,39,.35);background:linear-gradient(145deg,rgba(201,162,39,.12),rgba(255,255,255,.03));text-decoration:none;color:inherit}
-.hero h2{font:700 28px "Playfair Display",serif;margin:8px 0}
-.hero p{color:#a6a6bc;font-size:15px}
-.go{margin-top:12px;color:#c9a227;font-weight:600}
-.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));margin-top:20px}
-.card{padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,.1);text-decoration:none;color:inherit;background:rgba(255,255,255,.03)}
-.chip{display:inline-flex;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);font:600 12px Inter;color:#ccc;text-decoration:none;margin:4px 4px 0 0}
+.lede{color:#9a9688;max-width:50ch}
+.grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin:28px 0}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.book{display:block;padding:24px;border-radius:20px;border:1px solid rgba(212,175,55,.35);background:linear-gradient(145deg,rgba(212,175,55,.1),rgba(255,255,255,.03));text-decoration:none;color:inherit;min-height:180px}
+.book.psi{border-color:rgba(201,160,255,.4);background:linear-gradient(145deg,rgba(201,160,255,.12),rgba(255,255,255,.03))}
+.book h2{font:700 26px "Playfair Display",serif;margin:8px 0}
+.book p{color:#a6a6bc;font-size:14.5px}
+.go{margin-top:14px;color:#d4af37;font-weight:600}
+.book.psi .go{color:#c9a0ff}
+.side{margin-top:36px;padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,.1)}
+.side a{color:#d4af37}
 html[data-theme="light"] body{background:#f4f0e6;color:#1a1814}
-html[data-theme="light"] .lede,html[data-theme="light"] .hero p{color:#6a6658}
-html[data-theme="light"] .hero h2{color:#1a1814}
-html[data-theme="light"] .card{background:#fff;border-color:rgba(0,0,0,.08)}
+html[data-theme="light"] .lede,html[data-theme="light"] .book p{color:#6a6658}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <p class="k" data-en="Imprint">Sello editorial</p>
-  <h1>Editorial ArchiKatz</h1>
-  <p class="lede" data-en="Books first. Full Creator manuscript — real text in Spanish and English, not a broken webtoon.">Primero los libros. Manuscrito completo del Creador — texto real en español e inglés, no un webtoon roto.</p>
-  <a class="hero" href="manuscrito.html">
-    <p class="k" data-en="Featured book">Libro destacado</p>
-    <h2>Fractalia &amp; Psicodelia</h2>
-    <p data-en="Eight chapters from Drive. InDesign, Magnific, MCP, fixed vs reflowable.">Ocho capítulos desde Drive. InDesign, Magnific, MCP, fijo vs refluible.</p>
-    <div class="go" data-en="Read full manuscript →">Leer el manuscrito completo →</div>
-  </a>
-  <p class="k" style="margin-top:32px">Webtoon</p>
+  <p class="k">Sello editorial · Tomo I</p>
+  <h1>ArchiKatz Editorial</h1>
+  <p class="lede">Dos libros. Una cinta de Möbius. Razón y emoción en segunda persona — el texto que escribiste, íntegro.</p>
   <div class="grid">
-    <a class="card" href="toon.html?ep=ep00-la-guardiana-del-umbral">
-      <strong>Ep. 0 · Guardiana del Umbral</strong>
-      <p style="color:#9a9688;font-size:13px;margin:8px 0 0">Relato corto en SVG.</p>
+    <a class="book" href="libro.html?libro=fractalia">
+      <p class="k">Orden · Geometría</p>
+      <h2>Fractalia</h2>
+      <p>El Universo de la Razón y el Orden Geométrico. Ocho capítulos Fibonacci.</p>
+      <div class="go">Leer Fractalia →</div>
+    </a>
+    <a class="book psi" href="libro.html?libro=psicodelia">
+      <p class="k">Caos · Fluidez</p>
+      <h2>Psicodelia</h2>
+      <p>El Universo del Caos y la Fluidez Emocional. Espejo emocional del mismo rayo de luz.</p>
+      <div class="go">Leer Psicodelia →</div>
     </a>
   </div>
-  <p style="margin-top:28px">
-    <a class="chip" href="/archikatz/">Universo ArchiKatz</a>
-    <a class="chip" href="/arcade/">Arcade</a>
-    <a class="chip" href="/blog/">Blog AEC</a>
-  </p>
+  <div class="side">
+    <p class="k">También en el sello</p>
+    <p style="margin:8px 0"><a href="toon.html?ep=ep00-la-guardiana-del-umbral">Ep. 0 · Guardiana del Umbral</a> (webtoon)</p>
+    <p style="margin:8px 0"><a href="proceso-creador.html">Making-of · Manuscrito del Creador</a> (proceso InDesign / Magnific / MCP — no es el libro narrativo)</p>
+    <p style="margin:8px 0"><a href="/archikatz/">Universo ArchiKatz</a></p>
+  </div>
 </main>
 <script src="/assets/site-shell.js" data-mode="full"></script>
 </body>
