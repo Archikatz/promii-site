@@ -122,6 +122,7 @@
       var art = (typeof AK_BOOK_ART==='function') ? AK_BOOK_ART(q, c.n) : '';
       return '<article class="ch" id="cap'+c.n+'"><p class="kicker">Capítulo '+c.roman+'</p><div class="art" aria-hidden="true">'+art+'</div><h2>'+esc(c.title)+'</h2><div class="body">'+esc(c.body)+'</div></article>';
     }).join('');
+    if (window.AK_MOUNT_ART) AK_MOUNT_ART(document.getElementById('chapters'));
   }
   if (window.ARCHIKATZ_BOOKS_READY) ARCHIKATZ_BOOKS_READY.then(draw).catch(draw);
   else draw();
