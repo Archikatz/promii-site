@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>02 · Resonance Keys | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--blue:#2F6BFF;--crimson:#FF3B30;--gold:#E8B23A;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);letter-spacing:.14em;margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px/1.45 Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">02 · Resonance Keys<small>HARMONIC CODEX</small></div>
+  <div class="stats">
+    <a class="btn btn-back-hub" href="../index.html">◂ HUB</a>
+    <span>SCORE <strong id="sc">0</strong></span>
+    <span>BEST <strong id="best">0</strong></span>
+    <button class="btn" id="mute" type="button">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> Keys D F J K or tap the four lanes when notes cross the cyan line.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(() => {
+  const canvas=document.getElementById('c'), ctx=canvas.getContext('2d');
+  let W,H,dpr,score=0;
+  const scEl=document.getElementById('sc'), bestEl=document.getElementById('best');
+  try{bestEl.textContent=PeakStore.get('02')||0}catch(e){}
+  document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight;
+    canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function addScore(n){
+    score+=n; scEl.textContent=score;
+    try{PeakStore.set('02',score);bestEl.textContent=PeakStore.get('02')}catch(e){}
+  }
+  const lanes=4, keys=['d','f','j','k'];
+  let notes=[], t=0, speed=2.2, hitFlash=[0,0,0,0];
+  const laneW=()=>Math.min(90, W*0.16);
+  const laneX=i=>{const total=laneW()*lanes; return W/2-total/2+laneW()*(i+.5)};
+  function spawn(){ notes.push({lane:Math.floor(Math.random()*lanes), y:-20, hit:false}); }
+  let spawnAcc=0;
+  function frame(){
+    requestAnimationFrame(frame); t+=1/60; spawnAcc+=1/60;
+    if(spawnAcc>Math.max(0.35,0.9-t*0.01)){spawnAcc=0;spawn()}
+    ctx.fillStyle='rgba(5,5,10,.3)'; ctx.fillRect(0,0,W,H);
+    const hitY=H*0.78;
+    for(let i=0;i<lanes;i++){
+      const x=laneX(i), w=laneW()*0.7;
+      ctx.fillStyle='rgba(255,255,255,.03)';
+      ctx.fillRect(x-w/2,40,w,H-80);
+      ctx.strokeStyle=hitFlash[i]>0?`rgba(34,224,200,${hitFlash[i]})`:'rgba(244,244,248,.12)';
+      ctx.strokeRect(x-w/2,40,w,H-80);
+      hitFlash[i]=Math.max(0,hitFlash[i]-0.05);
+      ctx.fillStyle='rgba(244,244,248,.4)'; ctx.font='600 12px Inter'; ctx.textAlign='center';
+      ctx.fillText(keys[i].toUpperCase(), x, H-28);
+    }
+    ctx.strokeStyle='rgba(34,224,200,.45)'; ctx.beginPath(); ctx.moveTo(W*.2,hitY); ctx.lineTo(W*.8,hitY); ctx.stroke();
+    notes=notes.filter(n=>n.y<H+40 && !n.dead);
+    notes.forEach(n=>{
+      n.y+=speed+t*0.01;
+      const x=laneX(n.lane);
+      const g=ctx.createRadialGradient(x,n.y,2,x,n.y,14);
+      g.addColorStop(0,'rgba(255,255,255,.7)'); g.addColorStop(.5,'rgba(34,224,200,.5)'); g.addColorStop(1,'rgba(34,224,200,0)');
+      ctx.beginPath();ctx.arc(x,n.y,12,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      if(!n.hit && n.y>hitY+30){n.dead=true; try{Synth.noise(.1,.1)}catch(e){}}
+    });
+  }
+  function tryHit(lane){
+    try{Synth.init()}catch(e){}
+    const hitY=H*0.78;
+    let best=null, bestD=40;
+    notes.forEach(n=>{
+      if(n.lane!==lane||n.hit) return;
+      const d=Math.abs(n.y-hitY);
+      if(d<bestD){bestD=d;best=n}
+    });
+    if(best){
+      best.hit=true; best.dead=true;
+      const pts=bestD<12?30:bestD<24?20:10;
+      addScore(pts); hitFlash[lane]=1;
+      try{Synth.note(lane+2,.12)}catch(e){}
+    } else try{Synth.noise(.08,.08)}catch(e){}
+  }
+  addEventListener('keydown',e=>{
+    const i=keys.indexOf(e.key.toLowerCase());
+    if(i>=0) tryHit(i);
+  });
+  canvas.addEventListener('pointerdown',e=>{
+    const total=laneW()*lanes; const left=W/2-total/2;
+    const i=Math.floor((e.clientX-left)/laneW());
+    if(i>=0&&i<lanes) tryHit(i);
+  });
+  addEventListener('resize', resize);
+  resize(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
