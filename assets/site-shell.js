@@ -147,49 +147,20 @@
   window.PROMII_SET_LANG = setLang;
   window.PROMII_SET_THEME = applyTheme;
 
-  (function dropMenu(){
-    if (mode === 'data' || mode === 'mini') return;
-    var open = false;
-    var el = document.createElement('div');
-    el.id = 'pm-drop-fab';
-    el.innerHTML =
-      '<button type="button" class="pm-fab-core" id="pm-fab-core" aria-expanded="false" title="Menu" aria-label="Menu">' +
-      '<span class="pm-fab-shine"></span></button>' +
-      '<div class="pm-fab-opts" id="pm-fab-opts" hidden>' +
-      '<a href="/">Portafolio</a><a href="/editorial/">Editorial</a><a href="/editorial/proceso-creador.html">Manuscrito</a>' +
-      '<a href="/arcade/">Arcade</a><a href="/about/">About</a><a href="/#contacto">Contacto</a></div>';
-    document.body.appendChild(el);
-    if (!document.getElementById('pm-fab-css')) {
-      var st = document.createElement('style');
-      st.id = 'pm-fab-css';
-      st.textContent =
-        '#pm-drop-fab{position:fixed;right:18px;bottom:22px;z-index:60;display:flex;flex-direction:column-reverse;align-items:flex-end;gap:10px;pointer-events:none}' +
-        '#pm-drop-fab > *{pointer-events:auto}' +
-        '.pm-fab-core{position:relative;width:56px;height:56px;border-radius:50%;border:1px solid rgba(255,255,255,.38);' +
-        'background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.72),rgba(255,255,255,.18) 38%,rgba(47,107,255,.28) 70%,rgba(212,175,55,.15));' +
-        'backdrop-filter:blur(14px) saturate(160%);cursor:pointer;box-shadow:0 12px 32px -10px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.55);' +
-        'display:grid;place-items:center;transition:transform .25s;padding:0}' +
-        '.pm-fab-core .pm-fab-shine{position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle at 40% 30%,rgba(255,255,255,.55),transparent 62%);pointer-events:none}' +
-        '.pm-fab-core:hover{transform:scale(1.07)}' +
-        '.pm-fab-opts{display:none;flex-direction:column;gap:8px;align-items:flex-end}' +
-        '.pm-fab-opts.is-open{display:flex}' +
-        '.pm-fab-opts[hidden]{display:none !important}' +
-        '.pm-fab-opts a{font:600 12px Inter,system-ui;padding:8px 14px;border-radius:999px;text-decoration:none;color:#f4f4f8;' +
-        'background:rgba(8,8,14,.88);border:1px solid rgba(255,255,255,.14);opacity:0;transform:translateY(10px)}' +
-        '.pm-fab-opts.is-open a{animation:pmFabIn .3s ease forwards}' +
-        '@keyframes pmFabIn{to{opacity:1;transform:none}}';
-      document.head.appendChild(st);
-    }
-    var core = document.getElementById('pm-fab-core');
-    var opts = document.getElementById('pm-fab-opts');
-    function setOpen(v){
-      open = !!v;
-      if (open) { opts.hidden = false; opts.classList.add('is-open'); }
-      else { opts.classList.remove('is-open'); opts.hidden = true; }
-      core.setAttribute('aria-expanded', open ? 'true' : 'false');
-    }
-    setOpen(false);
-    core.addEventListener('click', function(e){ e.stopPropagation(); setOpen(!open); });
-    document.addEventListener('click', function(e){ if(open && !el.contains(e.target)) setOpen(false); });
+  /* Legacy pm-drop-fab disabled — dual glass droplets live in home-ui-fix.js */
+  (function dropMenu(){ if (true) return; })();
+
+  /* Load home UI fixes: presence map, dual glass FABs, centered footer */
+  (function loadHomeUiFix(){
+    if (document.getElementById('home-ui-fix-css')) return;
+    var l = document.createElement('link');
+    l.id = 'home-ui-fix-css';
+    l.rel = 'stylesheet';
+    l.href = '/assets/home-ui-fix.css';
+    document.head.appendChild(l);
+    var s = document.createElement('script');
+    s.src = '/assets/home-ui-fix.js';
+    s.defer = true;
+    document.head.appendChild(s);
   })();
 })();
