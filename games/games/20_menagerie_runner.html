@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>20 · MENAGERIE RUNNER | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#08080C;--cyan:#22E0C8;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.18);--gold:#E8B23A}
+*{box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;touch-action:none}
+canvas{display:block;width:100%;height:100%}
+.hud{position:fixed;top:10px;left:12px;right:12px;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:rgba(10,10,16,.88);border:1px solid var(--border)}
+.brand{font:700 12px Georgia,serif;letter-spacing:.12em}
+.brand small{display:block;font:600 9px Inter;color:var(--cyan);margin-top:2px}
+.stats{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font:600 11px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:9px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.pads{position:fixed;bottom:16px;left:16px;right:16px;z-index:20;display:flex;justify-content:space-between}
+.pads button{padding:13px 20px;border-radius:16px;border:1.5px solid rgba(244,244,248,.24);background:rgba(14,16,26,.8);color:var(--text);font:700 11px Inter;letter-spacing:1px}
+.pads .j{border-color:rgba(34,224,200,.5);color:var(--cyan)}
+.overlay{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:rgba(8,8,12,.65);padding:16px}
+.overlay.open{display:flex}
+.card{width:min(420px,100%);padding:20px;border-radius:18px;background:#101018;border:1px solid rgba(34,224,200,.35);text-align:center}
+.card h2{font:normal 20px Georgia,serif;margin:0 0 8px}
+.avatars{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.avatars button{padding:10px 6px;border-radius:12px;border:1.5px solid rgba(244,244,248,.16);background:rgba(244,244,248,.05);color:var(--muted);cursor:pointer;font:700 10px Inter}
+.avatars button.active{border-color:var(--cyan);color:var(--cyan);background:rgba(34,224,200,.15)}
+.primary{width:100%;padding:12px;border:0;border-radius:11px;background:var(--cyan);color:#08080C;font:700 12px Inter;letter-spacing:1px;cursor:pointer}
+.hint{position:fixed;bottom:78px;left:0;right:0;text-align:center;font:500 12px Inter;color:var(--muted);pointer-events:none}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">20 · MENAGERIE RUNNER<small>HORIZON SPRINT</small></div>
+  <div class="stats">
+    <a class="btn" href="../index.html">◂ HUB</a>
+    <button class="btn" type="button" id="avatarPill">REX</button>
+    <span>SCORE <strong id="sc">0</strong></span>
+    <span>HI <strong id="peak">0</strong></span>
+    <button class="btn" type="button" id="mute">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<div class="pads">
+  <button type="button" id="btnDuck">DUCK ▼</button>
+  <button type="button" class="j" id="btnJump">JUMP ▲</button>
+</div>
+<p class="hint"><strong>How to play:</strong> Jump SPACE/▲ · Duck S/▼ · Guardians: Rex · Michi · Sasha · Milo</p>
+<div class="overlay open" id="start">
+  <div class="card">
+    <div style="font-size:10px;letter-spacing:2px;color:var(--cyan)">PROTOCOL 20</div>
+    <h2>CHOOSE GUARDIAN</h2>
+    <div class="avatars" id="grid"></div>
+    <button class="primary" type="button" id="go">START RUN</button>
+  </div>
+</div>
+<div class="overlay" id="end">
+  <div class="card">
+    <h2>RUN OVER</h2>
+    <p id="endTxt">Horizon collision.</p>
+    <div class="avatars" id="grid2"></div>
+    <button class="primary" type="button" id="retry">RUN AGAIN</button>
+  </div>
+</div>
+<script src="../assets/promii-core.js"></script>
+<script>
+(()=>{
+const AV=[
+  {id:'REX',label:'REX',color:'#22E0C8'},
+  {id:'MICHI',label:'MICHI',color:'#7AF5E6'},
+  {id:'SASHA',label:'SASHA',color:'#6E9BFF'},
+  {id:'MILO',label:'MILO',color:'#E8B23A'}
+];
+let selected='REX',running=false,score=0,speed=6,t=0,groundY=0;
+let py=0,vy=0,duck=false,obs=[],W,H,dpr;
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+const scEl=document.getElementById('sc'),peakEl=document.getElementById('peak'),pill=document.getElementById('avatarPill');
+try{peakEl.textContent=PeakStore.get('20')||0}catch(e){}
+document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);groundY=H*0.72}
+function renderAv(target){
+  const el=document.getElementById(target);el.innerHTML='';
+  AV.forEach(a=>{const b=document.createElement('button');b.type='button';b.textContent=a.label;b.className=selected===a.id?'active':'';b.onclick=()=>{selected=a.id;pill.textContent=a.label;renderAv('grid');renderAv('grid2')};el.appendChild(b)});
+}
+function spawn(){const kind=Math.random()<0.55?'low':'high';obs.push({x:W+40,kind,w:kind==='low'?28:36,h:kind==='low'?34:28})}
+function start(){document.getElementById('start').classList.remove('open');document.getElementById('end').classList.remove('open');score=0;speed=6;obs=[];py=0;vy=0;duck=false;running=true;scEl.textContent=0;try{Synth.init()}catch(e){}}
+function die(){running=false;document.getElementById('endTxt').textContent=`${selected} · ${score} pts`;document.getElementById('end').classList.add('open');try{Synth.noise(.18,.12)}catch(e){}}
+function jump(){if(py===0){vy=-12;try{Synth.note(4,.07)}catch(e){}}}
+function frame(){
+  requestAnimationFrame(frame);t+=1/60;
+  ctx.fillStyle='#08080C';ctx.fillRect(0,0,W,H);
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0a1020');g.addColorStop(1,'#08080C');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(34,224,200,.15)';ctx.beginPath();ctx.moveTo(0,groundY);ctx.lineTo(W,groundY);ctx.stroke();
+  if(!running)return;
+  speed=6+Math.min(8,score/400);
+  if(Math.random()<0.02+speed*0.002)spawn();
+  vy+=0.55;py+=vy;if(py>0){py=0;vy=0}
+  const ph=duck&&py===0?22:36;
+  const px=W*0.22,pTop=groundY-ph+py;
+  obs.forEach(o=>{o.x-=speed});
+  obs=obs.filter(o=>o.x>-50);
+  obs.forEach(o=>{
+    const oy=o.kind==='low'?groundY-o.h:groundY-o.h-38;
+    ctx.fillStyle=o.kind==='low'?'rgba(255,59,48,.5)':'rgba(47,107,255,.45)';
+    ctx.fillRect(o.x,oy,o.w,o.h);
+    const px1=px-14,px2=px+14,py1=pTop,py2=groundY+py;
+    if(px2>o.x&&px1<o.x+o.w&&py2>oy&&py1<oy+o.h)die();
+  });
+  const av=AV.find(a=>a.id===selected)||AV[0];
+  ctx.fillStyle=av.color;ctx.fillRect(px-14,pTop,28,ph);
+  ctx.fillStyle='rgba(255,255,255,.75)';ctx.fillRect(px-6,pTop+6,8,8);
+  const leg=Math.sin(t*speed*1.2)*6;
+  ctx.strokeStyle=av.color;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px-4,groundY+py);ctx.lineTo(px-4+leg,groundY+py+10);ctx.moveTo(px+4,groundY+py);ctx.lineTo(px+4-leg,groundY+py+10);ctx.stroke();
+  score+=1;scEl.textContent=score;try{PeakStore.set('20',score);peakEl.textContent=PeakStore.get('20')}catch(e){}
+}
+document.getElementById('go').onclick=start;document.getElementById('retry').onclick=start;
+addEventListener('keydown',e=>{
+  if(e.code==='Space'||e.key==='w'||e.key==='ArrowUp'){e.preventDefault();jump()}
+  if(e.key==='s'||e.key==='ArrowDown')duck=true;
+  if(e.key>='1'&&e.key<='4'){selected=AV[+e.key-1].id;pill.textContent=selected;renderAv('grid');renderAv('grid2')}
+});
+addEventListener('keyup',e=>{if(e.key==='s'||e.key==='ArrowDown')duck=false});
+document.getElementById('btnJump').onpointerdown=e=>{e.preventDefault();jump()};
+document.getElementById('btnDuck').onpointerdown=e=>{e.preventDefault();duck=true};
+document.getElementById('btnDuck').onpointerup=()=>duck=false;
+document.getElementById('btnDuck').onpointerleave=()=>duck=false;
+addEventListener('resize',resize);resize();renderAv('grid');renderAv('grid2');requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

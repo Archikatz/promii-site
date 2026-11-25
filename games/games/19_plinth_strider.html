@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>19 · PLINTH STRIDER | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#08080C;--cyan:#22E0C8;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.18);--gold:#E8B23A;--crimson:#FF3B30}
+*{box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;touch-action:none}
+canvas{display:block;width:100%;height:100%}
+.hud{position:fixed;top:10px;left:12px;right:12px;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;border-radius:14px;background:rgba(10,10,16,.88);border:1px solid var(--border);backdrop-filter:blur(12px)}
+.brand{font:700 12px Georgia,serif;letter-spacing:.12em}
+.brand small{display:block;font:600 9px Inter;color:var(--cyan);margin-top:2px}
+.stats{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font:600 11px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:5px 9px;border-radius:9px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.pad{position:fixed;bottom:16px;left:14px;right:14px;z-index:20;display:flex;justify-content:space-between;pointer-events:none}
+.pad button{pointer-events:auto;width:58px;height:58px;border-radius:16px;border:1.5px solid rgba(244,244,248,.24);background:rgba(14,16,26,.8);color:var(--text);font-weight:700;font-size:16px}
+.pad .jump{width:74px;height:64px;border-color:rgba(34,224,200,.5);color:var(--cyan);font-size:11px}
+.overlay{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:rgba(8,8,12,.7);padding:16px}
+.overlay.open{display:flex}
+.card{width:min(400px,100%);padding:20px;border-radius:18px;background:#101018;border:1px solid rgba(34,224,200,.35);text-align:center}
+.card h2{font:normal 20px Georgia,serif;margin:0 0 8px}
+.card p{font-size:12px;color:var(--muted);line-height:1.45}
+.primary{width:100%;padding:12px;border:0;border-radius:11px;background:var(--cyan);color:#08080C;font:700 12px Inter;letter-spacing:1px;cursor:pointer;margin-top:12px}
+.hint{position:fixed;bottom:88px;left:0;right:0;text-align:center;font:500 12px Inter;color:var(--muted);pointer-events:none}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud">
+  <div class="brand">19 · PLINTH STRIDER<small>AQUEDUCT PLATFORMER</small></div>
+  <div class="stats">
+    <a class="btn" href="../index.html">◂ HUB</a>
+    <span>ZONE <strong id="zone">1</strong></span>
+    <span>DIST <strong id="dist">0m</strong></span>
+    <span>LUMENS <strong id="sc">0</strong></span>
+    <span>PEAK <strong id="peak">0</strong></span>
+    <button class="btn" type="button" id="mute">AUDIO</button>
+  </div>
+</div>
+<canvas id="c"></canvas>
+<div class="pad">
+  <div style="display:flex;gap:10px">
+    <button type="button" id="btnL">◀</button>
+    <button type="button" id="btnR">▶</button>
+  </div>
+  <button type="button" class="jump" id="btnJ">JUMP ▲</button>
+</div>
+<p class="hint"><strong>How to play:</strong> Move ◀▶ · Jump / double-jump · Stomp drones from above</p>
+<div class="overlay open" id="start">
+  <div class="card">
+    <div style="font-size:10px;letter-spacing:2px;color:var(--cyan)">PROTOCOL 19</div>
+    <h2>PLINTH STRIDER</h2>
+    <p>Cross floating plinths, double-jump, bounce on cobalt pads, stomp crawlers.</p>
+    <button class="primary" type="button" id="go">START EXPEDITION</button>
+  </div>
+</div>
+<div class="overlay" id="end">
+  <div class="card">
+    <h2>RUN SUMMARY</h2>
+    <p id="endTxt">Distance sealed in the vault.</p>
+    <button class="primary" type="button" id="retry">RETRY</button>
+  </div>
+</div>
+<script src="../assets/promii-core.js"></script>
+<script>
+(()=>{
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+let W,H,dpr,running=false,score=0,dist=0,zone=1;
+const keys={};
+let px=80,py=0,vx=0,vy=0,onGround=false,jumps=0,coyote=0,jBuf=0;
+let plats=[],drones=[],lumens=[],cam=0,t=0;
+const scEl=document.getElementById('sc'),peakEl=document.getElementById('peak'),distEl=document.getElementById('dist'),zoneEl=document.getElementById('zone');
+try{peakEl.textContent=PeakStore.get('19')||0}catch(e){}
+document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+function addScore(n){score+=n;scEl.textContent=score;try{PeakStore.set('19',score);peakEl.textContent=PeakStore.get('19')}catch(e){}}
+function seed(){
+  plats=[{x:0,y:H-40,w:W*2,h:40,type:'ground'}];
+  drones=[];lumens=[];cam=0;px=80;py=H-120;vx=vy=0;jumps=2;score=0;dist=0;zone=1;
+  scEl.textContent=0;zoneEl.textContent=1;
+  for(let i=0;i<40;i++){
+    const x=220+i*140+Math.random()*40;
+    const y=H-80-Math.random()*(H*0.45);
+    const w=70+Math.random()*50;
+    plats.push({x,y,w,h:14,type:Math.random()<0.15?'bounce':'plat'});
+    if(Math.random()<0.5)lumens.push({x:x+w/2,y:y-18,got:false});
+    if(Math.random()<0.25)drones.push({x:x+w/2,y:y-28,alive:true,ox:x+w/2});
+  }
+}
+function jump(){if(jumps>0||coyote>0){vy=-11.2;jumps=Math.max(0,jumps-1);coyote=0;jBuf=0;try{Synth.note(4,.08)}catch(e){}}}
+function die(){running=false;document.getElementById('endTxt').textContent=`Distance ${Math.floor(dist)}m · Lumens ${score}`;document.getElementById('end').classList.add('open');try{Synth.noise(.2,.12)}catch(e){}}
+function frame(){
+  requestAnimationFrame(frame);if(!running)return;
+  t+=1/60;
+  const left=keys.a||keys.ArrowLeft||keys._L;const right=keys.d||keys.ArrowRight||keys._R;
+  if(left)vx-=0.55;if(right)vx+=0.55;
+  vx*=0.82;vy+=0.42;if(vy>14)vy=14;
+  if(jBuf>0){jBuf-=1/60;if(onGround||jumps>0)jump()}
+  if(coyote>0)coyote-=1/60;
+  px+=vx;py+=vy;onGround=false;
+  for(const p of plats){
+    if(px+12>p.x&&px-12<p.x+p.w&&py+16>p.y&&py+16<p.y+p.h+8&&vy>=0&&py<p.y+8){
+      py=p.y-16;vy=0;onGround=true;jumps=2;coyote=0.11;
+      if(p.type==='bounce'){vy=-14;jumps=1;try{Synth.note(6,.1)}catch(e){}}
+    }
+  }
+  if(!onGround&&coyote<=0&&jumps===2)jumps=1;
+  drones.forEach(d=>{
+    if(!d.alive)return;
+    d.x=d.ox+Math.sin(t*2+d.ox)*20;
+    if(Math.hypot(px-d.x,py-d.y)<20){
+      if(vy>0&&py<d.y){d.alive=false;vy=-10;addScore(80);try{Synth.note(5,.1)}catch(e){}}
+      else die();
+    }
+  });
+  lumens.forEach(L=>{if(!L.got&&Math.hypot(px-L.x,py-L.y)<18){L.got=true;addScore(10);try{Synth.note(3,.06)}catch(e){}}});
+  if(py>H+40)die();
+  cam=Math.max(0,px-W*0.35);dist=Math.max(dist,(px)/10);distEl.textContent=Math.floor(dist)+'m';
+  zone=1+Math.floor(dist/200);zoneEl.textContent=zone;
+  ctx.fillStyle='#08080C';ctx.fillRect(0,0,W,H);
+  ctx.save();ctx.translate(-cam,0);
+  for(let i=0;i<6;i++){ctx.strokeStyle=`rgba(34,224,200,${0.04+i*0.01})`;ctx.beginPath();ctx.moveTo(cam,H*0.2+i*30);ctx.lineTo(cam+W+200,H*0.2+i*30+Math.sin(t+i)*4);ctx.stroke()}
+  plats.forEach(p=>{ctx.fillStyle=p.type==='bounce'?'rgba(47,107,255,.45)':p.type==='ground'?'rgba(244,244,248,.08)':'rgba(34,224,200,.22)';ctx.fillRect(p.x,p.y,p.w,p.h);ctx.strokeStyle='rgba(244,244,248,.2)';ctx.strokeRect(p.x,p.y,p.w,p.h)});
+  lumens.forEach(L=>{if(L.got)return;ctx.beginPath();ctx.arc(L.x,L.y,5,0,Math.PI*2);ctx.fillStyle='#E8B23A';ctx.fill()});
+  drones.forEach(d=>{if(!d.alive)return;ctx.beginPath();ctx.arc(d.x,d.y,10,0,Math.PI*2);ctx.fillStyle='rgba(255,59,48,.55)';ctx.fill()});
+  ctx.fillStyle='#22E0C8';ctx.fillRect(px-10,py-14,20,28);
+  ctx.fillStyle='rgba(255,255,255,.7)';ctx.fillRect(px-6,py-10,6,6);
+  ctx.restore();
+}
+function start(){document.getElementById('start').classList.remove('open');document.getElementById('end').classList.remove('open');seed();running=true;try{Synth.init()}catch(e){}}
+document.getElementById('go').onclick=start;document.getElementById('retry').onclick=start;
+addEventListener('keydown',e=>{keys[e.key]=true;if(e.code==='Space'||e.key==='w'||e.key==='ArrowUp'){e.preventDefault();jBuf=0.11;if(running)jump()}if(e.key==='r'||e.key==='R')start()});
+addEventListener('keyup',e=>{keys[e.key]=false});
+function hold(id,key){const el=document.getElementById(id);el.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=true;if(key==='_J'){jBuf=0.11;jump()}});el.addEventListener('pointerup',()=>keys[key]=false);el.addEventListener('pointerleave',()=>keys[key]=false)}
+hold('btnL','_L');hold('btnR','_R');hold('btnJ','_J');
+addEventListener('resize',resize);resize();seed();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
