@@ -1,4 +1,4 @@
-/* Promii home UI fixes */
+/* Promii home UI · map + dual glass drops + scroll loupe */
 (function(){
   if (window.__promiiHomeUiFix) return;
   window.__promiiHomeUiFix = true;
@@ -11,7 +11,6 @@
     }
     var ct = document.querySelector('#contacto .contact');
     if (!ct || document.querySelector('.mp-wrap')) return;
-
     var GLOBAL_NODES = [
       {id:'bog',label:'Bogot\u00e1',sub:'Studio Hub \u00b7 GMT-5',x:320,y:148,hub:1},
       {id:'nyc',label:'New York',sub:'EST Aligned',x:265,y:78},
@@ -46,41 +45,105 @@
 
   function installFabs(){
     if (document.getElementById('fab-dock')) return;
-    var NAV=[['Portafolio','/'],['Editorial','/editorial/'],['Manuscrito','/editorial/proceso-creador.html'],['Arcade','/arcade/'],['About','/about/'],['Contacto','/#contacto']];
-    var CONTACT=[['Behance','https://www.behance.net/brianzuleta'],['Email','mailto:hi@promii.co'],['LinkedIn','https://www.linkedin.com/in/bczuleta'],['WhatsApp','https://wa.me/573160570258']];
+    var NAV=[
+      ['Portafolio','/'],['Editorial','/editorial/'],['Arcade','/arcade/'],
+      ['About','/about/'],['Lab','/lab/'],['Contacto','/#contacto']
+    ];
+    var CONTACT=[
+      ['Behance','https://www.behance.net/brianzuleta'],
+      ['Email','mailto:hi@promii.co'],
+      ['LinkedIn','https://www.linkedin.com/in/bczuleta'],
+      ['WhatsApp','https://wa.me/573160570258']
+    ];
     var dock=document.createElement('div');
-    dock.className='fab-dock';dock.id='fab-dock';
-    dock.innerHTML=
-      '<div class="fab-drop" id="fab-nav">'+ '<div class="fab-opts">'+NAV.map(function(l){return '<a href="'+l[1]+'">'+l[0]+'</a>';}).join('')+'</div>'+ '<button type="button" class="fab-core" aria-expanded="false" aria-label="Navegaci\u00f3n"><span class="shine"></span>'+ '<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>'+ '<div class="fab-drop" id="fab-contact">'+ '<div class="fab-opts">'+CONTACT.map(function(l){
-          var ext=/^(https?:|mailto:)/.test(l[1]);
-          return '<a href="'+l[1]+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+l[0]+'</a>';
-        }).join('')+'</div>'+ '<button type="button" class="fab-core" aria-expanded="false" aria-label="Contacto"><span class="shine"></span>'+ '<svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 1 1-12 0c0-4 6-11 6-11z"/></svg></button></div>';
+    dock.className='fab-dock'; dock.id='fab-dock';
+    function dropHtml(id, label, links, kind){
+      var opts=links.map(function(l){
+        var ext=/^(https?:|mailto:)/.test(l[1]);
+        return '<a href="'+l[1]+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+l[0]+'</a>';
+      }).join('');
+      return '<div class="fab-drop" id="'+id+'" data-kind="'+kind+'">'+ 
+        '<div class="fab-opts" role="menu">'+opts+'</div>'+ 
+        '<button type="button" class="fab-core" aria-expanded="false" aria-label="'+label+'">'+ 
+        '<span class="shine"></span><span class="fab-label">'+label+'</span></button></div>';
+    }
+    dock.innerHTML = dropHtml('fab-nav','Nav',NAV,'nav') + dropHtml('fab-contact','Contacto',CONTACT,'contact');
     document.body.appendChild(dock);
+
     function closeAll(){
       dock.querySelectorAll('.fab-drop').forEach(function(d){
         d.classList.remove('is-open');
-        var b=d.querySelector('.fab-core');if(b)b.setAttribute('aria-expanded','false');
+        var b=d.querySelector('.fab-core'); if(b) b.setAttribute('aria-expanded','false');
       });
     }
     dock.querySelectorAll('.fab-core').forEach(function(btn){
-      btn.addEventListener('click',function(e){
+      btn.addEventListener('click', function(e){
         e.stopPropagation();
         var drop=btn.closest('.fab-drop');
         var open=drop.classList.contains('is-open');
         closeAll();
-        if(!open){drop.classList.add('is-open');btn.setAttribute('aria-expanded','true');}
+        if(!open){ drop.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); }
       });
     });
-    document.addEventListener('click',function(e){if(!dock.contains(e.target))closeAll();});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+    document.addEventListener('click', function(e){ if(!dock.contains(e.target)) closeAll(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+  }
+
+  function installLoupe(){
+    if (document.getElementById('fab-loupe')) return;
+    var el=document.createElement('div');
+    el.id='fab-loupe';
+    el.className='fab-loupe';
+    el.innerHTML=
+      '<div class="loupe-opts">'+ 
+        '<a href="/arcade/">Arcade</a>'+ 
+        '<a href="/editorial/">Editorial</a>'+ 
+        '<a href="/about/">About</a>'+ 
+        '<a href="/#contacto">Contacto</a>'+ 
+      '</div>'+ 
+      '<button type="button" class="loupe-core" aria-label="Explorar" aria-expanded="false">'+ 
+        '<span class="shine"></span>'+ 
+        '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6"/><path d="M16 16l4 4"/></svg>'+ 
+      '</button>';
+    document.body.appendChild(el);
+
+    var core=el.querySelector('.loupe-core');
+    var open=false;
+    core.addEventListener('click', function(e){
+      e.stopPropagation();
+      open=!open;
+      el.classList.toggle('is-open', open);
+      core.setAttribute('aria-expanded', open?'true':'false');
+    });
+    document.addEventListener('click', function(e){
+      if(!el.contains(e.target) && open){ open=false; el.classList.remove('is-open'); core.setAttribute('aria-expanded','false'); }
+    });
+
+    var y=0, target=0, raf=0;
+    function onScroll(){
+      var max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      var p = scrollY / max;
+      target = innerHeight * (0.18 + p * 0.54);
+      if(!raf) raf=requestAnimationFrame(tick);
+    }
+    function tick(){
+      y += (target - y) * 0.12;
+      el.style.transform = 'translate3d(0,' + Math.round(y) + 'px,0)';
+      raf=0;
+      if(Math.abs(target-y)>0.4) raf=requestAnimationFrame(tick);
+    }
+    addEventListener('scroll', onScroll, {passive:true});
+    addEventListener('resize', onScroll, {passive:true});
+    onScroll();
   }
 
   function boot(){
     try{installMap();}catch(e){}
     try{installFabs();}catch(e){}
+    try{installLoupe();}catch(e){}
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
-  setTimeout(boot, 600);
-  setTimeout(boot, 1600);
+  setTimeout(boot, 500);
+  setTimeout(boot, 1500);
 })();
