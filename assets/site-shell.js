@@ -52,55 +52,53 @@
     return (lang === 'en' ? (o.en || o.es) : (o.es || o.en)) || '';
   }
   function esc(s) {
-    return String(s).replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
+    var d = document.createElement('div');
+    d.textContent = String(s);
+    return d.innerHTML;
   }
   function applyTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
     try { localStorage.setItem('promii-theme', t); } catch (e) {}
-  }
-  function toggleTheme() {
-    applyTheme(theme() === 'dark' ? 'light' : 'dark');
   }
   function setLang(l) {
     lang = l === 'en' ? 'en' : 'es';
     try { localStorage.setItem('promii-lang', lang); } catch (e) {}
     document.documentElement.lang = lang;
     drawChrome();
-    try {
-      document.querySelectorAll('[data-en]').forEach(function (el) {
-        var en = el.getAttribute('data-en');
-        var es = el.getAttribute('data-es') || el.getAttribute('data-es-html');
-        if (lang === 'en' && en) el.textContent = en;
-        else if (lang === 'es' && es) el.textContent = es;
-      });
-    } catch (e) {}
   }
-  var LOGO = '<span class="pm-logo" aria-hidden="true"></span>';
-  var nav;
+  function toggleTheme() {
+    applyTheme(theme() === 'light' ? 'dark' : 'light');
+    drawChrome();
+  }
+  var nav, foot;
+  var DROP = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3s6 7 6 11a6 6 0 1 1-12 0c0-4 6-11 6-11z"/></svg>';
+  var LOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  var LOGO = '<img class="pm-logo" src="/assets/logo/bz-mark.svg" width="28" height="28" alt="" decoding="async">';
   function drawChrome() {
-    var existing = document.getElementById('pm-nav');
-    if (existing) existing.remove();
-    nav = document.createElement('header');
-    nav.id = 'pm-nav';
-    nav.className = 'pm-nav';
+    if (mode === 'data') return;
+    if (!nav) {
+      nav = document.createElement('header');
+      nav.className = 'pm-bar';
+      document.body.insertBefore(nav, document.body.firstChild);
+      if (!document.getElementById('pm-css')) {
+        var st = document.createElement('style');
+        st.id = 'pm-css';
+        st.textContent = '.pm-bar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;padding:10px 14px;backdrop-filter:blur(14px);background:rgba(8,8,12,.72);border-bottom:1px solid rgba(244,244,248,.1)}.pm-brand{display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none;font-weight:600;letter-spacing:.3px}.pm-logo{border-radius:8px}.pm-nav{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}.pm-nav a{color:inherit;opacity:.75;text-decoration:none;font-size:13px}.pm-nav a:hover{opacity:1}.pm-tools{display:flex;align-items:center;gap:6px;margin-left:8px}.pm-tools button,.pm-lang button{background:rgba(244,244,248,.06);border:1px solid rgba(244,244,248,.14);color:inherit;border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer}.pm-lang button.on{border-color:#22E0C8;color:#22E0C8}.pm-foot{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:22px;padding:36px 18px 48px;max-width:1100px;margin:0 auto;border-top:1px solid rgba(244,244,248,.1)}.pm-foot h4{margin:0 0 8px;font-size:11px;letter-spacing:1.4px;opacity:.55}.pm-foot a{display:block;color:inherit;opacity:.8;text-decoration:none;font-size:13px;margin:4px 0}.pm-foot a:hover{opacity:1}.pm-foot p,.pm-foot small{opacity:.7;font-size:13px;line-height:1.45}';
+        document.head.appendChild(st);
+      }
+    }
+    var links = SITE.nav.map(function (n) { return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>'; }).join('');
     nav.innerHTML =
-      '<a class="pm-brand" href="/">' + LOGO + 'Brian Zuleta</a>' +
+      '<a class="pm-brand" href="/">' + LOGO + 'Brian Zuleta</a><nav class="pm-nav">' + links + '</nav>' +
       '<div class="pm-tools">' +
-      '<button type="button" class="pm-theme" title="' + esc(L(SITE.ui.theme)) + '" aria-label="' + esc(L(SITE.ui.theme)) + '">☀</button>' +
+      '<button type="button" class="pm-drop" title="Menu" aria-label="Menu">' + DROP + '</button>' +
+      '<a class="pm-lock" href="/privacy/" title="Privacy" aria-label="Privacy">' + LOCK + '</a>' +
       '<div class="pm-lang" role="group">' +
-      '<button type="button" data-l="es" class="' + (lang==='es'?'on':'') + '">ES</button>' +
-      '<button type="button" data-l="en" class="' + (lang==='en'?'on':'') + '">EN</button>' +
-      '</div>' +
-      '<button type="button" class="pm-menu" aria-label="' + esc(L(SITE.ui.menu)) + '">' + esc(L(SITE.ui.menu)) + '</button>' +
-      '</div>' +
-      '<nav class="pm-links">' +
-      SITE.nav.map(function (n) {
-        return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>';
-      }).join('') +
-      '</nav>';
-    document.body.insertBefore(nav, document.body.firstChild);
+      '<button type="button" data-l="es" class="' + (lang === 'es' ? 'on' : '') + '">ES</button>' +
+      '<button type="button" data-l="en" class="' + (lang === 'en' ? 'on' : '') + '">EN</button></div>' +
+      '<button type="button" class="pm-theme" title="' + esc(L(SITE.ui.theme)) + '">☀</button>' +
+      '<button type="button" class="pm-menu">' + esc(L(SITE.ui.menu)) + '</button></div>';
     if (mode === 'nav') return;
-    var foot = document.querySelector('footer.pm-foot');
     if (!foot) {
       foot = document.createElement('footer');
       foot.className = 'pm-foot';
@@ -142,10 +140,8 @@
   window.PROMII_SET_LANG = setLang;
   window.PROMII_SET_THEME = applyTheme;
 
-  /* Legacy pm-drop-fab disabled — dual glass droplets live in home-ui-fix.js */
   (function dropMenu(){ if (true) return; })();
 
-  /* Load home UI fixes: presence map, dual glass FABs, centered footer */
   (function loadHomeUiFix(){
     if (document.getElementById('home-ui-fix-css')) return;
     var l = document.createElement('link');
