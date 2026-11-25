@@ -3,9 +3,11 @@
    Letters = crystal glass. O slot = the real physics bubble.
    Reversible: remove this script tag. */
 (function () {
-  if (!/\/home\/?$/.test(location.pathname)) return;
+  var __p=(location.pathname||"/").replace(/\/+$/,"")||"/"; if(__p!=="/home"&&__p!=="/home/index.html") return;
 
   var css = [
+    ".drop.core{pointer-events:auto!important;z-index:20!important;cursor:pointer}",
+    ".hello{pointer-events:none}",
     ".hello{top:calc(50% + min(16vw,80px))!important;z-index:6;pointer-events:none}",
     ".hello h1{",
     "  display:inline-flex!important;align-items:center;justify-content:center;",
@@ -116,7 +118,7 @@
     var span = core.querySelector("span");
     if (span && span.textContent !== "O") {
       span.textContent = "O";
-      try { core.setAttribute("aria-label", "PROMII — abrir caminos"); } catch (e) {}
+      try { core.setAttribute("aria-label", "PROMII \u2014 abrir caminos"); } catch (e) {}
     }
   }
 
@@ -142,11 +144,11 @@
 
     var p = document.querySelector(".hello p");
     if (p) {
-      p.setAttribute("data-en", "Tap the O — liquid glass paths");
+      p.setAttribute("data-en", "Tap the O \u2014 liquid glass paths");
       p.textContent =
         document.documentElement.lang === "en"
-          ? "Tap the O — liquid glass paths"
-          : "Toca la O — caminos en liquid glass";
+          ? "Tap the O \u2014 liquid glass paths"
+          : "Toca la O \u2014 caminos en liquid glass";
     }
 
     var bottom = document.querySelector(".bottom");
