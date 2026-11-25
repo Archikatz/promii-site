@@ -152,4 +152,12 @@
     s.defer = true;
     document.head.appendChild(s);
   })();
+  (function loadPrivacyCopy(){
+    if (document.getElementById('home-privacy-copy')) return;
+    var s = document.createElement('script');
+    s.id = 'home-privacy-copy';
+    s.src = '/assets/home-privacy-copy.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 })();
