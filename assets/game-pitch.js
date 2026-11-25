@@ -26,9 +26,9 @@
     panel.className='request-panel'; panel.id='requestGame';
     panel.innerHTML =
       '<h2>Describe tu juego \u00b7 lo hacemos realidad</h2>'+
-      '<p>Mec\u00e1nica, est\u00e9tica o referencia. Lo exploramos en Arcade / Lab. Nick opcional para cr\u00e9dito si publicamos un protocolo inspirado en tu pitch.</p>'+
+      '<p>Mec\u00e1nica, est\u00e9tica o referencia. Nombre y correo obligatorios para contactarte si desarrollamos el pitch.</p>'+
       '<form id="gamePitchForm">'+
-        '<input name="nick" maxlength="24" placeholder="Nick / alias (opcional)" autocomplete="nickname">'+
+        '<input name="name" maxlength="80" required placeholder="Nombre completo *" autocomplete="name">'+
         '<input name="title" maxlength="80" required placeholder="Nombre tentativo del juego">'+
         '<select name="kind" required>'+
           '<option value="">Tipo</option>'+
@@ -36,7 +36,7 @@
           '<option>Arcade & Party</option><option>Originals & BIM</option><option>Otro / h\u00edbrido</option>'+
         '</select>'+
         '<textarea name="pitch" required maxlength="1200" placeholder="C\u00f3mo se juega, qu\u00e9 se siente, referencias\u2026"></textarea>'+
-        '<input name="contact" maxlength="120" placeholder="Email o @red (opcional)">'+
+        '<input name="email" type="email" maxlength="120" required placeholder="Correo electr\u00f3nico *" autocomplete="email">'+
         '<button type="submit">Enviar pitch al Lab</button>'+
       '</form>'+
       '<p class="ok">Pitch guardado. Gracias \u2014 lo revisamos en el Lab / Arcade.</p>';
@@ -50,12 +50,15 @@
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var fd=new FormData(form);
+      var name=String(fd.get('name')||'').trim();
+      var email=String(fd.get('email')||'').trim();
+      if(!name||!email){alert('Nombre y correo son obligatorios.');return;}
       var payload={
-        nick:String(fd.get('nick')||'').trim(),
+        name:name,
+        email:email,
         title:String(fd.get('title')||'').trim(),
         kind:String(fd.get('kind')||''),
         pitch:String(fd.get('pitch')||'').trim(),
-        contact:String(fd.get('contact')||'').trim(),
         at:new Date().toISOString()
       };
       try{
