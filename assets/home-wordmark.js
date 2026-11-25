@@ -191,4 +191,12 @@
   } else {
     setTimeout(boot, 0);
   }
+  (function loadCalm(){
+    if (document.getElementById('pm-home-calm')) return;
+    var s = document.createElement('script');
+    s.id = 'pm-home-calm';
+    s.src = '/assets/home-calm.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 })();
