@@ -20,15 +20,15 @@
       ['GitHub', 'https://github.com/Archikatz']
     ],
     ui: {
-      menu: { es: 'Menú', en: 'Menu' },
+      menu: { es: 'Men\u00fa', en: 'Menu' },
       theme: { es: 'Tema claro/oscuro', en: 'Light/dark theme' },
       explore: { es: 'Explorar', en: 'Explore' },
       learn: { es: 'Aprender', en: 'Learn' },
       social: { es: 'Redes', en: 'Social' },
       map: { es: 'Mapa del sitio', en: 'Site map' },
-      tag: { es: 'Arquitectura, BIM e IA · LATAM · Americas · Europa', en: 'Architecture, BIM & AI · LATAM · Americas · Europe' },
+      tag: { es: 'Arquitectura, BIM e IA \u00b7 LATAM \u00b7 Americas \u00b7 Europa', en: 'Architecture, BIM & AI \u00b7 LATAM \u00b7 Americas \u00b7 Europe' },
       privacy: { es: 'Privacidad y datos', en: 'Privacy & data' },
-      cv: { es: 'Solicitar CV', en: 'Request résumé' }
+      cv: { es: 'Solicitar CV', en: 'Request r\u00e9sum\u00e9' }
     }
   };
   var mode = (document.currentScript && document.currentScript.getAttribute('data-mode')) || 'full';
@@ -96,7 +96,7 @@
       '<div class="pm-lang" role="group">' +
       '<button type="button" data-l="es" class="' + (lang === 'es' ? 'on' : '') + '">ES</button>' +
       '<button type="button" data-l="en" class="' + (lang === 'en' ? 'on' : '') + '">EN</button></div>' +
-      '<button type="button" class="pm-theme" title="' + esc(L(SITE.ui.theme)) + '">☀</button>' +
+      '<button type="button" class="pm-theme" title="' + esc(L(SITE.ui.theme)) + '">\u2600</button>' +
       '<button type="button" class="pm-menu">' + esc(L(SITE.ui.menu)) + '</button></div>';
     if (mode === 'nav') return;
     if (!foot) {
@@ -106,8 +106,8 @@
     }
     foot.innerHTML =
       '<div><a class="pm-brand" href="/">' + LOGO + 'Brian Zuleta</a><p>' + esc(L(SITE.ui.tag)) + '</p>' +
-      '<small>© ' + new Date().getFullYear() + ' Brian Zuleta · promii.co</small>' +
-      '<p style="margin-top:10px"><a href="/privacy/">' + esc(L(SITE.ui.privacy)) + '</a> · <a href="/#contacto">' + esc(L(SITE.ui.cv)) + '</a></p></div>' +
+      '<small>\u00a9 ' + new Date().getFullYear() + ' Brian Zuleta \u00b7 promii.co</small>' +
+      '<p style="margin-top:10px"><a href="/privacy/">' + esc(L(SITE.ui.privacy)) + '</a> \u00b7 <a href="/#contacto">' + esc(L(SITE.ui.cv)) + '</a></p></div>' +
       '<div><h4>' + esc(L(SITE.ui.explore)) + '</h4>' +
       SITE.nav.map(function (n) { return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>'; }).join('') + '</div>' +
       '<div><h4>' + esc(L(SITE.ui.learn)) + '</h4>' +
@@ -164,5 +164,6 @@
     function add(src,id){if(document.getElementById(id))return;var s=document.createElement('script');s.id=id;s.src=src;s.defer=true;document.head.appendChild(s);}
     add('/assets/engagement.js','pm-engagement');
     add('/assets/home-discover.js','pm-discover-js');
+    add('/assets/home-banners.js','pm-home-banners');
   })();
 })();
