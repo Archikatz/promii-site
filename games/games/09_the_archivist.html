@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>09 · The Archivist | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud"><div class="brand">09 · The Archivist<small>MAGNETIC SORT</small></div><div class="stats"><a class="btn" href="../index.html">◂ HUB</a><span>SCORE <strong id="sc">0</strong></span><span>BEST <strong id="best">0</strong></span><button class="btn" id="mute" type="button">AUDIO</button></div></div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> Drag books and order them by height (shortest → tallest).</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(()=>{const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr,score=0,books=[],dragging=null;const scEl=document.getElementById('sc'),bestEl=document.getElementById('best');
+try{bestEl.textContent=PeakStore.get('09')||0}catch(e){}
+document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+function addScore(n){score+=n;scEl.textContent=score;try{PeakStore.set('09',score);bestEl.textContent=PeakStore.get('09')}catch(e){}}
+function seed(){books=[];for(let i=0;i<6;i++)books.push({h:30+Math.random()*70,x:40+i*48,y:H*0.55})}
+function frame(){requestAnimationFrame(frame);ctx.fillStyle='rgba(5,5,10,.28)';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(34,224,200,.2)';ctx.strokeRect(24,H*0.35,W-48,H*0.45);
+books.forEach(b=>{const g=ctx.createLinearGradient(b.x,b.y-b.h,b.x,b.y);g.addColorStop(0,'rgba(34,224,200,.4)');g.addColorStop(1,'rgba(47,107,255,.25)');ctx.fillStyle=g;ctx.fillRect(b.x,b.y-b.h,36,b.h);ctx.strokeStyle='rgba(244,244,248,.25)';ctx.strokeRect(b.x,b.y-b.h,36,b.h)})}
+canvas.addEventListener('pointerdown',e=>{try{Synth.init()}catch(err){}books.forEach(b=>{if(e.clientX>=b.x&&e.clientX<=b.x+36&&e.clientY>=b.y-b.h&&e.clientY<=b.y)dragging=b})});
+canvas.addEventListener('pointermove',e=>{if(dragging)dragging.x=e.clientX-18});
+canvas.addEventListener('pointerup',()=>{if(!dragging)return;books.sort((a,c)=>a.x-c.x);books.forEach((b,i)=>b.x=40+i*48);let ok=true;for(let i=1;i<books.length;i++)if(books[i].h<books[i-1].h)ok=false;if(ok){addScore(50);try{Synth.note(7,.15)}catch(e){}setTimeout(seed,500)}dragging=null});
+addEventListener('resize',()=>{resize();seed()});resize();seed();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>12 · Void Flyer | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud"><div class="brand">12 · Void Flyer<small>VECTOR DEFENSE</small></div><div class="stats"><a class="btn" href="../index.html">◂ HUB</a><span>SCORE <strong id="sc">0</strong></span><span>BEST <strong id="best">0</strong></span><button class="btn" id="mute" type="button">AUDIO</button></div></div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> WASD / drag to move. Space or tap to pulse. Avoid red nodes.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(()=>{const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr,score=0,px=0.5,py=0.5,bullets=[],enemies=[],t=0,alive=true,keys={};const scEl=document.getElementById('sc'),bestEl=document.getElementById('best');
+try{bestEl.textContent=PeakStore.get('12')||0}catch(e){}
+document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+function addScore(n){score+=n;scEl.textContent=score;try{PeakStore.set('12',score);bestEl.textContent=PeakStore.get('12')}catch(e){}}
+function frame(){requestAnimationFrame(frame);if(!alive)return;t+=1/60;ctx.fillStyle='rgba(5,5,10,.35)';ctx.fillRect(0,0,W,H);
+if(keys.a||keys.ArrowLeft)px=Math.max(0.05,px-0.02);if(keys.d||keys.ArrowRight)px=Math.min(0.95,px+0.02);
+if(keys.w||keys.ArrowUp)py=Math.max(0.05,py-0.02);if(keys.s||keys.ArrowDown)py=Math.min(0.95,py+0.02);
+const x=px*W,y=py*H;const g=ctx.createRadialGradient(x,y,2,x,y,16);g.addColorStop(0,'rgba(255,255,255,.7)');g.addColorStop(1,'rgba(34,224,200,0)');ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+if(Math.random()<0.03)enemies.push({x:Math.random()*W,y:-10,vy:1.5+Math.random()});enemies=enemies.filter(e=>e.y<H+20);
+enemies.forEach(e=>{e.y+=e.vy;ctx.beginPath();ctx.arc(e.x,e.y,10,0,Math.PI*2);ctx.fillStyle='rgba(255,59,48,.55)';ctx.fill();
+if(Math.hypot(e.x-x,e.y-y)<20){alive=false;try{Synth.noise(.2,.15)}catch(err){}setTimeout(()=>{alive=true;score=0;scEl.textContent=0;enemies=[];t=0},1000)}});
+bullets.forEach(b=>{b.y-=6;ctx.fillStyle='#22E0C8';ctx.fillRect(b.x-2,b.y,4,10)});bullets=bullets.filter(b=>b.y>-10);
+bullets.forEach(b=>{enemies.forEach(e=>{if(Math.hypot(b.x-e.x,b.y-e.y)<12){e.y=H+50;b.y=-20;addScore(15);try{Synth.note(5,.08)}catch(err){}}})})}
+function pulse(){bullets.push({x:px*W,y:py*H});try{Synth.note(3,.05)}catch(e){}}
+addEventListener('keydown',e=>{keys[e.key]=true;if(e.code==='Space'){e.preventDefault();pulse()}});
+addEventListener('keyup',e=>{keys[e.key]=false});
+canvas.addEventListener('pointerdown',e=>{try{Synth.init()}catch(err){}px=e.clientX/W;py=e.clientY/H;pulse()});
+canvas.addEventListener('pointermove',e=>{if(e.buttons){px=e.clientX/W;py=e.clientY/H}});
+addEventListener('resize',resize);resize();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
