@@ -160,4 +160,9 @@
     s.defer = true;
     document.head.appendChild(s);
   })();
+  (function loadEngageDiscoverPitch(){
+    function add(src,id){if(document.getElementById(id))return;var s=document.createElement('script');s.id=id;s.src=src;s.defer=true;document.head.appendChild(s);}
+    add('/assets/engagement.js','pm-engagement');
+    add('/assets/home-discover.js','pm-discover-js');
+  })();
 })();
