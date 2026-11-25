@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>06 · Monolith Relic | Promii Arcade</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="../assets/promii-glass.css">
+<style>
+:root{--bg:#05050a;--cyan:#22E0C8;--text:#F4F4F8;--muted:rgba(244,244,248,.55);--border:rgba(244,244,248,.16)}
+*{box-sizing:border-box;user-select:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:12px;left:12px;right:12px;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-radius:16px;background:rgba(8,8,14,.72);border:1px solid var(--border);backdrop-filter:blur(16px)}
+.brand{font:700 13px Georgia,serif;letter-spacing:.1em;text-transform:uppercase}
+.brand small{display:block;font:600 10px Inter;color:var(--cyan);margin-top:2px}
+.stats{display:flex;gap:8px;align-items:center;font:600 12px Inter}
+.btn{background:rgba(255,255,255,.08);border:1px solid var(--border);color:var(--text);padding:6px 11px;border-radius:10px;cursor:pointer;font:600 11px Inter;text-decoration:none}
+.hint{position:fixed;bottom:0;left:0;right:0;z-index:10;padding:12px 16px 18px;text-align:center;background:linear-gradient(transparent,rgba(5,5,10,.94));font:500 12.5px Inter;color:var(--muted)}
+.hint strong{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="hud"><div class="brand">06 · Monolith Relic<small>BEAM ROUTING</small></div><div class="stats"><a class="btn" href="../index.html">◂ HUB</a><span>SCORE <strong id="sc">0</strong></span><span>BEST <strong id="best">0</strong></span><button class="btn" id="mute" type="button">AUDIO</button></div></div>
+<canvas id="c"></canvas>
+<p class="hint"><strong>How to play:</strong> Tap prisms to rotate. Route the cyan beam into the gold core.</p>
+<script src="../assets/promii-core.js"></script>
+<script>
+(()=>{const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');let W,H,dpr,score=0,prisms=[];const scEl=document.getElementById('sc'),bestEl=document.getElementById('best');
+try{bestEl.textContent=PeakStore.get('06')||0}catch(e){}
+document.getElementById('mute').onclick=function(){try{Synth.toggleMute(this)}catch(e){}};
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+function addScore(n){score+=n;scEl.textContent=score;try{PeakStore.set('06',score);bestEl.textContent=PeakStore.get('06')}catch(e){}}
+function seed(){prisms=[];for(let i=0;i<4;i++)prisms.push({x:W*(0.25+i*0.15),y:H*0.5,rot:Math.random()*Math.PI})}
+function frame(){requestAnimationFrame(frame);ctx.fillStyle='rgba(5,5,10,.3)';ctx.fillRect(0,0,W,H);
+const sx=40,sy=H/2;ctx.beginPath();ctx.arc(sx,sy,10,0,Math.PI*2);ctx.fillStyle='rgba(34,224,200,.6)';ctx.fill();
+let x=sx,y=sy,ang=0;ctx.strokeStyle='rgba(34,224,200,.55)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y);
+prisms.forEach(p=>{ctx.lineTo(p.x,p.y);ang=p.rot;x=p.x;y=p.y;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.strokeStyle='rgba(244,244,248,.35)';ctx.strokeRect(-14,-14,28,28);ctx.restore()});
+const tx=x+Math.cos(ang)*120,ty=y+Math.sin(ang)*120;ctx.lineTo(tx,ty);ctx.stroke();
+const gx=W-50,gy=H/2;ctx.beginPath();ctx.arc(gx,gy,16,0,Math.PI*2);ctx.strokeStyle='#E8B23A';ctx.stroke();
+if(Math.hypot(tx-gx,ty-gy)<28){addScore(25);try{Synth.note(5,.12)}catch(e){}seed()}}
+canvas.addEventListener('pointerdown',e=>{try{Synth.init()}catch(err){}
+prisms.forEach(p=>{if(Math.hypot(e.clientX-p.x,e.clientY-p.y)<30){p.rot+=Math.PI/6;try{Synth.note(2,.08)}catch(err){}}})});
+addEventListener('resize',()=>{resize();seed()});resize();seed();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
