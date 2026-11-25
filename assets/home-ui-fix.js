@@ -5,7 +5,7 @@
 
   function installMap(){
     var old = document.querySelector('.mp-route');
-    if (old && old.closest) {
+    if (old) {
       var wrap = old.closest('.mp-wrap') || old;
       if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap);
     }
@@ -26,11 +26,13 @@
     }).join('');
     var nodes = GLOBAL_NODES.map(function(n){
       var r = n.hub ? 7 : 4.5;
-      return '<g class="node'+(n.hub?' hub':'')+'" data-id="'+n.id+'" tabindex="0" role="button" aria-label="'+n.label+' \u2014 '+n.sub+'">'+\n        (n.hub?'<circle class="pulse" cx="'+n.x+'" cy="'+n.y+'" r="14" fill="none" stroke="#10A37F" stroke-width="1.2"/>':'')+\n        '<circle cx="'+n.x+'" cy="'+n.y+'" r="'+r+'" fill="'+(n.hub?'#10A37F':'#E85A4F')+'" style="filter:drop-shadow(0 0 6px '+(n.hub?'#10A37F':'#E85A4F')+')"/>'+\n        '<text class="lb" x="'+n.x+'" y="'+(n.y+(n.hub?22:-12))+'" text-anchor="middle">'+n.label.toUpperCase()+'</text>'+\n        '<g class="tip" opacity="0"><rect x="'+(n.x-70)+'" y="'+(n.y-42)+'" width="140" height="28" rx="8" fill="rgba(20,20,28,.92)" stroke="rgba(255,255,255,.18)"/>'+\n        '<text x="'+n.x+'" y="'+(n.y-24)+'" text-anchor="middle" class="tip-t">'+n.sub+'</text></g></g>';
+      var fill = n.hub ? '#10A37F' : '#E85A4F';
+      return '<g class="node'+(n.hub?' hub':'')+'" data-id="'+n.id+'" tabindex="0" role="button" aria-label="'+n.label+' \u2014 '+n.sub+'">'+ (n.hub?'<circle class="pulse" cx="'+n.x+'" cy="'+n.y+'" r="14" fill="none" stroke="#10A37F" stroke-width="1.2"/>':'')+ '<circle cx="'+n.x+'" cy="'+n.y+'" r="'+r+'" fill="'+fill+'" style="filter:drop-shadow(0 0 6px '+fill+')"/>'+ '<text class="lb" x="'+n.x+'" y="'+(n.y+(n.hub?22:-12))+'" text-anchor="middle">'+n.label.toUpperCase()+'</text>'+ '<g class="tip" opacity="0"><rect x="'+(n.x-70)+'" y="'+(n.y-42)+'" width="140" height="28" rx="8" fill="rgba(20,20,28,.92)" stroke="rgba(255,255,255,.18)"/>'+ '<text x="'+n.x+'" y="'+(n.y-24)+'" text-anchor="middle" class="tip-t">'+n.sub+'</text></g></g>';
     }).join('');
-    var grid='';for(var gx=40;gx<760;gx+=28)for(var gy=30;gy<170;gy+=28)grid+='<circle cx="'+gx+'" cy="'+gy+'" r="0.7" fill="currentColor" opacity=".2"/>';
-    var lands='<path class="land" d="M180 70 C210 40 280 35 310 55 C340 75 300 110 260 120 C220 130 170 100 180 70Z"/>'+\n      '<path class="land" d="M430 50 C480 35 530 40 560 65 C580 90 540 110 500 105 C460 100 420 75 430 50Z"/>'+\n      '<path class="land" d="M250 130 C280 125 310 135 320 155 C300 165 260 160 250 130Z"/>';
-    var metrics='<div class="mp-metrics" role="list"><span>BOGOT\u00c1 HQ (GMT-5)</span><span>AMERICAS &amp; EUROPE OVERLAP</span><span>AVAILABLE WORLDWIDE (EN C1 / ES)</span></div>';
+    var grid='';
+    for(var gx=40;gx<760;gx+=28)for(var gy=30;gy<170;gy+=28)grid+='<circle cx="'+gx+'" cy="'+gy+'" r="0.7" fill="currentColor" opacity=".2"/>';
+    var lands='<path class="land" d="M180 70 C210 40 280 35 310 55 C340 75 300 110 260 120 C220 130 170 100 180 70Z"/>'+ '<path class="land" d="M430 50 C480 35 530 40 560 65 C580 90 540 110 500 105 C460 100 420 75 430 50Z"/>'+ '<path class="land" d="M250 130 C280 125 310 135 320 155 C300 165 260 160 250 130Z"/>';
+    var metrics='<div class="mp-metrics" role="list"><span>BOGOT\u00c1 HQ (GMT-5)</span><span>AMERICAS & EUROPE OVERLAP</span><span>AVAILABLE WORLDWIDE (EN C1 / ES)</span></div>';
     var s='<div class="mp-wrap reveal"><svg class="mp-route" viewBox="0 0 800 190" role="img" aria-label="International presence from Bogot\u00e1 studio"><rect width="800" height="190" fill="transparent"/>'+grid+lands+arcs+nodes+'</svg>'+metrics+'</div>';
     ct.insertAdjacentHTML('beforebegin', s);
     document.querySelectorAll('.mp-route .node').forEach(function(g){
@@ -49,10 +51,10 @@
     var dock=document.createElement('div');
     dock.className='fab-dock';dock.id='fab-dock';
     dock.innerHTML=
-      '<div class="fab-drop" id="fab-nav">'+\n        '<div class="fab-opts">'+NAV.map(function(l){return '<a href="'+l[1]+'">'+l[0]+'</a>';}).join('')+'</div>'+\n        '<button type="button" class="fab-core" aria-expanded="false" aria-label="Navegaci\u00f3n"><span class="shine"></span>'+\n        '<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>'+\n      '<div class="fab-drop" id="fab-contact">'+\n        '<div class="fab-opts">'+CONTACT.map(function(l){
+      '<div class="fab-drop" id="fab-nav">'+ '<div class="fab-opts">'+NAV.map(function(l){return '<a href="'+l[1]+'">'+l[0]+'</a>';}).join('')+'</div>'+ '<button type="button" class="fab-core" aria-expanded="false" aria-label="Navegaci\u00f3n"><span class="shine"></span>'+ '<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>'+ '<div class="fab-drop" id="fab-contact">'+ '<div class="fab-opts">'+CONTACT.map(function(l){
           var ext=/^(https?:|mailto:)/.test(l[1]);
           return '<a href="'+l[1]+'"'+(ext?' target="_blank" rel="noopener"':'')+'>'+l[0]+'</a>';
-        }).join('')+'</div>'+\n        '<button type="button" class="fab-core" aria-expanded="false" aria-label="Contacto"><span class="shine"></span>'+\n        '<svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 1 1-12 0c0-4 6-11 6-11z"/></svg></button></div>';
+        }).join('')+'</div>'+ '<button type="button" class="fab-core" aria-expanded="false" aria-label="Contacto"><span class="shine"></span>'+ '<svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 1 1-12 0c0-4 6-11 6-11z"/></svg></button></div>';
     document.body.appendChild(dock);
     function closeAll(){
       dock.querySelectorAll('.fab-drop').forEach(function(d){
