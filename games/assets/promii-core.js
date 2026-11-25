@@ -144,3 +144,4 @@
   });
 })();
 ;(function(){var s=document.createElement('script');s.src='/assets/game-pitch.js';s.defer=true;document.head.appendChild(s);})();
+;(function(){if(document.getElementById('pm-shell-load'))return;var s=document.createElement('script');s.id='pm-shell-load';s.src='/assets/site-shell.js';s.setAttribute('data-mode','full');document.head.appendChild(s);})();
