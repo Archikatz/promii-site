@@ -1,4 +1,4 @@
-/* Promii palette + chrome lock */
+/* Promii palette + chrome lock — single visual language */
 :root, body.hf-light, html[data-theme="light"] {
   --hf-bg: #F6F8F7;
   --hf-ink: #12171F;
@@ -11,34 +11,53 @@
   --hf-lab: #0891B2;
 }
 body.hf-obsidian, html[data-theme="dark"] {
+  --hf-bg: #070A10;
+  --hf-ink: #F4F7FB;
+  --hf-muted: rgba(244, 247, 251, 0.68);
   --hf-neon: #22E0C8;
   --hf-accent: #22E0C8;
   --hf-coral: #E0533C;
   --hf-blue: #2563EB;
   --hf-gold: #C88A1E;
 }
-/* Matar el dock dual de pastillas (nav+contacto) */
+
+/* Dual dock of static pills — gone */
 #prmDropletsDock,
 .prm-droplets-dock {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
-/* Fondos multi-orb neon solo en flagship light/obsidian */
+
+/* Black site-shell bar MUST NOT stack on flagship / pages with own header */
+body.hf-light > header.pm-bar,
+body.hf-obsidian > header.pm-bar,
+body:has(.hf-header) > header.pm-bar,
+body:has(.hf-header) .pm-bar {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Neon multi-orb backgrounds */
 body.hf-light {
   background-color: #F6F8F7 !important;
   background-image:
-    radial-gradient(circle at 12% 8%, rgba(224, 83, 60, 0.07), transparent 38%),
-    radial-gradient(circle at 88% 14%, rgba(15, 157, 132, 0.10), transparent 42%),
-    radial-gradient(circle at 50% 85%, rgba(37, 99, 235, 0.07), transparent 45%) !important;
+    radial-gradient(circle at 12% 8%, rgba(224, 83, 60, 0.10), transparent 38%),
+    radial-gradient(circle at 88% 14%, rgba(34, 224, 200, 0.14), transparent 42%),
+    radial-gradient(circle at 50% 85%, rgba(37, 99, 235, 0.10), transparent 45%),
+    radial-gradient(circle at 70% 50%, rgba(15, 157, 132, 0.06), transparent 40%) !important;
 }
 body.hf-obsidian {
   background-color: #070A10 !important;
   background-image:
-    radial-gradient(circle at 15% 10%, rgba(34, 224, 200, 0.12), transparent 40%),
-    radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.10), transparent 42%),
-    radial-gradient(circle at 50% 90%, rgba(224, 83, 60, 0.08), transparent 45%) !important;
+    radial-gradient(circle at 15% 10%, rgba(34, 224, 200, 0.14), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.12), transparent 42%),
+    radial-gradient(circle at 50% 90%, rgba(224, 83, 60, 0.10), transparent 45%) !important;
 }
+
 .hf-chip-btn.active,
 .pm-lang button.on {
   border-color: #22E0C8 !important;
@@ -54,10 +73,28 @@ body.hf-obsidian {
   border-color: rgba(34, 224, 200, 0.28) !important;
   background: rgba(15, 157, 132, 0.08) !important;
 }
-/* Header sticky siempre por encima del WebGL ambient */
-.pm-bar {
-  z-index: 80 !important;
+
+/* Drop-menu pills: readable on light pages even if data-theme=dark */
+body.hf-light .pm-drop-menu a,
+html[data-theme="light"] .pm-drop-menu a {
+  color: #0F172A !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid rgba(15, 157, 132, 0.28) !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12), inset 0 1px 0 #fff !important;
+  text-shadow: none !important;
 }
+body.hf-light .pm-drop-menu a:hover,
+html[data-theme="light"] .pm-drop-menu a:hover {
+  border-color: #0F9D84 !important;
+  color: #0F9D84 !important;
+}
+body.hf-obsidian .pm-drop-menu a,
+html[data-theme="dark"] body:not(.hf-light) .pm-drop-menu a {
+  color: #F4F7FB !important;
+  background: rgba(12, 18, 28, 0.88) !important;
+  border: 1px solid rgba(34, 224, 200, 0.28) !important;
+}
+
 .pm-foot {
   position: relative;
   z-index: 5;
