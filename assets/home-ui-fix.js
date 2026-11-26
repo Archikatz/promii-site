@@ -1,4 +1,4 @@
-/* Promii · single brand liquid-glass drop · scroll + expand menu */
+/* Promii · fluid soft-body brand drop + map */
 (function(){
   if (window.__promiiHomeUiFix) return;
   window.__promiiHomeUiFix = true;
@@ -40,6 +40,71 @@
     ct.insertAdjacentHTML('beforebegin', s);
   }
 
+  function FluidBlob(n){
+    this.n = n || 16;
+    this.r0 = 28;
+    this.pts = [];
+    this.vx = 0; this.vy = 0;
+    this.sx = 1; this.sy = 1;
+    for(var i=0;i<this.n;i++){
+      var a = (i/this.n)*Math.PI*2;
+      this.pts.push({a:a, r:this.r0, vr:0});
+    }
+  }
+  FluidBlob.prototype.impulse = function(ix, iy){
+    this.vx += ix; this.vy += iy;
+    var mag = Math.min(12, Math.hypot(ix,iy));
+    for(var i=0;i<this.n;i++){
+      var p=this.pts[i];
+      var ca=Math.cos(p.a), sa=Math.sin(p.a);
+      p.vr -= (ca*ix + sa*iy) * 0.08;
+      p.vr += (Math.random()-0.5)*mag*0.15;
+    }
+  };
+  FluidBlob.prototype.step = function(dt){
+    dt = Math.min(dt, 0.033);
+    var i, p, tension=28, damp=4.2, pressure=18, visc=0.22;
+    this.vx *= (1 - 2.4*dt);
+    this.vy *= (1 - 2.4*dt);
+    var speed = Math.hypot(this.vx, this.vy);
+    var targetSx = 1 + Math.min(0.28, speed*0.004);
+    var targetSy = 1 - Math.min(0.22, speed*0.0032);
+    this.sx += (targetSx - this.sx) * Math.min(1, 8*dt);
+    this.sy += (targetSy - this.sy) * Math.min(1, 8*dt);
+    var mean=0;
+    for(i=0;i<this.n;i++) mean += this.pts[i].r;
+    mean /= this.n;
+    for(i=0;i<this.n;i++){
+      p=this.pts[i];
+      var prev=this.pts[(i-1+this.n)%this.n];
+      var next=this.pts[(i+1)%this.n];
+      var force = 0;
+      force += (this.r0 - p.r) * pressure;
+      force += (mean - p.r) * tension * 0.35;
+      force += ((prev.r+next.r)*0.5 - p.r) * tension;
+      p.vr = (p.vr + force*dt) * (1 - damp*dt);
+      p.r += p.vr * dt;
+      p.r = Math.max(this.r0*0.62, Math.min(this.r0*1.45, p.r));
+    }
+    var nr=[];
+    for(i=0;i<this.n;i++){
+      var a=this.pts[(i-1+this.n)%this.n].r;
+      var b=this.pts[i].r;
+      var c=this.pts[(i+1)%this.n].r;
+      nr[i]=b*(1-visc)+ (a+c)*0.5*visc;
+    }
+    for(i=0;i<this.n;i++) this.pts[i].r = nr[i];
+  };
+  FluidBlob.prototype.borderRadius = function(){
+    var s=[], i, k=8;
+    for(i=0;i<k;i++){
+      var idx = Math.floor(i/k*this.n);
+      var t = this.pts[idx].r / this.r0;
+      s.push((45 + t*12).toFixed(1)+'%');
+    }
+    return s[0]+' '+s[1]+' '+s[2]+' '+s[3]+' / '+s[4]+' '+s[5]+' '+s[6]+' '+s[7];
+  };
+
   function installBrandDrop(){
     ['fab-dock','fab-loupe','prmDropletsDock','prm-droplets-dock'].forEach(function(id){
       var n=document.getElementById(id); if(n) n.remove();
@@ -64,42 +129,60 @@
       '</div>'+ 
       '<button type="button" class="pm-drop-core" aria-label="Men\u00fa Promii" aria-expanded="false">'+ 
         '<span class="shine"></span><span class="tail"></span>'+ 
+        '<span class="ripple"></span>'+ 
       '</button>';
     document.body.appendChild(el);
 
     var core = el.querySelector('.pm-drop-core');
+    var ripple = el.querySelector('.ripple');
+    var fluid = new FluidBlob(18);
+    var y=0, targetY=0, prevScroll=scrollY, lastT=performance.now();
+
     function close(){ el.classList.remove('is-open'); core.setAttribute('aria-expanded','false'); }
-    function open(){ el.classList.add('is-open'); core.setAttribute('aria-expanded','true'); }
+    function open(){ el.classList.add('is-open'); core.setAttribute('aria-expanded','true'); fluid.impulse(0,-18); }
 
     core.addEventListener('click', function(e){
       e.stopPropagation();
-      if (el.classList.contains('is-open')) close(); else open();
+      if (el.classList.contains('is-open')) { close(); fluid.impulse(0, 10); }
+      else { open(); }
+      if (ripple) {
+        ripple.classList.remove('go');
+        void ripple.offsetWidth;
+        ripple.classList.add('go');
+      }
     });
-    document.addEventListener('click', function(e){
-      if (!el.contains(e.target)) close();
-    });
+    document.addEventListener('click', function(e){ if (!el.contains(e.target)) close(); });
     document.addEventListener('keydown', function(e){ if (e.key==='Escape') close(); });
-    var lastY = scrollY;
-    addEventListener('scroll', function(){
-      if (Math.abs(scrollY - lastY) > 40) { close(); lastY = scrollY; }
-    }, {passive:true});
 
-    var y=0, target=0, raf=0;
-    function onScroll(){
+    var lastCloseY = scrollY;
+    addEventListener('scroll', function(){
+      if (Math.abs(scrollY - lastCloseY) > 48) { close(); lastCloseY = scrollY; }
+      var dy = scrollY - prevScroll;
+      prevScroll = scrollY;
+      fluid.impulse(0, dy * 0.35);
       var max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
       var p = Math.min(1, Math.max(0, scrollY / max));
-      target = innerHeight * (0.16 + p * 0.58);
-      if (!raf) raf = requestAnimationFrame(tick);
-    }
-    function tick(){
-      y += (target - y) * 0.11;
+      targetY = innerHeight * (0.16 + p * 0.58);
+    }, {passive:true});
+    addEventListener('resize', function(){
+      var max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+      var p = Math.min(1, Math.max(0, scrollY / max));
+      targetY = innerHeight * (0.16 + p * 0.58);
+    }, {passive:true});
+
+    function frame(now){
+      var dt = Math.min(0.04, (now - lastT)/1000);
+      lastT = now;
+      fluid.step(dt);
+      y += (targetY - y) * Math.min(1, 6*dt);
+      y += fluid.vy * 0.02;
       el.style.transform = 'translate3d(0,' + Math.round(y) + 'px,0)';
-      raf = 0;
-      if (Math.abs(target - y) > 0.35) raf = requestAnimationFrame(tick);
+      core.style.borderRadius = fluid.borderRadius();
+      core.style.transform = 'scale(' + fluid.sx.toFixed(3) + ',' + fluid.sy.toFixed(3) + ')';
+      requestAnimationFrame(frame);
     }
-    addEventListener('scroll', onScroll, {passive:true});
-    addEventListener('resize', onScroll, {passive:true});
-    onScroll();
+    targetY = innerHeight * 0.16;
+    requestAnimationFrame(frame);
   }
 
   function boot(){
