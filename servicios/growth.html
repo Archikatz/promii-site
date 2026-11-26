@@ -1,1 +1,137 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Promii Growth</title><script src="/assets/site-shell.js" data-mode="nav"></script></head><body style="font-family:Inter,system-ui;padding:40px;background:#F6F8F7"><h1 style="font-family:Georgia,serif">Promii Growth · Auditoría 0–100</h1><p>4 etapas + radar — producción completa de Entrega 3 en despliegue.</p><p><a href="/servicios/">← Hub</a></p></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promii Growth · Auditoría Digital 0–100</title>
+<link rel="stylesheet" href="/assets/promii-ecosystem.css">
+<style>
+.growth-hero{padding:48px 0 28px}
+.audit-layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.85fr);gap:24px;align-items:start}
+@media(max-width:960px){.audit-layout{grid-template-columns:1fr}}
+.q-card{background:var(--surface);backdrop-filter:blur(14px);border:1px solid var(--line-cad);border-radius:20px;padding:20px 22px;margin-bottom:14px}
+.q-dim{font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-border);padding:3px 9px;border-radius:999px}
+.q-title{font-size:15px;font-weight:600;margin:10px 0 12px}
+.q-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px}
+.q-opt-btn{padding:11px 13px;border-radius:12px;border:1.5px solid var(--line-cad);background:#fff;color:var(--ink-soft);font-size:12.5px;text-align:left;cursor:pointer}
+.q-opt-btn.active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600}
+.radar-panel{position:sticky;top:86px;border-radius:24px;background:linear-gradient(160deg,#0F172A,#172554);color:#F8FAFC;padding:26px;border:1px solid rgba(147,197,253,.22)}
+.score-big{font-family:Georgia,serif;font-size:42px;color:#60A5FA}
+.stages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:22px}
+.stage-card{background:var(--surface);border:1px solid var(--line-cad);border-radius:20px;padding:22px}
+.stage-card.recommended{border:2px solid var(--accent)}
+.dark-field{width:100%;padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff;margin-bottom:8px}
+.btn-cobalt{width:100%;padding:12px 18px;border-radius:999px;border:1px solid #60A5FA;background:#2563EB;color:#fff;font-weight:700;cursor:pointer;margin-bottom:8px}
+.btn-dark-sec{width:100%;padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#F8FAFC;cursor:pointer;margin-bottom:6px}
+body[data-vertical=growth]{--accent:#2563EB;--accent-soft:rgba(37,99,235,.1);--accent-border:rgba(37,99,235,.32)}
+</style>
+</head>
+<body data-vertical="growth">
+<div class="prm-topbar"><div class="prm-topbar-inner">
+<a class="prm-brand" href="/servicios/"><span class="prm-dot"></span><span>PROMII GROWTH</span></a>
+<nav class="prm-nav-links">
+<a href="/servicios/">← Hub</a>
+<a href="/servicios/growth.html" class="active">Growth</a>
+<a href="/remodeling/">Remodeling</a>
+<a href="/cotizador/">Cotizador</a>
+<a href="/academy/">Academy</a>
+</nav>
+<div class="prm-toggles">
+<div class="prm-switch-pill"><button type="button" data-lang-btn="es" class="active">ES</button><button type="button" data-lang-btn="en">EN</button></div>
+<div class="prm-switch-pill"><button type="button" data-curr-btn="USD" class="active">USD</button><button type="button" data-curr-btn="COP">COP</button></div>
+</div>
+</div></div>
+<main class="prm-container">
+<section class="growth-hero">
+<div class="cad-eyebrow">S-02 · PROMII GROWTH · DIGITAL AUDIT</div>
+<h1 class="prm-h1">De presencia improvisada a un sistema digital que capta y cierra clientes.</h1>
+<p class="prm-lead">Evalúa en 2 minutos 4 ejes (Web, Funnels, CRM, Analítica) y recibe tu hoja de ruta.</p>
+</section>
+<section class="audit-layout">
+<div id="questionsContainer"></div>
+<aside class="radar-panel">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+<div><div style="font-size:10.5px;letter-spacing:1.5px;opacity:.65">PROMII DIGITAL SCORE</div>
+<div class="score-big"><span id="totalScoreNum">34</span><small style="font-size:15px;opacity:.6"> / 100</small></div></div>
+<span class="prm-badge" style="background:rgba(96,165,250,.16);color:#93C5FD" id="auditTicket">PRM-GRW</span>
+</div>
+<svg width="250" height="200" viewBox="0 0 250 200" style="display:block;margin:0 auto 12px">
+<g transform="translate(125,100)">
+<polygon points="0,-70 70,0 0,70 -70,0" fill="none" stroke="rgba(255,255,255,.16)"/>
+<polygon points="0,-35 35,0 0,35 -35,0" fill="none" stroke="rgba(255,255,255,.1)"/>
+<polygon id="radarPoly" points="0,-25 22,0 0,18 -20,0" fill="rgba(59,130,246,.36)" stroke="#60A5FA" stroke-width="2"/>
+<text x="0" y="-78" text-anchor="middle" fill="#CBD5E1" font-size="9">WEB</text>
+<text x="78" y="4" fill="#CBD5E1" font-size="9">FUNNELS</text>
+<text x="0" y="88" text-anchor="middle" fill="#CBD5E1" font-size="9">CRM</text>
+<text x="-78" y="4" text-anchor="end" fill="#CBD5E1" font-size="9">ANALÍTICA</text>
+</g></svg>
+<div style="padding:14px 16px;border-radius:14px;background:rgba(37,99,235,.22);border:1px solid rgba(96,165,250,.45);margin-bottom:14px">
+<strong id="recStageTitle" style="display:block;color:#93C5FD;margin-bottom:4px">Etapa recomendada</strong>
+<p id="recStageDesc" style="margin:0;font-size:12.5px;opacity:.85">Responde las preguntas para personalizar la ruta.</p>
+</div>
+<input type="text" id="gName" class="dark-field" placeholder="Tu nombre / empresa">
+<input type="email" id="gEmail" class="dark-field" placeholder="Correo o WhatsApp">
+<button type="button" class="btn-cobalt" onclick="sendGrowth('wa')">💬 Plan por WhatsApp →</button>
+<button type="button" class="btn-dark-sec" onclick="sendGrowth('mail')">✉️ Enviar a hi@promii.co</button>
+<button type="button" class="btn-dark-sec" onclick="copyReport()">📋 Copiar reporte</button>
+</aside>
+</section>
+<section style="margin-top:48px">
+<div class="cad-eyebrow">4 ETAPAS</div>
+<h2 class="prm-h2">Programa modular</h2>
+<div class="stages-grid" id="stagesCards">
+<article class="stage-card" data-stage="1"><span class="prm-badge">ETAPA 01 · 0–30</span><h3 style="font-family:Georgia,serif">Digital Foundation</h3><p style="font-size:13px;color:var(--ink-soft)">Dominio, web, branding, SEO base</p><strong data-usd="650" data-cop="2100000">US$650</strong> <a class="btn-prm-ghost" href="/cotizador/?preset=growth">Cotizar →</a></article>
+<article class="stage-card" data-stage="2"><span class="prm-badge">ETAPA 02 · 31–55</span><h3 style="font-family:Georgia,serif">Content Funnels</h3><p style="font-size:13px;color:var(--ink-soft)">Calendario 10 semanas, lead magnet, CTAs</p><strong data-usd="850" data-cop="2800000">US$850</strong> <a class="btn-prm-ghost" href="/cotizador/?preset=growth">Cotizar →</a></article>
+<article class="stage-card" data-stage="3"><span class="prm-badge">ETAPA 03 · 56–80</span><h3 style="font-family:Georgia,serif">CRM & Automation</h3><p style="font-size:13px;color:var(--ink-soft)">GHL/Odoo/Notion, booking, WhatsApp</p><strong data-usd="1150" data-cop="3800000">US$1,150</strong> <a class="btn-prm-ghost" href="/cotizador/?preset=growth">Cotizar →</a></article>
+<article class="stage-card" data-stage="4"><span class="prm-badge">ETAPA 04 · 81–100</span><h3 style="font-family:Georgia,serif">Scale & AI Ops</h3><p style="font-size:13px;color:var(--ink-soft)">n8n, agentes, analítica, handover</p><strong data-usd="890" data-cop="2950000">US$890</strong> <a class="btn-prm-ghost" href="/cotizador/?preset=growth">Cotizar →</a></article>
+</div>
+</section>
+<div data-promii-footer></div>
+</main>
+<script src="/assets/promii-ecosystem.js"></script>
+<script>
+const QS=[
+{dim:'WEB',es:'¿Tienes sitio web profesional y dominio propio?',en:'Professional site + own domain?',opts:[{v:5,es:'No tengo web',en:'No site'},{v:12,es:'Web básica',en:'Basic site'},{v:20,es:'Web moderna + dominio',en:'Modern site + domain'},{v:25,es:'Web de conversión optimizada',en:'Conversion-optimized'}]},
+{dim:'FUNNELS',es:'¿Publicas contenido y capturas leads de forma constante?',en:'Consistent content + lead capture?',opts:[{v:5,es:'Casi nunca',en:'Rarely'},{v:12,es:'Publico sin sistema',en:'Post without system'},{v:20,es:'Calendario + CTAs',en:'Calendar + CTAs'},{v:25,es:'Embudo completo + magnet',en:'Full funnel + magnet'}]},
+{dim:'CRM',es:'¿Cómo gestionas prospectos y citas?',en:'How do you manage leads & booking?',opts:[{v:5,es:'WhatsApp / Excel',en:'WhatsApp / Excel'},{v:12,es:'CRM sin automatizar',en:'CRM, no automation'},{v:20,es:'CRM + recordatorios',en:'CRM + reminders'},{v:25,es:'Pipeline + IA / n8n',en:'Pipeline + AI / n8n'}]},
+{dim:'ANALÍTICA',es:'¿Mides resultados y tomas decisiones con datos?',en:'Do you measure and decide with data?',opts:[{v:5,es:'No mido',en:'No metrics'},{v:12,es:'Vistas básicas',en:'Basic views'},{v:20,es:'KPIs semanales',en:'Weekly KPIs'},{v:25,es:'Dashboard + atribución',en:'Dashboard + attribution'}]}
+];
+const answers={};
+const ticket='PRM-GRW-'+Math.floor(100+Math.random()*899);
+document.getElementById('auditTicket').textContent=ticket;
+function renderQ(){
+ const box=document.getElementById('questionsContainer');
+ const lang=(window.PromiiOS&&PromiiOS.getState().lang)||'es';
+ box.innerHTML=QS.map((q,i)=>`<div class="q-card"><div class="q-dim">${q.dim}</div><div class="q-title">${lang==='en'?q.en:q.es}</div><div class="q-opts">${q.opts.map(o=>`<button type="button" class="q-opt-btn ${answers[i]===o.v?'active':''}" onclick="pick(${i},${o.v})">${lang==='en'?o.en:o.es}</button>`).join('')}</div></div>`).join('');
+}
+function pick(i,v){answers[i]=v;renderQ();score();}
+function score(){
+ const vals=QS.map((_,i)=>answers[i]||8);
+ const total=vals.reduce((a,b)=>a+b,0);
+ document.getElementById('totalScoreNum').textContent=total;
+ const n=vals.map(v=>v/25);
+ document.getElementById('radarPoly').setAttribute('points',`0,${-70*n[0]} ${70*n[1]},0 0,${70*n[2]} ${-70*n[3]},0`);
+ let stage=1; if(total>30)stage=2; if(total>55)stage=3; if(total>80)stage=4;
+ document.querySelectorAll('.stage-card').forEach(c=>c.classList.toggle('recommended',+c.dataset.stage===stage));
+ const titles={1:'Etapa 1 · Digital Foundation',2:'Etapa 2 · Content Funnels',3:'Etapa 3 · CRM & Automation',4:'Etapa 4 · Scale & AI Ops'};
+ document.getElementById('recStageTitle').textContent='Etapa recomendada: '+titles[stage];
+ document.getElementById('recStageDesc').textContent='Score '+total+'/100 · prioriza esta etapa y combina módulos en el cotizador.';
+ window.__growthScore=total; window.__growthStage=stage;
+}
+function buildMsg(){
+ const name=document.getElementById('gName').value.trim()||'Cliente web';
+ const email=document.getElementById('gEmail').value.trim()||'—';
+ return ['PROMII GROWTH AUDIT '+ticket,'Score: '+(window.__growthScore||34)+'/100','Etapa: '+(window.__growthStage||2),'Nombre: '+name,'Contacto: '+email].join('\n');
+}
+function sendGrowth(ch){
+ const t=buildMsg();
+ if(window.PromiiOS){ if(ch==='wa')PromiiOS.openWhatsApp(t); else PromiiOS.openMail('['+ticket+'] Growth Audit',t); }
+ else if(ch==='wa') window.open('https://wa.me/573160570258?text='+encodeURIComponent(t),'_blank');
+ else location.href='mailto:hi@promii.co?subject='+encodeURIComponent('['+ticket+'] Growth')+'&body='+encodeURIComponent(t);
+}
+function copyReport(){ navigator.clipboard&&navigator.clipboard.writeText(buildMsg()); }
+if(window.PromiiOS) PromiiOS.initShell({});
+renderQ(); score();
+</script>
+</body>
+</html>
