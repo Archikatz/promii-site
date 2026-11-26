@@ -1,4 +1,4 @@
-/* Calm liquid float — path drops sit on a soft ring, legible, crystalline */
+/* Calm + fluid liquid float for open path drops */
 (function () {
   var p = (location.pathname || '/').replace(/\/+$/, '') || '/';
   if (p !== '/home' && p !== '/home/index.html' && p !== '/home/') return;
@@ -11,8 +11,8 @@
     st.textContent =
       'body.open #world .drop:not(.core){' +
       '  transform:none!important;' +
-      '  will-change:top,left;' +
-      '  transition:left .7s cubic-bezier(.22,1,.36,1),top .7s cubic-bezier(.22,1,.36,1);' +
+      '  will-change:top,left,filter;' +
+      '  transition:left .85s cubic-bezier(.22,1,.36,1),top .85s cubic-bezier(.22,1,.36,1);' +
       '}' +
       'body.open #world .drop:not(.core) span{' +
       '  font-weight:700!important;font-size:clamp(12px,1.6vw,15px)!important;' +
@@ -43,16 +43,29 @@
       el.style.left = '0';
       el.style.top = '0';
 
-      function floatTick() {
+      function floatTick(now) {
         if (!body.classList.contains('open') || !el.isConnected) {
           delete el.dataset.calm;
           return;
         }
-        var bob = Math.sin(performance.now() * 0.0012 + phase) * 3.5;
+        var t = (now || performance.now()) * 0.001;
+        var bob = Math.sin(t * 1.15 + phase) * 4.2 + Math.sin(t * 0.55 + phase * 1.7) * 2.1;
+        var sway = Math.cos(t * 0.7 + phase * 0.9) * 3.2;
+        var sx = 1 + Math.sin(t * 1.3 + phase) * 0.035;
+        var sy = 1 + Math.cos(t * 1.3 + phase) * 0.03;
         var rr = (el.offsetWidth || 80) / 2;
-        el.style.left = (hx - rr).toFixed(1) + 'px';
+        el.style.left = (hx + sway - rr).toFixed(1) + 'px';
         el.style.top = (hy + bob - rr).toFixed(1) + 'px';
-        el.style.transform = 'none';
+        el.style.transform = 'scale(' + sx.toFixed(3) + ',' + sy.toFixed(3) + ')';
+        el.style.borderRadius =
+          (48 + Math.sin(t + phase) * 6).toFixed(1) + '% ' +
+          (52 + Math.cos(t * 1.1 + phase) * 5).toFixed(1) + '% ' +
+          (50 + Math.sin(t * 0.8 + phase) * 7).toFixed(1) + '% ' +
+          (50 + Math.cos(t * 0.9 + phase) * 4).toFixed(1) + '% / ' +
+          (46 + Math.sin(t * 1.2 + phase) * 5).toFixed(1) + '% ' +
+          (54 + Math.cos(t + phase) * 6).toFixed(1) + '% ' +
+          (48 + Math.sin(t * 0.7 + phase) * 4).toFixed(1) + '% ' +
+          (52 + Math.cos(t * 1.3 + phase) * 5).toFixed(1) + '%';
         requestAnimationFrame(floatTick);
       }
       requestAnimationFrame(floatTick);
