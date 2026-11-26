@@ -21,74 +21,69 @@
 .opt{display:flex;gap:8px;flex-wrap:wrap}
 .opt button{padding:8px 14px;border-radius:999px;cursor:pointer;font-size:12px}
 body[data-vertical=press]{--accent:#C88A1E;--accent-soft:rgba(200,138,30,.11);--accent-border:rgba(200,138,30,.35)}
+main,.prm-container,.book-layout,.cfg{position:relative;z-index:3}
+@media (max-width:768px){#promii-webgl-canvas{opacity:0.12 !important}}
+@media (prefers-reduced-motion: reduce){#promii-webgl-canvas{display:none !important}}
 </style>
 </head>
-<body data-vertical="press">
-<div class="prm-topbar"><div class="prm-topbar-inner">
-<a class="prm-brand" href="/servicios/"><span class="prm-dot"></span><span>ARCHIKATZ PRESS</span></a>
+<body style="position:relative" data-vertical="press">
+<div class="prm-topbar" style="position:relative;z-index:20"><div class="prm-topbar-inner">
+<a class="prm-brand" href="/editorial/"><span class="prm-dot"></span><span>ARCHIKATZ PRESS</span></a>
 <nav class="prm-nav-links">
-<a href="/servicios/">← Hub</a>
+<a href="/editorial/">← Editorial</a>
 <a href="/editorial/tu-libro.html" class="active">Tu Libro</a>
-<a href="/eventos/">Eventos</a>
-<a href="/cotizador/?preset=libro">Cotizador</a>
+<a href="/cotizador/?preset=libro">Cotizar</a>
 </nav>
 <div class="prm-toggles"><div class="prm-switch-pill"><button type="button" data-lang-btn="es" class="active">ES</button><button type="button" data-lang-btn="en">EN</button></div></div>
 </div></div>
-<main class="prm-container" style="padding-top:32px;padding-bottom:60px">
-<div class="cad-eyebrow">P-01 · ARCHIKATZ PRESS · BOOK CONFIGURATOR</div>
-<h1 class="prm-h1">Tu libro, digital o impreso — con maquetación y arte editorial</h1>
-<p class="prm-lead">Configura formato, páginas e idioma. Vista 3D en vivo. SOW listo para WhatsApp.</p>
+<main class="prm-container" style="position:relative;z-index:3;padding-top:28px;padding-bottom:60px">
+<div class="cad-eyebrow">PRESS · 3D CONFIGURATOR</div>
+<h1 class="prm-h1">Diseña tu libro digital o impreso</h1>
+<p class="prm-lead">Preview 3D en vivo, estimado transparente y brief por WhatsApp. 100% de regalías para el autor.</p>
 <div class="book-layout">
-<div class="book-3d"><div class="book"><div class="spine"></div>
-<div class="cover"><div><div style="font-size:10px;letter-spacing:2px;opacity:.7">ARCHIKATZ PRESS</div>
-<div id="coverTitle" style="font-family:Georgia,serif;font-size:22px;line-height:1.2;margin-top:12px">Fractalia</div></div>
-<div style="font-size:11px;opacity:.75" id="coverMeta">ES · 120 pág · Digital</div></div>
-<div class="pages"></div></div></div>
-<aside class="glass-card cfg">
-<label>Título del libro</label>
-<input id="title" value="Fractalia" oninput="sync()">
-<label>Formato</label>
-<div class="opt" id="fmt">
-<button type="button" class="on" data-v="digital" onclick="pickFmt(this)">Digital (PDF/EPUB)</button>
-<button type="button" data-v="print" onclick="pickFmt(this)">Impreso + digital</button>
+  <div class="book-3d">
+    <div class="book">
+      <div class="spine"></div>
+      <div class="cover">
+        <div>
+          <div style="font-size:10px;letter-spacing:2px;opacity:.7">ARCHIKATZ PRESS</div>
+          <h2 id="coverTitle" style="font-family:Georgia,serif;font-weight:normal;font-size:26px;margin:12px 0">Sin título</h2>
+          <p id="coverMeta" style="font-size:12px;opacity:.8">ES · 120 pág · Digital</p>
+        </div>
+        <div style="font-size:11px;opacity:.65">promii.co / editorial</div>
+      </div>
+      <div class="pages"></div>
+    </div>
+  </div>
+  <div class="cfg glass-card" style="padding:20px">
+    <label>Título</label>
+    <input id="title" placeholder="Nombre de tu obra" oninput="sync()">
+    <label>Páginas</label>
+    <input id="pages" type="number" min="40" max="600" value="160" oninput="sync()">
+    <label>Idioma</label>
+    <select id="lang" onchange="sync()"><option value="ES">Español</option><option value="EN">English</option><option value="BI">Bilingüe</option></select>
+    <label>Formato</label>
+    <div class="opt" id="fmt">
+      <button type="button" class="btn-prm-ghost on" data-v="digital" onclick="pickFmt(this)">Digital</button>
+      <button type="button" class="btn-prm-ghost" data-v="print" onclick="pickFmt(this)">Impreso + Digital</button>
+    </div>
+    <label>Extras</label>
+    <div class="opt">
+      <button type="button" class="btn-prm-ghost" id="xArt" onclick="this.classList.toggle('on');sync()">Ilustraciones</button>
+      <button type="button" class="btn-prm-ghost" id="xWeb" onclick="this.classList.toggle('on');sync()">Landing autor</button>
+    </div>
+    <div class="price-box glass-card">
+      <div class="big" id="price">US$590</div>
+      <div id="priceNote" style="font-size:12px;color:var(--ink-muted)">Solo digital</div>
+      <div style="font-size:11px;margin-top:6px;opacity:.7">Ticket <span id="ticket"></span></div>
+    </div>
+    <label style="margin-top:14px">Nombre *</label>
+    <input id="cName" placeholder="Tu nombre">
+    <label>Email *</label>
+    <input id="cMail" type="email" placeholder="tu@email.com">
+    <button type="button" class="btn-prm" data-hf-magnetic="0.28" style="width:100%;justify-content:center;margin-top:14px" onclick="send()">Solicitar por WhatsApp →</button>
+  </div>
 </div>
-<label>Extensión</label>
-<select id="pages" onchange="sync()">
-<option value="60">~60 páginas</option>
-<option value="120" selected>~120 páginas</option>
-<option value="200">~200 páginas</option>
-<option value="320">~320 páginas</option>
-</select>
-<label>Idioma</label>
-<select id="lang" onchange="sync()">
-<option value="ES">Español</option>
-<option value="EN">English</option>
-<option value="BI">Bilingüe ES/EN</option>
-</select>
-<label>Extras</label>
-<div class="opt">
-<button type="button" id="xArt" onclick="this.classList.toggle('on');sync()">Ilustraciones / toons</button>
-<button type="button" id="xWeb" class="on" onclick="this.classList.toggle('on');sync()">Landing del libro</button>
-</div>
-<div class="price-box">
-<div style="font-size:11px;letter-spacing:1px;opacity:.7;color:#94a3b8">ESTIMADO · <span id="ticket"></span></div>
-<div class="big" id="price">US$590</div>
-<div style="font-size:12px;opacity:.8;margin:6px 0 14px;color:#cbd5e1" id="priceNote">Incluye maquetación + portada</div>
-<input id="cName" placeholder="Nombre" style="width:100%;padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;margin-bottom:8px">
-<input id="cMail" placeholder="Correo o WhatsApp" style="width:100%;padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;margin-bottom:10px">
-<button type="button" class="btn-prm" style="width:100%;justify-content:center" onclick="send()">💬 Solicitar SOW por WhatsApp</button>
-</div>
-</aside>
-</div>
-<section style="margin-top:48px">
-<div class="cad-eyebrow">INCLUYE</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
-<div class="glass-card"><strong>Estructura editorial</strong><p style="font-size:13px;color:var(--ink-soft);margin:8px 0 0">Índice, tipografía, márgenes</p></div>
-<div class="glass-card"><strong>Portada + contraportada</strong><p style="font-size:13px;color:var(--ink-soft);margin:8px 0 0">Arte liquid-glass / tipográfico</p></div>
-<div class="glass-card"><strong>Export listo</strong><p style="font-size:13px;color:var(--ink-soft);margin:8px 0 0">PDF impresión + EPUB</p></div>
-<div class="glass-card"><strong>Landing opcional</strong><p style="font-size:13px;color:var(--ink-soft);margin:8px 0 0">Página en promii.co</p></div>
-</div>
-</section>
 <div data-promii-footer></div>
 </main>
 <script src="/assets/promii-ecosystem.js"></script>
@@ -116,13 +111,23 @@ function sync(){
 }
 function send(){
  const b=window.__book||{};
- const name=document.getElementById('cName').value.trim()||'Cliente';
- const mail=document.getElementById('cMail').value.trim()||'—';
+ const name=document.getElementById('cName').value.trim();
+ const mail=document.getElementById('cMail').value.trim();
+ if(!name||!mail){alert('Nombre y email requeridos');return;}
  const msg=['ARCHIKATZ PRESS '+ticket,'Libro: '+b.title,'Formato: '+b.fmt,'Páginas: '+b.pages,'Idioma: '+b.lang,'Arte: '+(b.art?'sí':'no'),'Landing: '+(b.web?'sí':'no'),'Estimado: US$'+b.base,'Contacto: '+name+' · '+mail].join('\n');
  if(window.PromiiOS) PromiiOS.openWhatsApp(msg); else window.open('https://wa.me/573160570258?text='+encodeURIComponent(msg),'_blank');
 }
 if(window.PromiiOS) PromiiOS.initShell({});
 sync();
+</script>
+<canvas id="promii-webgl-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.20"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/assets/promii-hyperfluid-config.js"></script>
+<script src="/assets/promii-hyperfluid-engine.js"></script>
+<script>
+if (window.PromiiHyperfluid) {
+  PromiiHyperfluid.init({ canvasId: 'promii-webgl-canvas', ambient: true, act: 'droplet', accent: '#C88A1E', canvasOpacity: '0.20' });
+}
 </script>
 </body>
 </html>
