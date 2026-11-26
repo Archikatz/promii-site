@@ -22,11 +22,20 @@ const PROTOCOLS = [
   {id:'20',title:'20 · MENAGERIE RUNNER',cat:'Arcade & Party',file:'games/20_menagerie_runner.html',desc:'Endless horizon — Rex, Michi, Sasha or Milo.'}
 ];
 
-const PeakStore = window.PeakStore || {
-  getAlias(){ try{return localStorage.getItem('promii_curator_alias')||'Curator'}catch(e){return 'Curator'} },
-  setAlias(v){ try{localStorage.setItem('promii_curator_alias',v||'Curator');return v||'Curator'}catch(e){return v} },
-  getPeak(id){ try{const all=JSON.parse(localStorage.getItem('promii_arcade_peaks_v3')||'{}');return all[id]||0}catch(e){return 0} }
-};
+let PeakStore = window.PeakStore || {};
+if (typeof PeakStore.getPeak !== 'function') {
+  PeakStore.getPeak = function(id){
+    try {
+      if (typeof PeakStore.get === 'function') return PeakStore.get(id) || 0;
+      const all = JSON.parse(localStorage.getItem('promii_arcade_peaks_v3')||'{}');
+      return all[id] || 0;
+    } catch(e) { return 0; }
+  };
+}
+if (typeof PeakStore.getAlias !== 'function') {
+  PeakStore.getAlias = function(){ try{return localStorage.getItem('promii_curator_alias')||'CURATOR-01'}catch(e){return 'CURATOR-01'} };
+}
+window.PeakStore = PeakStore;
 window.PromiiToast = window.PromiiToast || function(msg){
   let el=document.getElementById('promii-toast');
   if(!el){ el=document.createElement('div'); el.id='promii-toast';
@@ -41,7 +50,7 @@ let activeCat='ALL', modalOpen=false, hubStars=0;
 const aliasInput=document.getElementById('curatorAlias');
 if(aliasInput){
   try{aliasInput.value=PeakStore.getAlias()}catch(e){}
-  aliasInput.addEventListener('change',()=>{try{aliasInput.value=PeakStore.setAlias(aliasInput.value)}catch(e){}});
+  aliasInput.addEventListener('change',()=>{try{aliasInput.value=PeakStore.setAlias?PeakStore.setAlias(aliasInput.value):aliasInput.value}catch(e){}});
 }
 const starRow=document.getElementById('starRow');
 if(starRow){
@@ -72,7 +81,7 @@ function renderCards(){
   if(!grid) return;
   const list=PROTOCOLS.filter(p=>activeCat==='ALL'||p.cat===activeCat);
   grid.innerHTML=list.map(p=>{
-    const peak=PeakStore.getPeak(p.id);
+    const peak=(PeakStore.getPeak?PeakStore.getPeak(p.id):(PeakStore.get?PeakStore.get(p.id):0))||0;
     return '<article class="card" data-id="'+p.id+'" onclick="openTheater(\''+p.id+'\')">'
       +logoMarkup(p.id)
       +'<div class="card-top"><span class="badge">'+p.cat+'</span>'
@@ -130,7 +139,7 @@ function saveHubRating(){
 function renderRank(){
   const box=document.getElementById('rankList');
   if(!box) return;
-  const rows=PROTOCOLS.map(p=>({id:p.id,title:p.title,peak:PeakStore.getPeak(p.id)}))
+  const rows=PROTOCOLS.map(p=>({id:p.id,title:p.title,peak:(PeakStore.getPeak?PeakStore.getPeak(p.id):0)||0}))
     .filter(r=>r.peak>0).sort((a,b)=>b.peak-a.peak).slice(0,10);
   box.innerHTML=rows.length?rows.map((r,i)=>'<li><span>'+(i+1)+'. '+r.title+'</span><strong>'+r.peak+'</strong></li>').join('')
     :'<li style="opacity:.6">Play a protocol to log peaks.</li>';
@@ -187,7 +196,7 @@ function loopBg(){
     bctx.beginPath(); bctx.arc(m.x*bw,m.y*bh,m.r,0,Math.PI*2); bctx.fillStyle=m.c; bctx.fill();
   });
 }
-renderCards();
+try{renderCards();}catch(e){}
 setTimeout(function(){ try{renderCards();}catch(e){} }, 50);
 setTimeout(function(){ try{renderCards();}catch(e){} }, 400);
 requestAnimationFrame(loopBg);
