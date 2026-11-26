@@ -1,4 +1,4 @@
-/* Home discovery rails: Editorial, Arcade, Lab + newsletter placeholder */
+/* Home discovery rails: Editorial, Arcade, Lab, Servicios + newsletter placeholder */
 (function(){
   if (window.__promiiDiscover) return;
   window.__promiiDiscover = true;
@@ -18,7 +18,9 @@
           '<a class="pm-disc-card" href="/editorial/"><strong>Editorial</strong><span>Fractalia \u00b7 Sicodelia \u00b7 toons</span></a>'+
           '<a class="pm-disc-card" href="/arcade/"><strong>Arcade</strong><span>20 protocolos \u00b7 pide un juego</span></a>'+
           '<a class="pm-disc-card" href="/lab/"><strong>Lab</strong><span>Prototipos \u00b7 motion \u00b7 sistemas</span></a>'+
-          '<a class="pm-disc-card" href="/about/"><strong>Servicios</strong><span>PM remoto \u00b7 BIM \u00b7 AI Ops</span></a>'+
+          '<a class="pm-disc-card" href="/servicios/"><strong>Servicios</strong><span>Hub modular \u00b7 Growth \u00b7 Cotizador</span></a>'+
+          '<a class="pm-disc-card" href="/academy/"><strong>Academy</strong><span>IA-01 \u00b7 5 escuelas</span></a>'+
+          '<a class="pm-disc-card" href="/about/"><strong>About</strong><span>PM remoto \u00b7 BIM \u00b7 AI Ops</span></a>'+
         '</div>'+
       '</div>';
     var css = document.createElement('style');
@@ -27,7 +29,7 @@
       '#pm-discover .pm-disc-inner{padding:22px 18px;border-radius:20px;border:1px solid rgba(127,127,127,.18);background:rgba(127,127,127,.05)}'+
       '#pm-discover .pm-disc-kicker{margin:0;font:600 11px Inter,system-ui;letter-spacing:.14em;text-transform:uppercase;opacity:.55}'+
       '#pm-discover h2{margin:6px 0 14px;font:700 clamp(20px,3vw,28px)/1.15 Space Grotesk,system-ui}'+
-      '#pm-discover .pm-disc-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}'+
+      '#pm-discover .pm-disc-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}'+
       '#pm-discover .pm-disc-card{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:16px;text-decoration:none;color:inherit;border:1px solid rgba(127,127,127,.16);background:rgba(255,255,255,.03);transition:transform .2s,border-color .2s}'+
       '#pm-discover .pm-disc-card:hover{transform:translateY(-2px);border-color:rgba(34,224,200,.45)}'+
       '#pm-discover .pm-disc-card strong{font:700 15px Space Grotesk,system-ui}'+
@@ -40,7 +42,7 @@
     document.head.appendChild(css);
     var nl = document.createElement('div');
     nl.className = 'pm-nl';
-    nl.innerHTML = '<p class="pm-nl-k">Newsletter</p><p class="pm-nl-t">Se\u00f1ales del ecosistema \u00b7 Editorial, Arcade, Lab</p><a class="pm-nl-btn" href="mailto:hi@promii.co?subject=Newsletter%20Promii">Unirme \u00b7 hi@promii.co</a><p class="pm-nl-note">MailerLite embeds: ver docs/MAILERLITE.md</p>';
+    nl.innerHTML = '<p class="pm-nl-k">Newsletter</p><p class="pm-nl-t">Se\u00f1ales del ecosistema \u00b7 Editorial, Arcade, Lab, Servicios</p><a class="pm-nl-btn" href="mailto:hi@promii.co?subject=Newsletter%20Promii">Unirme \u00b7 hi@promii.co</a><p class="pm-nl-note">MailerLite embeds: ver docs/MAILERLITE.md</p>';
     rail.querySelector('.pm-disc-inner').appendChild(nl);
 
     var anchor = document.querySelector('#contacto, footer, .pm-foot, #servicios, .services');
