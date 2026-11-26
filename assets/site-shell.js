@@ -4,6 +4,7 @@
     nav: [
       { k: 'portfolio', t: { es: 'Portafolio', en: 'Portfolio' }, href: '/' },
       { k: 'about', t: { es: 'About', en: 'About' }, href: '/about/' },
+      { k: 'servicios', t: { es: 'Servicios', en: 'Services' }, href: '/servicios/' },
       { k: 'blog', t: { es: 'Blog', en: 'Blog' }, href: '/blog/' },
       { k: 'editorial', t: { es: 'Editorial', en: 'Editorial' }, href: '/editorial/' },
       { k: 'academy', t: { es: 'Academy', en: 'Academy' }, href: '/academy/' },
@@ -13,8 +14,8 @@
     ],
     social: [
       ['LinkedIn', 'https://www.linkedin.com/in/bczuleta/'],
-      ['Instagram · Architecture', 'https://www.instagram.com/bz.promii/'],
-      ['Instagram · ArchiKatz', 'https://www.instagram.com/archikatz/'],
+      ['Instagram \u00b7 Architecture', 'https://www.instagram.com/bz.promii/'],
+      ['Instagram \u00b7 ArchiKatz', 'https://www.instagram.com/archikatz/'],
       ['Behance', 'https://www.behance.net/brianzuleta'],
       ['X', 'https://x.com/Archikatz'],
       ['GitHub', 'https://github.com/Archikatz']
@@ -112,7 +113,7 @@
       SITE.nav.map(function (n) { return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>'; }).join('') + '</div>' +
       '<div><h4>' + esc(L(SITE.ui.learn)) + '</h4>' +
       '<a href="/about/">About</a><a href="/blog/">Blog</a><a href="/editorial/">Editorial</a>' +
-      '<a href="/academy/">Academy</a><a href="/lab/">Lab</a><a href="/arcade/">Arcade</a><a href="/acoi/">ACOI</a></div>' +
+      '<a href="/academy/">Academy</a><a href="/lab/">Lab</a><a href="/arcade/">Arcade</a><a href="/servicios/">Servicios</a><a href="/acoi/">ACOI</a></div>' +
       '<div><h4>' + esc(L(SITE.ui.social)) + '</h4>' +
       SITE.social.map(function (s) {
         return '<a href="' + s[1] + '" target="_blank" rel="noopener">' + s[0] + '</a>';
@@ -159,6 +160,17 @@
     s.src = '/assets/home-privacy-copy.js';
     s.defer = true;
     document.head.appendChild(s);
+  })();
+  (function loadHomeCalm(){
+    var p=(location.pathname||'/').replace(/\/+$/,'')||'/';
+    if(p!=='/home'&&p!=='/home/index.html')return;
+    if(document.getElementById('pm-home-calm'))return;
+    var s=document.createElement('script');s.id='pm-home-calm';s.src='/assets/home-calm.js';s.defer=true;document.head.appendChild(s);
+  })();
+  (function loadGamePitch(){
+    if(location.pathname.indexOf('/games')===-1&&location.pathname.indexOf('/arcade')===-1)return;
+    if(document.getElementById('pm-game-pitch'))return;
+    var s=document.createElement('script');s.id='pm-game-pitch';s.src='/assets/game-pitch.js';s.defer=true;document.head.appendChild(s);
   })();
   (function loadEngageDiscoverPitch(){
     function add(src,id){if(document.getElementById(id))return;var s=document.createElement('script');s.id=id;s.src=src;s.defer=true;document.head.appendChild(s);}
