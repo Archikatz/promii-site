@@ -1,1 +1,108 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Promii Remodeling</title><link rel="stylesheet" href="/assets/promii-ecosystem.css"><script src="/assets/site-shell.js" data-mode="nav"></script></head><body style="font-family:Inter,system-ui;padding:40px;background:#F6F8F7"><h1 style="font-family:Georgia,serif">Promii Remodeling · Denver &amp; Bogotá</h1><p>Dual-hub estimator — producción completa de Entrega 2 en despliegue.</p><p><a href="/servicios/">← Hub de servicios</a></p></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promii Remodeling · Denver & Bogotá</title>
+<link rel="stylesheet" href="/assets/promii-ecosystem.css">
+<style>
+.hub-bar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.hub-tab{padding:12px 18px;border-radius:16px;border:1.5px solid var(--line-cad);background:#fff;cursor:pointer;text-align:left}
+.hub-tab.active{border-color:var(--accent);background:var(--accent-soft)}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:22px}
+@media(max-width:960px){.layout{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1px solid var(--line-cad);border-radius:18px;padding:20px;margin-bottom:14px}
+.choice{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.choice button{padding:10px;border-radius:12px;border:1.5px solid var(--line-cad);background:#fff;cursor:pointer;text-align:left;font-size:12px}
+.choice button.selected{border-color:var(--accent);background:var(--accent-soft)}
+.sow{position:sticky;top:86px;border-radius:20px;background:linear-gradient(160deg,#111720,#192230);color:#F4F7F9;padding:22px}
+.sow-price{font-family:Georgia,serif;font-size:26px;color:#22E0C8}
+.btn-wa{width:100%;padding:12px;border-radius:999px;border:1px solid #22E0C8;background:#0F9D84;color:#fff;font-weight:700;cursor:pointer;margin-bottom:8px}
+</style>
+</head>
+<body data-vertical="spaces">
+<div class="prm-topbar"><div class="prm-topbar-inner">
+<a class="prm-brand" href="/servicios/"><span class="prm-dot"></span><span>PROMII REMODELING</span></a>
+<nav class="prm-nav-links">
+<a href="/servicios/">← Hub</a>
+<a href="/remodeling/?hub=denver" id="navDen">Denver</a>
+<a href="/remodeling/?hub=bogota" id="navBog">Bogotá</a>
+<a href="/cotizador/">Cotizador</a>
+</nav>
+</div></div>
+<main class="prm-container" style="padding-top:28px;padding-bottom:60px">
+<div class="cad-eyebrow">R-01 · DUAL-HUB REMODELING</div>
+<h1 class="prm-h1">Remodelación con SOW claro</h1>
+<p class="prm-lead">Elige ciudad: unidades locales, estimado y agenda de visita.</p>
+<div class="hub-bar">
+<button type="button" class="hub-tab active" id="tabDen" onclick="setHub('denver')"><strong>Denver, CO</strong><br><small>USD · sq ft · BAAC</small></button>
+<button type="button" class="hub-tab" id="tabBog" onclick="setHub('bogota')"><strong>Bogotá</strong><br><small>COP · m² · Promii</small></button>
+</div>
+<div class="layout">
+<div>
+<div class="step"><h3>1. Oficios</h3><div class="choice" id="trades"></div></div>
+<div class="step"><h3>2. Área aproximada</h3>
+<input type="range" id="area" min="50" max="3000" value="950" style="width:100%;accent-color:var(--accent)" oninput="recalc()">
+<div><strong id="areaLbl">950</strong> <span id="unitLbl">sq ft</span></div>
+</div>
+<div class="step"><h3>3. Contacto visita</h3>
+<input id="name" placeholder="Nombre" style="width:100%;padding:10px;margin-bottom:8px;border-radius:10px;border:1px solid var(--line-cad)">
+<input id="phone" placeholder="WhatsApp" style="width:100%;padding:10px;margin-bottom:8px;border-radius:10px;border:1px solid var(--line-cad)">
+<input id="zone" placeholder="Barrio / ZIP" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line-cad)">
+</div>
+</div>
+<aside class="sow">
+<div style="font-size:12px;color:#22E0C8" id="ticket"></div>
+<div class="sow-price" id="price">—</div>
+<div style="font-size:12px;opacity:.75;margin-bottom:12px">Rango preliminar · se valida en visita</div>
+<ul id="lines" style="list-style:none;padding:0;font-size:13px"></ul>
+<button class="btn-wa" type="button" onclick="book()">💬 Agendar por WhatsApp</button>
+</aside>
+</div>
+<div data-promii-footer></div>
+</main>
+<script src="/assets/promii-ecosystem.js"></script>
+<script>
+const HUBS={
+ denver:{unit:'sq ft',trades:[{id:'paint',es:'Pintura',base:180,pu:1.2},{id:'drywall',es:'Drywall',base:220,pu:1.8},{id:'bath',es:'Baños',base:900,pu:2.5},{id:'kitchen',es:'Cocina',base:1200,pu:3.2}]},
+ bogota:{unit:'m²',trades:[{id:'paint',es:'Pintura',base:350000,pu:12000},{id:'drywall',es:'Estuco/drywall',base:480000,pu:18000},{id:'bath',es:'Baños',base:1800000,pu:45000},{id:'kitchen',es:'Cocina',base:2500000,pu:60000}]}
+};
+let hub='denver'; let sel=new Set(['paint']);
+const ticket='PRM-REM-'+Math.floor(100+Math.random()*899);
+document.getElementById('ticket').textContent=ticket;
+function setHub(h){
+ hub=h; document.getElementById('tabDen').classList.toggle('active',h==='denver');
+ document.getElementById('tabBog').classList.toggle('active',h==='bogota');
+ document.getElementById('unitLbl').textContent=HUBS[h].unit;
+ const a=document.getElementById('area');
+ if(h==='bogota'){a.min=20;a.max=400;a.value=80;} else {a.min=50;a.max=3000;a.value=950;}
+ renderTrades(); recalc();
+}
+function renderTrades(){
+ const list=HUBS[hub].trades;
+ document.getElementById('trades').innerHTML=list.map(t=>`<button type="button" class="${sel.has(t.id)?'selected':''}" onclick="toggle('${t.id}')">${t.es}</button>`).join('');
+}
+function toggle(id){ if(sel.has(id)&&sel.size>1)sel.delete(id); else sel.add(id); renderTrades(); recalc(); }
+function recalc(){
+ const area=+document.getElementById('area').value; document.getElementById('areaLbl').textContent=area;
+ const h=HUBS[hub]; let total=0; const lines=[];
+ h.trades.forEach(t=>{ if(!sel.has(t.id))return; const v=t.base+t.pu*area; total+=v; lines.push({n:t.es,v}); });
+ const low=total*0.92, high=total*1.12;
+ const fmt=v=> hub==='denver'?('US$'+Math.round(v/10)*10):('$'+Math.round(v/10000)*10000+' COP');
+ document.getElementById('price').textContent=fmt(low)+' – '+fmt(high);
+ document.getElementById('lines').innerHTML=lines.map(l=>`<li style="display:flex;justify-content:space-between;padding:4px 0"><span>${l.n}</span><strong style="color:#22E0C8">${fmt(l.v)}</strong></li>`).join('');
+}
+function book(){
+ const name=document.getElementById('name').value.trim()||'Cliente';
+ const phone=document.getElementById('phone').value.trim()||'—';
+ const zone=document.getElementById('zone').value.trim()||'—';
+ const msg=['PROMII REMODELING '+ticket,'Hub: '+hub,'Área: '+document.getElementById('area').value+' '+HUBS[hub].unit,'Rango: '+document.getElementById('price').textContent,'Nombre: '+name,'WhatsApp: '+phone,'Zona: '+zone].join('\n');
+ if(window.PromiiOS) PromiiOS.openWhatsApp(msg); else window.open('https://wa.me/573160570258?text='+encodeURIComponent(msg),'_blank');
+}
+(()=>{ if(window.PromiiOS) PromiiOS.initShell({});
+ const q=new URLSearchParams(location.search).get('hub');
+ setHub(q==='bogota'?'bogota':'denver');
+})();
+</script>
+</body>
+</html>
