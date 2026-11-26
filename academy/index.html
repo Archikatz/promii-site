@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ArchiKatz Academy · IA, BIM & Growth | Promii</title>
 <link rel="stylesheet" href="/assets/promii-ecosystem.css">
+<link rel="stylesheet" href="/assets/promii-palette-lock.css">
 <style>
 .course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .course{cursor:pointer;transition:.2s}
@@ -44,7 +45,7 @@ body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--acce
 <div class="glass-card" style="border-left:4px solid #22E0C8">
 <span class="prm-badge">NUEVO · TEC-01</span>
 <h2 class="prm-h2" style="margin-top:10px">Ingeniería Web Hiperfluida: WebGL, Cristal Líquido y Scrollytelling</h2>
-<p style="font-size:14px;color:var(--ink-soft)">Fresnel, dispersión RGB, Lenis, GSAP y audio cristalino — el estándar v4.0 detrás de promii.co (< 180 KB).</p>
+<p style="font-size:14px;color:var(--ink-soft)">Fresnel, dispersión RGB, Lenis, GSAP y audio cristalino — el estándar v4.0 detrás de promii.co.</p>
 <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
 <button type="button" class="btn-prm" onclick="openTec01()">Abrir módulo TEC-01 →</button>
 <a class="btn-prm-ghost" href="/docs/PROMII_HYPERFLUID_DESIGN_STANDARD.md" target="_blank" rel="noopener">Ver estándar</a>
@@ -60,7 +61,7 @@ body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--acce
 <div class="modal-card glass-card">
 <div class="cad-eyebrow">SIGN-UP GATE</div>
 <h2 class="prm-h2">Acceso local al campus</h2>
-<p style="font-size:14px;color:var(--ink-soft)">Guarda progreso en este dispositivo. Supabase listo para sincronizar después.</p>
+<p style="font-size:14px;color:var(--ink-soft)">Guarda progreso en este dispositivo.</p>
 <label style="display:block;font-size:12px;margin:8px 0 4px">Nombre</label>
 <input id="gateName" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line-cad)" placeholder="Tu nombre">
 <label style="display:block;font-size:12px;margin:8px 0 4px">Email</label>
@@ -70,11 +71,12 @@ body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--acce
 </div>
 </div>
 <script src="/assets/promii-ecosystem.js"></script>
+<script src="/assets/site-shell.js?v=chrome2" data-mode="full"></script>
 <script>
 const COURSES=[
 {id:'ia01',title:'IA-01 · Entrenamiento práctico en IA',meta:'5 lecciones · inaugural',tag:'IA'},
 {id:'tec01',title:'TEC-01 · WebGL Hiperfluido & Scrollytelling 60 FPS',meta:'4 lecciones · shaders · Lenis · GSAP',tag:'TEC'},
-{id:'bim01',title:'BIM-01 · Revit LOD 300–400 & NYC DOB',meta:'próximamente',tag:'BIM'},
+{id:'bim01',title:'BIM-01 · Revit LOD 300–400 & multi-código',meta:'próximamente',tag:'BIM'},
 {id:'pmi01',title:'PMI-01 · Delivery remoto 17 etapas',meta:'próximamente',tag:'PM'},
 {id:'grw01',title:'GRW-01 · Growth 0–100 & CRM',meta:'próximamente',tag:'GROWTH'}
 ];
