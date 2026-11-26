@@ -1,1 +1,118 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cotizador Promii</title><script src="/assets/site-shell.js" data-mode="nav"></script></head><body style="font-family:Inter,system-ui;padding:40px;background:#F6F8F7"><h1 style="font-family:Georgia,serif">Estimador Maestro · 12 servicios</h1><p>SOW en vivo USD ↔ COP — producción completa de Entrega 3 en despliegue.</p><p><a href="/servicios/">← Hub</a></p></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promii · Estimador Maestro 12 Servicios</title>
+<link rel="stylesheet" href="/assets/promii-ecosystem.css">
+<style>
+.sow-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,.9fr);gap:22px;align-items:start}
+@media(max-width:960px){.sow-grid{grid-template-columns:1fr}}
+.srv{border:1.5px solid var(--line-cad);border-radius:16px;padding:14px;background:#fff;margin-bottom:10px;cursor:pointer}
+.srv.selected{border-color:var(--accent);background:var(--accent-soft)}
+.srv-title{font-size:14px;font-weight:600;margin:4px 0}
+.srv-desc{font-size:12px;color:var(--ink-soft)}
+.terminal{position:sticky;top:86px;border-radius:20px;background:linear-gradient(160deg,#111720,#192230);color:#F4F7F9;padding:22px}
+.term-input{width:100%;padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff;margin-bottom:8px}
+.btn-sow{width:100%;padding:12px;border-radius:999px;border:1px solid #22E0C8;background:#0F9D84;color:#fff;font-weight:700;cursor:pointer;margin-bottom:8px}
+.btn-alt{width:100%;padding:10px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;margin-bottom:6px}
+.cat-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.cat-tab{padding:8px 14px;border-radius:999px;border:1px solid var(--line-cad);background:#fff;cursor:pointer;font-size:12px}
+.cat-tab.active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.total{font-family:Georgia,serif;font-size:26px;color:#22E0C8;margin:8px 0}
+</style>
+</head>
+<body data-vertical="growth">
+<div class="prm-topbar"><div class="prm-topbar-inner">
+<a class="prm-brand" href="/servicios/"><span class="prm-dot"></span><span>COTIZADOR PROMII</span></a>
+<nav class="prm-nav-links">
+<a href="/servicios/">← Hub</a>
+<a href="/cotizador/" class="active">Cotizador</a>
+<a href="/servicios/growth.html">Growth</a>
+<a href="/remodeling/">Remodeling</a>
+</nav>
+<div class="prm-toggles">
+<div class="prm-switch-pill"><button type="button" data-lang-btn="es" class="active">ES</button><button type="button" data-lang-btn="en">EN</button></div>
+<div class="prm-switch-pill"><button type="button" data-curr-btn="USD" class="active">USD</button><button type="button" data-curr-btn="COP">COP</button></div>
+</div>
+</div></div>
+<main class="prm-container" style="padding-top:28px;padding-bottom:60px">
+<div class="cad-eyebrow">S-06 · 12 PRODUCTIZED SERVICES</div>
+<h1 class="prm-h1">Estimador Maestro — arma tu alcance (USD ↔ COP)</h1>
+<p class="prm-lead">Combina módulos. -8% con 2 servicios, -12% con 3 o más.</p>
+<div class="cat-tabs">
+<button class="cat-tab active" type="button" onclick="filterCat('all',this)">Todos</button>
+<button class="cat-tab" type="button" onclick="filterCat('aec',this)">AEC / BIM</button>
+<button class="cat-tab" type="button" onclick="filterCat('growth',this)">Growth</button>
+<button class="cat-tab" type="button" onclick="filterCat('media',this)">Editorial / Eventos</button>
+</div>
+<div class="sow-grid">
+<div id="catalog"></div>
+<aside class="terminal">
+<div style="display:flex;justify-content:space-between"><strong>SOW PRELIMINAR</strong><span id="sowId" style="color:#22E0C8;font-family:monospace;font-size:12px"></span></div>
+<div id="bundleNote" style="font-size:12px;opacity:.8;margin:10px 0">Selecciona 2+ para bundle</div>
+<ul id="selList" style="list-style:none;padding:0;max-height:180px;overflow:auto;font-size:13px"></ul>
+<div class="total" id="rangeTotal">US$0</div>
+<input class="term-input" id="cName" placeholder="Nombre / empresa">
+<input class="term-input" id="cEmail" type="email" placeholder="Correo o WhatsApp">
+<button class="btn-sow" type="button" onclick="send('wa')">💬 Enviar SOW por WhatsApp</button>
+<button class="btn-alt" type="button" onclick="send('mail')">✉️ Correo hi@promii.co</button>
+<button class="btn-alt" type="button" onclick="copySOW()">📋 Copiar</button>
+</aside>
+</div>
+<div data-promii-footer></div>
+</main>
+<script src="/assets/promii-ecosystem.js"></script>
+<script>
+const S=[
+{id:'s01',cat:'aec',es:'01 · Remodeling / Repair',usd:420,cop:950000},
+{id:'s02',cat:'aec',es:'02 · BIM / Scan-to-BIM',usd:950,cop:3200000},
+{id:'s03',cat:'aec',es:'03 · NYC DOB / FBC / NSR-10',usd:1250,cop:4200000},
+{id:'s04',cat:'aec',es:'04 · Renders & AI viz',usd:580,cop:1950000},
+{id:'s05',cat:'growth',es:'05 · Fundación digital / web',usd:650,cop:2100000},
+{id:'s06',cat:'growth',es:'06 · Content engine 10 sem',usd:850,cop:2800000},
+{id:'s07',cat:'growth',es:'07 · CRM pipeline',usd:1150,cop:3800000},
+{id:'s08',cat:'growth',es:'08 · n8n / AI agents',usd:890,cop:2950000},
+{id:'s09',cat:'media',es:'09 · Libro ArchiKatz Press',usd:590,cop:1950000},
+{id:'s10',cat:'media',es:'10 · Video-invitación + RSVP',usd:240,cop:790000},
+{id:'s11',cat:'media',es:'11 · Nextgen Webinar',usd:550,cop:1850000},
+{id:'s12',cat:'media',es:'12 · Advisory 17 etapas',usd:480,cop:1600000}
+];
+const selected=new Set(['s02']);
+let filter='all';
+const sowId='PRM-SOW-'+Math.floor(100+Math.random()*899);
+document.getElementById('sowId').textContent=sowId;
+function money(u,c){ if(window.PromiiOS) return PromiiOS.formatMoney(u,c); return 'US$'+u; }
+function render(){
+ const cat=document.getElementById('catalog');
+ cat.innerHTML=S.filter(x=>filter==='all'||x.cat===filter).map(s=>`<div class="srv ${selected.has(s.id)?'selected':''}" onclick="toggle('${s.id}')"><div class="srv-title">${s.es}</div><div class="srv-desc">${money(s.usd,s.cop)}</div></div>`).join('');
+ let rawU=0,rawC=0; const rows=[];
+ selected.forEach(id=>{const s=S.find(x=>x.id===id); if(!s)return; rawU+=s.usd; rawC+=s.cop; rows.push(s);});
+ const n=rows.length; const disc=n>=3?0.12:n===2?0.08:0;
+ const netU=rawU*(1-disc), netC=rawC*(1-disc);
+ document.getElementById('bundleNote').textContent=disc?`Bundle -${Math.round(disc*100)}% activo`:'Selecciona 2+ para bundle (-8% / -12%)';
+ document.getElementById('selList').innerHTML=rows.map(r=>`<li style="display:flex;justify-content:space-between;padding:4px 0"><span>${r.es}</span><strong style="color:#22E0C8">${money(r.usd,r.cop)}</strong></li>`).join('');
+ document.getElementById('rangeTotal').textContent=money(netU*0.95,netC*0.95).replace(' COP','')+' – '+money(netU*1.12,netC*1.12);
+ window.__sow={rows,netU,netC,disc};
+}
+function toggle(id){ if(selected.has(id)){ if(selected.size>1) selected.delete(id);} else selected.add(id); render(); }
+function filterCat(c,btn){ filter=c; document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(); }
+function build(){
+ const name=document.getElementById('cName').value.trim()||'Cliente';
+ const email=document.getElementById('cEmail').value.trim()||'—';
+ const s=window.__sow||{rows:[],netU:0,netC:0,disc:0};
+ return ['PROMII SOW '+sowId,'Servicios:'].concat(s.rows.map(r=>' - '+r.es+' '+money(r.usd,r.cop))).concat(['Descuento: -'+Math.round((s.disc||0)*100)+'%','Cliente: '+name+' · '+email]).join('\n');
+}
+function send(ch){ const t=build(); if(window.PromiiOS){ ch==='wa'?PromiiOS.openWhatsApp(t):PromiiOS.openMail('['+sowId+'] SOW',t);} else if(ch==='wa') window.open('https://wa.me/573160570258?text='+encodeURIComponent(t),'_blank'); else location.href='mailto:hi@promii.co?subject='+encodeURIComponent(sowId)+'&body='+encodeURIComponent(t); }
+function copySOW(){ navigator.clipboard&&navigator.clipboard.writeText(build()); }
+(()=>{ const p=new URLSearchParams(location.search).get('preset');
+ if(p==='bim'){selected.clear();selected.add('s02');selected.add('s03');}
+ if(p==='growth'){selected.clear();selected.add('s05');selected.add('s07');}
+ if(p==='libro'){selected.clear();selected.add('s09');}
+ if(p==='eventos'){selected.clear();selected.add('s10');selected.add('s11');}
+ if(window.PromiiOS) PromiiOS.initShell({});
+ render();
+})();
+</script>
+</body>
+</html>
