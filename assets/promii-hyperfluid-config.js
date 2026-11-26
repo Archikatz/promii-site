@@ -1,20 +1,18 @@
-/* ==========================================================================
-   PROMII HYPERFLUID STAGE CONFIGURATION (v4.0)
-   Editable manually or exported in 1 click from the Live Admin Panel (Shift+A)
-   ========================================================================== */
+/* PROMII HYPERFLUID CONFIG — paleta oficial Promii (neon glass) */
 window.PROMII_STAGE_CONFIG = {
-  // 'ARCHITECTURAL_LIGHT' | 'OBSIDIAN_LUXURY' | 'AUTO_ADAPTIVE'
-  defaultAtmosphere: 'ARCHITECTURAL_LIGHT',
-
-  // Optical & Fluid Shader Parameters
-  ior: 1.45,                // Index of refraction (1.33 water -> 1.52 crown glass)
-  liquidDistortion: 0.34,   // Surface tension & harmonic wave amplitude
-  chromaticDispersion: 0.28,// Subtle RGB lens edge dispersion
-  scrollVelocitySkew: 0.55, // Elastic stretch when scrolling fast
-
-  // Motion & Acoustics
-  lenisLerp: 0.085,         // Smooth scroll inertia (lower = silkier)
-  magneticStrength: 0.34,   // Cursor pull on [data-hf-magnetic] buttons
+  defaultAtmosphere: 'AUTO_ADAPTIVE',
+  accentPrimary: '#0F9D84',
+  accentNeon: '#22E0C8',
+  accentGrowth: '#2563EB',
+  accentPress: '#C88A1E',
+  accentMoments: '#E0533C',
+  accentLab: '#0891B2',
+  ior: 1.45,
+  liquidDistortion: 0.34,
+  chromaticDispersion: 0.28,
+  scrollVelocitySkew: 0.55,
+  lenisLerp: 0.085,
+  magneticStrength: 0.34,
   audioEnabledDefault: false,
   audioVolume: 0.14
 };
