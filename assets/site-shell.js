@@ -14,22 +14,22 @@
     ],
     social: [
       ['LinkedIn', 'https://www.linkedin.com/in/bczuleta/'],
-      ['Instagram \u00b7 Architecture', 'https://www.instagram.com/bz.promii/'],
-      ['Instagram \u00b7 ArchiKatz', 'https://www.instagram.com/archikatz/'],
+      ['Instagram · Architecture', 'https://www.instagram.com/bz.promii/'],
+      ['Instagram · ArchiKatz', 'https://www.instagram.com/archikatz/'],
       ['Behance', 'https://www.behance.net/brianzuleta'],
       ['X', 'https://x.com/Archikatz'],
       ['GitHub', 'https://github.com/Archikatz']
     ],
     ui: {
-      menu: { es: 'Men\u00fa', en: 'Menu' },
+      menu: { es: 'Menú', en: 'Menu' },
       theme: { es: 'Tema claro/oscuro', en: 'Light/dark theme' },
       explore: { es: 'Explorar', en: 'Explore' },
       learn: { es: 'Aprender', en: 'Learn' },
       social: { es: 'Redes', en: 'Social' },
       map: { es: 'Mapa del sitio', en: 'Site map' },
-      tag: { es: 'Arquitectura, BIM e IA \u00b7 LATAM \u00b7 Americas \u00b7 Europa', en: 'Architecture, BIM & AI \u00b7 LATAM \u00b7 Americas \u00b7 Europe' },
+      tag: { es: 'Arquitectura, BIM e IA · LATAM · Americas · Europa', en: 'Architecture, BIM & AI · LATAM · Americas · Europe' },
       privacy: { es: 'Privacidad y datos', en: 'Privacy & data' },
-      cv: { es: 'Solicitar CV', en: 'Request r\u00e9sum\u00e9' }
+      cv: { es: 'Solicitar CV', en: 'Request résumé' }
     }
   };
   var mode = (document.currentScript && document.currentScript.getAttribute('data-mode')) || 'full';
@@ -77,6 +77,11 @@
   var LOGO = '<img class="pm-logo" src="/assets/logo/bz-mark-glass.svg" width="28" height="28" alt="Brian Zuleta" decoding="async">';
   function drawChrome() {
     if (mode === 'data') return;
+    /* Skip black sticky bar when page already has its own flagship/arcade chrome */
+    var path = (location.pathname || '/');
+    if (document.body && document.body.getAttribute('data-no-shell') === '1') return;
+    if (document.querySelector('.hf-header')) return;
+    if (path.indexOf('/games') === 0 || path.indexOf('/arcade') === 0) return;
     if (!nav) {
       nav = document.createElement('header');
       nav.className = 'pm-bar';
@@ -97,7 +102,7 @@
       '<div class="pm-lang" role="group">' +
       '<button type="button" data-l="es" class="' + (lang === 'es' ? 'on' : '') + '">ES</button>' +
       '<button type="button" data-l="en" class="' + (lang === 'en' ? 'on' : '') + '">EN</button></div>' +
-      '<button type="button" class="pm-theme" title="' + esc(L(SITE.ui.theme)) + '">\u2600</button>' +
+      '<button type="button" class="pm-theme" title="' + esc(L(SITE.ui.theme)) + '">☀</button>' +
       '<button type="button" class="pm-menu">' + esc(L(SITE.ui.menu)) + '</button></div>';
     if (mode === 'nav') return;
     if (!foot) {
@@ -107,8 +112,8 @@
     }
     foot.innerHTML =
       '<div><a class="pm-brand" href="/">' + LOGO + 'Brian Zuleta</a><p>' + esc(L(SITE.ui.tag)) + '</p>' +
-      '<small>\u00a9 ' + new Date().getFullYear() + ' Brian Zuleta \u00b7 promii.co</small>' +
-      '<p style="margin-top:10px"><a href="/privacy/">' + esc(L(SITE.ui.privacy)) + '</a> \u00b7 <a href="/#contacto">' + esc(L(SITE.ui.cv)) + '</a></p></div>' +
+      '<small>© ' + new Date().getFullYear() + ' Brian Zuleta · promii.co</small>' +
+      '<p style="margin-top:10px"><a href="/privacy/">' + esc(L(SITE.ui.privacy)) + '</a> · <a href="/#contacto">' + esc(L(SITE.ui.cv)) + '</a></p></div>' +
       '<div><h4>' + esc(L(SITE.ui.explore)) + '</h4>' +
       SITE.nav.map(function (n) { return '<a href="' + n.href + '">' + esc(L(n.t)) + '</a>'; }).join('') + '</div>' +
       '<div><h4>' + esc(L(SITE.ui.learn)) + '</h4>' +
