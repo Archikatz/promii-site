@@ -1,4 +1,4 @@
-/* Promii palette lock — anula naranjas genéricos del stack Hyperfluid */
+/* Promii palette + chrome lock */
 :root, body.hf-light, html[data-theme="light"] {
   --hf-bg: #F6F8F7;
   --hf-ink: #12171F;
@@ -10,15 +10,22 @@
   --hf-gold: #C88A1E;
   --hf-lab: #0891B2;
 }
-body.hf-obsidian, html[data-theme="dark"], html:not([data-theme="light"]) body {
+body.hf-obsidian, html[data-theme="dark"] {
   --hf-neon: #22E0C8;
   --hf-accent: #22E0C8;
   --hf-coral: #E0533C;
   --hf-blue: #2563EB;
   --hf-gold: #C88A1E;
 }
-/* Fondos multi-orb neon (sistema original) */
-body.hf-light, body:not(.hf-obsidian) {
+/* Matar el dock dual de pastillas (nav+contacto) */
+#prmDropletsDock,
+.prm-droplets-dock {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+/* Fondos multi-orb neon solo en flagship light/obsidian */
+body.hf-light {
   background-color: #F6F8F7 !important;
   background-image:
     radial-gradient(circle at 12% 8%, rgba(224, 83, 60, 0.07), transparent 38%),
@@ -32,9 +39,7 @@ body.hf-obsidian {
     radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.10), transparent 42%),
     radial-gradient(circle at 50% 90%, rgba(224, 83, 60, 0.08), transparent 45%) !important;
 }
-/* Chips / admin / CTAs — acentos Promii */
 .hf-chip-btn.active,
-.hf-btn-mag,
 .pm-lang button.on {
   border-color: #22E0C8 !important;
   color: #22E0C8 !important;
@@ -45,8 +50,15 @@ body.hf-obsidian {
   background: #0F9D84 !important;
   box-shadow: 0 0 0 4px rgba(15, 157, 132, 0.25) !important;
 }
-/* Arcade logos frame */
 .logo-wrap {
   border-color: rgba(34, 224, 200, 0.28) !important;
   background: rgba(15, 157, 132, 0.08) !important;
+}
+/* Header sticky siempre por encima del WebGL ambient */
+.pm-bar {
+  z-index: 80 !important;
+}
+.pm-foot {
+  position: relative;
+  z-index: 5;
 }
