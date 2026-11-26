@@ -3,79 +3,49 @@
 <head>
 <meta charset="utf-8">
 <script>try{var t=localStorage.getItem("promii-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Webtoon ArchiKatz</title>
-<meta name="description" content="Webtoon y libros ArchiKatz: Guardiana, Fractalia, Psicodelia.">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ak.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Webtoon · ArchiKatz</title>
+<meta name="description" content="Episodios webtoon del universo ArchiKatz">
+<link rel="canonical" href="https://promii.co/editorial/toon.html">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
-.reader{max-width:560px;margin:0 auto;padding:24px 0 48px}
-.head{padding:0 16px 18px}
-.head h1{font:700 clamp(28px,7vw,48px)/1.08 "Playfair Display",serif;margin:10px 0 6px}
-.panel{position:relative;aspect-ratio:400/520;margin:0 0 8px;overflow:hidden;background:#07070c;opacity:0;transform:translateY(20px);transition:.7s ease}
-.panel.in{opacity:1;transform:none}
-.panel svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.narr{position:absolute;left:14px;right:14px;top:14px;padding:12px 14px;background:rgba(242,239,230,.94);color:#141218;font:500 15px/1.5 Inter,system-ui;border-left:4px solid var(--a,#e8d5a3)}
-.bubble{position:absolute;left:18px;right:40px;bottom:20px;padding:14px 16px;background:rgba(247,245,239,.96);color:#121014;border-radius:18px;font:600 16px/1.4 "Space Grotesk",system-ui}
-.bubble small{display:block;font:700 10px Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--a,#e8d5a3);margin-bottom:4px}
-.sfx{position:absolute;inset:0;display:grid;place-items:center;font:700 clamp(36px,10vw,56px) "Space Grotesk",system-ui;color:var(--a,#e8d5a3);text-shadow:0 0 20px currentColor;transform:rotate(-6deg)}
-.nav-eps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.nav-eps a{font:600 12px Inter;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:#a6a6bc;text-decoration:none}
-.nav-eps a.on{color:#0b0b12;background:#e8d5a3;border-color:transparent}
-.endbar{padding:24px 16px;text-align:center}
-.btn{display:inline-flex;padding:10px 16px;border-radius:999px;font:600 13px Inter;text-decoration:none;border:0;cursor:pointer;background:#e8d5a3;color:#0b0b12;margin:4px}
-.chip{display:inline-flex;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.15);color:#a6a6bc;font:600 12px Inter;text-decoration:none;margin-right:6px}
-.muted{color:#a6a6bc}
-.book-badge{display:inline-block;font:700 10px Inter;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:#e8d5a3;color:#1a1408;margin-bottom:8px}
+body{margin:0;background:#0a0a0f;color:#f2efe6;font:16px/1.5 Inter,system-ui}
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 90px;position:relative;z-index:3}
+.k{font:600 11px Inter;letter-spacing:.16em;text-transform:uppercase;color:#c9a0ff}
+h1{font:700 clamp(28px,5vw,42px)/1.1 "Playfair Display",serif}
+.lede{color:#9a9688}
+.ep{display:block;padding:18px;margin:12px 0;border-radius:16px;border:1px solid rgba(201,160,255,.35);background:rgba(201,160,255,.08);text-decoration:none;color:inherit}
+.ep:hover{border-color:#c9a0ff}
+.ep strong{display:block;font-size:17px;margin-bottom:4px}
+.ep span{font-size:13px;color:#a6a6bc}
+@media (max-width:768px){#promii-webgl-canvas{opacity:0.1 !important}}
+@media (prefers-reduced-motion: reduce){#promii-webgl-canvas{display:none !important}}
 </style>
 </head>
-<body>
-<main class="reader" id="app"><p class="muted" style="padding:16px">Cargando…</p></main>
-<script src="scenes.js"></script>
+<body style="position:relative">
+<main class="wrap">
+  <p class="k">ArchiKatz · Webtoon</p>
+  <h1>Episodios</h1>
+  <p class="lede">Historias cortas del universo narrativo. Más episodios se publican desde el sello editorial.</p>
+  <a class="ep" href="toon.html?ep=ep00-la-guardiana-del-umbral">
+    <strong>Ep. 0 · La Guardiana del Umbral</strong>
+    <span>Pórtico del Tomo I · Fractalia / Psicodelia</span>
+  </a>
+  <p style="margin-top:28px;font-size:13px;color:#9a9688">
+    <a href="./" style="color:#c9a0ff">← Editorial</a> ·
+    <a href="libro.html?libro=fractalia" style="color:#c9a0ff">Fractalia</a> ·
+    <a href="libro.html?libro=psicodelia" style="color:#c9a0ff">Psicodelia</a>
+  </p>
+</main>
 <script src="/assets/site-shell.js" data-mode="full"></script>
-<script src="episodes-data.js"></script>
+<canvas id="promii-webgl-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.16"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/assets/promii-hyperfluid-config.js"></script>
+<script src="/assets/promii-hyperfluid-engine.js"></script>
 <script>
-(function(){
-  function L(x){ if(!x) return ''; if(typeof x==='string') return x; var en=document.documentElement.lang==='en'; return (en?(x.en||x.es):(x.es||x.en))||''; }
-  function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
-  function EN(){ return document.documentElement.lang==='en'; }
-  var slug=new URLSearchParams(location.search).get('ep')||'ep00-la-guardiana-del-umbral';
-  var app=document.getElementById('app');
-  function draw(EPS){
-    try{
-      if(!EPS||!EPS.length){ app.innerHTML='<p class="muted" style="padding:16px">No hay episodios.</p>'; return; }
-      var i=EPS.findIndex(function(e){return e.slug===slug;}); if(i<0)i=0; var e=EPS[i]; slug=e.slug;
-      document.title=L(e.title)+' · ArchiKatz';
-      var nav=EPS.map(function(x){return '<a href="?ep='+encodeURIComponent(x.slug)+'" class="'+(x.slug===e.slug?'on':'')+'">'+esc(L(x.title)).slice(0,30)+'</a>';}).join('');
-      var panels=(e.panels||[]).map(function(p,k){
-        var t=esc(EN()?p.en:p.es);
-        var scene=(typeof AK_SCENE==='function')?AK_SCENE(p.scene,p.accent,k+11):'';
-        var o='<figure class="panel" style="--a:'+esc(p.accent||'#e8d5a3')+'">'+scene;
-        if(p.kind==='dialog') o+='<div class="bubble"><small>'+esc(p.speaker||'')+'</small>'+t+'</div>';
-        else if(p.kind==='sfx') o+='<div class="sfx">'+t+'</div>';
-        else o+='<div class="narr">'+t+'</div>';
-        return o+'</figure>';
-      }).join('');
-      var badge=e.book?'<span class="book-badge">'+(EN()?'Special book':'Libro especial')+'</span>':'';
-      app.innerHTML='<div class="head">'+badge+'<a class="chip" href="./">← Editorial</a><a class="chip" href="/archikatz/">Universo</a><h1>'+esc(L(e.title))+'</h1><p class="muted">'+esc(L(e.summary))+'</p><div class="nav-eps">'+nav+'</div></div>'+panels+'<div class="endbar"><a class="btn" href="./#libros">'+(EN()?'More books':'Más libros')+'</a></div>';
-      var io=new IntersectionObserver(function(entries){entries.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:0.08});
-      app.querySelectorAll('.panel').forEach(function(p){io.observe(p);});
-      setTimeout(function(){app.querySelectorAll('.panel').forEach(function(p){if(p.getBoundingClientRect().top<innerHeight)p.classList.add('in');});},30);
-    }catch(err){ app.innerHTML='<p class="muted" style="padding:16px">Error: '+esc(err&&err.message)+'</p>'; }
-  }
-  function boot(){
-    var data=window.AK_EPISODES||window.AK_EPISODES_FALLBACK;
-    if(data&&data.length){ draw(data); return; }
-    var dir=location.pathname.replace(/[^/]*$/,'');
-    fetch(dir+'episodes.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(draw).catch(function(){
-      fetch('/editorial/episodes.json').then(function(r){return r.json();}).then(draw).catch(function(){
-        app.innerHTML='<p class="muted" style="padding:16px">No se pudo cargar. <a href="/editorial/">Editorial</a></p>';
-      });
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
-  try{ addEventListener('promii:lang',function(){ boot(); }); }catch(e){}
-})();
+if (window.PromiiHyperfluid) {
+  PromiiHyperfluid.init({ canvasId: 'promii-webgl-canvas', ambient: true, act: 'droplet', accent: '#C9A0FF', canvasOpacity: '0.16' });
+}
 </script>
 </body>
 </html>
