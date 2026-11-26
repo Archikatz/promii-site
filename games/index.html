@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Promii Arcade · 20 Kinetic Protocols</title>
-<link rel="stylesheet" href="/assets/promii-ecosystem.css">
 <style>
 :root{--bg:#08080C;--text:#F4F4F8;--muted:#a6a6bc;--cyan:#22E0C8;--border:rgba(244,244,248,.12)}
 *{box-sizing:border-box}
@@ -12,25 +11,34 @@ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:28px 16px 80px}
 .hero{text-align:center;margin-bottom:22px}
-.hero h1{font:700 clamp(28px,5vw,44px)/1.1 Space Grotesk,system-ui;margin:0 0 8px}
+.hero h1{font:700 clamp(28px,5vw,44px)/1.1 Space Grotesk,system-ui,sans-serif;margin:0 0 8px}
 .hero p{color:var(--muted);max-width:52ch;margin:0 auto}
 .filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0}
 .filter-btn{background:rgba(244,244,248,.05);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:999px;cursor:pointer;font-size:11px;letter-spacing:1.3px}
 .filter-btn.active,.filter-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(34,224,200,.1)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.card{padding:18px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.03);cursor:pointer;transition:.2s}
+.card{padding:16px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.03);cursor:pointer;transition:.2s}
 .card:hover{border-color:var(--cyan);transform:translateY(-2px)}
-.card h3{margin:8px 0;font-size:15px}
+.card h3{margin:8px 0 4px;font-size:14px}
 .card p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.4}
 .badge{font-size:10px;letter-spacing:1px;color:var(--cyan)}
+.peak{font-size:10px;color:#E8B23A;margin-left:8px}
+.card-top{display:flex;align-items:center;flex-wrap:wrap}
 .card-cta{margin-top:12px;font-size:11px;font-weight:700;color:var(--cyan)}
+.logo-wrap{width:72px;height:72px;margin-bottom:8px}
+.logo-wrap svg{width:72px;height:72px;display:block}
+.logo-fallback{width:72px;height:72px;border-radius:16px;display:grid;place-items:center;background:rgba(34,224,200,.08);border:1px solid var(--border);font:700 14px monospace;color:var(--cyan);margin-bottom:8px}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
 .topbar a{color:var(--cyan);text-decoration:none;font-size:12px}
-#theater{display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.85);padding:20px}
-#theater.open{display:flex;flex-direction:column}
-#theaterFrame{flex:1;width:100%;border:0;border-radius:12px;background:#000}
+#theater{display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);padding:16px;flex-direction:column}
+#theater.open{display:flex}
+#theaterFrame{flex:1;width:100%;border:0;border-radius:12px;background:#000;min-height:60vh}
 .theater-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:#fff}
 .btn-glass{background:rgba(244,244,248,.08);border:1px solid rgba(244,244,248,.24);color:var(--text);padding:6px 12px;border-radius:9px;cursor:pointer;font-size:11px}
+.modal-scrim{display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:16px}
+.modal-card{background:#12141c;padding:20px;border-radius:16px;max-width:360px;width:100%;border:1px solid var(--border)}
+.modal-card ul{list-style:none;padding:0;margin:0}
+.modal-card li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
 @media (prefers-reduced-motion: reduce){
   #bgCanvas{display:none !important}
   body{background:#08080C}
@@ -38,18 +46,20 @@ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system
 </style>
 </head>
 <body>
-<canvas id="bgCanvas"></canvas>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="wrap">
   <div class="topbar">
     <a href="/">← PROMII</a>
-    <div style="display:flex;gap:8px;align-items:center">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <input id="curatorAlias" placeholder="Alias" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:#fff">
-      <button class="btn-glass" type="button" onclick="document.getElementById('rateHub').classList.add('open')">RATE</button>
+      <button class="btn-glass" type="button" onclick="openRank()">RANK</button>
+      <button class="btn-glass" type="button" onclick="openRate()">RATE</button>
+      <a class="btn-glass" href="/cotizador/" style="text-decoration:none">REQUEST A GAME</a>
     </div>
   </div>
   <div class="hero">
     <h1>Promii Arcade</h1>
-    <p>20 kinetic protocols — liquid glass physics, BIM originals, and party runners.</p>
+    <p>20 kinetic protocols — liquid glass physics, BIM originals, and party runners. Logos animate via SMIL.</p>
   </div>
   <div class="filters">
     <button class="filter-btn active" type="button" onclick="setCat('ALL',this)">ALL</button>
@@ -67,8 +77,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system
   </div>
   <iframe id="theaterFrame" title="Game"></iframe>
 </div>
-<div id="rateHub" style="display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.7);align-items:center;justify-content:center" class="">
-  <div style="background:#12141c;padding:20px;border-radius:16px;max-width:360px;width:90%;border:1px solid var(--border)">
+<div id="rateHub" class="modal-scrim">
+  <div class="modal-card">
     <h3 style="margin-top:0">Rate the hub</h3>
     <div id="starRow" style="display:flex;gap:6px;margin:10px 0">
       <button type="button" data-s="1" class="btn-glass">1</button>
@@ -79,14 +89,18 @@ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system
     </div>
     <textarea id="rateNote" rows="3" style="width:100%;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:#fff"></textarea>
     <button class="btn-glass" style="width:100%;margin-top:10px" type="button" onclick="saveHubRating()">SAVE</button>
-    <button class="btn-glass" style="width:100%;margin-top:6px" type="button" onclick="document.getElementById('rateHub').style.display='none'">CLOSE</button>
+    <button class="btn-glass" style="width:100%;margin-top:6px" type="button" onclick="closeRate()">CLOSE</button>
   </div>
 </div>
-<script>
-document.getElementById('rateHub').classList.add=function(c){this.style.display='flex';HTMLElement.prototype.classList.add.call(this,c)};
-</script>
-<script src="/assets/promii-core.js"></script>
-<script src="/assets/promii-logos.js"></script>
+<div id="rankHub" class="modal-scrim">
+  <div class="modal-card">
+    <h3 style="margin-top:0">Peak ranking</h3>
+    <ul id="rankList"></ul>
+    <button class="btn-glass" style="width:100%;margin-top:12px" type="button" onclick="closeRank()">CLOSE</button>
+  </div>
+</div>
+<script src="/games/assets/promii-core.js"></script>
+<script src="/games/assets/promii-logos.js"></script>
 <script src="/assets/promii-arcade-hub.js"></script>
 </body>
 </html>
