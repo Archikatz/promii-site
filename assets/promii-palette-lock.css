@@ -1,0 +1,52 @@
+/* Promii palette lock — anula naranjas genéricos del stack Hyperfluid */
+:root, body.hf-light, html[data-theme="light"] {
+  --hf-bg: #F6F8F7;
+  --hf-ink: #12171F;
+  --hf-muted: #4A5565;
+  --hf-accent: #0F9D84;
+  --hf-neon: #22E0C8;
+  --hf-blue: #2563EB;
+  --hf-coral: #E0533C;
+  --hf-gold: #C88A1E;
+  --hf-lab: #0891B2;
+}
+body.hf-obsidian, html[data-theme="dark"], html:not([data-theme="light"]) body {
+  --hf-neon: #22E0C8;
+  --hf-accent: #22E0C8;
+  --hf-coral: #E0533C;
+  --hf-blue: #2563EB;
+  --hf-gold: #C88A1E;
+}
+/* Fondos multi-orb neon (sistema original) */
+body.hf-light, body:not(.hf-obsidian) {
+  background-color: #F6F8F7 !important;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(224, 83, 60, 0.07), transparent 38%),
+    radial-gradient(circle at 88% 14%, rgba(15, 157, 132, 0.10), transparent 42%),
+    radial-gradient(circle at 50% 85%, rgba(37, 99, 235, 0.07), transparent 45%) !important;
+}
+body.hf-obsidian {
+  background-color: #070A10 !important;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(34, 224, 200, 0.12), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.10), transparent 42%),
+    radial-gradient(circle at 50% 90%, rgba(224, 83, 60, 0.08), transparent 45%) !important;
+}
+/* Chips / admin / CTAs — acentos Promii */
+.hf-chip-btn.active,
+.hf-btn-mag,
+.pm-lang button.on {
+  border-color: #22E0C8 !important;
+  color: #22E0C8 !important;
+}
+.hf-pulse,
+.os-dot,
+.prm-dot {
+  background: #0F9D84 !important;
+  box-shadow: 0 0 0 4px rgba(15, 157, 132, 0.25) !important;
+}
+/* Arcade logos frame */
+.logo-wrap {
+  border-color: rgba(34, 224, 200, 0.28) !important;
+  background: rgba(15, 157, 132, 0.08) !important;
+}
