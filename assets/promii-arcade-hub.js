@@ -53,10 +53,18 @@ if(starRow){
 function logoMarkup(id){
   try{
     if(window.PromiiLogos && PromiiLogos.L && PromiiLogos.L[id]){
-      return '<div class="logo-wrap">'+PromiiLogos.L[id]+'</div>';
+      return '<div class="logo-wrap" aria-hidden="true">'+PromiiLogos.L[id]+'</div>';
     }
   }catch(e){}
-  return '<div class="logo-fallback">'+id+'</div>';
+  var pad = (String(id).length < 2 ? ('0'+id) : String(id));
+  var names={
+    '01':'logo_01_duet_glass.svg','02':'logo_02_resonance_keys.svg',
+    '19':'logo_19_plinth_strider.svg','20':'logo_20_menagerie_runner.svg'
+  };
+  if(names[pad]){
+    return '<div class="logo-wrap"><img src="/games/assets/logos/'+names[pad]+'" width="72" height="72" alt=""></div>';
+  }
+  return '<div class="logo-fallback">'+pad+'</div>';
 }
 
 function renderCards(){
@@ -130,6 +138,7 @@ function renderRank(){
 function openRank(){ renderRank(); const el=document.getElementById('rankHub'); if(el) el.style.display='flex'; }
 function closeRank(){ const el=document.getElementById('rankHub'); if(el) el.style.display='none'; }
 
+window.renderCards=renderCards;
 window.setCat=setCat;
 window.openTheater=openTheater;
 window.closeTheater=closeTheater;
@@ -179,4 +188,6 @@ function loopBg(){
   });
 }
 renderCards();
+setTimeout(function(){ try{renderCards();}catch(e){} }, 50);
+setTimeout(function(){ try{renderCards();}catch(e){} }, 400);
 requestAnimationFrame(loopBg);
