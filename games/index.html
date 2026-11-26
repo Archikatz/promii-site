@@ -44,7 +44,7 @@ background-image:radial-gradient(circle at 20% 10%,rgba(34,224,200,.08),transpar
 @media (prefers-reduced-motion: reduce){#bgCanvas{display:none !important}}
 </style>
 </head>
-<body>
+<body data-no-shell="1">
 <canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="wrap">
   <div class="topbar">
@@ -98,9 +98,9 @@ background-image:radial-gradient(circle at 20% 10%,rgba(34,224,200,.08),transpar
     <button class="btn-glass" style="width:100%;margin-top:12px" type="button" onclick="closeRank()">CLOSE</button>
   </div>
 </div>
-<script src="/games/assets/promii-core.js"></script>
+<script src="/games/assets/promii-core.js?v=peak2"></script>
 <script src="/games/assets/promii-logos.js?v=smil2"></script>
-<script src="/assets/promii-arcade-hub.js?v=logos2"></script>
+<script src="/assets/promii-arcade-hub.js?v=cards2"></script>
 <script>window.addEventListener('load',function(){if(typeof renderCards==='function')renderCards();});</script>
 </body>
 </html>
