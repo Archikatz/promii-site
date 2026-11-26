@@ -22,8 +22,8 @@
 .total{font-family:Georgia,serif;font-size:26px;color:#22E0C8;margin:8px 0}
 </style>
 </head>
-<body data-vertical="growth">
-<div class="prm-topbar"><div class="prm-topbar-inner">
+<body style="position:relative" data-vertical="growth">
+<div class="prm-topbar" style="position:relative;z-index:20"><div class="prm-topbar-inner">
 <a class="prm-brand" href="/servicios/"><span class="prm-dot"></span><span>COTIZADOR PROMII</span></a>
 <nav class="prm-nav-links">
 <a href="/servicios/">← Hub</a>
@@ -36,64 +36,66 @@
 <div class="prm-switch-pill"><button type="button" data-curr-btn="USD" class="active">USD</button><button type="button" data-curr-btn="COP">COP</button></div>
 </div>
 </div></div>
-<main class="prm-container" style="padding-top:28px;padding-bottom:60px">
+<main class="prm-container" style="position:relative;z-index:3;padding-top:28px;padding-bottom:60px">
 <div class="cad-eyebrow">S-06 · 12 PRODUCTIZED SERVICES</div>
-<h1 class="prm-h1">Estimador Maestro — arma tu alcance (USD ↔ COP)</h1>
-<p class="prm-lead">Combina módulos. -8% con 2 servicios, -12% con 3 o más.</p>
-<div class="cat-tabs">
-<button class="cat-tab active" type="button" onclick="filterCat('all',this)">Todos</button>
-<button class="cat-tab" type="button" onclick="filterCat('aec',this)">AEC / BIM</button>
-<button class="cat-tab" type="button" onclick="filterCat('growth',this)">Growth</button>
-<button class="cat-tab" type="button" onclick="filterCat('media',this)">Editorial / Eventos</button>
-</div>
+<h1 class="prm-h1">Estimador maestro · SOW en vivo</h1>
+<p class="prm-lead">Selecciona servicios, aplica bundles y envía alcance por WhatsApp o email. USD ↔ COP.</p>
+<div class="cat-tabs" id="cats"></div>
 <div class="sow-grid">
-<div id="catalog"></div>
+<div id="srvList"></div>
 <aside class="terminal">
-<div style="display:flex;justify-content:space-between"><strong>SOW PRELIMINAR</strong><span id="sowId" style="color:#22E0C8;font-family:monospace;font-size:12px"></span></div>
-<div id="bundleNote" style="font-size:12px;opacity:.8;margin:10px 0">Selecciona 2+ para bundle</div>
-<ul id="selList" style="list-style:none;padding:0;max-height:180px;overflow:auto;font-size:13px"></ul>
-<div class="total" id="rangeTotal">US$0</div>
-<input class="term-input" id="cName" placeholder="Nombre / empresa">
-<input class="term-input" id="cEmail" type="email" placeholder="Correo o WhatsApp">
-<button class="btn-sow" type="button" onclick="send('wa')">💬 Enviar SOW por WhatsApp</button>
-<button class="btn-alt" type="button" onclick="send('mail')">✉️ Correo hi@promii.co</button>
-<button class="btn-alt" type="button" onclick="copySOW()">📋 Copiar</button>
+<div style="font-size:11px;letter-spacing:.12em;opacity:.7;margin-bottom:8px">LIVE SOW</div>
+<div class="total" id="totalLine">US$0</div>
+<ul id="selList" style="list-style:none;padding:0;margin:0 0 12px;font-size:12px"></ul>
+<p style="font-size:11px;opacity:.65;margin:0 0 10px">Rango estimado: <span id="rangeTotal">—</span></p>
+<input class="term-input" id="cName" placeholder="Nombre *">
+<input class="term-input" id="cEmail" type="email" placeholder="Email *">
+<button type="button" class="btn-sow" data-hf-magnetic="0.28" onclick="send('wa')">Enviar por WhatsApp</button>
+<button type="button" class="btn-alt" onclick="send('mail')">Enviar por Email</button>
+<button type="button" class="btn-alt" onclick="copySOW()">Copiar SOW</button>
 </aside>
 </div>
 <div data-promii-footer></div>
 </main>
 <script src="/assets/promii-ecosystem.js"></script>
 <script>
-const S=[
-{id:'s01',cat:'aec',es:'01 · Remodeling / Repair',usd:420,cop:950000},
-{id:'s02',cat:'aec',es:'02 · BIM / Scan-to-BIM',usd:950,cop:3200000},
-{id:'s03',cat:'aec',es:'03 · NYC DOB / FBC / NSR-10',usd:1250,cop:4200000},
-{id:'s04',cat:'aec',es:'04 · Renders & AI viz',usd:580,cop:1950000},
-{id:'s05',cat:'growth',es:'05 · Fundación digital / web',usd:650,cop:2100000},
-{id:'s06',cat:'growth',es:'06 · Content engine 10 sem',usd:850,cop:2800000},
-{id:'s07',cat:'growth',es:'07 · CRM pipeline',usd:1150,cop:3800000},
-{id:'s08',cat:'growth',es:'08 · n8n / AI agents',usd:890,cop:2950000},
-{id:'s09',cat:'media',es:'09 · Libro ArchiKatz Press',usd:590,cop:1950000},
-{id:'s10',cat:'media',es:'10 · Video-invitación + RSVP',usd:240,cop:790000},
-{id:'s11',cat:'media',es:'11 · Nextgen Webinar',usd:550,cop:1850000},
-{id:'s12',cat:'media',es:'12 · Advisory 17 etapas',usd:480,cop:1600000}
+const SRV=[
+{id:'s01',cat:'spaces',es:'Consultoría espacial / walkthrough',en:'Spatial consult',usd:350,cop:1400000},
+{id:'s02',cat:'spaces',es:'Pods BIM LOD 300–400',en:'BIM pods',usd:950,cop:3800000},
+{id:'s03',cat:'spaces',es:'Scan-to-BIM / point cloud',en:'Scan-to-BIM',usd:1200,cop:4800000},
+{id:'s04',cat:'spaces',es:'Set NYC DOB / FBC',en:'Code set',usd:1800,cop:7200000},
+{id:'s05',cat:'growth',es:'Auditoría Growth 0–100',en:'Growth audit',usd:0,cop:0},
+{id:'s06',cat:'growth',es:'Web + funnel foundation',en:'Web foundation',usd:1500,cop:6000000},
+{id:'s07',cat:'growth',es:'CRM GoHighLevel / Odoo setup',en:'CRM setup',usd:900,cop:3600000},
+{id:'s08',cat:'growth',es:'Automatización n8n / agents',en:'Automation',usd:1100,cop:4400000},
+{id:'s09',cat:'press',es:'Libro digital o impreso',en:'Book studio',usd:590,cop:2360000},
+{id:'s10',cat:'moments',es:'Video-invitación RSVP',en:'RSVP video',usd:420,cop:1680000},
+{id:'s11',cat:'moments',es:'Webinar system',en:'Webinar',usd:780,cop:3120000},
+{id:'s12',cat:'lab',es:'Advisory / brand lab',en:'Advisory',usd:650,cop:2600000}
 ];
-const selected=new Set(['s02']);
+const CATS=[{id:'all',es:'Todos'},{id:'spaces',es:'Spaces/BIM'},{id:'growth',es:'Growth'},{id:'press',es:'Press'},{id:'moments',es:'Moments'},{id:'lab',es:'Lab'}];
+let selected=new Set(['s05']);
 let filter='all';
-const sowId='PRM-SOW-'+Math.floor(100+Math.random()*899);
-document.getElementById('sowId').textContent=sowId;
-function money(u,c){ if(window.PromiiOS) return PromiiOS.formatMoney(u,c); return 'US$'+u; }
+const sowId='SOW-'+Date.now().toString(36).toUpperCase();
+function money(u,c){
+  const cur=(window.PromiiOS&&PromiiOS.getCurrency&&PromiiOS.getCurrency())||'USD';
+  if(cur==='COP') return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(c);
+  return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(u);
+}
 function render(){
- const cat=document.getElementById('catalog');
- cat.innerHTML=S.filter(x=>filter==='all'||x.cat===filter).map(s=>`<div class="srv ${selected.has(s.id)?'selected':''}" onclick="toggle('${s.id}')"><div class="srv-title">${s.es}</div><div class="srv-desc">${money(s.usd,s.cop)}</div></div>`).join('');
- let rawU=0,rawC=0; const rows=[];
- selected.forEach(id=>{const s=S.find(x=>x.id===id); if(!s)return; rawU+=s.usd; rawC+=s.cop; rows.push(s);});
- const n=rows.length; const disc=n>=3?0.12:n===2?0.08:0;
- const netU=rawU*(1-disc), netC=rawC*(1-disc);
- document.getElementById('bundleNote').textContent=disc?`Bundle -${Math.round(disc*100)}% activo`:'Selecciona 2+ para bundle (-8% / -12%)';
- document.getElementById('selList').innerHTML=rows.map(r=>`<li style="display:flex;justify-content:space-between;padding:4px 0"><span>${r.es}</span><strong style="color:#22E0C8">${money(r.usd,r.cop)}</strong></li>`).join('');
- document.getElementById('rangeTotal').textContent=money(netU*0.95,netC*0.95).replace(' COP','')+' – '+money(netU*1.12,netC*1.12);
- window.__sow={rows,netU,netC,disc};
+  document.getElementById('cats').innerHTML=CATS.map(c=>`<button type="button" class="cat-tab${filter===c.id?' active':''}" onclick="filterCat('${c.id}',this)">${c.es}</button>`).join('');
+  const list=SRV.filter(s=>filter==='all'||s.cat===filter);
+  document.getElementById('srvList').innerHTML=list.map(s=>`<div class="srv${selected.has(s.id)?' selected':''}" onclick="toggle('${s.id}')"><div class="srv-title">${s.es}</div><div class="srv-desc">${money(s.usd,s.cop)}</div></div>`).join('');
+  const rows=SRV.filter(s=>selected.has(s.id));
+  let netU=rows.reduce((a,s)=>a+s.usd,0), netC=rows.reduce((a,s)=>a+s.cop,0);
+  let disc=0;
+  if(rows.length>=3) disc=0.08;
+  if(rows.length>=5) disc=0.12;
+  netU*=(1-disc); netC*=(1-disc);
+  document.getElementById('totalLine').textContent=money(netU,netC);
+  document.getElementById('selList').innerHTML=rows.map(r=>`<li style="display:flex;justify-content:space-between;padding:4px 0"><span>${r.es}</span><strong style="color:#22E0C8">${money(r.usd,r.cop)}</strong></li>`).join('');
+  document.getElementById('rangeTotal').textContent=money(netU*0.95,netC*0.95)+' – '+money(netU*1.12,netC*1.12);
+  window.__sow={rows,netU,netC,disc};
 }
 function toggle(id){ if(selected.has(id)){ if(selected.size>1) selected.delete(id);} else selected.add(id); render(); }
 function filterCat(c,btn){ filter=c; document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(); }
@@ -103,7 +105,15 @@ function build(){
  const s=window.__sow||{rows:[],netU:0,netC:0,disc:0};
  return ['PROMII SOW '+sowId,'Servicios:'].concat(s.rows.map(r=>' - '+r.es+' '+money(r.usd,r.cop))).concat(['Descuento: -'+Math.round((s.disc||0)*100)+'%','Cliente: '+name+' · '+email]).join('\n');
 }
-function send(ch){ const t=build(); if(window.PromiiOS){ ch==='wa'?PromiiOS.openWhatsApp(t):PromiiOS.openMail('['+sowId+'] SOW',t);} else if(ch==='wa') window.open('https://wa.me/573160570258?text='+encodeURIComponent(t),'_blank'); else location.href='mailto:hi@promii.co?subject='+encodeURIComponent(sowId)+'&body='+encodeURIComponent(t); }
+function send(ch){
+ const name=document.getElementById('cName').value.trim();
+ const email=document.getElementById('cEmail').value.trim();
+ if(!name||!email){alert('Nombre y email son requeridos');return;}
+ const t=build();
+ if(window.PromiiOS){ ch==='wa'?PromiiOS.openWhatsApp(t):PromiiOS.openMail('['+sowId+'] SOW',t);}
+ else if(ch==='wa') window.open('https://wa.me/573160570258?text='+encodeURIComponent(t),'_blank');
+ else location.href='mailto:hi@promii.co?subject='+encodeURIComponent(sowId)+'&body='+encodeURIComponent(t);
+}
 function copySOW(){ navigator.clipboard&&navigator.clipboard.writeText(build()); }
 (()=>{ const p=new URLSearchParams(location.search).get('preset');
  if(p==='bim'){selected.clear();selected.add('s02');selected.add('s03');}
@@ -113,6 +123,15 @@ function copySOW(){ navigator.clipboard&&navigator.clipboard.writeText(build());
  if(window.PromiiOS) PromiiOS.initShell({});
  render();
 })();
+</script>
+<canvas id="promii-webgl-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.18"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/assets/promii-hyperfluid-config.js"></script>
+<script src="/assets/promii-hyperfluid-engine.js"></script>
+<script>
+if (window.PromiiHyperfluid) {
+  PromiiHyperfluid.init({ canvasId: 'promii-webgl-canvas', ambient: true, act: 'droplet', accent: '#0F9D84', canvasOpacity: '0.18' });
+}
 </script>
 </body>
 </html>
