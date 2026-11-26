@@ -17,8 +17,8 @@
 body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--accent-border:rgba(8,145,178,.34)}
 </style>
 </head>
-<body data-vertical="lab">
-<div class="prm-topbar"><div class="prm-topbar-inner">
+<body data-vertical="lab" style="position:relative">
+<div class="prm-topbar" style="position:relative;z-index:5"><div class="prm-topbar-inner">
 <a class="prm-brand" href="/servicios/"><span class="prm-dot"></span><span>ARCHIKATZ ACADEMY</span></a>
 <nav class="prm-nav-links">
 <a href="/servicios/">← Hub</a>
@@ -28,7 +28,7 @@ body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--acce
 </nav>
 <div class="prm-toggles"><div class="prm-switch-pill"><button type="button" data-lang-btn="es" class="active">ES</button><button type="button" data-lang-btn="en">EN</button></div></div>
 </div></div>
-<main class="prm-container" style="padding-top:32px;padding-bottom:60px">
+<main class="prm-container" style="position:relative;z-index:3;padding-top:32px;padding-bottom:60px">
 <div class="cad-eyebrow">A-01 · CAMPUS · IA-01 INAUGURAL</div>
 <h1 class="prm-h1">Entrenamiento práctico en IA, BIM, proyectos y growth</h1>
 <p class="prm-lead">5 lecciones inaugurales de IA-01 + catálogo. Progreso local (Supabase listo).</p>
@@ -40,6 +40,18 @@ body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--acce
 <button type="button" class="btn-prm" onclick="openGate()">Empezar IA-01 →</button>
 </div>
 </section>
+<section style="margin-bottom:36px">
+<div class="glass-card" style="border-left:4px solid #22E0C8">
+<span class="prm-badge">NUEVO · TEC-01</span>
+<h2 class="prm-h2" style="margin-top:10px">Ingeniería Web Hiperfluida: WebGL, Cristal Líquido y Scrollytelling</h2>
+<p style="font-size:14px;color:var(--ink-soft)">Fresnel, dispersión RGB, Lenis, GSAP y audio cristalino — el estándar v4.0 detrás de promii.co (< 180 KB).</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
+<button type="button" class="btn-prm" onclick="openTec01()">Abrir módulo TEC-01 →</button>
+<a class="btn-prm-ghost" href="/docs/PROMII_HYPERFLUID_DESIGN_STANDARD.md" target="_blank" rel="noopener">Ver estándar</a>
+<a class="btn-prm-ghost" href="/">Ver en vivo en /</a>
+</div>
+</div>
+</section>
 <div class="cad-eyebrow">CATÁLOGO</div>
 <div class="course-grid" id="grid"></div>
 <div data-promii-footer></div>
@@ -47,39 +59,70 @@ body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--acce
 <div class="modal" id="gate">
 <div class="modal-card glass-card">
 <div class="cad-eyebrow">SIGN-UP GATE</div>
-<h2 style="font-family:Georgia,serif;margin:8px 0 12px">Accede al campus</h2>
-<input id="gName" placeholder="Nombre" style="width:100%;padding:10px;margin-bottom:8px;border-radius:10px;border:1.5px solid var(--line-cad);background:rgba(255,255,255,.55)">
-<input id="gMail" type="email" placeholder="Correo" style="width:100%;padding:10px;margin-bottom:12px;border-radius:10px;border:1.5px solid var(--line-cad);background:rgba(255,255,255,.55)">
-<button type="button" class="btn-prm" style="width:100%;justify-content:center" onclick="signup()">Crear acceso local</button>
+<h2 class="prm-h2">Acceso local al campus</h2>
+<p style="font-size:14px;color:var(--ink-soft)">Guarda progreso en este dispositivo. Supabase listo para sincronizar después.</p>
+<label style="display:block;font-size:12px;margin:8px 0 4px">Nombre</label>
+<input id="gateName" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line-cad)" placeholder="Tu nombre">
+<label style="display:block;font-size:12px;margin:8px 0 4px">Email</label>
+<input id="gateEmail" type="email" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line-cad)" placeholder="tu@email.com">
+<button type="button" class="btn-prm" style="width:100%;justify-content:center;margin-top:12px" onclick="signup()">Crear acceso local</button>
 <button type="button" class="btn-prm-ghost" style="width:100%;justify-content:center;margin-top:8px" onclick="closeGate()">Cerrar</button>
-<p style="font-size:12px;color:var(--ink-muted);margin-top:12px">Progreso en este navegador. MailerLite / Supabase después.</p>
 </div>
 </div>
 <script src="/assets/promii-ecosystem.js"></script>
 <script>
 const COURSES=[
 {id:'ia01',title:'IA-01 · Entrenamiento práctico en IA',meta:'5 lecciones · inaugural',tag:'IA'},
-{id:'bim01',title:'BIM LOD 300–400 · workflows Revit',meta:'4 módulos',tag:'BIM'},
-{id:'dob01',title:'NYC DOB · compliance digital',meta:'3 módulos',tag:'AEC'},
-{id:'ghl01',title:'CRM & funnels con GoHighLevel',meta:'Growth',tag:'Growth'},
-{id:'n8n01',title:'Automatización n8n + agentes',meta:'Ops',tag:'IA'},
-{id:'press01',title:'Editorial & toons ArchiKatz',meta:'Press',tag:'Media'}
+{id:'tec01',title:'TEC-01 · WebGL Hiperfluido & Scrollytelling 60 FPS',meta:'4 lecciones · shaders · Lenis · GSAP',tag:'TEC'},
+{id:'bim01',title:'BIM-01 · Revit LOD 300–400 & NYC DOB',meta:'próximamente',tag:'BIM'},
+{id:'pmi01',title:'PMI-01 · Delivery remoto 17 etapas',meta:'próximamente',tag:'PM'},
+{id:'grw01',title:'GRW-01 · Growth 0–100 & CRM',meta:'próximamente',tag:'GROWTH'}
 ];
-const STORE='promii_academy_user_v1';
-function openGate(){ document.getElementById('gate').classList.add('open'); }
-function closeGate(){ document.getElementById('gate').classList.remove('open'); }
+function openGate(){document.getElementById('gate').classList.add('open');}
+function closeGate(){document.getElementById('gate').classList.remove('open');}
 function signup(){
- const name=document.getElementById('gName').value.trim();
- const mail=document.getElementById('gMail').value.trim();
- if(!name||!mail){ alert('Nombre y correo requeridos'); return; }
- localStorage.setItem(STORE, JSON.stringify({name,mail,ts:Date.now()}));
- closeGate(); alert('Acceso guardado: '+name);
+  const name=(document.getElementById('gateName').value||'').trim();
+  const email=(document.getElementById('gateEmail').value||'').trim();
+  if(!name||!email){alert('Nombre y email requeridos');return;}
+  try{localStorage.setItem('promii_academy_user',JSON.stringify({name,email,ts:Date.now()}));}catch(e){}
+  closeGate();
+  alert('Acceso local creado. Bienvenido, '+name);
 }
-function render(){
- document.getElementById('grid').innerHTML=COURSES.map(c=>`<article class="course glass-card" onclick="openGate()"><span class="prm-badge">${c.tag}</span><h3>${c.title}</h3><div class="meta">${c.meta}</div></article>`).join('');
+function openTec01(){
+  var m=document.getElementById('gate');
+  if(!m)return;
+  var card=m.querySelector('.modal-card');
+  if(!card)return;
+  card.innerHTML='<div class="cad-eyebrow">TEC-01 · HYPERFLUID WEBGL</div>'+
+    '<h2 class="prm-h2">4 lecciones · Cristal líquido a 60 FPS</h2>'+
+    '<ol style="font-size:14px;line-height:1.55;color:var(--ink-soft);padding-left:18px">'+
+    '<li><strong>Óptica real:</strong> Fresnel Schlick, IOR 1.33–1.52, dispersión RGB.</li>'+
+    '<li><strong>Scrollytelling:</strong> Lenis velocity + GSAP ScrollTrigger + vista BIM explotada.</li>'+
+    '<li><strong>Dual atmosphere:</strong> Architectural Light / Obsidian Luxury (Shift+A).</li>'+
+    '<li><strong>Audio & budget:</strong> Web Audio Re Dórico (mute default) + DPR adaptativo móvil.</li>'+
+    '</ol>'+
+    '<p style="font-size:13px;color:var(--ink-muted)">Docs: <a href="/docs/knowledge_tec01_hyperfluid_webgl.md" target="_blank">knowledge TEC-01</a> · <a href="/docs/PROMII_HYPERFLUID_DESIGN_STANDARD.md" target="_blank">Estándar v4.0</a></p>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">'+
+    '<a class="btn-prm" href="/">Abrir Flagship /</a>'+
+    '<a class="btn-prm-ghost" href="/home/">Command Deck /home</a>'+
+    '<button type="button" class="btn-prm-ghost" onclick="closeGate()">Cerrar</button>'+
+    '</div>';
+  m.classList.add('open');
 }
-if(window.PromiiOS) PromiiOS.initShell({});
-render();
+document.getElementById('grid').innerHTML=COURSES.map(c=>{
+  const open = c.id==='tec01' ? 'openTec01()' : 'openGate()';
+  return `<article class="course glass-card" onclick="${open}"><span class="prm-badge">${c.tag}</span><h3>${c.title}</h3><div class="meta">${c.meta}</div></article>`;
+}).join('');
+if(window.PromiiOS) PromiiOS.initShell({basePath:'..'});
+</script>
+<canvas id="promii-webgl-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.28"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/assets/promii-hyperfluid-config.js"></script>
+<script src="/assets/promii-hyperfluid-engine.js"></script>
+<script>
+if (window.PromiiHyperfluid) {
+  PromiiHyperfluid.init({ canvasId: 'promii-webgl-canvas', ambient: true, act: 'trinity-nodes', accent: '#0891B2', canvasOpacity: '0.28' });
+}
 </script>
 </body>
 </html>
