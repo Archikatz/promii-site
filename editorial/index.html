@@ -26,9 +26,12 @@ h1{font:700 clamp(30px,5vw,48px)/1.1 "Playfair Display",serif}
 .side a{color:#d4af37}
 html[data-theme="light"] body{background:#f4f0e6;color:#1a1814}
 html[data-theme="light"] .lede,html[data-theme="light"] .book p{color:#6a6658}
+main,.wrap,.book,.side{position:relative;z-index:3}
+@media (max-width:768px){#promii-webgl-canvas{opacity:0.14 !important}}
+@media (prefers-reduced-motion: reduce){#promii-webgl-canvas{display:none !important}}
 </style>
 </head>
-<body>
+<body style="position:relative">
 <main class="wrap">
   <p class="k">Sello editorial · Tomo I</p>
   <h1>ArchiKatz Editorial</h1>
@@ -50,10 +53,19 @@ html[data-theme="light"] .lede,html[data-theme="light"] .book p{color:#6a6658}
   <div class="side">
     <p class="k">También en el sello</p>
     <p style="margin:8px 0"><a href="toon.html?ep=ep00-la-guardiana-del-umbral">Ep. 0 · Guardiana del Umbral</a> (webtoon)</p>
-    <p style="margin:8px 0"><a href="proceso-creador.html">Making-of · Manuscrito del Creador</a> (proceso de producción InDesign/Magnific/MCP — no es el libro narrativo)</p>
+    <p style="margin:8px 0"><a href="proceso-creador.html">Making-of · Manuscrito del Creador</a></p>
     <p style="margin:8px 0"><a href="/archikatz/">Universo ArchiKatz</a></p>
   </div>
 </main>
 <script src="/assets/site-shell.js" data-mode="full"></script>
+<canvas id="promii-webgl-canvas" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:0.26"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/assets/promii-hyperfluid-config.js"></script>
+<script src="/assets/promii-hyperfluid-engine.js"></script>
+<script>
+if (window.PromiiHyperfluid) {
+  PromiiHyperfluid.init({ canvasId: 'promii-webgl-canvas', ambient: true, act: 'droplet', accent: '#D4AF37', canvasOpacity: '0.26' });
+}
+</script>
 </body>
 </html>
