@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Promii Remodeling · Denver & Bogotá</title>
+<title>Promii Remodeling · Americas & LATAM</title>
 <link rel="stylesheet" href="/assets/promii-ecosystem.css">
+<link rel="stylesheet" href="/assets/promii-palette-lock.css">
 <style>
 .hub-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
 .hub-tab{padding:10px 16px;border-radius:999px;border:1px solid var(--line-cad);background:#fff;cursor:pointer;font-size:13px;font-weight:600}
@@ -31,9 +32,9 @@
 </div>
 </div></div>
 <main class="prm-container" style="position:relative;z-index:3;padding-top:28px;padding-bottom:60px">
-<div class="cad-eyebrow">S-02 · DUAL-HUB REMODELING</div>
-<h1 class="prm-h1">Denver BAAC & Bogotá · estimación y obra</h1>
-<p class="prm-lead">Dos hubs operativos, un SOW paramétrico y pay-on-approval. Elige ciudad y genera alcance en minutos.</p>
+<div class="cad-eyebrow">S-02 · INTERNATIONAL REMODELING</div>
+<h1 class="prm-h1">Americas & LATAM · estimación y obra</h1>
+<p class="prm-lead">Hubs operativos en Denver y Bogotá, alcance internacional y SOW paramétrico con pay-on-approval. Elige ciudad o pide un hub remoto.</p>
 <div class="hub-tabs">
 <button type="button" class="hub-tab active" data-hub="denver" onclick="setHub('denver',this)">Denver · BAAC</button>
 <button type="button" class="hub-tab" data-hub="bogota" onclick="setHub('bogota',this)">Bogotá · Studio</button>
@@ -50,7 +51,6 @@
 <div style="display:flex;flex-wrap:wrap;gap:10px">
 <a class="btn-prm" data-hf-magnetic="0.28" href="/cotizador/?preset=bim">Abrir Estimador BIM →</a>
 <a class="btn-prm-ghost" href="https://wa.me/573160570258?text=Hola%20Brian%2C%20remodeling%20Denver" target="_blank" rel="noopener">WhatsApp Denver</a>
-<a class="btn-prm-ghost" href="/denver/">Ficha Denver</a>
 </div>
 </section>
 <section id="panel-bogota" class="panel glass-card" style="padding:22px">
@@ -65,7 +65,6 @@
 <div style="display:flex;flex-wrap:wrap;gap:10px">
 <a class="btn-prm" data-hf-magnetic="0.28" href="/cotizador/">Cotizar alcance →</a>
 <a class="btn-prm-ghost" href="https://wa.me/573160570258?text=Hola%20Brian%2C%20remodeling%20Bogot%C3%A1" target="_blank" rel="noopener">WhatsApp Bogotá</a>
-<a class="btn-prm-ghost" href="/bogota/">Ficha Bogotá</a>
 </div>
 </section>
 <section class="glass-card" style="padding:22px;margin-top:18px">
@@ -77,6 +76,7 @@
 <div data-promii-footer></div>
 </main>
 <script src="/assets/promii-ecosystem.js"></script>
+<script src="/assets/site-shell.js?v=chrome2" data-mode="full"></script>
 <script>
 function setHub(id, btn){
   document.querySelectorAll('.hub-tab').forEach(b=>b.classList.remove('active'));
