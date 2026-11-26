@@ -1,13 +1,13 @@
 /* presence map */
 .mp-wrap{margin:18px 0 8px}
-.mp-route{width:100%;height:auto;display:block;color:rgba(244,244,248,.35)}
-.mp-route .land{fill:rgba(34,224,200,.06);stroke:rgba(34,224,200,.22);stroke-width:1}
-.mp-route .arc{fill:none;stroke:#10A37F;stroke-width:1.2;stroke-dasharray:4 5;opacity:.75}
-.mp-route .lb{font:600 9px Inter,system-ui;fill:rgba(244,244,248,.7);letter-spacing:.06em}
+.mp-route{width:100%;height:auto;display:block;color:rgba(18,23,31,.35)}
+.mp-route .land{fill:rgba(15,157,132,.06);stroke:rgba(15,157,132,.22);stroke-width:1}
+.mp-route .arc{fill:none;stroke:#0F9D84;stroke-width:1.2;stroke-dasharray:4 5;opacity:.75}
+.mp-route .lb{font:600 9px Inter,system-ui;fill:rgba(18,23,31,.65);letter-spacing:.06em}
 .mp-route .pulse{animation:mpPulse 2.4s ease-out infinite}
 @keyframes mpPulse{0%{opacity:.7;r:14}100%{opacity:0;r:28}}
-.mp-metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font:500 11px Inter,system-ui;letter-spacing:.04em;color:rgba(244,244,248,.55)}
-.mp-metrics span{padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.mp-metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font:500 11px Inter,system-ui;letter-spacing:.04em;color:rgba(18,23,31,.55)}
+.mp-metrics span{padding:5px 10px;border-radius:999px;border:1px solid rgba(15,157,132,.18);background:rgba(255,255,255,.6)}
 
 #fab,#pm-drop-fab,.fab-dock,.fab-loupe,.prm-droplets-dock{display:none!important}
 
@@ -20,34 +20,34 @@
 
 .pm-drop-core{
   width:58px;height:58px; border:none; padding:0; cursor:pointer; position:relative;
-  color:#F4F4F8;
+  color:#0F172A;
   background:
-    radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), rgba(255,255,255,.4) 36%, rgba(170,210,230,.28) 58%, rgba(100,160,190,.14) 100%);
+    radial-gradient(circle at 32% 26%, rgba(255,255,255,.98), rgba(255,255,255,.75) 40%, rgba(34,224,200,.22) 70%, rgba(15,157,132,.18));
   border-radius: 58% 42% 55% 45% / 48% 52% 48% 52%;
   box-shadow:
-    0 12px 32px rgba(0,0,0,.28),
-    inset 0 1px 0 rgba(255,255,255,.9),
-    inset 0 -10px 18px rgba(40,90,120,.14);
+    0 12px 32px rgba(15,23,42,.16),
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -10px 18px rgba(15,157,132,.08);
   backdrop-filter: blur(16px) saturate(1.45);
   -webkit-backdrop-filter: blur(16px) saturate(1.45);
-  border: 1px solid rgba(255,255,255,.55);
+  border: 1px solid rgba(15,157,132,.35);
   transform-origin: 50% 55%;
   will-change: transform, border-radius;
 }
 .pm-drop-core .shine{
   position:absolute; inset:12% 16% auto 16%; height:36%; border-radius:50%;
-  background: radial-gradient(ellipse at 40% 30%, rgba(255,255,255,.9), transparent 70%);
+  background: radial-gradient(ellipse at 40% 30%, rgba(255,255,255,.95), transparent 70%);
   pointer-events:none;
 }
 .pm-drop-core .tail{
   position:absolute; left:50%; bottom:-7px; width:11px; height:15px;
   transform:translateX(-50%);
-  background: linear-gradient(180deg, rgba(200,230,240,.4), transparent);
+  background: linear-gradient(180deg, rgba(34,224,200,.35), transparent);
   border-radius:0 0 50% 50%; pointer-events:none; opacity:.55;
 }
 .pm-drop-core .ripple{
   position:absolute; inset:-8%; border-radius:inherit; pointer-events:none;
-  border:1.5px solid rgba(255,255,255,.45); opacity:0; transform:scale(.85);
+  border:1.5px solid rgba(15,157,132,.4); opacity:0; transform:scale(.85);
 }
 .pm-drop-core .ripple.go{
   animation: pmRipple .7s cubic-bezier(.22,1,.36,1) forwards;
@@ -56,11 +56,13 @@
   0%{opacity:.55; transform:scale(.9)}
   100%{opacity:0; transform:scale(1.55)}
 }
-html[data-theme="light"] .pm-drop-core{
+body.hf-obsidian .pm-drop-core,
+html[data-theme="dark"] body:not(.hf-light) .pm-drop-core{
+  color:#F4F4F8;
   background:
-    radial-gradient(circle at 32% 26%, rgba(255,255,255,.98), rgba(255,255,255,.75) 40%, rgba(200,225,240,.5) 70%, rgba(180,205,220,.3));
-  border-color: rgba(255,255,255,.9);
-  box-shadow: 0 14px 36px rgba(15,23,42,.14), inset 0 1px 0 #fff;
+    radial-gradient(circle at 32% 26%, rgba(255,255,255,.55), rgba(255,255,255,.18) 40%, rgba(34,224,200,.2) 70%, rgba(15,157,132,.12));
+  border-color: rgba(34,224,200,.4);
+  box-shadow: 0 12px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
 }
 
 .pm-drop-menu{
@@ -71,15 +73,21 @@ html[data-theme="light"] .pm-drop-core{
   max-width: min(280px, calc(100vw - 36px));
 }
 .pm-brand-drop.is-open .pm-drop-menu{ opacity:1; pointer-events:auto; transform:none; }
+
+/* Default = high contrast for light flagship (readable) */
 .pm-drop-menu a{
   font:600 12.5px/1 Inter,system-ui,sans-serif;
-  padding:10px 16px; border-radius:999px; text-decoration:none; color:#F4F4F8; white-space:nowrap;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.28);
+  padding:10px 16px; border-radius:999px; text-decoration:none;
+  color:#0F172A; white-space:nowrap;
+  background: rgba(255,255,255,.94);
+  border: 1px solid rgba(15,157,132,.28);
   backdrop-filter: blur(16px) saturate(1.3);
   -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  box-shadow: 0 8px 22px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.25);
+  box-shadow: 0 8px 22px rgba(15,23,42,.12), inset 0 1px 0 #fff;
   opacity:0; transform: translateX(8px);
+}
+.pm-drop-menu a:hover{
+  border-color:#0F9D84; color:#0F9D84;
 }
 .pm-brand-drop.is-open .pm-drop-menu a{ animation: pmPillIn .34s cubic-bezier(.22,1,.36,1) forwards; }
 .pm-brand-drop.is-open .pm-drop-menu a:nth-child(1){animation-delay:20ms}
@@ -92,9 +100,18 @@ html[data-theme="light"] .pm-drop-core{
 .pm-brand-drop.is-open .pm-drop-menu a:nth-child(8){animation-delay:230ms}
 .pm-brand-drop.is-open .pm-drop-menu a:nth-child(9){animation-delay:260ms}
 @keyframes pmPillIn{to{opacity:1;transform:none}}
-html[data-theme="light"] .pm-drop-menu a{
-  color:#121218; background:rgba(255,255,255,.72); border-color:rgba(255,255,255,.9);
-  box-shadow:0 8px 22px rgba(15,23,42,.1), inset 0 1px 0 #fff;
+
+/* Dark mode override for drop menu */
+body.hf-obsidian .pm-drop-menu a,
+html[data-theme="dark"] body:not(.hf-light) .pm-drop-menu a{
+  color:#F4F7FB;
+  background:rgba(12,18,28,.9);
+  border-color:rgba(34,224,200,.28);
+  box-shadow:0 8px 22px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.12);
 }
-.pm-drop-menu a.pm-sep{ margin-top:4px; border-color:rgba(34,224,200,.35); }
+body.hf-obsidian .pm-drop-menu a:hover{
+  border-color:#22E0C8; color:#22E0C8;
+}
+
+.pm-drop-menu a.pm-sep{ margin-top:4px; border-color:rgba(15,157,132,.45); }
 @media print{.pm-brand-drop{display:none}}
