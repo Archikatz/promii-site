@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Promii Arcade · 20 Kinetic Protocols</title>
+<link rel="stylesheet" href="/assets/promii-palette-lock.css">
 <style>
-:root{--bg:#08080C;--text:#F4F4F8;--muted:#a6a6bc;--cyan:#22E0C8;--border:rgba(244,244,248,.12)}
+:root{--bg:#08080C;--text:#F4F4F8;--muted:#a6a6bc;--cyan:#22E0C8;--teal:#0F9D84;--border:rgba(244,244,248,.12)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system-ui,sans-serif;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system-ui,sans-serif;overflow-x:hidden;
+background-image:radial-gradient(circle at 20% 10%,rgba(34,224,200,.08),transparent 40%),radial-gradient(circle at 80% 30%,rgba(37,99,235,.07),transparent 42%),radial-gradient(circle at 50% 90%,rgba(224,83,60,.06),transparent 45%)}
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:28px 16px 80px}
 .hero{text-align:center;margin-bottom:22px}
@@ -22,12 +24,12 @@ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system
 .card h3{margin:8px 0 4px;font-size:14px}
 .card p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.4}
 .badge{font-size:10px;letter-spacing:1px;color:var(--cyan)}
-.peak{font-size:10px;color:#E8B23A;margin-left:8px}
+.peak{font-size:10px;color:#C88A1E;margin-left:8px}
 .card-top{display:flex;align-items:center;flex-wrap:wrap}
 .card-cta{margin-top:12px;font-size:11px;font-weight:700;color:var(--cyan)}
-.logo-wrap{width:72px;height:72px;margin-bottom:8px}
-.logo-wrap svg{width:72px;height:72px;display:block}
-.logo-fallback{width:72px;height:72px;border-radius:16px;display:grid;place-items:center;background:rgba(34,224,200,.08);border:1px solid var(--border);font:700 14px monospace;color:var(--cyan);margin-bottom:8px}
+.logo-wrap{width:80px;height:80px;margin-bottom:10px;border-radius:18px;overflow:hidden;background:rgba(15,157,132,.08);border:1px solid rgba(34,224,200,.28);display:grid;place-items:center}
+.logo-wrap svg,.logo-wrap img{width:72px;height:72px;display:block}
+.logo-fallback{width:80px;height:80px;border-radius:18px;display:grid;place-items:center;background:rgba(15,157,132,.1);border:1px solid rgba(34,224,200,.25);font:700 14px monospace;color:var(--cyan);margin-bottom:10px}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
 .topbar a{color:var(--cyan);text-decoration:none;font-size:12px}
 #theater{display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.88);padding:16px;flex-direction:column}
@@ -39,17 +41,14 @@ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system
 .modal-card{background:#12141c;padding:20px;border-radius:16px;max-width:360px;width:100%;border:1px solid var(--border)}
 .modal-card ul{list-style:none;padding:0;margin:0}
 .modal-card li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
-@media (prefers-reduced-motion: reduce){
-  #bgCanvas{display:none !important}
-  body{background:#08080C}
-}
+@media (prefers-reduced-motion: reduce){#bgCanvas{display:none !important}}
 </style>
 </head>
 <body>
 <canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="wrap">
   <div class="topbar">
-    <a href="/">← PROMII</a>
+    <a href="/" style="display:inline-flex;align-items:center;gap:8px"><img src="/assets/logo/bz-mark-glass.svg" width="24" height="24" alt="Brian Zuleta"><span>PROMII</span></a>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <input id="curatorAlias" placeholder="Alias" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:#fff">
       <button class="btn-glass" type="button" onclick="openRank()">RANK</button>
@@ -100,7 +99,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system
   </div>
 </div>
 <script src="/games/assets/promii-core.js"></script>
-<script src="/games/assets/promii-logos.js"></script>
-<script src="/assets/promii-arcade-hub.js"></script>
+<script src="/games/assets/promii-logos.js?v=smil2"></script>
+<script src="/assets/promii-arcade-hub.js?v=logos2"></script>
+<script>window.addEventListener('load',function(){if(typeof renderCards==='function')renderCards();});</script>
 </body>
 </html>
