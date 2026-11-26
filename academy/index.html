@@ -1,160 +1,85 @@
-<!doctype html>
-<html lang="es" data-theme="dark" data-title-en="Promii Academy · Guides on BIM, AI, construction and B2B sales">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Promii Academy · Guías de BIM, IA, construcción y ventas B2B</title>
-<meta name="description" content="Guías y playbooks de Brian Zuleta: Revit con IA, permisos en Nueva York, administración de obra, automatización, ventas B2B, marketing y diseño web.">
-<link rel="canonical" href="https://promii.co/academy/">
-<link rel="alternate" hreflang="en" href="https://promii.co/academy/?lang=en">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Promii Academy">
-<meta property="og:description" content="Lo que hago todos los días, convertido en guías paso a paso.">
-<meta property="og:image" content="https://promii.co/bitacora/img/academy.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<script>try{var t=localStorage.getItem('promii-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
-<script src="../assets/promii-config.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArchiKatz Academy · IA, BIM & Growth | Promii</title>
+<link rel="stylesheet" href="/assets/promii-ecosystem.css">
 <style>
-/* Bitácora: lista de entradas y lector de Markdown con el mismo vidrio de promii.co */
-html{--display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;--body:"Inter",ui-sans-serif,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--accent:#ff3b30;--blue:#2f6bff}
-html[data-theme="dark"]{--bg:#08080c;--text:#f4f4f8;--muted:#a6a6bc;--dim:#6e6e86;--line:rgba(255,255,255,.1);--glass:rgba(255,255,255,.045);--glass2:rgba(255,255,255,.07);--brd:rgba(255,255,255,.13);--hi:rgba(255,255,255,.16);--shadow:0 18px 40px -20px rgba(0,0,0,.7);color-scheme:dark}
-html[data-theme="light"]{--bg:#eceef3;--text:#15151c;--muted:#55576a;--dim:#8a8c9e;--line:rgba(15,18,40,.1);--glass:rgba(255,255,255,.6);--glass2:rgba(255,255,255,.78);--brd:rgba(255,255,255,.8);--hi:rgba(255,255,255,.9);--shadow:0 16px 36px -20px rgba(40,45,70,.3);color-scheme:light}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 var(--body);-webkit-font-smoothing:antialiased;min-height:100vh}
-body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(45% 40% at 12% 0%,color-mix(in srgb,var(--blue) 26%,transparent),transparent 70%),radial-gradient(40% 40% at 100% 100%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 70%)}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
-.glass{background:linear-gradient(140deg,var(--glass2),var(--glass));backdrop-filter:blur(18px) saturate(1.6);-webkit-backdrop-filter:blur(18px) saturate(1.6);border:1px solid var(--brd);box-shadow:var(--shadow),inset 0 1px 0 var(--hi);border-radius:24px;corner-shape:superellipse(1.7)}
-nav{position:sticky;top:calc(10px + env(safe-area-inset-top,0px));z-index:5;margin:10px auto 0;width:min(1080px,calc(100% - 24px));display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px 8px 18px;border-radius:999px}
-.brand{display:flex;align-items:center;gap:10px;font:700 13px var(--display);letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
-.brand i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
-nav .links{display:flex;gap:6px;flex-wrap:wrap}
-nav .links a{text-decoration:none;font:500 13px var(--body);color:var(--muted);padding:7px 12px;border-radius:999px}
-nav .links a:hover,nav .links a[aria-current="page"]{color:var(--text);background:var(--glass2)}
-header.top{padding-block:56px 24px}
-.eyebrow{font:600 11px var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
-.eyebrow::before{content:"";width:18px;height:2px;background:var(--accent)}
-h1{font:700 clamp(40px,7vw,76px)/1 var(--display);letter-spacing:-.04em;margin:14px 0 14px;text-wrap:balance}
-.lead{color:var(--muted);max-width:62ch;font-size:18px;margin:0}
-.list{display:grid;gap:16px;padding-block:10px 40px}
-.card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:0;overflow:hidden;text-decoration:none;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-.card:hover{transform:translateY(-3px)}
-.card img{width:100%;height:100%;object-fit:cover;display:block;min-height:220px}
-.card .c{padding:24px;display:grid;gap:10px;align-content:center}
-.card h2{font:700 clamp(22px,3vw,30px)/1.1 var(--display);letter-spacing:-.02em;margin:0}
-.card p{margin:0;color:var(--muted);font-size:15px}
-.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12.5px;color:var(--dim)}
-.tag{font:600 11px var(--body);padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
-.more{font:600 14px var(--display)}
-@media (max-width:720px){.card{grid-template-columns:1fr}.card img{min-height:180px;max-height:220px}}
-article{padding-block:48px 20px}
-article .head{max-width:760px;margin:0 auto}
-article .cover{margin:26px 0 0;border-radius:24px;overflow:hidden;corner-shape:superellipse(1.7)}
-article .cover img{display:block;width:100%;height:auto}
-.prose{max-width:720px;margin:34px auto 0;font-size:17.5px;line-height:1.75}
-.prose h2{font:700 clamp(24px,3.4vw,32px)/1.15 var(--display);letter-spacing:-.02em;margin:46px 0 12px;text-wrap:balance}
-.prose h3{font:600 20px var(--display);margin:30px 0 8px}
-.prose p{margin:0 0 18px}
-.prose ul,.prose ol{margin:0 0 18px;padding-left:22px}
-.prose li{margin:6px 0}
-.prose strong{color:var(--text)}
-.prose em{color:var(--text)}
-.prose img{display:block;width:100%;height:auto;border-radius:20px;margin:26px 0 6px;box-shadow:var(--shadow)}
-.prose img+em,.prose p>img+br+em{display:block}
-.prose .cap{display:block;text-align:center;color:var(--dim);font-size:13.5px;margin:6px 0 26px}
-.prose code{font:14px var(--mono);background:var(--glass2);padding:2px 6px;border-radius:6px}
-.prose a{color:var(--accent)}
-.prose blockquote{margin:24px 0;padding:6px 20px;border-left:3px solid var(--accent);color:var(--muted)}
-.back{display:inline-flex;gap:8px;align-items:center;font:600 14px var(--display);text-decoration:none;color:var(--muted)}
-.back:hover{color:var(--text)}
-.sub{max-width:720px;margin:40px auto 0;padding:22px;display:grid;gap:12px}
-.sub b{font:700 19px var(--display)}
-.sub span{color:var(--muted);font-size:15px}
-.sub form{display:flex;flex-wrap:wrap;gap:8px}
-.sub input[type=email]{flex:1;min-width:200px;font:inherit;font-size:15px;color:var(--text);background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:11px 16px}
-.sub button{font:600 14px var(--body);border:0;border-radius:999px;padding:11px 18px;background:var(--text);color:var(--bg);cursor:pointer}
-.hp{position:absolute;left:-9999px;opacity:0}
-.st{margin:0;font-size:14px;min-height:1.2em}.st.ok{color:#30d158}.st.err{color:#ff5a4f}
-@media (max-width:620px){nav .links a:not([aria-current]):not(:first-child){display:none}.brand{white-space:nowrap}}
-footer{color:var(--dim);font-size:13px;padding-block:40px;text-align:center}
-.empty{color:var(--muted);padding:40px 0}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-
-/* Academy */
-.layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0 8px}
-.layer{padding:18px 20px;display:grid;gap:4px;text-decoration:none}
-.layer b{font:700 18px var(--display)}.layer span{color:var(--muted);font-size:14.5px;line-height:1.5}.layer small{font:600 11px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-.layer.here{outline:1.5px solid var(--accent);outline-offset:-1.5px}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:14px 0 6px;scrollbar-width:none;position:sticky;top:calc(70px + env(safe-area-inset-top,0px));z-index:4}
-.chips::-webkit-scrollbar{display:none}
-.chips a{flex:none;text-decoration:none;font:500 13px var(--body);padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);color:var(--muted)}
-.chips a:hover{color:var(--text)}
-.track{padding-top:40px;scroll-margin-top:120px}
-.th h2{font:700 clamp(26px,3.6vw,36px)/1.1 var(--display);letter-spacing:-.02em;margin:10px 0 6px}
-.th p{margin:0;color:var(--muted);max-width:62ch}
-.pbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:16px}
-.pb{padding:18px;display:grid;gap:10px;align-content:space-between;text-decoration:none;border-radius:20px;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-a.pb:hover{transform:translateY(-3px)}
-.pb .pt{display:grid;gap:6px}.pb b{font:600 17px/1.25 var(--display)}.pb span:not(.badge){color:var(--muted);font-size:14px;line-height:1.5}
-.pb em{font:600 13.5px var(--display);font-style:normal;color:var(--accent)}
-.pb.soon{opacity:.78}
-.badge{justify-self:start;font:600 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
-.badge.on{color:#30d158;border-color:color-mix(in srgb,#30d158 45%,transparent)}
-.how{margin-top:56px;padding:24px;display:grid;gap:14px}
-.how h2{font:700 24px var(--display);margin:0}
-.how ol{margin:0;padding-left:20px;color:var(--muted)}.how li{margin:6px 0}.how li b{color:var(--text)}
-.stat{color:var(--dim);font-size:13.5px;margin-top:12px}
-@media (max-width:760px){.layers{grid-template-columns:1fr}}
+.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.course{cursor:pointer;transition:.2s}
+.course:hover{transform:translateY(-3px)}
+.course h3{margin:0;font-size:16px}
+.course .meta{font-size:11px;color:var(--ink-muted)}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(10px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-card{max-width:560px;width:100%;max-height:85vh;overflow:auto;padding:24px}
+body[data-vertical=lab]{--accent:#0891B2;--accent-soft:rgba(8,145,178,.1);--accent-border:rgba(8,145,178,.34)}
 </style>
 </head>
-<body>
-<main class="wrap">
-<header class="top">
-  <span class="eyebrow" data-en="Promii Academy">Promii Academy</span>
-  <h1 data-en="What I do every day, in step-by-step guides">Lo que hago todos los días, en guías paso a paso</h1>
-  <p class="lead" data-en="Revit with AI, New York permits, construction administration, automation, B2B sales, marketing and web design. Every guide comes from real projects and says what to do, with which tools and how to tell if it worked.">Revit con IA, permisos en Nueva York, administración de obra, automatización, ventas B2B, marketing y diseño web. Cada guía sale de proyectos reales y dice qué hacer, con qué herramientas y cómo saber si funcionó.</p>
-  <p class="stat" data-en="26 guides in 7 topics · 3 available · the rest are published one by one">26 guías en 7 temas · 3 disponibles · las demás se publican una a una</p>
-  <div class="layers">
-    <a class="layer glass" href="../bitacora/"><small data-en="Stories">Historias</small><b>Blog</b><span data-en="How I did it: cases and processes told start to finish.">Cómo lo hice: casos y procesos contados de principio a fin.</span></a>
-    <div class="layer glass here"><small data-en="You are here">Estás aquí</small><b>Academy</b><span data-en="How you do it: guides, templates and playbooks.">Cómo lo haces tú: guías, plantillas y playbooks.</span></div>
-    <a class="layer glass" href="../#experiencia"><small data-en="Proof">Prueba</small><b data-en="Experience">Experiencia</b><span data-en="Where I have done it: projects, roles and results.">Dónde lo he hecho: proyectos, cargos y resultados.</span></a>
-  </div>
-</header>
-<div class="chips" aria-label="Temas" data-en-label="Topics"><a href="#bim" data-en="Revit with AI">Revit con IA</a><a href="#nyc" data-en="New York: codes and permits">Nueva York: códigos y permisos</a><a href="#obra" data-en="Construction administration">Administración de obra</a><a href="#sis" data-en="Systems and automation">Sistemas y automatización</a><a href="#kam" data-en="B2B sales and key accounts">Ventas B2B y cuentas clave</a><a href="#mkt" data-en="Marketing for services">Marketing para servicios</a><a href="#web" data-en="Web design with AI">Diseño web con IA</a></div>
-<section class="track" id="bim"><div class="th"><span class="eyebrow" data-en="AI + BIM">IA + BIM</span><h2 data-en="Revit with AI">Revit con IA</h2><p data-en="How I connect Claude to Revit to review models, document and write routines.">Cómo conecto Claude con Revit para revisar modelos, documentar y escribir rutinas.</p></div><div class="pbs"><a class="pb glass" href="../bitacora/?p=claude-dentro-de-revit"><div class="pt"><span class="badge on" data-en="Available">Disponible</span><b data-en="Claude working inside Revit">Claude trabajando dentro de Revit</b><span data-en="Study log: MCP, C#, Python/Dynamo and five flows.">Diario del estudio: MCP, C#, Python/Dynamo y cinco flujos.</span></div><em data-en="Read →">Leer →</em></a><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Model quality control with AI">Control de calidad del modelo con IA</b><span data-en="Empty parameters, names, views off sheets: an automatic list of fixes.">Parámetros vacíos, nombres, vistas sin plano: una lista de correcciones automática.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Clash detection summarized by priority">Detección de choques resumida por prioridad</b><span data-en="From hundreds of clashes to a list you can act on.">De cientos de interferencias a una lista que se puede atender.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Python and Dynamo written by AI">Python y Dynamo escritos por IA</b><span data-en="Which routines work well and how to review them before use.">Qué rutinas funcionan bien y cómo revisarlas antes de usarlas.</span></div></div></div></section><section class="track" id="nyc"><div class="th"><span class="eyebrow" data-en="Permits">Permisos</span><h2 data-en="New York: codes and permits">Nueva York: códigos y permisos</h2><p data-en="BIM documentation for New York permits: DOB, energy code and levels of detail.">Documentación BIM para permisos en Nueva York: DOB, código de energía y niveles de detalle.</p></div><div class="pbs"><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="DOB permits: what I learned">Permisos con el DOB: lo que aprendí</b><span data-en="A project&#x27;s path from drawings to approval.">El recorrido de un proyecto desde los planos hasta la aprobación.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Energy compliance (NYCECC 2020) in the model">Cumplimiento energético (NYCECC 2020) en el modelo</b><span data-en="How to get the model ready for the energy review.">Cómo dejar el modelo listo para la revisión de energía.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="LOD 300–350 without the pain">LOD 300–350 sin dolor</b><span data-en="What gets modeled, what gets drafted and what stays in notes.">Qué se modela, qué se dibuja y qué se deja en notas.</span></div></div></div></section><section class="track" id="obra"><div class="th"><span class="eyebrow" data-en="Construction">Construcción</span><h2 data-en="Construction administration">Administración de obra</h2><p data-en="Document control and tracking for several multifamily projects at once.">Orden documental y seguimiento para varias obras multifamiliares al mismo tiempo.</p></div><div class="pbs"><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Document control across several projects">Orden documental para varias obras</b><span data-en="15 document categories and a folder structure that keeps itself in order.">15 categorías de documentos y una estructura de carpetas que se mantiene sola.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="A multifamily project&#x27;s life cycle in 18 stages">El ciclo de un proyecto multifamiliar en 18 etapas</b><span data-en="From land to handover, with the documents of each stage.">Del terreno a la entrega, con los documentos de cada etapa.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="RFIs, submittals and permits on one board">RFIs, submittals y permisos en un tablero</b><span data-en="A weekly tracker the team actually uses.">Un seguimiento semanal que el equipo sí usa.</span></div></div></div></section><section class="track" id="sis"><div class="th"><span class="eyebrow" data-en="Systems">Sistemas</span><h2 data-en="Systems and automation">Sistemas y automatización</h2><p data-en="Notion, n8n and Claude working together so repetitive work does itself.">Notion, n8n y Claude trabajando juntos para que lo repetitivo se haga solo.</p></div><div class="pbs"><a class="pb glass" href="../bitacora/?p=la-trinidad-sistema-operativo"><div class="pt"><span class="badge on" data-en="Available">Disponible</span><b data-en="The Trinity: the operating system I work with">La Trinidad: el sistema operativo con el que trabajo</b><span data-en="Memory, nervous system and judgment.">Memoria, sistema nervioso y criterio.</span></div><em data-en="Read →">Leer →</em></a><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Inbox, outbox and log">Bandeja de entrada, salida y registro</b><span data-en="The pattern I use in every automation, with a template.">El patrón que uso en todas mis automatizaciones, con plantilla.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="13 base automations">13 automatizaciones base</b><span data-en="The pack I start any operation with.">El paquete con el que empiezo cualquier operación.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Before automating: Workflow Intake">Antes de automatizar: Workflow Intake</b><span data-en="Describe the process on one page before building it.">Describir el proceso en una página antes de construirlo.</span></div></div></div></section><section class="track" id="kam"><div class="th"><span class="eyebrow" data-en="B2B sales">Ventas B2B</span><h2 data-en="B2B sales and key accounts">Ventas B2B y cuentas clave</h2><p data-en="Prospecting real contacts, follow-up and closing for professional services.">Prospección con contactos reales, seguimiento y cierre para servicios profesionales.</p></div><div class="pbs"><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Rabbit Holes: prospecting real contacts">Rabbit Holes: prospección con contactos reales</b><span data-en="Find the right people and write to them with context.">Encontrar a las personas correctas y escribirles con contexto.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Messages that get answered (OIQP)">Mensajes que sí se responden (OIQP)</b><span data-en="A simple structure for the first message.">Una estructura simple para el primer mensaje.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Wake up dormant LinkedIn contacts">Despertar contactos dormidos en LinkedIn</b><span data-en="A sequence to reactivate your network.">Una secuencia para reactivar tu red.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="AI appointment setter connected to the CRM">Agendador de citas con IA conectado al CRM</b><span data-en="Reply and book without losing leads.">Responder y agendar sin perder prospectos.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Lead scoring without expensive software">Puntuación de prospectos sin software caro</b><span data-en="Prioritize who to call first.">Priorizar a quién llamar primero.</span></div></div></div></section><section class="track" id="mkt"><div class="th"><span class="eyebrow" data-en="Marketing">Marketing</span><h2 data-en="Marketing for services">Marketing para servicios</h2><p data-en="Strategies for a studio or an independent professional to win clients.">Estrategias para que un estudio o un profesional independiente consiga clientes.</p></div><div class="pbs"><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Website-first: the site at the center of everything">Website-first: la web como centro de todo</b><span data-en="This site as a case study.">Este sitio como caso de estudio.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="B2B copywriting">Copywriting B2B</b><span data-en="Write for the one who decides and the one who recommends.">Escribir para quien decide y para quien recomienda.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Webinar with a lead magnet">Webinar con lead magnet</b><span data-en="A simple funnel for B2B services.">Un embudo simple para servicios B2B.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Positioning">Posicionamiento</b><span data-en="Say in one sentence why you.">Decir en una frase por qué tú.</span></div></div></div></section><section class="track" id="web"><div class="th"><span class="eyebrow" data-en="Web design">Diseño web</span><h2 data-en="Web design with AI">Diseño web con IA</h2><p data-en="How to build a living, measured, self-managed site working with an AI agent.">Cómo construir un sitio vivo, medido y administrable, trabajando con un agente de IA.</p></div><div class="pbs"><a class="pb glass" href="../bitacora/?p=como-construi-promii"><div class="pt"><span class="badge on" data-en="Available">Disponible</span><b data-en="How I built a portfolio that runs itself">Cómo construí un portafolio que se administra solo</b><span data-en="The full promii.co case.">El caso completo de promii.co.</span></div><em data-en="Read →">Leer →</em></a><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="Liquid Glass on the web">Liquid Glass en la web</b><span data-en="Real refraction with SVG and its iPhone version.">Refracción real con SVG y su versión para iPhone.</span></div></div><div class="pb glass soon"><div class="pt"><span class="badge" data-en="Coming soon">Próximamente</span><b data-en="From 14 to 60 fps: measure before you optimize">De 14 a 60 fps: medir antes de optimizar</b><span data-en="Find what makes a page slow.">Encontrar qué hace lenta una página.</span></div></div></div></section>
-<section class="how glass"><h2 data-en="How every guide is built">Cómo está hecha cada guía</h2><ol>
-  <li><span data-en="&lt;b&gt;Goal:&lt;/b&gt; what it solves and for whom.">&lt;b&gt;Objetivo:&lt;/b&gt; qué resuelve y para quién.</span></li>
-  <li><span data-en="&lt;b&gt;Steps:&lt;/b&gt; the process in order, with screenshots.">&lt;b&gt;Pasos:&lt;/b&gt; el proceso en orden, con capturas.</span></li>
-  <li><span data-en="&lt;b&gt;Tools and templates:&lt;/b&gt; what you need to do it today.">&lt;b&gt;Herramientas y plantillas:&lt;/b&gt; lo que necesitas para hacerlo hoy.</span></li>
-  <li><span data-en="&lt;b&gt;How to measure it:&lt;/b&gt; the sign that it worked.">&lt;b&gt;Cómo medirlo:&lt;/b&gt; la señal de que funcionó.</span></li></ol></section>
-<section class="sub glass" id="suscribirse"><b data-en="Tell me when each guide is out">Avísame cuando salga cada guía</b><span data-en="A new guide every few weeks. No spam.">Una guía nueva cada pocas semanas. Sin spam.</span>
-  <form id="subForm" novalidate><label class="hp" for="hp">No llenar</label><input class="hp" id="hp" name="_honey" tabindex="-1" autocomplete="off"><label for="subEmail" style="position:absolute;left:-9999px">Email</label><input id="subEmail" name="email" type="email" required autocomplete="email" placeholder="tu@correo.com" data-en-ph="you@email.com"><button data-en="Notify me">Avisarme</button></form><p class="st" id="subSt" role="status"></p></section>
+<body data-vertical="lab">
+<div class="prm-topbar"><div class="prm-topbar-inner">
+<a class="prm-brand" href="/servicios/"><span class="prm-dot"></span><span>ARCHIKATZ ACADEMY</span></a>
+<nav class="prm-nav-links">
+<a href="/servicios/">← Hub</a>
+<a href="/academy/" class="active">Campus</a>
+<a href="/servicios/growth.html">Growth</a>
+<a href="/cotizador/">Cotizar</a>
+</nav>
+<div class="prm-toggles"><div class="prm-switch-pill"><button type="button" data-lang-btn="es" class="active">ES</button><button type="button" data-lang-btn="en">EN</button></div></div>
+</div></div>
+<main class="prm-container" style="padding-top:32px;padding-bottom:60px">
+<div class="cad-eyebrow">A-01 · CAMPUS · IA-01 INAUGURAL</div>
+<h1 class="prm-h1">Entrenamiento práctico en IA, BIM, proyectos y growth</h1>
+<p class="prm-lead">5 lecciones inaugurales de IA-01 + catálogo. Progreso local (Supabase listo).</p>
+<section style="margin-bottom:36px">
+<div class="glass-card" style="border-left:4px solid var(--accent)">
+<span class="prm-badge">INAUGURAL · IA-01</span>
+<h2 class="prm-h2" style="margin-top:10px">5 lecciones: prompts C.O.T.A., contexto, auditor crítico</h2>
+<p style="font-size:14px;color:var(--ink-soft)">De cero a flujo de trabajo con IA para arquitectura y operaciones.</p>
+<button type="button" class="btn-prm" onclick="openGate()">Empezar IA-01 →</button>
+</div>
+</section>
+<div class="cad-eyebrow">CATÁLOGO</div>
+<div class="course-grid" id="grid"></div>
+<div data-promii-footer></div>
 </main>
-<script src="../analytics/config.js"></script>
-<script src="../analytics/track.js" defer></script>
+<div class="modal" id="gate">
+<div class="modal-card glass-card">
+<div class="cad-eyebrow">SIGN-UP GATE</div>
+<h2 style="font-family:Georgia,serif;margin:8px 0 12px">Accede al campus</h2>
+<input id="gName" placeholder="Nombre" style="width:100%;padding:10px;margin-bottom:8px;border-radius:10px;border:1.5px solid var(--line-cad);background:rgba(255,255,255,.55)">
+<input id="gMail" type="email" placeholder="Correo" style="width:100%;padding:10px;margin-bottom:12px;border-radius:10px;border:1.5px solid var(--line-cad);background:rgba(255,255,255,.55)">
+<button type="button" class="btn-prm" style="width:100%;justify-content:center" onclick="signup()">Crear acceso local</button>
+<button type="button" class="btn-prm-ghost" style="width:100%;justify-content:center;margin-top:8px" onclick="closeGate()">Cerrar</button>
+<p style="font-size:12px;color:var(--ink-muted);margin-top:12px">Progreso en este navegador. MailerLite / Supabase después.</p>
+</div>
+</div>
+<script src="/assets/promii-ecosystem.js"></script>
 <script>
-(function () {
-  const f = document.getElementById('subForm'), EN = () => document.documentElement.lang === 'en';
-  f.querySelector('button').type = 'submit';
-  f.addEventListener('submit', async e => {
-    e.preventDefault(); const st = document.getElementById('subSt'), m = f.email.value.trim();
-    if (f._honey.value) return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)) { st.className = 'st err'; st.textContent = EN() ? 'Enter a valid email.' : 'Escribe un correo válido.'; return; }
-    st.className = 'st'; st.textContent = EN() ? 'Sending…' : 'Enviando…';
-    const M = (window.PROMII_FORMS || {}).mailerlite || {};
-    try {
-      const fd = new FormData(); fd.append('fields[email]', m); fd.append('fields[signup_source]', 'promii.co/academy' + (EN() ? ' (en)' : '')); fd.append('fields[interests]', 'academy'); fd.append('ml-submit', '1'); fd.append('anticsrf', 'true');
-      const r = await fetch('https://assets.mailerlite.com/jsonp/' + M.account + '/forms/' + M.form + '/subscribe', { method: 'POST', body: fd });
-      const j = await r.json(); if (!j.success) throw 0;
-      st.className = 'st ok'; st.textContent = EN() ? 'Done! I will let you know when each guide is out.' : '¡Listo! Te aviso cuando salga cada guía.'; f.reset();
-    } catch (x) { st.className = 'st err'; st.textContent = EN() ? 'Could not send. Write to hi@promii.co.' : 'No se pudo enviar. Escríbeme a hi@promii.co.'; }
-  });
-})();
+const COURSES=[
+{id:'ia01',title:'IA-01 · Entrenamiento práctico en IA',meta:'5 lecciones · inaugural',tag:'IA'},
+{id:'bim01',title:'BIM LOD 300–400 · workflows Revit',meta:'4 módulos',tag:'BIM'},
+{id:'dob01',title:'NYC DOB · compliance digital',meta:'3 módulos',tag:'AEC'},
+{id:'ghl01',title:'CRM & funnels con GoHighLevel',meta:'Growth',tag:'Growth'},
+{id:'n8n01',title:'Automatización n8n + agentes',meta:'Ops',tag:'IA'},
+{id:'press01',title:'Editorial & toons ArchiKatz',meta:'Press',tag:'Media'}
+];
+const STORE='promii_academy_user_v1';
+function openGate(){ document.getElementById('gate').classList.add('open'); }
+function closeGate(){ document.getElementById('gate').classList.remove('open'); }
+function signup(){
+ const name=document.getElementById('gName').value.trim();
+ const mail=document.getElementById('gMail').value.trim();
+ if(!name||!mail){ alert('Nombre y correo requeridos'); return; }
+ localStorage.setItem(STORE, JSON.stringify({name,mail,ts:Date.now()}));
+ closeGate(); alert('Acceso guardado: '+name);
+}
+function render(){
+ document.getElementById('grid').innerHTML=COURSES.map(c=>`<article class="course glass-card" onclick="openGate()"><span class="prm-badge">${c.tag}</span><h3>${c.title}</h3><div class="meta">${c.meta}</div></article>`).join('');
+}
+if(window.PromiiOS) PromiiOS.initShell({});
+render();
 </script>
-<script src="/assets/site-shell.js" data-mode="full"></script>
 </body>
 </html>
