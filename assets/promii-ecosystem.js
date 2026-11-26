@@ -57,11 +57,9 @@
     document.querySelectorAll('.prm-droplets-dock').forEach((n) => n.remove());
   }
   function mountFooter(container) {
-    /* site-shell owns the standard multi-column footer */
     if (container) container.innerHTML = '';
   }
   function mountDroplets() {
-    /* Dual static pills removed. Fluid brand drop via home-ui-fix. */
     killDualDock();
   }
   function ensureSiteChrome() {
@@ -71,6 +69,12 @@
       s.id = 'promii-site-shell';
       s.src = '/assets/site-shell.js?v=chrome2';
       s.setAttribute('data-mode', 'full');
+      document.head.appendChild(s);
+    }
+    if (!document.getElementById('promii-restore-chrome')) {
+      const s = document.createElement('script');
+      s.id = 'promii-restore-chrome';
+      s.src = '/assets/promii-restore-chrome.js?v=1';
       document.head.appendChild(s);
     }
     if (!document.getElementById('home-ui-fix-js')) {
